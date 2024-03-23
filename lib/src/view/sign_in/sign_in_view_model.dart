@@ -1,19 +1,18 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewModel extends BaseViewModel {
-  SignInViewModel() {
-    log('initSignIn');
-  }
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+
+  final RegExp emailPattern = RegExp(ValidateType.email.pattern);
   bool emailValidate = false;
   bool passwordValidate = false;
-  bool isValidateSignIn = false;
+  String? get emailErrMsg => emailValidate ? null : '이메일 형식을 확인해주세요';
+  String? get passwordErrMsg =>
+      passwordValidate ? null : '영문,숫자, 특수문자를 포함해 8자 이상 입력해 주세요';
+  bool get isValidateSignIn => emailValidate && passwordValidate;
 
   @override
   void dispose() {
@@ -22,41 +21,33 @@ class SignInViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  void onChangeInput() {
-    if (formKey.currentState != null && formKey.currentState!.validate()) {
-      isValidateSignIn = true;
+  void onChangeEmail(String newEmail) {
+    if (newEmail.isEmpty || !emailPattern.hasMatch(newEmail)) {
+      emailValidate = false;
     } else {
-      isValidateSignIn = false;
+      emailValidate = true;
     }
     notifyListeners();
   }
 
-  String? validateEmail(String? newEmail) {
-    newEmail = newEmail ?? '';
-    final RegExp emailPattern = RegExp(ValidateType.email.pattern);
-    if (newEmail.isEmpty || !emailPattern.hasMatch(newEmail)) {
-      return '이메일 형식을 확인해주세요';
-    }
-    return null;
-  }
-
-  String? validatePassword(String? newPassword) {
-    newPassword = newPassword ?? '';
+  void onChangePassword(String newPassword) {
     if (newPassword.length < 8) {
-      return '영문,숫자, 특수문자를 포함해 8자 이상 입력해 주세요';
+      passwordValidate = false;
+    } else {
+      passwordValidate = true;
     }
-    return null;
+    notifyListeners();
   }
 
   void onClearEmail() {
     emailController.clear();
-    isValidateSignIn = false;
+    emailValidate = false;
     notifyListeners();
   }
 
   void onClearPassword() {
     passwordController.clear();
-    isValidateSignIn = false;
+    passwordValidate = false;
     notifyListeners();
   }
 }

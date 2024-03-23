@@ -33,80 +33,76 @@ class SignInView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    Form(
-                      key: viewModel.formKey,
-                      autovalidateMode: AutovalidateMode.always,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Center(
-                            child: Text('로고'),
-                          ),
-                          spaceBig,
-                          TextFormField(
-                            controller: viewModel.emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (input) =>
-                                viewModel.validateEmail(input ?? ''),
-                            onChanged: (value) => viewModel.onChangeInput(),
-                            decoration: InputDecoration(
-                              labelText: '이메일',
-                              hintText: '이메일을 입력해 주세요.',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 1,
-                                ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Center(
+                          child: Text('로고'),
+                        ),
+                        spaceBig,
+                        TextField(
+                          controller: viewModel.emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: (value) => viewModel.onChangeEmail(value),
+                          decoration: InputDecoration(
+                            labelText: '이메일',
+                            hintText: '이메일을 입력해 주세요.',
+                            errorText: viewModel.emailErrMsg,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                width: 1,
                               ),
-                              suffixIcon: viewModel.emailController.text.isEmpty
-                                  ? null
-                                  : Button(
-                                      iconPath: AssetIconType.close.path,
-                                      color: Colors.black,
-                                      type: ButtonType.flat,
-                                      onPressed: viewModel.onClearEmail,
-                                    ),
                             ),
+                            suffixIcon: viewModel.emailController.text.isEmpty
+                                ? null
+                                : Button(
+                                    iconPath: AssetIconType.close.path,
+                                    color: Colors.black,
+                                    type: ButtonType.flat,
+                                    onPressed: viewModel.onClearEmail,
+                                  ),
                           ),
-                          spaceBig,
-                          TextFormField(
-                            controller: viewModel.passwordController,
-                            keyboardType: TextInputType.visiblePassword,
-                            validator: (password) =>
-                                viewModel.validatePassword(password ?? ''),
-                            onChanged: (value) => viewModel.onChangeInput(),
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: '비밀번호',
-                              hintText: '비밀번호를 입력해 주세요.',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 1,
-                                ),
+                        ),
+                        spaceBig,
+                        TextField(
+                          
+                          controller: viewModel.passwordController,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          onChanged: (value) =>
+                              viewModel.onChangePassword(value),
+                          decoration: InputDecoration(
+                            labelText: '비밀번호',
+                            hintText: '비밀번호를 입력해 주세요.',
+                            errorText: viewModel.passwordErrMsg,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                width: 1,
                               ),
-                              suffixIcon:
-                                  viewModel.passwordController.text.isEmpty
-                                      ? null
-                                      : Button(
-                                          iconPath: AssetIconType.close.path,
-                                          color: Colors.black,
-                                          type: ButtonType.flat,
-                                          onPressed: viewModel.onClearPassword,
-                                        ),
                             ),
+                            suffixIcon:
+                                viewModel.passwordController.text.isEmpty
+                                    ? null
+                                    : Button(
+                                        iconPath: AssetIconType.close.path,
+                                        color: Colors.black,
+                                        type: ButtonType.flat,
+                                        onPressed: viewModel.onClearPassword,
+                                      ),
                           ),
-                          spaceBig,
-                          Button(
-                            onPressed: () {
-                              log('login');
-                            },
-                            text: '로그인',
-                            isInactive: !viewModel.isValidateSignIn,
-                            width: double.infinity,
-                          ),
-                        ],
-                      ),
+                        ),
+                        spaceBig,
+                        Button(
+                          onPressed: () {
+                            log('login');
+                          },
+                          text: '로그인',
+                          isInactive: !viewModel.isValidateSignIn,
+                          width: double.infinity,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     Row(
