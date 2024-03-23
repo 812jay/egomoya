@@ -24,6 +24,7 @@ class AssetIcon extends StatelessWidget {
         color ?? context.color.text,
         BlendMode.srcIn,
       ),
+      fit: BoxFit.scaleDown,
     );
   }
 }
