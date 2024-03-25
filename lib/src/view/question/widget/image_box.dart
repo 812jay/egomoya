@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageBox extends StatelessWidget {
@@ -35,10 +36,9 @@ class ImageBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: imgPath != null
-              // ? CachedNetworkImage(
-              //     imageUrl: imgPath!,
-              //   )
-              ? Container()
+              ? CachedNetworkImage(
+                  imageUrl: imgPath!,
+                )
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
