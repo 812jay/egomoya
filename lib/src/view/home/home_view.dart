@@ -25,11 +25,17 @@ class HomeView extends StatelessWidget {
               ),
             ],
           ),
-          body: const SafeArea(
+          body: SafeArea(
             child: Column(
               children: [
                 Center(
-                  child: Text('welcome home'),
+                  child: TextButton(
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      RoutePath.questionAdd,
+                    ),
+                    child: const Text('게시글 등록'),
+                  ),
                 ),
               ],
             ),
