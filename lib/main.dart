@@ -1,24 +1,44 @@
+import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/view/home/home_view.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ThemeService(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
-        return Scaffold(
-          appBar: AppBar(),
-          body: const Center(
-            child: Text('Hello World'),
-          ),
+        return Overlay(
+          initialEntries: [
+            OverlayEntry(
+              builder: (context) => child ?? const HomeView(),
+            )
+          ],
         );
       },
+      theme: context.themeService.themeData,
+      initialRoute: RoutePath.home,
+      onGenerateRoute: RoutePath.onGenerateRoute,
     );
   }
 }
