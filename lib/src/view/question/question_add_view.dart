@@ -44,18 +44,28 @@ class QuestionAddView extends StatelessWidget {
                   SizedBox(
                     height: 130,
                     child: ListView.builder(
-                      itemCount: 2,
+                      itemCount: viewModel.images.length + 1,
                       scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return const Row(
+                        return Row(
                           children: [
-                            ImageBox(
-                              padding: EdgeInsets.only(right: 10),
-                              height: 122,
-                              width: 133,
-                              limitCnt: 5,
-                              curCnt: 1,
-                            ),
+                            index == 0
+                                ? ImageAddContainer(
+                                    onTap: () => viewModel.selectImage(),
+                                    padding: const EdgeInsets.only(right: 10),
+                                    height: 122,
+                                    width: 133,
+                                    limitCnt: 5,
+                                    curCnt: viewModel.curImageCnt,
+                                  )
+                                : ImageBox(
+                                    imgPath: viewModel.images[index - 1].path,
+                                    onDelete: () =>
+                                        viewModel.onDeleteImage(index - 1),
+                                    height: 122,
+                                    width: 133,
+                                  )
                           ],
                         );
                       },
@@ -135,6 +145,20 @@ class QuestionAddView extends StatelessWidget {
                   Text(
                     '비밀번호',
                     style: context.typo.textFormTitle,
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: context.color.boxDescription,
+                    ),
+                    child: Text(
+                      '비밀번호가 있어야 내가 작성한 글을 수정/삭제할 수 있어요! 꼭 기억해 주세요!',
+                      style: context.typo.descriptionSmall,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   TextField(

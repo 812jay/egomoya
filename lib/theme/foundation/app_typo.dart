@@ -105,4 +105,10 @@ class AppTypo {
     fontSize: 13,
     fontWeight: typo.regular,
   );
+
+  late final TextStyle descriptionSmall = TextStyle(
+    height: 1.3,
+    fontSize: 9,
+    fontWeight: typo.regular,
+  );
 }
