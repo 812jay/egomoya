@@ -1,8 +1,9 @@
+import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_add_view_model.dart';
 import 'package:egomoya/src/view/question/widget/image_box.dart';
-import 'package:egomoya/theme/component/app_bar/app_bar_close_btn.dart';
+import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,9 @@ class QuestionAddView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: QuestionAddViewModel(),
+      viewModel: QuestionAddViewModel(
+        imageService: ImageService(),
+      ),
       builder: (context, viewModel) {
         return Scaffold(
           appBar: const BaseAppBar(
@@ -82,7 +85,7 @@ class _InputPicture extends StatelessWidget {
             return SizedBox(
               height: 130,
               child: ListView.builder(
-                itemCount: value.images.length + 1,
+                itemCount: value.imageList.length + 1,
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
@@ -95,10 +98,10 @@ class _InputPicture extends StatelessWidget {
                               height: 122,
                               width: 133,
                               limitCnt: 5,
-                              curCnt: value.images.length,
+                              curCnt: value.imageList.length,
                             )
                           : ImageBox(
-                              imgPath: value.images[index - 1].path,
+                              imgPath: value.imageList[index - 1].path,
                               onDelete: () => value.onDeleteImage(index - 1),
                               height: 122,
                               width: 133,

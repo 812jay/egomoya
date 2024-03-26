@@ -1,16 +1,32 @@
 import 'dart:developer';
 
+import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class QuestionAddViewModel extends BaseViewModel {
+  QuestionAddViewModel({
+    required this.imageService,
+  }) {
+    imageService.addListener(notifyListeners);
+  }
+  final ImageService imageService;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   String content = '';
-  List<XFile> images = [];
+  List<XFile> get imageList => imageService.imageList;
+
+  @override
+  void dispose() {
+    imageService.removeListener(notifyListeners);
+    titleController.dispose();
+    contentController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   void onChangeTitle(String title) {
     log(title);
@@ -20,7 +36,6 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void onChangeContent(String newContent) {
     content = newContent;
-    log('${content.length}');
     notifyListeners();
   }
 
@@ -31,19 +46,10 @@ class QuestionAddViewModel extends BaseViewModel {
   void onClearPassword() {}
 
   Future<void> selectImage() async {
-    final ImagePicker picker = ImagePicker();
-    final newImages = await picker.pickMultiImage();
-    if (images.length + newImages.length > 5) {
-      log('초과');
-      return;
-    }
-    images = [...images, ...newImages];
-
-    notifyListeners();
+    imageService.select(limit: 5);
   }
 
   void onDeleteImage(int index) {
-    images.removeAt(index);
-    notifyListeners();
+    imageService.delete(imageList.elementAt(index));
   }
 }
