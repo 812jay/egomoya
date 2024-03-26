@@ -20,45 +20,43 @@ class QuestionAddView extends StatelessWidget {
         imageService: ImageService(),
       ),
       builder: (context, viewModel) {
-        return Scaffold(
-          appBar: BaseAppBar(
-            isLeadingCloseIcon: true,
-            title: '질문 등록',
-            onTapLeading: () => viewModel.onTapLeading(context),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const _InputPicture(),
-                  const SizedBox(height: 15),
-                  _InputTitle(
-                    controller: viewModel.titleController,
-                    onChanged: viewModel.onChangeTitle,
-                    onClear: viewModel.onClearTitle,
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    '내용',
-                    style: context.typo.textFormTitle,
-                  ),
-                  const SizedBox(height: 12),
-                  _InputContent(
-                    controller: viewModel.contentController,
-                    onChanged: viewModel.onChangeContent,
-                  ),
-                  const SizedBox(height: 15),
-                  _InputPassword(
-                    controller: viewModel.passwordController,
-                    onChanged: viewModel.onChangePassword,
-                    onClear: viewModel.onClearPassword,
-                  ),
-                  const SizedBox(height: 23),
-                  const _SubmitButton(),
-                  const SizedBox(height: 33),
-                ],
+        return GestureDetector(
+          onTap: FocusScope.of(context).unfocus,
+          child: Scaffold(
+            appBar: BaseAppBar(
+              isLeadingCloseIcon: true,
+              title: '질문 등록',
+              onTapLeading: () => viewModel.onTapLeading(context),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const _InputPicture(),
+                    const SizedBox(height: 15),
+                    _InputTitle(
+                      controller: viewModel.titleController,
+                      onChanged: viewModel.onChangeTitle,
+                      onClear: viewModel.onClearTitle,
+                    ),
+                    const SizedBox(height: 15),
+                    _InputContent(
+                      controller: viewModel.contentController,
+                      onChanged: viewModel.onChangeContent,
+                    ),
+                    const SizedBox(height: 15),
+                    _InputPassword(
+                      controller: viewModel.passwordController,
+                      onChanged: viewModel.onChangePassword,
+                      onClear: viewModel.onClearPassword,
+                    ),
+                    const SizedBox(height: 23),
+                    const _SubmitButton(),
+                    const SizedBox(height: 33),
+                  ],
+                ),
               ),
             ),
           ),
@@ -144,7 +142,7 @@ class _InputTitle extends StatelessWidget {
           builder: (context, value, child) {
             return TextField(
               controller: controller,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               onChanged: (value) => onChanged(value),
               inputFormatters: [
                 LengthLimitingTextInputFormatter(40),
@@ -152,7 +150,8 @@ class _InputTitle extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: '제목을 입력해 주세요',
                 errorText:
-                    value.isValidateTitle ? null : '3자 이상, 40자 이하 입력해주세요',
+                    value.isValidateTitle ? null : '1자 이상, 40자 이하 입력해주세요',
+                counterText: '${value.title.length}/40',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: const BorderSide(
@@ -167,18 +166,6 @@ class _InputTitle extends StatelessWidget {
                         type: ButtonType.flat,
                         onPressed: onClear,
                       ),
-              ),
-            );
-          },
-        ),
-        const SizedBox(height: 12),
-        Consumer<QuestionAddViewModel>(
-          builder: (context, value, child) {
-            return Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                '${value.title.length}/40',
-                style: context.typo.textFormTitle,
               ),
             );
           },
@@ -202,9 +189,17 @@ class _InputContent extends StatelessWidget {
     return Consumer<QuestionAddViewModel>(
       builder: (context, value, child) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              '내용',
+              style: context.typo.textFormTitle,
+            ),
+            const SizedBox(height: 12),
             TextField(
               controller: controller,
+              keyboardType: TextInputType.multiline,
+              maxLength: 500,
               maxLines: 10,
               onChanged: (value) => onChanged(value),
               inputFormatters: [
@@ -212,22 +207,12 @@ class _InputContent extends StatelessWidget {
               ],
               decoration: InputDecoration(
                 hintText: '내용을 입력해 주세요',
-                errorText:
-                    value.isValidateContent ? null : '10자 이상, 500자 이하 입력해주세요',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: const BorderSide(
                     width: 1,
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                '${value.content.length}/500',
-                style: context.typo.textFormTitle,
               ),
             ),
           ],

@@ -18,18 +18,15 @@ class QuestionAddViewModel extends BaseViewModel {
   final TextEditingController contentController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  List<XFile> get imageList => imageService.imageList;
   String get title => titleController.text;
   String get content => contentController.text;
   String get password => passwordController.text;
-  List<XFile> get imageList => imageService.imageList;
   bool get isValidateTitle =>
       RegExp(PostValidateType.title.pattern).hasMatch(title);
-  bool get isValidateContent =>
-      RegExp(PostValidateType.content.pattern).hasMatch(content);
   bool get isValidatePassword =>
       RegExp(PostValidateType.password.pattern).hasMatch(password);
-  bool get isActiveSubmitButton =>
-      isValidateTitle && isValidateContent && isValidatePassword;
+  bool get isActiveSubmitButton => isValidateTitle && isValidatePassword;
 
   @override
   void dispose() {

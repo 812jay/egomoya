@@ -22,7 +22,6 @@ extension ValidateTypeExt on ValidateType {
 
 enum PostValidateType {
   title,
-  content,
   password,
 }
 
@@ -30,9 +29,7 @@ extension PostValidateTypeExt on PostValidateType {
   String get pattern {
     switch (this) {
       case PostValidateType.title:
-        return r'^.{3,40}$';
-      case PostValidateType.content:
-        return r'^.{10,500}$';
+        return r'^.{1,40}$';
       case PostValidateType.password:
         return r'^\d{4,8}$';
     }
