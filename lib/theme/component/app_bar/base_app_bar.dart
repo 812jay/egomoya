@@ -8,16 +8,19 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title,
     this.isLeadingCloseIcon,
+    this.onTapLeading,
   });
+
   final String? title;
   final bool? isLeadingCloseIcon;
+  final GestureTapCallback? onTapLeading;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leading: isLeadingCloseIcon == true
           ? GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: onTapLeading ?? () => Navigator.pop(context),
               child: AssetIcon(
                 AssetIconType.close.path,
                 size: 10,

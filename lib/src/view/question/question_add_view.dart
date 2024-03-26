@@ -21,9 +21,10 @@ class QuestionAddView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         return Scaffold(
-          appBar: const BaseAppBar(
+          appBar: BaseAppBar(
             isLeadingCloseIcon: true,
             title: '질문 등록',
+            onTapLeading: () => viewModel.onTapLeading(context),
           ),
           body: SingleChildScrollView(
             child: Padding(
@@ -139,29 +140,44 @@ class _InputTitle extends StatelessWidget {
           style: context.typo.textFormTitle,
         ),
         const SizedBox(height: 12),
-        TextField(
-          controller: controller,
-          keyboardType: TextInputType.emailAddress,
-          onChanged: (value) => onChanged(value),
-          decoration: InputDecoration(
-            hintText: '제목을 입력해 주세요',
-            // errorText: '',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(
-                width: 1,
+        Consumer<QuestionAddViewModel>(builder: (context, value, child) {
+          return TextField(
+            controller: controller,
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (value) => onChanged(value),
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(40),
+            ],
+            decoration: InputDecoration(
+              hintText: '제목을 입력해 주세요',
+              errorText: value.isValidateTitle ? null : '3자 이상, 40자 이하 입력해주세요',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: const BorderSide(
+                  width: 1,
+                ),
               ),
+              suffixIcon: controller.text.isEmpty
+                  ? null
+                  : Button(
+                      iconPath: AssetIconType.close.path,
+                      color: Colors.black,
+                      type: ButtonType.flat,
+                      onPressed: onClear,
+                    ),
             ),
-            suffixIcon: controller.text.isEmpty
-                ? null
-                : Button(
-                    iconPath: AssetIconType.close.path,
-                    color: Colors.black,
-                    type: ButtonType.flat,
-                    onPressed: onClear,
-                  ),
-          ),
-        ),
+          );
+        }),
+        const SizedBox(height: 12),
+        Consumer<QuestionAddViewModel>(builder: (context, value, child) {
+          return Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              '${value.title.length}/40',
+              style: context.typo.textFormTitle,
+            ),
+          );
+        }),
       ],
     );
   }
@@ -191,6 +207,8 @@ class _InputContent extends StatelessWidget {
               ],
               decoration: InputDecoration(
                 hintText: '내용을 입력해 주세요',
+                errorText:
+                    value.isValidateContent ? null : '10자 이상, 500자 이하 입력해주세요',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: const BorderSide(
@@ -251,33 +269,36 @@ class _InputPassword extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        TextField(
-          controller: controller,
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: true,
-          onChanged: (value) => onChanged(value),
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(8),
-          ],
-          decoration: InputDecoration(
-            hintText: '숫자4자리~8자리로 구성해주세요',
-            // errorText: '',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(
-                width: 1,
+        Consumer<QuestionAddViewModel>(builder: (context, value, child) {
+          return TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            obscureText: true,
+            onChanged: (value) => onChanged(value),
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(8),
+            ],
+            decoration: InputDecoration(
+              hintText: '숫자4자리~8자리로 구성해주세요',
+              errorText: value.isValidatePassword ? null : '숫자4자리~8자리로 작성해주세요',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: const BorderSide(
+                  width: 1,
+                ),
               ),
+              suffixIcon: controller.text.isEmpty
+                  ? null
+                  : Button(
+                      iconPath: AssetIconType.close.path,
+                      color: Colors.black,
+                      type: ButtonType.flat,
+                      onPressed: onClear,
+                    ),
             ),
-            suffixIcon: controller.text.isEmpty
-                ? null
-                : Button(
-                    iconPath: AssetIconType.close.path,
-                    color: Colors.black,
-                    type: ButtonType.flat,
-                    onPressed: onClear,
-                  ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }
@@ -288,12 +309,16 @@ class _SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Button(
-      onPressed: () {},
-      isInactive: true,
-      width: double.infinity,
-      text: '질문 등록',
-      size: ButtonSize.large,
+    return Consumer<QuestionAddViewModel>(
+      builder: (context, value, child) {
+        return Button(
+          onPressed: () => value.isActiveSubmitButton ? value.onSubmit() : null,
+          isInactive: !value.isActiveSubmitButton,
+          width: double.infinity,
+          text: '질문 등록',
+          size: ButtonSize.large,
+        );
+      },
     );
   }
 }

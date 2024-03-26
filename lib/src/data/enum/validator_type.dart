@@ -30,11 +30,11 @@ extension PostValidateTypeExt on PostValidateType {
   String get pattern {
     switch (this) {
       case PostValidateType.title:
-        return '';
+        return r'^.{3,40}$';
       case PostValidateType.content:
-        return '';
+        return r'^.{10,500}$';
       case PostValidateType.password:
-        return '[4-8]';
+        return r'^\d{4,8}$';
     }
   }
 }
