@@ -18,6 +18,10 @@ class QuestionAddViewModel extends BaseViewModel {
   final TextEditingController contentController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  // 초기 진입시 errMsg 안띄우기 위한 초기값
+  bool isChangedTitle = false;
+  bool isChangedPassword = false;
+
   List<XFile> get imageList => imageService.imageList;
   String get title => titleController.text;
   String get content => contentController.text;
@@ -27,6 +31,12 @@ class QuestionAddViewModel extends BaseViewModel {
   bool get isValidatePassword =>
       RegExp(PostValidateType.password.pattern).hasMatch(password);
   bool get isActiveSubmitButton => isValidateTitle && isValidatePassword;
+
+  // 에러 메시지
+  String? get titleErrMsg =>
+      (isValidateTitle || !isChangedTitle) ? null : '1자 이상, 40자 이하 입력해주세요';
+  String? get passwordErrMsg =>
+      (isValidatePassword || !isChangedPassword) ? null : '숫자4자리~8자리로 구성해주세요';
 
   @override
   void dispose() {
@@ -50,11 +60,17 @@ class QuestionAddViewModel extends BaseViewModel {
     );
   }
 
-  void onChangeTitle(String newTitle) => notifyListeners();
+  void onChangeTitle(String newTitle) {
+    isChangedTitle = true;
+    notifyListeners();
+  }
 
   void onChangeContent(String newContent) => notifyListeners();
 
-  void onChangePassword(String newPassword) => notifyListeners();
+  void onChangePassword(String newPassword) {
+    isChangedPassword = true;
+    notifyListeners();
+  }
 
   void onClearTitle() {
     notifyListeners();

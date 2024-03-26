@@ -149,8 +149,7 @@ class _InputTitle extends StatelessWidget {
               ],
               decoration: InputDecoration(
                 hintText: '제목을 입력해 주세요',
-                errorText:
-                    value.isValidateTitle ? null : '1자 이상, 40자 이하 입력해주세요',
+                errorText: value.titleErrMsg,
                 counterText: '${value.title.length}/40',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -271,7 +270,7 @@ class _InputPassword extends StatelessWidget {
             ],
             decoration: InputDecoration(
               hintText: '숫자4자리~8자리로 구성해주세요',
-              errorText: value.isValidatePassword ? null : '숫자4자리~8자리로 작성해주세요',
+              errorText: value.passwordErrMsg,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(
