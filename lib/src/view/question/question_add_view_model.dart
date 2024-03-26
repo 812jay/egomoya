@@ -7,9 +7,11 @@ import 'package:image_picker/image_picker.dart';
 class QuestionAddViewModel extends BaseViewModel {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   String content = '';
   List<XFile> images = [];
-  int get curImageCnt => images.length;
+  
 
   void onChangeTitle(String title) {}
 
@@ -17,6 +19,7 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void onChangeContent(String newContent) {
     content = newContent;
+    log('${content.length}');
     notifyListeners();
   }
 

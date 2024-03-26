@@ -6,6 +6,7 @@ import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class QuestionAddView extends StatelessWidget {
   const QuestionAddView({super.key});
@@ -41,35 +42,41 @@ class QuestionAddView extends StatelessWidget {
                     style: context.typo.textFormTitle,
                   ),
                   const SizedBox(height: 12),
-                  SizedBox(
-                    height: 130,
-                    child: ListView.builder(
-                      itemCount: viewModel.images.length + 1,
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Row(
-                          children: [
-                            index == 0
-                                ? ImageAddContainer(
-                                    onTap: () => viewModel.selectImage(),
-                                    padding: const EdgeInsets.only(right: 10),
-                                    height: 122,
-                                    width: 133,
-                                    limitCnt: 5,
-                                    curCnt: viewModel.curImageCnt,
-                                  )
-                                : ImageBox(
-                                    imgPath: viewModel.images[index - 1].path,
-                                    onDelete: () =>
-                                        viewModel.onDeleteImage(index - 1),
-                                    height: 122,
-                                    width: 133,
-                                  )
-                          ],
-                        );
-                      },
-                    ),
+                  Consumer<QuestionAddViewModel>(
+                    builder: (context, value, child) {
+                      return SizedBox(
+                        height: 130,
+                        child: ListView.builder(
+                          itemCount: viewModel.images.length + 1,
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                index == 0
+                                    ? ImageAddContainer(
+                                        onTap: viewModel.selectImage,
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        height: 122,
+                                        width: 133,
+                                        limitCnt: 5,
+                                        curCnt: viewModel.images.length,
+                                      )
+                                    : ImageBox(
+                                        imgPath:
+                                            viewModel.images[index - 1].path,
+                                        onDelete: () =>
+                                            viewModel.onDeleteImage(index - 1),
+                                        height: 122,
+                                        width: 133,
+                                      ),
+                              ],
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 15),
                   Text(
@@ -106,41 +113,45 @@ class QuestionAddView extends StatelessWidget {
                     style: context.typo.textFormTitle,
                   ),
                   const SizedBox(height: 12),
-                  TextField(
-                    controller: viewModel.contentController,
-                    maxLines: 10,
-                    onChanged: viewModel.onChangeContent,
-                    decoration: InputDecoration(
-                      hintText: '내용을 입력해 주세요',
-                      // errorText: '',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          width: 1,
-                        ),
-                      ),
-                      suffixIcon: viewModel.titleController.text.isEmpty
-                          ? null
-                          : Button(
-                              iconPath: AssetIconType.close.path,
-                              color: Colors.black,
-                              type: ButtonType.flat,
-                              onPressed: viewModel.onClearTitle,
+                  Consumer<QuestionAddViewModel>(
+                    builder: (context, value, child) {
+                      return TextField(
+                        controller: viewModel.contentController,
+                        maxLines: 10,
+                        onChanged: viewModel.onChangeContent,
+                        decoration: InputDecoration(
+                          hintText: '내용을 입력해 주세요',
+                          // errorText: '',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: const BorderSide(
+                              width: 1,
                             ),
-                    ),
+                          ),
+                          suffixIcon: viewModel.titleController.text.isEmpty
+                              ? null
+                              : Button(
+                                  iconPath: AssetIconType.close.path,
+                                  color: Colors.black,
+                                  type: ButtonType.flat,
+                                  onPressed: viewModel.onClearTitle,
+                                ),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 15),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: Consumer<QuestionAddViewModel>(
-                  //     builder: (context, value, child) {
-                  //       return Text(
-                  //         '${value.content.length}/500',
-                  //         style: context.typo.textFormTitle,
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  Consumer<QuestionAddViewModel>(
+                    builder: (context, value, child) {
+                      return Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          '${value.content.length}/500',
+                          style: context.typo.textFormTitle,
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 15),
                   Text(
                     '비밀번호',
@@ -149,8 +160,10 @@ class QuestionAddView extends StatelessWidget {
                   const SizedBox(height: 12),
                   Container(
                     width: double.infinity,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 7, horizontal: 14),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 7,
+                      horizontal: 14,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: context.color.boxDescription,
@@ -162,8 +175,9 @@ class QuestionAddView extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   TextField(
-                    controller: viewModel.titleController,
-                    keyboardType: TextInputType.emailAddress,
+                    controller: viewModel.passwordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: true,
                     onChanged: (value) => viewModel.onChangeTitle(value),
                     decoration: InputDecoration(
                       hintText: '숫자4자리~8자리로 구성해주세요',
