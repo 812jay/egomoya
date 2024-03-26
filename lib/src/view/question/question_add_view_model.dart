@@ -11,9 +11,10 @@ class QuestionAddViewModel extends BaseViewModel {
 
   String content = '';
   List<XFile> images = [];
-  
 
-  void onChangeTitle(String title) {}
+  void onChangeTitle(String title) {
+    log(title);
+  }
 
   void onClearTitle() {}
 
@@ -22,6 +23,12 @@ class QuestionAddViewModel extends BaseViewModel {
     log('${content.length}');
     notifyListeners();
   }
+
+  void onChangePassword(String newPassword) {
+    log(newPassword);
+  }
+
+  void onClearPassword() {}
 
   Future<void> selectImage() async {
     final ImagePicker picker = ImagePicker();

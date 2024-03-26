@@ -3,7 +3,7 @@ enum ValidateType {
   password,
 }
 
-extension RegExpTypeExt on ValidateType {
+extension ValidateTypeExt on ValidateType {
   String get pattern {
     switch (this) {
       case ValidateType.email:
@@ -16,6 +16,25 @@ extension RegExpTypeExt on ValidateType {
             r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
       case ValidateType.password:
         return r"^.{8,}$";
+    }
+  }
+}
+
+enum PostValidateType {
+  title,
+  content,
+  password,
+}
+
+extension PostValidateTypeExt on PostValidateType {
+  String get pattern {
+    switch (this) {
+      case PostValidateType.title:
+        return '';
+      case PostValidateType.content:
+        return '';
+      case PostValidateType.password:
+        return '[4-8]';
     }
   }
 }
