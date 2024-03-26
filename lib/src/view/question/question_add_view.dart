@@ -140,44 +140,49 @@ class _InputTitle extends StatelessWidget {
           style: context.typo.textFormTitle,
         ),
         const SizedBox(height: 12),
-        Consumer<QuestionAddViewModel>(builder: (context, value, child) {
-          return TextField(
-            controller: controller,
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (value) => onChanged(value),
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(40),
-            ],
-            decoration: InputDecoration(
-              hintText: '제목을 입력해 주세요',
-              errorText: value.isValidateTitle ? null : '3자 이상, 40자 이하 입력해주세요',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(
-                  width: 1,
+        Consumer<QuestionAddViewModel>(
+          builder: (context, value, child) {
+            return TextField(
+              controller: controller,
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (value) => onChanged(value),
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(40),
+              ],
+              decoration: InputDecoration(
+                hintText: '제목을 입력해 주세요',
+                errorText:
+                    value.isValidateTitle ? null : '3자 이상, 40자 이하 입력해주세요',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 1,
+                  ),
                 ),
+                suffixIcon: controller.text.isEmpty
+                    ? null
+                    : Button(
+                        iconPath: AssetIconType.close.path,
+                        color: Colors.black,
+                        type: ButtonType.flat,
+                        onPressed: onClear,
+                      ),
               ),
-              suffixIcon: controller.text.isEmpty
-                  ? null
-                  : Button(
-                      iconPath: AssetIconType.close.path,
-                      color: Colors.black,
-                      type: ButtonType.flat,
-                      onPressed: onClear,
-                    ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
         const SizedBox(height: 12),
-        Consumer<QuestionAddViewModel>(builder: (context, value, child) {
-          return Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              '${value.title.length}/40',
-              style: context.typo.textFormTitle,
-            ),
-          );
-        }),
+        Consumer<QuestionAddViewModel>(
+          builder: (context, value, child) {
+            return Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                '${value.title.length}/40',
+                style: context.typo.textFormTitle,
+              ),
+            );
+          },
+        ),
       ],
     );
   }

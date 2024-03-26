@@ -18,12 +18,16 @@ class QuestionAddViewModel extends BaseViewModel {
   final TextEditingController contentController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  String title = '';
-  String content = '';
+  String get title => titleController.text;
+  String get content => contentController.text;
+  String get password => passwordController.text;
   List<XFile> get imageList => imageService.imageList;
-  bool isValidateTitle = false;
-  bool isValidateContent = false;
-  bool isValidatePassword = false;
+  bool get isValidateTitle =>
+      RegExp(PostValidateType.title.pattern).hasMatch(title);
+  bool get isValidateContent =>
+      RegExp(PostValidateType.content.pattern).hasMatch(content);
+  bool get isValidatePassword =>
+      RegExp(PostValidateType.password.pattern).hasMatch(password);
   bool get isActiveSubmitButton =>
       isValidateTitle && isValidateContent && isValidatePassword;
 
@@ -49,71 +53,27 @@ class QuestionAddViewModel extends BaseViewModel {
     );
   }
 
-  void onChangeTitle(String newTitle) {
-    title = newTitle;
-    validateTitle(newTitle);
-    notifyListeners();
-  }
+  void onChangeTitle(String newTitle) => notifyListeners();
+
+  void onChangeContent(String newContent) => notifyListeners();
+
+  void onChangePassword(String newPassword) => notifyListeners();
 
   void onClearTitle() {
-    isValidateTitle = false;
     notifyListeners();
     titleController.clear();
   }
 
-  void onChangeContent(String newContent) {
-    content = newContent;
-    validateContent(newContent);
-    notifyListeners();
-  }
-
-  void onChangePassword(String newPassword) {
-    validatePassword(newPassword);
-  }
-
   void onClearPassword() {
-    isValidatePassword = false;
     notifyListeners();
     passwordController.clear();
   }
 
-  Future<void> selectImage() async {
-    imageService.select(limit: 5);
-  }
+  void selectImage() => imageService.select(limit: 5);
 
-  void onDeleteImage(int index) {
-    imageService.delete(imageList.elementAt(index));
-  }
-
-  void validateTitle(String newTitle) {
-    final pattern = RegExp(PostValidateType.title.pattern);
-    if (pattern.hasMatch(newTitle)) {
-      isValidateTitle = true;
-    } else {
-      isValidateTitle = false;
-    }
-    notifyListeners();
-  }
-
-  void validateContent(String newContent) {
-    final pattern = RegExp(PostValidateType.content.pattern);
-    if (pattern.hasMatch(newContent)) {
-      isValidateContent = true;
-    } else {
-      isValidateContent = false;
-    }
-    notifyListeners();
-  }
-
-  void validatePassword(String newPassword) {
-    final pattern = RegExp(PostValidateType.password.pattern);
-    if (pattern.hasMatch(newPassword)) {
-      isValidatePassword = true;
-    } else {
-      isValidatePassword = false;
-    }
-    notifyListeners();
-  }
+  void onDeleteImage(int index) => imageService.delete(
+        imageList.elementAt(index),
+      );
 
   void onSubmit() {
     log('submit!');
