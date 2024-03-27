@@ -1,3 +1,4 @@
+import 'package:egomoya/src/repository/post_repo.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
@@ -18,6 +19,7 @@ class QuestionAddView extends StatelessWidget {
     return BaseView(
       viewModel: QuestionAddViewModel(
         imageService: ImageService(),
+        postRepo: PostRepo(),
       ),
       builder: (context, viewModel) {
         return GestureDetector(

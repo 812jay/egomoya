@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
 
 class PostRepo {
@@ -20,7 +22,16 @@ class PostRepo {
     return null;
   }
 
-  Future<void> registPost() async {
-    try {} catch (e) {}
+  Future<void> registPost({
+    required PostReq req,
+  }) async {
+    try {
+      final postId = await _dio.post(
+        '$prefix/api/posts',
+        data: jsonEncode(req),
+      );
+    } catch (e) {
+      log('Fail to registPost', error: e);
+    }
   }
 }

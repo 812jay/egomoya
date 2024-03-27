@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:egomoya/util/helper/immutable_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,5 +28,12 @@ class ImageService with ChangeNotifier {
   void delete(XFile file) {
     imageList = imageList.where((image) => image != file).toImmutable();
     notifyListeners();
+  }
+
+  Future<FormData> convertXfileToFormData(XFile xfile) async {
+    FormData formData = FormData.fromMap(
+      {'image': await MultipartFile.fromFile(xfile.path, filename: 'image')},
+    );
+    return formData;
   }
 }

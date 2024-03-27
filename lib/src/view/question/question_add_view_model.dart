@@ -1,6 +1,8 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:egomoya/src/data/enum/validator_type.dart';
+import 'package:egomoya/src/data/remote/post/post_req.dart';
+import 'package:egomoya/src/repository/post_repo.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
@@ -10,10 +12,12 @@ import 'package:image_picker/image_picker.dart';
 class QuestionAddViewModel extends BaseViewModel {
   QuestionAddViewModel({
     required this.imageService,
+    required this.postRepo,
   }) {
     imageService.addListener(notifyListeners);
   }
   final ImageService imageService;
+  final PostRepo postRepo;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -88,7 +92,18 @@ class QuestionAddViewModel extends BaseViewModel {
         imageList.elementAt(index),
       );
 
-  void onSubmit() {
-    log('submit!');
+  void onSubmit() async {
+    final imageFileList = [];
+    for (var image in imageList) {
+      imageFileList.add(File(image.path));
+    }
+    await postRepo.registPost(
+      req: PostReq(
+        title: title,
+        content: content,
+        password: int.tryParse(password) ?? 0000,
+        imageList: [],
+      ),
+    );
   }
 }
