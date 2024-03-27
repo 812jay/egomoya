@@ -1,3 +1,4 @@
+import 'package:egomoya/src/repository/post_repo.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/home/home_view.dart';
@@ -9,6 +10,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        Provider(
+          create: (context) => PostRepo(),
+        ),
         ChangeNotifierProvider(
           create: (context) => ThemeService(),
         ),
