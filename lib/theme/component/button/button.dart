@@ -98,7 +98,7 @@ class _ButtonState extends State<Button> {
         width: widget.width,
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
           border: border,
         ),
         padding: EdgeInsets.all(widget.size.padding),

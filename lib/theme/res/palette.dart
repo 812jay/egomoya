@@ -26,4 +26,7 @@ abstract class Palette {
   static Color grey870 = const Color(0xFF1A1A1A);
   static Color grey900 = const Color(0xFF111111);
   static Color black = const Color(0xFF000000);
+
+  //custom
+  static Color boxDesciption = const Color(0xFFF1F1F1);
 }

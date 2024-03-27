@@ -92,4 +92,23 @@ class AppTypo {
     fontSize: 12,
     color: fontColor,
   );
+
+  //custom
+  late final TextStyle appbarTitle = TextStyle(
+    height: 1.3,
+    fontSize: 18,
+    fontWeight: typo.semiBold,
+  );
+
+  late final TextStyle textFormTitle = TextStyle(
+    height: 1.3,
+    fontSize: 13,
+    fontWeight: typo.regular,
+  );
+
+  late final TextStyle descriptionSmall = TextStyle(
+    height: 1.3,
+    fontSize: 9,
+    fontWeight: typo.regular,
+  );
 }

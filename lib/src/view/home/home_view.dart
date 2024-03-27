@@ -1,3 +1,4 @@
+import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/home/home_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
@@ -9,7 +10,9 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: HomeViewModel(),
+      viewModel: HomeViewModel(
+        PostModel(),
+      ),
       builder: (context, viewModel) {
         return Scaffold(
           appBar: AppBar(
@@ -25,11 +28,17 @@ class HomeView extends StatelessWidget {
               ),
             ],
           ),
-          body: const SafeArea(
+          body: SafeArea(
             child: Column(
               children: [
                 Center(
-                  child: Text('welcome home'),
+                  child: TextButton(
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      RoutePath.questionAdd,
+                    ),
+                    child: const Text('게시글 등록'),
+                  ),
                 ),
               ],
             ),

@@ -17,13 +17,9 @@ class BaseView<T extends BaseViewModel> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => viewModel,
-      child: Consumer<T>(
-        builder: (context, value, child) {
-          return CircularIndicator(
-            isBusy: viewModel.isBusy,
-            child: builder(context, viewModel),
-          );
-        },
+      child: CircularIndicator(
+        isBusy: viewModel.isBusy,
+        child: builder(context, viewModel),
       ),
     );
   }

@@ -20,6 +20,7 @@ class AppColor {
     required this.onSecondary,
     required this.tertiary,
     required this.onTertiary,
+    required this.boxDescription,
   });
 
   /// Surface
@@ -51,4 +52,7 @@ class AppColor {
   final Color onSecondary;
   final Color tertiary;
   final Color onTertiary;
+
+  //custon
+  final Color boxDescription;
 }
