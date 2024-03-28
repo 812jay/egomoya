@@ -27,7 +27,10 @@ class QuestionAddView extends StatelessWidget {
           child: Scaffold(
             appBar: BaseAppBar(
               isLeadingCloseIcon: true,
-              title: '질문 등록',
+              title: Text(
+                '질문 등록',
+                style: context.typo.appbarTitle,
+              ),
               onTapLeading: () => viewModel.onTapLeading(context),
             ),
             body: SingleChildScrollView(

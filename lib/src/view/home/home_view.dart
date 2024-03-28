@@ -3,6 +3,7 @@ import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/home/home_view_model.dart';
 import 'package:egomoya/src/view/home/widget/question_box.dart';
+import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
@@ -16,9 +17,7 @@ class HomeView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         return Scaffold(
-          appBar: AppBar(
-            actions: const [],
-          ),
+          appBar: const BaseAppBar(),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
