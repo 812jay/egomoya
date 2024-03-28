@@ -20,6 +20,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: AppBar(
+        scrolledUnderElevation: 0,
         leading: isLeadingCloseIcon == true
             ? GestureDetector(
                 onTap: onTapLeading ?? () => Navigator.pop(context),
@@ -61,6 +62,5 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

@@ -1,4 +1,5 @@
 import 'package:egomoya/src/view/home/home_view.dart';
+import 'package:egomoya/src/view/post/post_list_view.dart';
 import 'package:egomoya/src/view/question/question_add_view.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view.dart';
 import 'package:egomoya/theme/component/constrained_screen.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 abstract class RoutePath {
   static const String home = 'home';
   static const String signIn = 'signIn';
+  static const String postList = 'postList';
   static const String questionAdd = 'questionAdd';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -17,6 +19,9 @@ abstract class RoutePath {
         break;
       case RoutePath.signIn:
         page = const SignInView();
+        break;
+      case RoutePath.postList:
+        page = const PostListView();
         break;
       case RoutePath.questionAdd:
         page = const QuestionAddView();
