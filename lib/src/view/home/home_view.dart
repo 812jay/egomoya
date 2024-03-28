@@ -42,10 +42,15 @@ class HomeView extends StatelessWidget {
                           const SizedBox(height: 13),
                       itemBuilder: (context, index) {
                         return QuestionBox(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            RoutePath.questionDetail,
+                            arguments: index,
+                          ),
                           title: 'title$index',
                           content: 'content$index',
                           writedAt: DateTime.now().subtract(
-                            const Duration(days: 364),
+                            const Duration(days: 1),
                           ),
                           commentCnt: 3,
                         );
