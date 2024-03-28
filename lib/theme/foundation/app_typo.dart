@@ -111,4 +111,8 @@ class AppTypo {
     fontSize: 9,
     fontWeight: typo.regular,
   );
+
+  late final TextStyle subTitle = subtitle1.copyWith(
+    fontWeight: FontWeight.w700,
+  );
 }
