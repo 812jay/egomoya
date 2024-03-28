@@ -50,7 +50,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
             'assets/icons/alarm.svg',
             size: 24,
           ),
-          SizedBox(width: 10),
+          SizedBox(width: 15),
           AssetIcon(
             'assets/icons/group.svg',
             size: 24,

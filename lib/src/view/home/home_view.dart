@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
           appBar: const BaseAppBar(),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
