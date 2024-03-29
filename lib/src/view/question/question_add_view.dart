@@ -7,6 +7,7 @@ import 'package:egomoya/src/view/question/widget/image_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -26,11 +27,7 @@ class QuestionAddView extends StatelessWidget {
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
             appBar: BaseAppBar(
-              isLeadingCloseIcon: true,
-              title: Text(
-                '질문 등록',
-                style: context.typo.appbarTitle,
-              ),
+              title: '질문 등록',
               onTapLeading: () => viewModel.onTapLeading(context),
             ),
             body: SingleChildScrollView(
@@ -81,7 +78,7 @@ class _InputPicture extends StatelessWidget {
       children: [
         Text(
           '사진',
-          style: context.typo.textFormTitle,
+          style: context.typo.body2.bold,
         ),
         const SizedBox(height: 12),
         Consumer<QuestionAddViewModel>(
@@ -138,9 +135,23 @@ class _InputTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '제목',
-          style: context.typo.textFormTitle,
+        // Text.rich(
+        //   '제목',
+        //   style: context.typo.body2.bold,
+        // ),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '제목',
+                style: context.typo.body2.bold,
+              ),
+              TextSpan(
+                text: '*',
+                style: context.typo.body2.bold.pointColor,
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 12),
         Consumer<QuestionAddViewModel>(
@@ -197,7 +208,7 @@ class _InputContent extends StatelessWidget {
           children: [
             Text(
               '내용',
-              style: context.typo.textFormTitle,
+              style: context.typo.body2.bold,
             ),
             const SizedBox(height: 12),
             TextField(
@@ -242,9 +253,19 @@ class _InputPassword extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '비밀번호',
-          style: context.typo.textFormTitle,
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '비밀번호',
+                style: context.typo.body2.bold,
+              ),
+              TextSpan(
+                text: '*',
+                style: context.typo.body2.bold.pointColor,
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 12),
         Container(
@@ -255,44 +276,48 @@ class _InputPassword extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: context.color.boxDescription,
+            color: context.color.descriptionBackground,
           ),
-          child: Text(
-            '비밀번호가 있어야 내가 작성한 글을 수정/삭제할 수 있어요! 꼭 기억해 주세요!',
-            style: context.typo.descriptionSmall,
+          child: Center(
+            child: Text(
+              '비밀번호가 있어야 내가 작성한 글을 수정/삭제할 수 있어요! 꼭 기억해 주세요!',
+              style: context.typo.body3,
+            ),
           ),
         ),
         const SizedBox(height: 12),
-        Consumer<QuestionAddViewModel>(builder: (context, value, child) {
-          return TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            obscureText: true,
-            onChanged: (value) => onChanged(value),
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(8),
-            ],
-            decoration: InputDecoration(
-              hintText: '숫자4자리~8자리로 구성해주세요',
-              errorText: value.passwordErrMsg,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(
-                  width: 1,
+        Consumer<QuestionAddViewModel>(
+          builder: (context, value, child) {
+            return TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              obscureText: true,
+              onChanged: (value) => onChanged(value),
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(8),
+              ],
+              decoration: InputDecoration(
+                hintText: '숫자4자리~8자리로 구성해주세요',
+                errorText: value.passwordErrMsg,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 1,
+                  ),
                 ),
+                suffixIcon: controller.text.isEmpty
+                    ? null
+                    : Button(
+                        iconPath: AssetIconType.close.path,
+                        color: Colors.black,
+                        type: ButtonType.flat,
+                        onPressed: onClear,
+                      ),
               ),
-              suffixIcon: controller.text.isEmpty
-                  ? null
-                  : Button(
-                      iconPath: AssetIconType.close.path,
-                      color: Colors.black,
-                      type: ButtonType.flat,
-                      onPressed: onClear,
-                    ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ],
     );
   }

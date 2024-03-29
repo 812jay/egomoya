@@ -13,6 +13,7 @@ enum AssetIconType {
   star,
   sunny,
   uncheck,
+  comment,
 }
 
 extension AssetIconTypeExt on AssetIconType {
@@ -46,6 +47,8 @@ extension AssetIconTypeExt on AssetIconType {
         return 'sunny';
       case AssetIconType.uncheck:
         return 'uncheck';
+      case AssetIconType.comment:
+        return 'comment';
     }
   }
 

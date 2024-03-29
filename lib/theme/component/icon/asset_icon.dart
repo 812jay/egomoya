@@ -21,7 +21,7 @@ class AssetIcon extends StatelessWidget {
       width: size,
       height: size,
       colorFilter: ColorFilter.mode(
-        color ?? context.color.text,
+        color ?? context.color.black,
         BlendMode.srcIn,
       ),
       fit: BoxFit.contain,

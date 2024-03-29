@@ -10,31 +10,26 @@ class DarkTheme implements AppTheme {
 
   @override
   AppColor color = AppColor(
-    surface: Palette.grey800,
-    background: Palette.black.withOpacity(0.55),
-    text: Palette.grey100,
-    subtext: Palette.grey500,
-    toastContainer: Palette.grey100.withOpacity(0.85),
-    onToastContainer: Palette.grey800,
-    hint: Palette.grey600,
-    hintContainer: Palette.grey770,
-    onHintContainer: Palette.grey350,
-    inactive: Palette.grey500,
-    inactiveContainer: Palette.grey700,
-    onInactiveContainer: Palette.grey400,
-    primary: Palette.green,
-    onPrimary: Palette.white,
-    secondary: Palette.red,
-    onSecondary: Palette.white,
-    tertiary: Palette.yellow,
-    onTertiary: Palette.white,
-    boxDescription: Palette.boxDesciption,
+    primary: Palette.hotPink,
+    secondary: Palette.pink,
+    tertiary: Palette.subBlue,
+    error: Palette.red,
+    white: Palette.white,
+    black: Palette.black,
+    hintText: Palette.gray2,
+    inactiveBackground: Palette.gray2,
+    descriptionBackground: Palette.gray1,
+    subBackground: Palette.gray4,
+    subText: Palette.gray5,
+    text: Palette.black,
+    lightGrayBackground: Palette.gray0,
+    grayText: Palette.gray4,
   );
 
   @override
   late AppTypo typo = AppTypo(
     typo: const NotoSans(),
-    fontColor: color.text,
+    fontColor: color.black,
   );
 
   @override

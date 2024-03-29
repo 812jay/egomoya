@@ -20,23 +20,24 @@ class BaseDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: const EdgeInsets.all(20),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 38, vertical: 32),
       content: Text(
         content ?? '',
-        style: context.typo.subtitle1,
+        style: context.typo.body1,
       ),
       actions: [
         Row(
           children: [
             Expanded(
               child: Button(
-                backgroundColor: context.color.inactive,
+                backgroundColor: context.color.subBackground,
                 onPressed: onTapCancel ??
                     () {
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
                 text: cancelText ?? '나가기',
+                color: context.color.white,
               ),
             ),
             const SizedBox(width: 8),
@@ -44,6 +45,7 @@ class BaseDialog extends StatelessWidget {
               child: Button(
                 onPressed: onTapConfirm ?? () => Navigator.pop(context),
                 text: confirmText ?? '계속 작성하기',
+                color: context.color.white,
               ),
             ),
           ],

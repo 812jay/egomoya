@@ -21,11 +21,11 @@ extension ButtonSizeExt on ButtonSize {
   TextStyle getTextStyle(BuildContext context) {
     switch (this) {
       case ButtonSize.small:
-        return context.typo.subtitle2;
+        return context.typo.body1;
       case ButtonSize.medium:
-        return context.typo.subtitle1;
+        return context.typo.body3;
       case ButtonSize.large:
-        return context.typo.headline6;
+        return context.typo.headline2;
     }
   }
 }

@@ -66,7 +66,6 @@ class SignInView extends StatelessWidget {
                         ),
                         spaceBig,
                         TextField(
-                          
                           controller: viewModel.passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: true,
@@ -115,7 +114,7 @@ class SignInView extends StatelessWidget {
                           child: Text(
                             '아이디 찾기',
                             style: TextStyle(
-                              color: context.color.subtext,
+                              color: context.color.subText,
                             ),
                           ),
                         ),
@@ -127,7 +126,7 @@ class SignInView extends StatelessWidget {
                           child: Text(
                             '비밀번호 찾기',
                             style: TextStyle(
-                              color: context.color.subtext,
+                              color: context.color.subText,
                             ),
                           ),
                         ),
@@ -141,7 +140,7 @@ class SignInView extends StatelessWidget {
                       child: Text(
                         '이메일로 회원가입 하기',
                         style: TextStyle(
-                          color: context.color.subtext,
+                          color: context.color.subText,
                         ),
                       ),
                     ),

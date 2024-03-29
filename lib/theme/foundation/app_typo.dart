@@ -10,109 +10,75 @@ class AppTypo {
   final Typo typo;
 
   /// Font Weight
-  late FontWeight light = typo.light;
-  late FontWeight regular = typo.regular;
+  late FontWeight bold = typo.bold;
   late FontWeight semiBold = typo.semiBold;
+  late FontWeight boldMedium = typo.boldMedium;
+  late FontWeight boldRegular = typo.boldRegular;
+  late FontWeight regular = typo.regular;
 
   /// Font Color
   final Color fontColor;
 
   /// Headline
   late final TextStyle headline1 = TextStyle(
-    height: 1.3,
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 28,
-    color: fontColor,
-  );
-  late final TextStyle headline2 = TextStyle(
-    height: 1.3,
-    fontFamily: typo.name,
-    fontWeight: typo.regular,
+    fontWeight: typo.bold,
     fontSize: 24,
     color: fontColor,
   );
-  late final TextStyle headline3 = TextStyle(
-    height: 1.3,
+  late final TextStyle headline2 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 21,
-    color: fontColor,
-  );
-  late final TextStyle headline4 = TextStyle(
-    height: 1.3,
-    fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 20,
-    color: fontColor,
-  );
-  late final TextStyle headline5 = TextStyle(
-    height: 1.3,
-    fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 19,
-    color: fontColor,
-  );
-  late final TextStyle headline6 = TextStyle(
-    height: 1.3,
-    fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 18,
+    fontWeight: typo.bold,
+    fontSize: 22,
     color: fontColor,
   );
 
-  /// Subtitle
-  late final TextStyle subtitle1 = TextStyle(
-    height: 1.3,
+  // SubTItle
+  late final TextStyle subTitle1 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 16,
+    fontWeight: typo.bold,
+    fontSize: 20,
     color: fontColor,
   );
-  late final TextStyle subtitle2 = TextStyle(
-    height: 1.3,
+  late final TextStyle subTitle2 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 15,
+    fontWeight: typo.semiBold,
+    fontSize: 20,
+    color: fontColor,
+  );
+
+  late final TextStyle subTitle3 = TextStyle(
+    height: 1.19,
+    fontFamily: typo.name,
+    fontWeight: typo.semiBold,
+    fontSize: 18,
     color: fontColor,
   );
 
   /// Body
   late final TextStyle body1 = TextStyle(
-    height: 1.3,
+    height: 1.19,
+    fontFamily: typo.name,
+    fontWeight: typo.regular,
+    fontSize: 16,
+    color: fontColor,
+  );
+  late final TextStyle body2 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
     fontWeight: typo.regular,
     fontSize: 14,
     color: fontColor,
   );
-  late final TextStyle body2 = TextStyle(
-    height: 1.3,
+  late final TextStyle body3 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
     fontWeight: typo.regular,
     fontSize: 12,
     color: fontColor,
-  );
-
-  //custom
-  late final TextStyle appbarTitle = TextStyle(
-    height: 1.3,
-    fontSize: 18,
-    fontWeight: typo.semiBold,
-  );
-
-  late final TextStyle textFormTitle = TextStyle(
-    height: 1.3,
-    fontSize: 13,
-    fontWeight: typo.regular,
-  );
-
-  late final TextStyle descriptionSmall = TextStyle(
-    height: 1.3,
-    fontSize: 9,
-    fontWeight: typo.regular,
-  );
-
-  late final TextStyle subTitle = subtitle1.copyWith(
-    fontWeight: FontWeight.w700,
   );
 }

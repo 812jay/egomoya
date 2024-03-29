@@ -4,7 +4,7 @@ extension DateTimeHelper on DateTime {
     final difference = now.difference(this);
     // 초 단위로 계산
     if (difference.inSeconds < 60) {
-      return '${difference.inSeconds}초 전';
+      return '방금';
     }
 
     // 분 단위로 계산
