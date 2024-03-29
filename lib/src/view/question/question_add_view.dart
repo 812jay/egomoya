@@ -27,10 +27,7 @@ class QuestionAddView extends StatelessWidget {
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
             appBar: BaseAppBar(
-              title: Text(
-                '질문 등록',
-                style: context.typo.subTitle3,
-              ),
+              title: '질문 등록',
               onTapLeading: () => viewModel.onTapLeading(context),
             ),
             body: SingleChildScrollView(

@@ -5,6 +5,7 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/src/view/question/widget/comment_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,17 @@ class QuestionDetailView extends StatelessWidget {
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
             appBar: BaseAppBar(
-              title: Text(
-                '질문 상세',
-                style: context.typo.subTitle3,
-              ),
+              title: '질문 상세',
+              actions: [
+                GestureDetector(
+                  onTap: () {},
+                  child: const AssetIcon(
+                    'assets/icons/more.svg',
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 9),
+              ],
             ),
             body: SafeArea(
               child: Column(

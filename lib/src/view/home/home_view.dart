@@ -1,7 +1,7 @@
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/home/home_view_model.dart';
 import 'package:egomoya/src/view/home/widget/post_title.dart';
-import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
+import 'package:egomoya/theme/component/app_bar/main_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         return Scaffold(
-          appBar: const BaseAppBar(),
+          appBar: const MainAppBar(),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),

@@ -1,6 +1,6 @@
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/post/post_list_view_model.dart';
-import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
+import 'package:egomoya/theme/component/app_bar/main_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/res/palette.dart';
@@ -16,7 +16,7 @@ class PostListView extends StatelessWidget {
       viewModel: PostListViewModel(),
       builder: (context, viewModel) {
         return Scaffold(
-          appBar: const BaseAppBar(),
+          appBar: const MainAppBar(),
           body: SafeArea(
             child: Column(
               children: [
