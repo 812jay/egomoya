@@ -2,6 +2,7 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/post/post_list_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class PostListView extends StatelessWidget {
@@ -14,25 +15,34 @@ class PostListView extends StatelessWidget {
       builder: (context, viewModel) {
         return Scaffold(
           appBar: const BaseAppBar(),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          body: SafeArea(
             child: Column(
               children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('최신순'),
-                  ],
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('최신순'),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Expanded(
                   child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
                     shrinkWrap: true,
                     separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 13),
                     itemCount: 30,
                     itemBuilder: (context, index) {
                       return QuestionBox(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          RoutePath.questionDetail,
+                          arguments: index,
+                        ),
                         title: 'title$index',
                         content: 'content$index',
                         writedAt:
