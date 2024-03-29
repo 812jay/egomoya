@@ -1,3 +1,5 @@
+import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -21,35 +23,33 @@ class CommentBox extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                userId,
-                style: const TextStyle(),
-              ),
-            ),
-            GestureDetector(
-              onTap: () => onTapReply(commentId),
-              child: const Text(
-                '답글',
-                style: TextStyle(),
-              ),
-            )
-          ],
+        Text(
+          userId,
+          style: context.typo.body2.bold.subText,
         ),
         const SizedBox(height: 10),
         Text(
           content ?? '',
-          style: const TextStyle(),
+          style: context.typo.body2,
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            writedAt.formatRelativeDateTime(),
-            style: const TextStyle(),
-          ),
-        )
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                writedAt.formatRelativeDateTime(),
+                style: context.typo.body2.subText,
+              ),
+            ),
+            GestureDetector(
+              onTap: () => onTapReply(commentId),
+              child: Text(
+                '답글',
+                style: context.typo.body2.subColor,
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

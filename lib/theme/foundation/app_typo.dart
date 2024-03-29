@@ -21,83 +21,64 @@ class AppTypo {
 
   /// Headline
   late final TextStyle headline1 = TextStyle(
-    height: 1.3,
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 28,
-    color: fontColor,
-  );
-  late final TextStyle headline2 = TextStyle(
-    height: 1.3,
-    fontFamily: typo.name,
-    fontWeight: typo.regular,
+    fontWeight: typo.bold,
     fontSize: 24,
     color: fontColor,
   );
-  late final TextStyle headline3 = TextStyle(
-    height: 1.3,
+  late final TextStyle headline2 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 21,
+    fontWeight: typo.bold,
+    fontSize: 22,
     color: fontColor,
   );
-  late final TextStyle headline4 = TextStyle(
-    height: 1.3,
+
+  // SubTItle
+  late final TextStyle subTitle1 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
+    fontWeight: typo.bold,
     fontSize: 20,
     color: fontColor,
   );
-  late final TextStyle headline5 = TextStyle(
-    height: 1.3,
+  late final TextStyle subTitle2 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 19,
+    fontWeight: typo.semiBold,
+    fontSize: 20,
     color: fontColor,
   );
-  late final TextStyle headline6 = TextStyle(
-    height: 1.3,
+
+  late final TextStyle subTitle3 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
+    fontWeight: typo.semiBold,
     fontSize: 18,
     color: fontColor,
   );
 
   /// Body
   late final TextStyle body1 = TextStyle(
-    height: 1.3,
+    height: 1.19,
+    fontFamily: typo.name,
+    fontWeight: typo.regular,
+    fontSize: 16,
+    color: fontColor,
+  );
+  late final TextStyle body2 = TextStyle(
+    height: 1.19,
     fontFamily: typo.name,
     fontWeight: typo.regular,
     fontSize: 14,
     color: fontColor,
   );
-  late final TextStyle body2 = TextStyle(
-    height: 1.3,
-    fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 12,
-    color: fontColor,
-  );
   late final TextStyle body3 = TextStyle(
-    height: 1.3,
+    height: 1.19,
     fontFamily: typo.name,
     fontWeight: typo.regular,
     fontSize: 12,
     color: fontColor,
   );
-
-  // Main Page
-  late final TextStyle mainTitle = headline6.copyWith(
-    fontWeight: semiBold,
-  );
-
-  // Common
-  late final TextStyle text = body1;
-
-  // Question Box
-  late final TextStyle questionBoxTitle = headline6.copyWith(
-    fontWeight: semiBold,
-  );
-  late final TextStyle questionBoxContent = headline6;
-  late final TextStyle questionBoxSubTitle = body1;
 }

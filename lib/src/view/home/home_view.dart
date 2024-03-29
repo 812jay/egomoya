@@ -1,4 +1,3 @@
-import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/home/home_view_model.dart';
 import 'package:egomoya/src/view/home/widget/post_title.dart';
@@ -6,6 +5,7 @@ import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: HomeViewModel(
-        PostModel(),
+        context.read(),
       ),
       builder: (context, viewModel) {
         return Scaffold(

@@ -1,4 +1,5 @@
-import 'package:egomoya/theme/res/palette.dart';
+import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class PostTitle extends StatelessWidget {
@@ -19,17 +20,13 @@ class PostTitle extends StatelessWidget {
           Expanded(
             child: Text(
               title ?? '',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: context.typo.subTitle3,
             ),
           ),
           Text(
             '더 보기',
-            style: TextStyle(
-              fontSize: 16,
-              color: Palette.gray5,
+            style: context.typo.body2.fromColor(
+              context.color.subText,
             ),
           ),
         ],

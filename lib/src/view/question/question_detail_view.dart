@@ -5,6 +5,7 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/src/view/question/widget/comment_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -23,10 +24,10 @@ class QuestionDetailView extends StatelessWidget {
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
-            appBar: const BaseAppBar(
+            appBar: BaseAppBar(
               title: Text(
                 '질문 상세',
-                style: TextStyle(),
+                style: context.typo.subTitle3,
               ),
             ),
             body: SafeArea(
@@ -93,24 +94,14 @@ class _QuestionDetailHead extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              writedAt.formatRelativeDateTime(),
-              style: const TextStyle(),
-            )
-          ],
-        ),
         Text(
-          userId,
-          style: const TextStyle(),
+          title,
+          style: context.typo.subTitle3,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          '$userId • ${writedAt.formatRelativeDateTime()}',
+          style: context.typo.body3.subText,
         ),
       ],
     );
@@ -133,7 +124,7 @@ class _QuestDetailContent extends StatelessWidget {
       children: [
         Text(
           content ?? '',
-          style: const TextStyle(),
+          style: context.typo.body1,
         ),
         const SizedBox(height: 20),
         ListView.separated(
@@ -172,9 +163,9 @@ class _QuestDetailCommentList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '댓글',
-          style: TextStyle(),
+          style: context.typo.body1.bold,
         ),
         const SizedBox(height: 25),
         ListView.separated(
@@ -217,22 +208,22 @@ class _QuestionDetailAddComment extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(width: 1),
-              ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 16,
             ),
+            decoration: const BoxDecoration(),
             child: Row(
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 52,
+                    height: 40,
                     child: TextField(
                       controller: controller,
-                      textAlignVertical: TextAlignVertical.bottom,
+                      textAlignVertical: TextAlignVertical.center,
+                      keyboardType: TextInputType.multiline,
                       decoration: InputDecoration(
-                        fillColor: context.color.subText,
+                        fillColor: context.color.lightGrayBackground,
                         filled: true,
                         focusedBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -241,10 +232,12 @@ class _QuestionDetailAddComment extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                         hintText: '알고있는 상품이라면 댓글을 달아주세요!',
+                        hintStyle: context.typo.body2.subText,
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(100),
                           ),
+                          borderSide: BorderSide.none,
                         ),
                       ),
                     ),

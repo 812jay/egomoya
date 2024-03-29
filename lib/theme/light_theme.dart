@@ -10,18 +10,20 @@ class LightTheme implements AppTheme {
 
   @override
   AppColor color = AppColor(
-    primary: Palette.hotPink,
-    secondary: Palette.pink,
-    tertiary: Palette.subBlue,
-    error: Palette.red,
-    white: Palette.white,
-    black: Palette.black,
-    hintText: Palette.gray2,
-    inactiveBackground: Palette.gray5,
-    subBackground: Palette.gray4,
-    subText: Palette.gray5,
-    text: Palette.black,
-  );
+      primary: Palette.hotPink,
+      secondary: Palette.pink,
+      tertiary: Palette.subBlue,
+      error: Palette.red,
+      white: Palette.white,
+      black: Palette.black,
+      hintText: Palette.gray2,
+      inactiveBackground: Palette.gray2,
+      descriptionBackground: Palette.gray1,
+      subBackground: Palette.gray4,
+      subText: Palette.gray5,
+      text: Palette.black,
+      lightGrayBackground: Palette.gray0,
+      grayText: Palette.gray4);
 
   @override
   late AppTypo typo = AppTypo(

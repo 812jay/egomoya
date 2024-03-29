@@ -1,5 +1,6 @@
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:flutter/material.dart';
 
 part 'button_size.dart';
@@ -121,10 +122,7 @@ class _ButtonState extends State<Button> {
             if (widget.text != null)
               Text(
                 widget.text!,
-                style: widget.size.getTextStyle(context).copyWith(
-                      color: color,
-                      fontWeight: context.typo.semiBold,
-                    ),
+                style: context.typo.body1.bold.whiteColor,
               ),
           ],
         ),

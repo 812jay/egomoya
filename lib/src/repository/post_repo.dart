@@ -14,6 +14,7 @@ class PostRepo {
   Future<PostRes?> fetchPost() async {
     try {
       final response = await _dio.get('$prefix/api/posts');
+      log('res: ${response.data}');
       final result = PostRes.fromJson(response.data);
       return result;
     } catch (e) {
@@ -26,6 +27,7 @@ class PostRepo {
     required PostReq req,
   }) async {
     try {
+      log('req: ${req.toJson()}');
       final postId = await _dio.post(
         '$prefix/api/posts',
         data: jsonEncode(req),

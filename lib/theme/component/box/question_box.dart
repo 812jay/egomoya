@@ -1,3 +1,4 @@
+import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
@@ -65,17 +66,17 @@ class QuestionBox extends StatelessWidget {
                         Text(
                           '$title$title$title$title$title$title$title$title',
                           maxLines: 1,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              overflow: TextOverflow.ellipsis),
+                          style: context.typo.body2.copyWith(
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Text(
                           '$content$content$content$content$content$content$content$content$content$content$content$content$content$content$content',
                           maxLines: 2,
-                          style: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
+                          style: context.typo.body2.copyWith(
+                            color: context.color.subText,
                           ),
                         ),
                       ],
@@ -87,15 +88,27 @@ class QuestionBox extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const AssetIcon('assets/icons/comment.svg'),
-                Text(
-                  ' $commentCnt개 ',
-                  style: const TextStyle(),
-                ),
-                // SizedBox(width: 5),
                 Text(
                   writedAt.formatRelativeDateTime(),
-                  style: const TextStyle(),
+                  style: context.typo.body3.copyWith(
+                    color: context.color.subText,
+                  ),
+                ),
+                Text(
+                  ' • ',
+                  style: context.typo.body3.copyWith(
+                    color: context.color.subText,
+                  ),
+                ),
+                AssetIcon(
+                  'assets/icons/comment.svg',
+                  color: context.color.subText,
+                ),
+                Text(
+                  ' $commentCnt',
+                  style: context.typo.body3.copyWith(
+                    color: context.color.subText,
+                  ),
                 ),
               ],
             )

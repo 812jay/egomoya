@@ -12,17 +12,18 @@ enum ButtonType {
     bool isInactive, [
     Color? color,
   ]) {
-    switch (this) {
-      case ButtonType.fill:
-        return isInactive
-            ? context.color.subText
-            : color ?? context.color.primary;
-      case ButtonType.flat:
-      case ButtonType.outline:
-        return isInactive
-            ? context.color.subText
-            : color ?? context.color.primary;
-    }
+    // switch (this) {
+    //   case ButtonType.fill:
+    //     return isInactive
+    //         ? context.color.subText
+    //         : color ?? context.color.primary;
+    //   case ButtonType.flat:
+    //   case ButtonType.outline:
+    //     return isInactive
+    //         ? context.color.subText
+    //         : color ?? context.color.primary;
+    // }
+    return context.color.white;
   }
 
   /// 배경 색상

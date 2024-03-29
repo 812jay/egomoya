@@ -1,33 +1,28 @@
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
-import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   const BaseAppBar({
     super.key,
     this.title,
-    this.isLeadingCloseIcon,
     this.onTapLeading,
   });
 
   final Widget? title;
-  final bool? isLeadingCloseIcon;
   final GestureTapCallback? onTapLeading;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       scrolledUnderElevation: 0,
-      leading: isLeadingCloseIcon == true
-          ? GestureDetector(
-              onTap: onTapLeading ?? () => Navigator.pop(context),
-              child: AssetIcon(
-                AssetIconType.close.path,
-                size: 10,
-              ),
-            )
-          : null,
+      leading: GestureDetector(
+        onTap: onTapLeading ?? () => Navigator.pop(context),
+        child: const Icon(
+          Icons.arrow_back_ios,
+        ),
+      ),
       centerTitle: true,
       title: title ??
           Container(
@@ -37,12 +32,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: context.color.inactiveBackground,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
                 'LOGO',
-                style: TextStyle(
-                  fontSize: 14,
-                ),
+                style: context.typo.body3.whiteColor,
               ),
             ),
           ),

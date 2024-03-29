@@ -2,6 +2,8 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/post/post_list_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
+import 'package:egomoya/theme/component/button/button.dart';
+import 'package:egomoya/theme/res/palette.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +33,9 @@ class PostListView extends StatelessWidget {
                 Expanded(
                   child: ListView.separated(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 30),
+                      horizontal: 30,
+                      vertical: 30,
+                    ),
                     shrinkWrap: true,
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 13),
@@ -54,6 +58,15 @@ class PostListView extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          floatingActionButton: Button(
+            onPressed: () => Navigator.pushNamed(
+              context,
+              RoutePath.questionAdd,
+            ),
+            backgroundColor: Palette.black,
+            color: Palette.white,
+            text: '글쓰기',
           ),
         );
       },

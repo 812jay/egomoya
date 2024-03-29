@@ -99,6 +99,7 @@ class QuestionAddViewModel extends BaseViewModel {
     }
     await postRepo.registPost(
       req: PostReq(
+        id: 1,
         title: title,
         content: content,
         password: int.tryParse(password) ?? 0000,

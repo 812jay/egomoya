@@ -11,8 +11,11 @@ class AppColor {
     required this.text,
     required this.subText,
     required this.hintText,
+    required this.descriptionBackground,
     required this.subBackground,
     required this.inactiveBackground,
+    required this.lightGrayBackground,
+    required this.grayText,
   });
 
   final Color primary;
@@ -24,8 +27,11 @@ class AppColor {
   final Color text;
   final Color subText;
   final Color hintText;
+  final Color descriptionBackground;
   final Color subBackground;
   final Color inactiveBackground;
+  final Color lightGrayBackground;
+  final Color grayText;
 
   // final Color gray0;
   // final Color gray1;
