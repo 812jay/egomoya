@@ -4,11 +4,13 @@ import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/src/view/question/widget/comment_box.dart';
+import 'package:egomoya/src/view/question/widget/content_image.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class QuestionDetailView extends StatelessWidget {
   const QuestionDetailView({
@@ -29,7 +31,7 @@ class QuestionDetailView extends StatelessWidget {
               title: '질문 상세',
               actions: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () => viewModel.onTapMore(context),
                   child: const AssetIcon(
                     'assets/icons/more.svg',
                     size: 24,
@@ -43,28 +45,41 @@ class QuestionDetailView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _QuestionDetailHead(
-                            title: 'Title',
-                            userId: '요고1212',
-                            writedAt: DateTime.now().subtract(
-                              const Duration(seconds: 1),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _QuestionDetailHead(
+                                  title: 'Title',
+                                  userId: '요고1212',
+                                  writedAt: DateTime.now().subtract(
+                                    const Duration(seconds: 1),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                const _QuestDetailContent(
+                                  content: 'content',
+                                  imageUrlList: [],
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          const _QuestDetailContent(
-                            content: 'content',
-                            imageUrlList: [],
+                          const SizedBox(height: 25),
+                          Divider(
+                            thickness: 8,
+                            color: context.color.lightGrayBackground,
                           ),
                           const SizedBox(height: 25),
-                          const Divider(height: 1, color: Colors.black),
-                          const SizedBox(height: 25),
                           //댓글 목록
-                          const _QuestDetailCommentList(
-                            commentList: [],
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: _QuestDetailCommentList(
+                              commentList: [],
+                            ),
                           ),
                           const SizedBox(height: 25),
                         ],
@@ -74,7 +89,9 @@ class QuestionDetailView extends StatelessWidget {
                   //댓글 등록
                   _QuestionDetailAddComment(
                     controller: viewModel.commentAddController,
-                    onSubmit: () {},
+                    onSubmit: () {
+                      log('댓글 등록');
+                    },
                   ),
                 ],
               ),
@@ -141,17 +158,7 @@ class _QuestDetailContent extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (context, index) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
-            return Container(
-              height: 284,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: Text('image$index'),
-              ),
-            );
+            return const ContentImageBox();
           },
         ),
       ],
@@ -211,65 +218,60 @@ class _QuestionDetailAddComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 16,
-            ),
-            decoration: const BoxDecoration(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Row(
               children: [
                 Expanded(
-                  child: SizedBox(
-                    height: 40,
-                    child: TextField(
-                      controller: controller,
-                      textAlignVertical: TextAlignVertical.center,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        fillColor: context.color.lightGrayBackground,
-                        filled: true,
-                        focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(100),
-                          ),
-                          borderSide: BorderSide.none,
+                  child: TextField(
+                    controller: controller,
+                    textAlignVertical: TextAlignVertical.center,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: 5,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(500),
+                    ],
+                    decoration: InputDecoration(
+                      fillColor: context.color.lightGrayBackground,
+                      filled: true,
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
-                        hintText: '알고있는 상품이라면 댓글을 달아주세요!',
-                        hintStyle: context.typo.body2.subText,
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(100),
-                          ),
-                          borderSide: BorderSide.none,
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: '알고있는 상품이라면 댓글을 달아주세요!',
+                      hintStyle: context.typo.body2.subText,
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    onSubmit;
-                    log('등록');
-                  },
+                  onTap: onSubmit,
                   child: Container(
                     width: 60,
                     alignment: Alignment.center,
-                    child: const Text(
+                    child: Text(
                       '등록',
-                      style: TextStyle(),
+                      style: context.typo.body2,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

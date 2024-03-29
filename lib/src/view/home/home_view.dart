@@ -26,10 +26,7 @@ class HomeView extends StatelessWidget {
                 child: Column(
                   children: [
                     PostTitle(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        RoutePath.postList,
-                      ),
+                      onTap: () {},
                       title: '요고 궁금해요 TOP 3',
                     ),
                     const SizedBox(height: 26),
