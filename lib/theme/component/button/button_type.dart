@@ -15,12 +15,12 @@ enum ButtonType {
     switch (this) {
       case ButtonType.fill:
         return isInactive
-            ? context.color.onInactiveContainer
-            : color ?? context.color.onPrimary;
+            ? context.color.subText
+            : color ?? context.color.primary;
       case ButtonType.flat:
       case ButtonType.outline:
         return isInactive
-            ? context.color.inactive
+            ? context.color.subText
             : color ?? context.color.primary;
     }
   }
@@ -34,7 +34,7 @@ enum ButtonType {
     switch (this) {
       case ButtonType.fill:
         return isInactive
-            ? context.color.inactiveContainer
+            ? context.color.inactiveBackground
             : color ?? context.color.primary;
       case ButtonType.flat:
       case ButtonType.outline:

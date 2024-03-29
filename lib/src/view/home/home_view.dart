@@ -32,7 +32,6 @@ class HomeView extends StatelessWidget {
                       ),
                       title: '요고 궁금해요 TOP 3',
                     ),
-                    // const Text('data'),
                     const SizedBox(height: 26),
                     ListView.separated(
                       shrinkWrap: true,

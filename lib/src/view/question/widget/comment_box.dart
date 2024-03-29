@@ -1,4 +1,3 @@
-import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -27,14 +26,14 @@ class CommentBox extends StatelessWidget {
             Expanded(
               child: Text(
                 userId,
-                style: context.typo.body2,
+                style: const TextStyle(),
               ),
             ),
             GestureDetector(
               onTap: () => onTapReply(commentId),
-              child: Text(
+              child: const Text(
                 '답글',
-                style: context.typo.body2,
+                style: TextStyle(),
               ),
             )
           ],
@@ -42,13 +41,13 @@ class CommentBox extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           content ?? '',
-          style: context.typo.body2,
+          style: const TextStyle(),
         ),
         Align(
           alignment: Alignment.centerRight,
           child: Text(
             writedAt.formatRelativeDateTime(),
-            style: context.typo.body2,
+            style: const TextStyle(),
           ),
         )
       ],

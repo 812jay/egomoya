@@ -23,14 +23,14 @@ class BaseDialog extends StatelessWidget {
       contentPadding: const EdgeInsets.all(20),
       content: Text(
         content ?? '',
-        style: context.typo.subtitle1,
+        style: const TextStyle(),
       ),
       actions: [
         Row(
           children: [
             Expanded(
               child: Button(
-                backgroundColor: context.color.inactive,
+                backgroundColor: context.color.inactiveBackground,
                 onPressed: onTapCancel ??
                     () {
                       Navigator.pop(context);

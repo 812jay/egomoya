@@ -27,9 +27,9 @@ class QuestionAddView extends StatelessWidget {
           child: Scaffold(
             appBar: BaseAppBar(
               isLeadingCloseIcon: true,
-              title: Text(
+              title: const Text(
                 '질문 등록',
-                style: context.typo.appbarTitle,
+                style: TextStyle(),
               ),
               onTapLeading: () => viewModel.onTapLeading(context),
             ),
@@ -79,9 +79,9 @@ class _InputPicture extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '사진',
-          style: context.typo.textFormTitle,
+          style: TextStyle(),
         ),
         const SizedBox(height: 12),
         Consumer<QuestionAddViewModel>(
@@ -138,9 +138,9 @@ class _InputTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '제목',
-          style: context.typo.textFormTitle,
+          style: TextStyle(),
         ),
         const SizedBox(height: 12),
         Consumer<QuestionAddViewModel>(
@@ -195,9 +195,9 @@ class _InputContent extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               '내용',
-              style: context.typo.textFormTitle,
+              style: TextStyle(),
             ),
             const SizedBox(height: 12),
             TextField(
@@ -242,9 +242,9 @@ class _InputPassword extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '비밀번호',
-          style: context.typo.textFormTitle,
+          style: TextStyle(),
         ),
         const SizedBox(height: 12),
         Container(
@@ -255,11 +255,11 @@ class _InputPassword extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: context.color.boxDescription,
+            color: context.color.subText,
           ),
-          child: Text(
+          child: const Text(
             '비밀번호가 있어야 내가 작성한 글을 수정/삭제할 수 있어요! 꼭 기억해 주세요!',
-            style: context.typo.descriptionSmall,
+            style: TextStyle(),
           ),
         ),
         const SizedBox(height: 12),

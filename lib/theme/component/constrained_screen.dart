@@ -14,7 +14,7 @@ class ConstrainedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      color: context.color.surface,
+      color: context.color.black,
       child: ConstrainedBox(
         constraints: const BoxConstraints(
           maxWidth: Breakpoints.desktop,

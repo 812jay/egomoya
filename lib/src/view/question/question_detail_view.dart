@@ -23,10 +23,10 @@ class QuestionDetailView extends StatelessWidget {
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
-            appBar: BaseAppBar(
+            appBar: const BaseAppBar(
               title: Text(
                 '질문 상세',
-                style: context.typo.appbarTitle,
+                style: TextStyle(),
               ),
             ),
             body: SafeArea(
@@ -98,19 +98,19 @@ class _QuestionDetailHead extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: context.typo.headline6,
+                style: const TextStyle(),
               ),
             ),
             const SizedBox(height: 10),
             Text(
               writedAt.formatRelativeDateTime(),
-              style: context.typo.body1,
+              style: const TextStyle(),
             )
           ],
         ),
         Text(
           userId,
-          style: context.typo.body2,
+          style: const TextStyle(),
         ),
       ],
     );
@@ -133,7 +133,7 @@ class _QuestDetailContent extends StatelessWidget {
       children: [
         Text(
           content ?? '',
-          style: context.typo.body1,
+          style: const TextStyle(),
         ),
         const SizedBox(height: 20),
         ListView.separated(
@@ -172,9 +172,9 @@ class _QuestDetailCommentList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '댓글',
-          style: context.typo.subtitle2,
+          style: TextStyle(),
         ),
         const SizedBox(height: 25),
         ListView.separated(
@@ -232,7 +232,7 @@ class _QuestionDetailAddComment extends StatelessWidget {
                       controller: controller,
                       textAlignVertical: TextAlignVertical.bottom,
                       decoration: InputDecoration(
-                        fillColor: context.color.hint,
+                        fillColor: context.color.subText,
                         filled: true,
                         focusedBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -258,9 +258,9 @@ class _QuestionDetailAddComment extends StatelessWidget {
                   child: Container(
                     width: 60,
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       '등록',
-                      style: context.typo.body1,
+                      style: TextStyle(),
                     ),
                   ),
                 ),

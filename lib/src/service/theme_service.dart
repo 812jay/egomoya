@@ -27,18 +27,18 @@ class ThemeService with ChangeNotifier {
   ThemeData get themeData {
     return ThemeData(
       /// Scaffold
-      scaffoldBackgroundColor: theme.color.surface,
+      scaffoldBackgroundColor: theme.color.white,
 
       /// AppBar
       appBarTheme: AppBarTheme(
-        backgroundColor: theme.color.surface,
+        backgroundColor: theme.color.white,
         elevation: 0,
         centerTitle: false,
         iconTheme: IconThemeData(
-          color: theme.color.text,
+          color: theme.color.black,
         ),
         titleTextStyle: theme.typo.headline2.copyWith(
-          color: theme.color.text,
+          color: theme.color.black,
         ),
       ),
 

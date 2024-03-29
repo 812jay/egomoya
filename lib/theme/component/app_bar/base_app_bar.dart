@@ -34,13 +34,15 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: context.color.inactive,
+              color: context.color.inactiveBackground,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 'LOGO',
-                style: context.typo.body2,
+                style: TextStyle(
+                  fontSize: 14,
+                ),
               ),
             ),
           ),

@@ -2,57 +2,68 @@ part of 'app_theme.dart';
 
 class AppColor {
   const AppColor({
-    required this.surface,
-    required this.background,
-    required this.text,
-    required this.subtext,
-    required this.toastContainer,
-    required this.onToastContainer,
-    required this.hint,
-    required this.hintContainer,
-    required this.onHintContainer,
-    required this.inactive,
-    required this.inactiveContainer,
-    required this.onInactiveContainer,
     required this.primary,
-    required this.onPrimary,
     required this.secondary,
-    required this.onSecondary,
     required this.tertiary,
-    required this.onTertiary,
-    required this.boxDescription,
+    required this.error,
+    required this.white,
+    required this.black,
+    required this.text,
+    required this.subText,
+    required this.hintText,
+    required this.subBackground,
+    required this.inactiveBackground,
   });
 
-  /// Surface
-  final Color surface;
-  final Color background;
-
-  /// Toast
-  final Color toastContainer;
-  final Color onToastContainer;
-
-  /// Text
-  final Color text;
-  final Color subtext;
-
-  /// Hint
-  final Color hint;
-  final Color hintContainer;
-  final Color onHintContainer;
-
-  /// Inactive
-  final Color inactive;
-  final Color inactiveContainer;
-  final Color onInactiveContainer;
-
-  /// Accent
   final Color primary;
-  final Color onPrimary;
   final Color secondary;
-  final Color onSecondary;
   final Color tertiary;
-  final Color onTertiary;
+  final Color error;
+  final Color white;
+  final Color black;
+  final Color text;
+  final Color subText;
+  final Color hintText;
+  final Color subBackground;
+  final Color inactiveBackground;
 
-  //custon
-  final Color boxDescription;
+  // final Color gray0;
+  // final Color gray1;
+  // final Color gray2;
+  // final Color gray3;
+  // final Color gray4;
+  // final Color gray5;
+
+  // /// Surface
+  // final Color surface;
+  // final Color background;
+
+  // /// Toast
+  // final Color toastContainer;
+  // final Color onToastContainer;
+
+  // /// Text
+  // final Color text;
+  // final Color subtext;
+
+  // /// Hint
+  // final Color hint;
+  // final Color hintContainer;
+  // final Color onHintContainer;
+
+  // /// Inactive
+  // final Color inactive;
+  // final Color inactiveContainer;
+  // final Color onInactiveContainer;
+
+  // /// Accent
+  // final Color primary;
+  // final Color onPrimary;
+  // final Color secondary;
+  // final Color onSecondary;
+  // final Color tertiary;
+  // final Color onTertiary;
+
+  // //custon
+  // final Color boxDescription;
 }

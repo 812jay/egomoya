@@ -1,4 +1,4 @@
-import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -44,46 +44,58 @@ class QuestionBox extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 90,
-                  width: 90,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1),
-                    borderRadius: BorderRadius.circular(10),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 90,
+                    width: 90,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: context.typo.subtitle1,
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: 170,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '$title$title$title$title$title$title$title$title',
+                          maxLines: 1,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          '$content$content$content$content$content$content$content$content$content$content$content$content$content$content$content',
+                          maxLines: 2,
+                          style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      content,
-                      style: context.typo.body2,
-                    ),
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-            const SizedBox(height: 6),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
-                  child: Text(
-                    '댓글 $commentCnt개 보기',
-                    style: context.typo.body2,
-                  ),
+                const AssetIcon('assets/icons/comment.svg'),
+                Text(
+                  ' $commentCnt개 ',
+                  style: const TextStyle(),
                 ),
+                // SizedBox(width: 5),
                 Text(
                   writedAt.formatRelativeDateTime(),
-                  style: context.typo.body2,
+                  style: const TextStyle(),
                 ),
               ],
             )
