@@ -129,7 +129,7 @@ class QuestionAddViewModel extends BaseViewModel {
         userId: 'user-$nickname',
       ),
     );
-    ToastHelper.showToast(result.toastText);
+    ToastHelper.showToast(context, text: result.toastText);
     if (result == PostRegistType.success) {
       Navigator.popUntil(context, (route) => route.isFirst);
     }

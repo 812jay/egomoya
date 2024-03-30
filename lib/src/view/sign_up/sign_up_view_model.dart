@@ -84,7 +84,7 @@ class SignUpViewModel extends BaseViewModel {
         nickname: nickname,
       ),
     );
-    ToastHelper.showToast(result.toastText);
+    ToastHelper.showToast(context, text: result.toastText);
     if (result == SignUpType.success) {
       Navigator.popUntil(context, (route) => route.isFirst);
     }
