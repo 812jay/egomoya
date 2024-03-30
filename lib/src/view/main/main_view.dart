@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
@@ -61,7 +62,7 @@ class MainView extends StatelessWidget {
           ),
           floatingActionButton: Consumer<MainViewModel>(
             builder: (context, value, child) {
-              return value.selectedCategoryIndex == 1
+              return value.selectedCategoryIndex == 2
                   ? Button(
                       onPressed: () => Navigator.pushNamed(
                         context,
@@ -143,28 +144,10 @@ class _MainHome extends StatelessWidget {
             const SizedBox(height: 26),
             value.post?.dataList == null
                 ? const Text('none')
-                : ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: value.post!.dataList.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 13),
-                    itemBuilder: (context, index) {
-                      final content = value.post!.dataList[index];
-                      return QuestionBox(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          RoutePath.questionDetail,
-                          arguments: content.postId,
-                        ),
-                        title: content.title,
-                        content: content.content,
-                        writedAt: content.createdAt,
-                        imgList: content.imageList ?? [],
-                        commentCnt: 3,
-                      );
-                    },
-                  ),
+                : _QuestionList(
+                    postList: value.post?.dataList,
+                    limit: 3,
+                  )
           ],
         );
       },
@@ -190,10 +173,50 @@ class _MainQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text('_MainQuestion'),
-      ],
+    return Consumer<MainViewModel>(
+      builder: (context, value, child) {
+        return _QuestionList(
+          postList: value.post!.dataList,
+        );
+      },
+    );
+  }
+}
+
+class _QuestionList extends StatelessWidget {
+  const _QuestionList({
+    super.key,
+    required this.postList,
+    this.limit,
+  });
+  final List<PostData>? postList;
+  final int? limit;
+
+  @override
+  Widget build(BuildContext context) {
+    if (postList == null || postList!.isEmpty) {
+      return const Text('없어요');
+    }
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount: limit ?? postList!.length,
+      physics: const NeverScrollableScrollPhysics(),
+      separatorBuilder: (context, index) => const SizedBox(height: 20),
+      itemBuilder: (context, index) {
+        final content = postList![index];
+        return QuestionBox(
+          onTap: () => Navigator.pushNamed(
+            context,
+            RoutePath.questionDetail,
+            arguments: content.postId,
+          ),
+          title: content.title,
+          content: content.content,
+          writedAt: content.createdAt,
+          imgList: content.imageList ?? [],
+          commentCnt: 3,
+        );
+      },
     );
   }
 }
