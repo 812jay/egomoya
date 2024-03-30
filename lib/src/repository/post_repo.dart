@@ -7,8 +7,6 @@ import 'package:egomoya/src/data/remote/post/post_res.dart';
 import 'package:egomoya/src/repository/base_repo.dart';
 
 class PostRepo extends BaseRepo {
-  final PostRes? post = null;
-
   Future<PostRes?> fetchPost() async {
     try {
       final response = await dio.get('$prefix/api/posts');
