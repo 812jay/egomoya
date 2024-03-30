@@ -2,10 +2,10 @@ import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
 import 'package:egomoya/src/view/main/widget/post_title.dart';
+import 'package:egomoya/theme/component/app_bar/main_sliver_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/button/category_button.dart';
-import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class MainView extends StatelessWidget {
             child: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return <Widget>[
-                  const _MainAppBar(),
+                  const MainSliverAppBar(),
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                       context,
@@ -76,41 +76,6 @@ class MainView extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _MainAppBar extends StatelessWidget {
-  const _MainAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverAppBar(
-      titleSpacing: 0,
-      automaticallyImplyLeading: false,
-      floating: true,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      title: Padding(
-        padding: const EdgeInsets.only(left: 20),
-        child: AssetIcon(
-          'assets/svgs/logo_text.svg',
-          color: context.color.error,
-          size: 15,
-        ),
-      ),
-      actions: const [
-        AssetIcon(
-          'assets/icons/alarm.svg',
-          size: 22,
-        ),
-        SizedBox(width: 20),
-        AssetIcon(
-          'assets/icons/group.svg',
-          size: 22,
-        ),
-        SizedBox(width: 20),
-      ],
     );
   }
 }
