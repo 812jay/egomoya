@@ -1,12 +1,14 @@
+import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/service/theme_service.dart';
-import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/theme/component/image/empty_image.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 
 class QuestionBox extends StatelessWidget {
   const QuestionBox({
     super.key,
-    this.imgPath,
+    required this.imgList,
     this.onTap,
     required this.title,
     required this.content,
@@ -14,7 +16,7 @@ class QuestionBox extends StatelessWidget {
     required this.commentCnt,
   });
   final GestureTapCallback? onTap;
-  final String? imgPath;
+  final List<PostImage> imgList;
   final String title;
   final String content;
   final DateTime writedAt;
@@ -38,7 +40,7 @@ class QuestionBox extends StatelessWidget {
               offset: const Offset(
                 3,
                 3,
-              ), // changes position of shadow
+              ),
             ),
           ],
         ),
@@ -49,14 +51,20 @@ class QuestionBox extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 90,
-                    width: 90,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                  imgList.isEmpty
+                      ? const EmptyImage()
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            imgList.first.imageUrl,
+                            width: 90,
+                            height: 90,
+                            fit: BoxFit.fill,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const EmptyImage();
+                            },
+                          ),
+                        ),
                   const SizedBox(width: 12),
                   SizedBox(
                     width: 170,
@@ -64,20 +72,18 @@ class QuestionBox extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$title$title$title$title$title$title$title$title',
+                          title,
                           maxLines: 1,
-                          style: context.typo.body2.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: context.typo.body2.bold.copyWith(
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          '$content$content$content$content$content$content$content$content$content$content$content$content$content$content$content',
+                          content,
                           maxLines: 2,
-                          style: context.typo.body2.copyWith(
-                            color: context.color.subText,
-                          ),
+                          overflow: TextOverflow.ellipsis,
+                          style: context.typo.body2.subText,
                         ),
                       ],
                     ),
@@ -94,22 +100,22 @@ class QuestionBox extends StatelessWidget {
                     color: context.color.subText,
                   ),
                 ),
-                Text(
-                  ' • ',
-                  style: context.typo.body3.copyWith(
-                    color: context.color.subText,
-                  ),
-                ),
-                AssetIcon(
-                  'assets/icons/comment.svg',
-                  color: context.color.subText,
-                ),
-                Text(
-                  ' $commentCnt',
-                  style: context.typo.body3.copyWith(
-                    color: context.color.subText,
-                  ),
-                ),
+                // Text(
+                //   ' • ',
+                //   style: context.typo.body3.copyWith(
+                //     color: context.color.subText,
+                //   ),
+                // ),
+                // AssetIcon(
+                //   'assets/icons/comment.svg',
+                //   color: context.color.subText,
+                // ),
+                // Text(
+                //   ' $commentCnt',
+                //   style: context.typo.body3.copyWith(
+                //     color: context.color.subText,
+                //   ),
+                // ),
               ],
             )
           ],

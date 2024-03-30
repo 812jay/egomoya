@@ -11,7 +11,11 @@ class PostModel {
     return result;
   }
 
-  Future<void> registPost()async{
-    
+  Future<PostData?> fetchPostListDetail(int postId) async {
+    final res = await postRepo.fetchPostDetail(postId);
+    final result = res?.toDto();
+    return result;
   }
+
+  Future<void> registPost() async {}
 }
