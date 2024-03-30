@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/data/dto/main/main_category.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/post_model.dart';
@@ -32,9 +30,10 @@ class MainViewModel extends BaseViewModel {
   }
 
   Future<void> fetchPostList() async {
+    isBusy = false;
     final Post? result = await postModel.fetchPostList();
     post = result;
-    log('post: $post');
+    isBusy = true;
   }
 
   void onTapCategory(int index) {
@@ -61,9 +60,8 @@ class MainViewModel extends BaseViewModel {
   void onChangePage(int index) {
     pageController.animateToPage(
       index,
-      duration: const Duration(microseconds: 3000),
+      duration: const Duration(microseconds: 300),
       curve: Curves.easeIn,
     );
-    notifyListeners();
   }
 }

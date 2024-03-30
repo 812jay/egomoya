@@ -1,88 +1,67 @@
 class Post {
   const Post({
-    required this.contentList,
-    this.pageable,
-    this.last,
-    this.totalPages,
-    this.totalElements,
-    this.size,
-    this.first,
-    this.number,
-    this.sort,
-    this.numberOfElements,
-    this.empty,
+    required this.dataList,
+    required this.pageInfo,
   });
-  final List<PostContent> contentList;
-  final PostPageable? pageable;
-  final bool? last;
-  final int? totalPages;
-  final int? totalElements;
-  final int? size;
-  final bool? first;
-  final int? number;
-  final PostSort? sort;
-  final int? numberOfElements;
-  final bool? empty;
+  final List<PostData> dataList;
+  final PostPageInfo pageInfo;
 
   @override
   String toString() {
-    return 'Post(contentList: $contentList, pageable: $pageable, last: $last, totalPages: $totalPages, totalElements: $totalElements, size: $size, first: $first, number: $number, sort: $sort, numberOfElements: $numberOfElements, empty: $empty)';
+    return 'Post(dataList: $dataList, pageInfo: $pageInfo)';
   }
 }
 
 //content
-class PostContent {
-  PostContent({
+class PostData {
+  PostData({
     this.postId,
     required this.title,
     required this.content,
+    required this.userId,
+    this.images,
   });
   final int? postId;
   final String title;
   final String content;
+  final String userId;
+  final List<PostImage>? images;
 
   @override
   String toString() {
-    return 'PostContent(postId: $postId, title: $title, content: $content)';
+    return 'PostContent(postId: $postId, title: $title, content: $content, userId: $userId, images: $images)';
+  }
+}
+
+//image
+
+class PostImage {
+  PostImage({
+    required this.postId,
+    required this.imageUrl,
+  });
+  final int? postId;
+  final String imageUrl;
+
+  @override
+  String toString() {
+    return 'PostImage(postId: $postId, imageUrl: $imageUrl)';
   }
 }
 
 //pageable
-class PostPageable {
-  PostPageable({
-    this.pageNumber,
-    this.pageSize,
-    this.postSort,
-    this.offset,
-    this.paged,
-    this.unpaged,
+class PostPageInfo {
+  PostPageInfo({
+    required this.pageNumber,
+    required this.pageSize,
+    required this.last,
   });
-  final int? pageNumber;
-  final int? pageSize;
-  final PostSort? postSort;
-  final int? offset;
-  final bool? paged;
-  final bool? unpaged;
+  final int pageNumber;
+  final int pageSize;
+  final bool last;
 
   @override
   String toString() {
-    return 'PostPageable(pageNumber: $pageNumber, pageSize: $pageSize, postSort: $postSort, offset: $offset, paged: $paged, unpaged: $unpaged)';
-  }
-}
-
-//sort
-class PostSort {
-  PostSort({
-    this.sorted,
-    this.empty,
-    this.unsorted,
-  });
-  final bool? sorted;
-  final bool? empty;
-  final bool? unsorted;
-
-  @override
-  String toString() {
-    return 'PostSort(sorted: $sorted, empty: $empty, unsorted: $unsorted)';
+    return 'PostPageable(pageNumber: $pageNumber, pageSize: $pageSize, last: $last)';
   }
 }

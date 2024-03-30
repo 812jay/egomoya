@@ -64,7 +64,7 @@ class QuestionBox extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$title$title$title$title$title$title$title$title',
+                          title,
                           maxLines: 1,
                           style: context.typo.body2.copyWith(
                             fontWeight: FontWeight.bold,
@@ -73,8 +73,9 @@ class QuestionBox extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          '$content$content$content$content$content$content$content$content$content$content$content$content$content$content$content',
+                          content,
                           maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: context.typo.body2.copyWith(
                             color: context.color.subText,
                           ),

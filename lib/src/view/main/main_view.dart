@@ -162,19 +162,20 @@ class _MainHome extends StatelessWidget {
           children: [
             PostTitle(
               onTap: () => onTapQuestionCategory(2),
+              // onTap: () {},
               title: '요고 궁금해요 TOP 3',
             ),
             const SizedBox(height: 26),
-            value.post == null
+            value.post?.dataList == null
                 ? const Text('none')
                 : ListView.separated(
                     shrinkWrap: true,
-                    itemCount: value.post!.contentList.length ?? 0,
+                    itemCount: value.post!.dataList.length,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 13),
                     itemBuilder: (context, index) {
-                      final content = value.post!.contentList[index];
+                      final content = value.post!.dataList[index];
                       return QuestionBox(
                         onTap: () => Navigator.pushNamed(
                           context,
