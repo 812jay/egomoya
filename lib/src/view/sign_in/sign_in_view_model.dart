@@ -6,13 +6,23 @@ class SignInViewModel extends BaseViewModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final RegExp emailPattern = RegExp(ValidateType.email.pattern);
-  bool emailValidate = false;
-  bool passwordValidate = false;
-  String? get emailErrMsg => emailValidate ? null : '이메일 형식을 확인해주세요';
-  String? get passwordErrMsg =>
-      passwordValidate ? null : '영문,숫자, 특수문자를 포함해 8자 이상 입력해 주세요';
-  bool get isValidateSignIn => emailValidate && passwordValidate;
+  // 초기 진입시 errMsg 안띄우기 위한 초기값
+  bool isChangedEmail = false;
+  bool isChangedPassword = false;
+
+  String get email => emailController.text;
+  String get password => passwordController.text;
+
+  bool get isEmailValidate =>
+      RegExp(SignValidateType.email.pattern).hasMatch(email);
+  bool get isPasswordValidate =>
+      RegExp(SignValidateType.password.pattern).hasMatch(password);
+  String? get emailErrMsg =>
+      (isEmailValidate || !isChangedEmail) ? null : '이메일 형식을 확인해주세요';
+  String? get passwordErrMsg => (isPasswordValidate || !isChangedPassword)
+      ? null
+      : '영문,숫자, 특수문자를 포함해 8자 이상 입력해 주세요';
+  bool get isValidateSignIn => isEmailValidate && isPasswordValidate;
 
   @override
   void dispose() {
@@ -22,32 +32,22 @@ class SignInViewModel extends BaseViewModel {
   }
 
   void onChangeEmail(String newEmail) {
-    if (newEmail.isEmpty || !emailPattern.hasMatch(newEmail)) {
-      emailValidate = false;
-    } else {
-      emailValidate = true;
-    }
+    isChangedEmail = true;
     notifyListeners();
   }
 
   void onChangePassword(String newPassword) {
-    if (newPassword.length < 8) {
-      passwordValidate = false;
-    } else {
-      passwordValidate = true;
-    }
+    isChangedPassword = true;
     notifyListeners();
   }
 
   void onClearEmail() {
-    emailController.clear();
-    emailValidate = false;
     notifyListeners();
+    emailController.clear();
   }
 
   void onClearPassword() {
-    passwordController.clear();
-    passwordValidate = false;
     notifyListeners();
+    passwordController.clear();
   }
 }
