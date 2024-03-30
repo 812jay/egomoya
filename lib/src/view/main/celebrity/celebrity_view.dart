@@ -1,18 +1,18 @@
 import 'package:egomoya/src/view/base_view.dart';
-import 'package:egomoya/src/view/question/question_view_model.dart';
+import 'package:egomoya/src/view/main/celebrity/celebrity_view_model.dart';
 import 'package:flutter/material.dart';
 
-class QuestionView extends StatelessWidget {
-  const QuestionView({super.key});
+class CelebrityView extends StatelessWidget {
+  const CelebrityView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: QuestionViewModel(),
+      viewModel: CelebrityViewModel(),
       builder: (context, viewModel) {
         return Scaffold(
           body: Container(
-            child: const Text('question'),
+            child: const Text('CelebrityView'),
           ),
         );
       },

@@ -1,8 +1,11 @@
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
+import 'package:egomoya/src/view/main/widget/post_title.dart';
+import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/theme/component/button/category_button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +14,11 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> pageList = [
+      const _MainHome(),
+      const _MainCelebrity(),
+      const _MainQuestion(),
+    ];
     return BaseView(
       viewModel: MainViewModel(
         context.read(),
@@ -43,7 +51,7 @@ class MainView extends StatelessWidget {
                       controller: value.pageController,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return value.pageList[index];
+                        return pageList[index];
                       },
                     );
                   },
@@ -134,5 +142,73 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return true;
+  }
+}
+
+class _MainHome extends StatelessWidget {
+  const _MainHome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        PostTitle(
+          onTap: () {},
+          title: '요고 궁금해요 TOP 3',
+        ),
+        const SizedBox(height: 26),
+        Consumer<MainViewModel>(builder: (context, value, child) {
+          if (value.post == null) return const SizedBox.shrink();
+          return ListView.separated(
+            shrinkWrap: true,
+            itemCount: value.post!.contentList.length ?? 0,
+            physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => const SizedBox(height: 13),
+            itemBuilder: (context, index) {
+              final content = value.post!.contentList[index];
+              return QuestionBox(
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  RoutePath.questionDetail,
+                  arguments: index,
+                ),
+                title: content.title,
+                content: content.content,
+                writedAt: DateTime.now().subtract(
+                  const Duration(days: 1),
+                ),
+                commentCnt: 3,
+              );
+            },
+          );
+        }),
+      ],
+    );
+  }
+}
+
+class _MainCelebrity extends StatelessWidget {
+  const _MainCelebrity({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Text('_MainCelebrity'),
+      ],
+    );
+  }
+}
+
+class _MainQuestion extends StatelessWidget {
+  const _MainQuestion({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Text('_MainQuestion'),
+      ],
+    );
   }
 }
