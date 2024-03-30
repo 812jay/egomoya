@@ -11,6 +11,7 @@ import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class QuestionDetailView extends StatelessWidget {
   const QuestionDetailView({
@@ -22,80 +23,92 @@ class QuestionDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: QuestionDetailViewModel(postId: postId),
+      viewModel: QuestionDetailViewModel(
+        postId: postId,
+        postModel: context.read(),
+      ),
       builder: (context, viewModel) {
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
-          child: Scaffold(
-            appBar: BaseAppBar(
-              title: '질문 상세',
-              actions: [
-                GestureDetector(
-                  onTap: () => viewModel.onTapMore(context),
-                  child: const AssetIcon(
-                    'assets/icons/more.svg',
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 9),
-              ],
-            ),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _QuestionDetailHead(
-                                  title: 'Title',
-                                  userId: '요고1212',
-                                  writedAt: DateTime.now().subtract(
-                                    const Duration(seconds: 1),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                const _QuestDetailContent(
-                                  content: 'content',
-                                  imageUrlList: [],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 25),
-                          Divider(
-                            thickness: 8,
-                            color: context.color.lightGrayBackground,
-                          ),
-                          const SizedBox(height: 25),
-                          //댓글 목록
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: _QuestDetailCommentList(
-                              commentList: [],
-                            ),
-                          ),
-                          const SizedBox(height: 25),
-                        ],
+          child: Consumer<QuestionDetailViewModel>(
+            builder: (context, value, child) {
+              final data = value.postData;
+              return Scaffold(
+                appBar: BaseAppBar(
+                  title: '질문 상세',
+                  actions: [
+                    GestureDetector(
+                      onTap: () => viewModel.onTapMore(context),
+                      child: const AssetIcon(
+                        'assets/icons/more.svg',
+                        size: 24,
                       ),
                     ),
+                    const SizedBox(width: 9),
+                  ],
+                ),
+                body: SafeArea(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _QuestionDetailHead(
+                                      title: data?.title ?? '',
+                                      userId: data?.user.nickName ?? '익명',
+                                      writedAt: DateTime.now().subtract(
+                                        const Duration(seconds: 1),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    _QuestDetailContent(
+                                      content: data?.content ?? '',
+                                      imageUrlList: data?.imageList
+                                              ?.map((e) => e.imageUrl)
+                                              .toList() ??
+                                          [],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 25),
+                              Divider(
+                                thickness: 8,
+                                color: context.color.lightGrayBackground,
+                              ),
+                              const SizedBox(height: 25),
+                              //댓글 목록
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: _QuestDetailCommentList(
+                                  commentList: [],
+                                ),
+                              ),
+                              const SizedBox(height: 25),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //댓글 등록
+                      _QuestionDetailAddComment(
+                        controller: viewModel.commentAddController,
+                        onSubmit: () {
+                          log('댓글 등록');
+                        },
+                      ),
+                    ],
                   ),
-                  //댓글 등록
-                  _QuestionDetailAddComment(
-                    controller: viewModel.commentAddController,
-                    onSubmit: () {
-                      log('댓글 등록');
-                    },
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         );
       },
@@ -137,10 +150,10 @@ class _QuestDetailContent extends StatelessWidget {
   const _QuestDetailContent({
     super.key,
     this.content,
-    this.imageUrlList,
+    required this.imageUrlList,
   });
   final String? content;
-  final List<String>? imageUrlList;
+  final List<String> imageUrlList;
 
   @override
   Widget build(BuildContext context) {
@@ -154,11 +167,11 @@ class _QuestDetailContent extends StatelessWidget {
         const SizedBox(height: 20),
         ListView.separated(
           shrinkWrap: true,
-          itemCount: 3,
+          itemCount: imageUrlList.length,
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (context, index) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
-            return const ContentImageBox();
+            return ContentImageBox(imageUrl: imageUrlList[index]);
           },
         ),
       ],

@@ -3,6 +3,7 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
 import 'package:egomoya/src/view/main/widget/post_title.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
+import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/button/category_button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/route_path.dart';
@@ -39,9 +40,10 @@ class MainView extends StatelessWidget {
                     sliver: SliverPersistentHeader(
                       delegate: MainHeaderDelegate(),
                     ),
-                  )
+                  ),
                 ];
               },
+              floatHeaderSlivers: true,
               body: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -49,17 +51,32 @@ class MainView extends StatelessWidget {
                 ),
                 child: Consumer<MainViewModel>(
                   builder: (context, value, child) {
-                    return PageView.builder(
-                      controller: value.pageController,
+                    return ListView.builder(
+                      itemCount: 1,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return pageList[index];
+                        return pageList[value.selectedCategoryIndex];
                       },
                     );
                   },
                 ),
               ),
             ),
+          ),
+          floatingActionButton: Consumer<MainViewModel>(
+            builder: (context, value, child) {
+              return value.selectedCategoryIndex == 1
+                  ? Button(
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        RoutePath.questionAdd,
+                      ),
+                      backgroundColor: context.color.black,
+                      color: context.color.white,
+                      text: '글쓰기',
+                    )
+                  : const SizedBox.shrink();
+            },
           ),
         );
       },
@@ -161,8 +178,8 @@ class _MainHome extends StatelessWidget {
         return Column(
           children: [
             PostTitle(
-              onTap: () => onTapQuestionCategory(2),
-              // onTap: () {},
+              // onTap: () => onTapQuestionCategory(2),
+              onTap: () {},
               title: '요고 궁금해요 TOP 3',
             ),
             const SizedBox(height: 26),
@@ -180,13 +197,12 @@ class _MainHome extends StatelessWidget {
                         onTap: () => Navigator.pushNamed(
                           context,
                           RoutePath.questionDetail,
-                          arguments: index,
+                          arguments: content.postId,
                         ),
                         title: content.title,
                         content: content.content,
-                        writedAt: DateTime.now().subtract(
-                          const Duration(days: 1),
-                        ),
+                        writedAt: content.createdAt,
+                        imgList: content.imageList,
                         commentCnt: 3,
                       );
                     },

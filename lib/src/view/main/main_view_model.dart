@@ -12,7 +12,7 @@ class MainViewModel extends BaseViewModel {
 
   final PostModel postModel;
   final ScrollController scrollController = ScrollController();
-  final PageController pageController = PageController(initialPage: 0);
+  // final PageController pageController = PageController(initialPage: 0);
   Post? post;
   List<MainCategory> categoryList = [
     MainCategory(index: 0, title: '홈', isActive: true),
@@ -26,7 +26,7 @@ class MainViewModel extends BaseViewModel {
   void dispose() {
     super.dispose();
     scrollController.dispose();
-    pageController.dispose();
+    // pageController.dispose();
   }
 
   Future<void> fetchPostList() async {
@@ -41,7 +41,7 @@ class MainViewModel extends BaseViewModel {
     final category = categoryList[index];
     onChangeCategory(index, category.copyWith(isActive: !category.isActive));
     selectedCategoryIndex = index;
-    onChangePage(index);
+    // onChangePage(index);
     notifyListeners();
   }
 
@@ -57,11 +57,11 @@ class MainViewModel extends BaseViewModel {
         .toImmutable();
   }
 
-  void onChangePage(int index) {
-    pageController.animateToPage(
-      index,
-      duration: const Duration(microseconds: 300),
-      curve: Curves.easeIn,
-    );
-  }
+  // void onChangePage(int index) {
+  //   pageController.animateToPage(
+  //     index,
+  //     duration: const Duration(microseconds: 300),
+  //     curve: Curves.easeIn,
+  //   );
+  // }
 }

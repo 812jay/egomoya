@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ContentImageBox extends StatelessWidget {
-  const ContentImageBox({super.key});
+  const ContentImageBox({
+    super.key,
+    required this.imageUrl,
+  });
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +14,9 @@ class ContentImageBox extends StatelessWidget {
       width: double.infinity,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          'assets/images/detail1.png',
-          fit: BoxFit.fitWidth,
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.fill,
         ),
       ),
     );

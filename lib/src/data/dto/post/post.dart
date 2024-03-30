@@ -1,3 +1,5 @@
+import 'package:egomoya/src/data/dto/user/user.dart';
+
 class Post {
   const Post({
     required this.dataList,
@@ -15,21 +17,25 @@ class Post {
 //content
 class PostData {
   PostData({
-    this.postId,
+    required this.postId,
     required this.title,
     required this.content,
-    required this.userId,
-    this.images,
+    this.imageList,
+    required this.user,
+    required this.createdAt,
+    required this.updatedAt,
   });
   final int? postId;
   final String title;
   final String content;
-  final String userId;
-  final List<PostImage>? images;
+  final List<PostImage>? imageList;
+  final User user;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'PostContent(postId: $postId, title: $title, content: $content, userId: $userId, images: $images)';
+    return 'PostContent(postId: $postId, title: $title, content: $content, imageList: $imageList, user: $user, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 

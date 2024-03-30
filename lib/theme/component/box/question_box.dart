@@ -1,12 +1,14 @@
+import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 
 class QuestionBox extends StatelessWidget {
   const QuestionBox({
     super.key,
-    this.imgPath,
+    this.imgList,
     this.onTap,
     required this.title,
     required this.content,
@@ -14,7 +16,7 @@ class QuestionBox extends StatelessWidget {
     required this.commentCnt,
   });
   final GestureTapCallback? onTap;
-  final String? imgPath;
+  final List<PostImage>? imgList;
   final String title;
   final String content;
   final DateTime writedAt;
@@ -66,8 +68,7 @@ class QuestionBox extends StatelessWidget {
                         Text(
                           title,
                           maxLines: 1,
-                          style: context.typo.body2.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: context.typo.body2.bold.copyWith(
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -76,9 +77,7 @@ class QuestionBox extends StatelessWidget {
                           content,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: context.typo.body2.copyWith(
-                            color: context.color.subText,
-                          ),
+                          style: context.typo.body2.subText,
                         ),
                       ],
                     ),

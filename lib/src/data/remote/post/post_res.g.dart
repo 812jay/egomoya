@@ -20,13 +20,15 @@ Map<String, dynamic> _$PostResToJson(PostRes instance) => <String, dynamic>{
     };
 
 PostDataRes _$PostDataResFromJson(Map<String, dynamic> json) => PostDataRes(
-      postId: json['postId'] as int?,
+      postId: json['postId'] as int,
       title: json['title'] as String,
       content: json['content'] as String,
-      userId: json['userId'] as String,
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => PostImageRes.fromJson(e as Map<String, dynamic>))
           .toList(),
+      user: UserRes.fromJson(json['user'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String,
     );
 
 Map<String, dynamic> _$PostDataResToJson(PostDataRes instance) =>
@@ -34,8 +36,10 @@ Map<String, dynamic> _$PostDataResToJson(PostDataRes instance) =>
       'postId': instance.postId,
       'title': instance.title,
       'content': instance.content,
-      'userId': instance.userId,
       'images': instance.images,
+      'user': instance.user,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
     };
 
 PostImageRes _$PostImageResFromJson(Map<String, dynamic> json) => PostImageRes(

@@ -1,4 +1,5 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post_res.g.dart';
@@ -31,22 +32,28 @@ extension PostResExt on PostRes {
 @JsonSerializable()
 class PostDataRes {
   PostDataRes({
-    this.postId,
+    required this.postId,
     required this.title,
     required this.content,
-    required this.userId,
     this.images,
+    required this.user,
+    required this.createdAt,
+    required this.updatedAt,
   });
   @JsonKey(name: 'postId')
-  final int? postId;
+  final int postId;
   @JsonKey(name: 'title')
   final String title;
   @JsonKey(name: 'content')
   final String content;
-  @JsonKey(name: 'userId')
-  final String userId;
   @JsonKey(name: 'images')
   final List<PostImageRes>? images;
+  @JsonKey(name: 'user')
+  final UserRes user;
+  @JsonKey(name: 'createdAt')
+  final String createdAt;
+  @JsonKey(name: 'updatedAt')
+  final String updatedAt;
 
   factory PostDataRes.fromJson(Map<String, dynamic> json) =>
       _$PostDataResFromJson(json);
@@ -59,8 +66,10 @@ extension PostDataResExt on PostDataRes {
         postId: postId,
         title: title,
         content: content,
-        userId: userId,
-        images: images?.map((e) => e.toDto()).toList() ?? [],
+        imageList: images?.map((e) => e.toDto()).toList() ?? [],
+        user: user.toDto(),
+        createdAt: DateTime.tryParse(createdAt) ?? DateTime.now(),
+        updatedAt: DateTime.tryParse(updatedAt) ?? DateTime.now(),
       );
 }
 
