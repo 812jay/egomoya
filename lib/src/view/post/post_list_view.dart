@@ -52,6 +52,7 @@ class PostListView extends StatelessWidget {
                         writedAt:
                             DateTime.now().subtract(const Duration(days: 6)),
                         commentCnt: 3,
+                        imgList: const [],
                       );
                     },
                   ),

@@ -1,5 +1,6 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/theme/component/image/empty_image.dart';
 import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 class QuestionBox extends StatelessWidget {
   const QuestionBox({
     super.key,
-    this.imgList,
+    required this.imgList,
     this.onTap,
     required this.title,
     required this.content,
@@ -15,7 +16,7 @@ class QuestionBox extends StatelessWidget {
     required this.commentCnt,
   });
   final GestureTapCallback? onTap;
-  final List<PostImage>? imgList;
+  final List<PostImage> imgList;
   final String title;
   final String content;
   final DateTime writedAt;
@@ -50,14 +51,20 @@ class QuestionBox extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 90,
-                    width: 90,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                  imgList.isEmpty
+                      ? const EmptyImage()
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            imgList.first.imageUrl,
+                            width: 90,
+                            height: 90,
+                            fit: BoxFit.fill,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const EmptyImage();
+                            },
+                          ),
+                        ),
                   const SizedBox(width: 12),
                   SizedBox(
                     width: 170,

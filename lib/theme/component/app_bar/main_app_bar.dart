@@ -16,7 +16,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
       title: AssetIcon(
-        'assets/svgs/logo.svg',
+        'assets/svgs/logo_text.svg',
         color: context.color.error,
         size: 15,
       ),

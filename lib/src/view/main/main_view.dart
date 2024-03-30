@@ -42,22 +42,20 @@ class MainView extends StatelessWidget {
                 ];
               },
               floatHeaderSlivers: true,
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                child: Consumer<MainViewModel>(
-                  builder: (context, value, child) {
-                    return ListView.builder(
-                      itemCount: 1,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return pageList[value.selectedCategoryIndex];
-                      },
-                    );
-                  },
-                ),
+              body: Consumer<MainViewModel>(
+                builder: (context, value, child) {
+                  return ListView.builder(
+                    itemCount: 1,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 20,
+                    ),
+                    itemBuilder: (context, index) {
+                      return pageList[value.selectedCategoryIndex];
+                    },
+                  );
+                },
               ),
             ),
           ),
@@ -96,7 +94,7 @@ class _MainAppBar extends StatelessWidget {
       title: Padding(
         padding: const EdgeInsets.only(left: 20),
         child: AssetIcon(
-          'assets/svgs/logo.svg',
+          'assets/svgs/logo_text.svg',
           color: context.color.error,
           size: 15,
         ),
@@ -197,7 +195,7 @@ class _MainHome extends StatelessWidget {
                         title: content.title,
                         content: content.content,
                         writedAt: content.createdAt,
-                        imgList: content.imageList,
+                        imgList: content.imageList ?? [],
                         commentCnt: 3,
                       );
                     },

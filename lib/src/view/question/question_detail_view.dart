@@ -79,7 +79,6 @@ class QuestionDetailView extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 25),
                               Divider(
                                 thickness: 8,
                                 color: context.color.lightGrayBackground,
@@ -168,6 +167,7 @@ class _QuestDetailContent extends StatelessWidget {
         ListView.separated(
           shrinkWrap: true,
           itemCount: imageUrlList.length,
+          padding: EdgeInsets.only(bottom: imageUrlList.isNotEmpty ? 20 : 0),
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (context, index) => const SizedBox(height: 20),
           itemBuilder: (context, index) {

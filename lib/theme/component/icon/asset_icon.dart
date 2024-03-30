@@ -16,14 +16,23 @@ class AssetIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
+    final imgType = path.split('.').last;
+    if (imgType == 'svg') {
+      return SvgPicture.asset(
+        path,
+        width: size,
+        height: size,
+        colorFilter: ColorFilter.mode(
+          color ?? context.color.black,
+          BlendMode.srcIn,
+        ),
+        fit: BoxFit.contain,
+      );
+    }
+    return Image.asset(
       path,
       width: size,
       height: size,
-      colorFilter: ColorFilter.mode(
-        color ?? context.color.black,
-        BlendMode.srcIn,
-      ),
       fit: BoxFit.contain,
     );
   }
