@@ -21,9 +21,7 @@ class MainView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         List<Widget> pageList = [
-          _MainHome(
-            onTapQuestionCategory: (index) => viewModel.onTapCategory(index),
-          ),
+          const _MainHome(),
           const _MainCelebrity(),
           const _MainQuestion(),
         ];
@@ -167,9 +165,7 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _MainHome extends StatelessWidget {
   const _MainHome({
     super.key,
-    required this.onTapQuestionCategory,
   });
-  final Function(int index) onTapQuestionCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -178,8 +174,7 @@ class _MainHome extends StatelessWidget {
         return Column(
           children: [
             PostTitle(
-              // onTap: () => onTapQuestionCategory(2),
-              onTap: () {},
+              onTap: () => value.onTapCategory(2),
               title: '요고 궁금해요 TOP 3',
             ),
             const SizedBox(height: 26),
