@@ -53,7 +53,7 @@ class SignInView extends StatelessWidget {
                       const _FindEmailPassword(),
                       spaceBig,
                       _SignInEmail(
-                        onTap: () => viewModel.onTapSignUpEmail(context),
+                        onTap: () => viewModel.navigateSignUpEmail(context),
                       ),
                     ],
                   ),

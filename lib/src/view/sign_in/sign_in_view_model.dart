@@ -5,8 +5,8 @@ import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewModel extends BaseViewModel {
-  SignInViewModel(this.userModel);
-  final UserModel userModel;
+  SignInViewModel(this._userModel);
+  final UserModel _userModel;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -55,6 +55,8 @@ class SignInViewModel extends BaseViewModel {
     passwordController.clear();
   }
 
-  void onTapSignUpEmail(BuildContext context) =>
+  void navigateSignUpEmail(BuildContext context) =>
       Navigator.pushNamed(context, RoutePath.signUp);
+
+  Future<void> signIn() async {}
 }
