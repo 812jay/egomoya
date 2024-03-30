@@ -1,6 +1,7 @@
 enum SignValidateType {
   email,
   password,
+  nickName,
 }
 
 extension ValidateTypeExt on SignValidateType {
@@ -16,6 +17,8 @@ extension ValidateTypeExt on SignValidateType {
             r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
       case SignValidateType.password:
         return r"^.{8,}$";
+      case SignValidateType.nickName:
+        return r'^[a-zA-Z0-9]{2,10}$';
     }
   }
 }
