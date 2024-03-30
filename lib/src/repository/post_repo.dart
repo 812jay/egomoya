@@ -1,19 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
+import 'package:egomoya/src/repository/base_repo.dart';
 
-class PostRepo {
-  final Dio _dio = Dio();
-  final String prefix = 'http://49.50.166.191:8080';
+class PostRepo extends BaseRepo {
   final PostRes? post = null;
 
   //post
   Future<PostRes?> fetchPost() async {
     try {
-      final response = await _dio.get('$prefix/api/posts');
+      final response = await dio.get('$prefix/api/posts');
       final result = PostRes.fromJson(response.data);
       return result;
     } catch (e) {
@@ -24,7 +22,7 @@ class PostRepo {
 
   Future<PostDataRes?> fetchPostDetail(int postId) async {
     try {
-      final response = await _dio.get('$prefix/api/posts/$postId');
+      final response = await dio.get('$prefix/api/posts/$postId');
       final result = PostDataRes.fromJson(response.data);
       return result;
     } catch (e) {
@@ -37,7 +35,7 @@ class PostRepo {
     required PostReq req,
   }) async {
     try {
-      final postId = await _dio.post(
+      final postId = await dio.post(
         '$prefix/api/posts',
         data: jsonEncode(req),
       );
