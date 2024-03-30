@@ -1,6 +1,6 @@
+import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/model/user_model.dart';
-import 'package:egomoya/src/repository/post_repo.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/main/main_view.dart';
@@ -21,7 +21,7 @@ void main() async {
           create: (contxt) => UserModel(prefHelper),
         ),
         Provider(
-          create: (context) => PostRepo(),
+          create: (contxt) => CommentModel(),
         ),
         Provider(
           create: (contxt) => PostModel(),

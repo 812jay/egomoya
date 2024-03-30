@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:egomoya/src/model/comment_model.dart';
+import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
@@ -25,7 +27,8 @@ class QuestionDetailView extends StatelessWidget {
     return BaseView(
       viewModel: QuestionDetailViewModel(
         postId: postId,
-        postModel: context.read(),
+        postModel: context.read<PostModel>(),
+        commentModel: context.read<CommentModel>(),
       ),
       builder: (context, viewModel) {
         return GestureDetector(
