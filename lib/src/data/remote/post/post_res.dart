@@ -28,7 +28,6 @@ extension PostResExt on PostRes {
       );
 }
 
-//content
 @JsonSerializable()
 class PostDataRes {
   PostDataRes({
@@ -73,9 +72,6 @@ extension PostDataResExt on PostDataRes {
       );
 }
 
-//image
-
-//content
 @JsonSerializable()
 class PostImageRes {
   PostImageRes({
@@ -100,7 +96,6 @@ extension PostImageResExt on PostImageRes {
       );
 }
 
-//pageInfo
 @JsonSerializable()
 class PostPageInfoRes {
   PostPageInfoRes({
