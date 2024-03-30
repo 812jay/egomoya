@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/remote/image/image_req.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post_req.g.dart';
@@ -18,7 +19,7 @@ class PostReq {
   @JsonKey(name: 'content')
   final String content;
   @JsonKey(name: 'images', disallowNullValue: true)
-  final List<PostImageReq>? imageList;
+  final List<ImageReq>? imageList;
   @JsonKey(name: 'password', disallowNullValue: true)
   final int? password;
   @JsonKey(name: 'nickname', disallowNullValue: true)
@@ -30,21 +31,4 @@ class PostReq {
       _$PostReqFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostReqToJson(this);
-}
-
-@JsonSerializable()
-class PostImageReq {
-  PostImageReq({
-    required this.id,
-    required this.url,
-  });
-  @JsonKey(name: 'id')
-  final int id;
-  @JsonKey(name: 'url')
-  final String url;
-
-  factory PostImageReq.fromJson(Map<String, dynamic> json) =>
-      _$PostImageReqFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PostImageReqToJson(this);
 }

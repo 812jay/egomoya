@@ -15,7 +15,7 @@ PostReq _$PostReqFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
     content: json['content'] as String,
     imageList: (json['images'] as List<dynamic>?)
-        ?.map((e) => PostImageReq.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => ImageReq.fromJson(e as Map<String, dynamic>))
         .toList(),
     password: json['password'] as int?,
     nickname: json['nickname'] as String,
@@ -41,14 +41,3 @@ Map<String, dynamic> _$PostReqToJson(PostReq instance) {
   val['userId'] = instance.userId;
   return val;
 }
-
-PostImageReq _$PostImageReqFromJson(Map<String, dynamic> json) => PostImageReq(
-      id: json['id'] as int,
-      url: json['url'] as String,
-    );
-
-Map<String, dynamic> _$PostImageReqToJson(PostImageReq instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'url': instance.url,
-    };
