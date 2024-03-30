@@ -1,60 +1,42 @@
-import 'dart:developer';
-
-import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
-import 'package:egomoya/src/view/sign_in/sign_in_view_model.dart';
+import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
-import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignInView extends StatelessWidget {
-  const SignInView({super.key});
+class SignUpView extends StatelessWidget {
+  const SignUpView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: SignInViewModel(
-        context.read(),
-      ),
+      viewModel: SignUpViewModel(context.read()),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
-          child: Scaffold(
-            appBar: const BaseAppBar(
-              title: '로그인',
+          child: const Scaffold(
+            appBar: BaseAppBar(
+              title: '이메일 회원가입',
             ),
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: AssetIcon(
-                              'assets/images/logo_text.png',
-                              size: 100,
-                            ),
-                          ),
-                          _InputEmail(),
-                          spaceBig,
-                          _InputPassword(),
-                          spaceBig,
-                          _SubmitButton(),
-                        ],
-                      ),
                       spaceBig,
-                      const _FindEmailPassword(),
+                      _InputEmail(),
                       spaceBig,
-                      _SignInEmail(
-                        onTap: () => viewModel.navigateSignUpEmail(context),
-                      ),
+                      _InputPassword(),
+                      spaceBig,
+                      _InputNickname(),
+                      spaceBig,
+                      _SubmitButton(),
+                      SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -74,7 +56,7 @@ class _InputEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignInViewModel>(
+    return Consumer<SignUpViewModel>(
       builder: (context, value, child) {
         return TextField(
           controller: value.emailController,
@@ -110,7 +92,7 @@ class _InputPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignInViewModel>(
+    return Consumer<SignUpViewModel>(
       builder: (context, value, child) {
         return TextField(
           controller: value.passwordController,
@@ -142,79 +124,54 @@ class _InputPassword extends StatelessWidget {
   }
 }
 
-class _SubmitButton extends StatelessWidget {
-  const _SubmitButton({super.key});
+class _InputNickname extends StatelessWidget {
+  const _InputNickname({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignInViewModel>(
+    return Consumer<SignUpViewModel>(
       builder: (context, value, child) {
-        return Button(
-          onPressed: () {
-            log('login');
-          },
-          text: '로그인',
-          isInactive: !value.isValidateSignIn,
-          width: double.infinity,
+        return TextField(
+          controller: value.nicknameController,
+          keyboardType: TextInputType.text,
+          onChanged: (text) => value.onChangeNickname(text),
+          decoration: InputDecoration(
+            labelText: '닉네임',
+            hintText: '닉네임을 입력해 주세요.',
+            errorText: value.nicknameErrMsg,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: const BorderSide(
+                width: 1,
+              ),
+            ),
+            suffixIcon: Button(
+              iconPath: AssetIconType.close.path,
+              color: Colors.black,
+              type: ButtonType.flat,
+              onPressed: value.onClearNickname,
+            ),
+          ),
         );
       },
     );
   }
 }
 
-class _FindEmailPassword extends StatelessWidget {
-  const _FindEmailPassword({super.key});
+class _SubmitButton extends StatelessWidget {
+  const _SubmitButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            log('아이디 찾기');
-          },
-          child: Text(
-            '아이디 찾기',
-            style: TextStyle(
-              color: context.color.subText,
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        GestureDetector(
-          onTap: () {
-            log('비밀번호 찾기');
-          },
-          child: Text(
-            '비밀번호 찾기',
-            style: TextStyle(
-              color: context.color.subText,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SignInEmail extends StatelessWidget {
-  const _SignInEmail({
-    super.key,
-    this.onTap,
-  });
-  final GestureTapCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Text(
-        '이메일로 회원가입 하기',
-        style: TextStyle(
-          color: context.color.subText,
-        ),
-      ),
+    return Consumer<SignUpViewModel>(
+      builder: (context, value, child) {
+        return Button(
+          onPressed: () => value.signUp(context),
+          text: '회원가입',
+          isInactive: !value.isValidateSignUp,
+          width: double.infinity,
+        );
+      },
     );
   }
 }

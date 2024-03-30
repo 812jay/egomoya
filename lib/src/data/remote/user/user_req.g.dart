@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_res.dart';
+part of 'user_req.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserRes _$UserResFromJson(Map<String, dynamic> json) => UserRes(
-      userId: json['userId'] as String,
+UserReq _$UserReqFromJson(Map<String, dynamic> json) => UserReq(
       email: json['email'] as String,
-      nickname: json['nickname'] as String?,
+      password: json['password'] as String,
+      nickname: json['nickname'] as String,
     );
 
-Map<String, dynamic> _$UserResToJson(UserRes instance) => <String, dynamic>{
-      'userId': instance.userId,
+Map<String, dynamic> _$UserReqToJson(UserReq instance) => <String, dynamic>{
       'email': instance.email,
+      'password': instance.password,
       'nickname': instance.nickname,
     };

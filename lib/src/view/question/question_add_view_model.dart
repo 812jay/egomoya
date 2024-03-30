@@ -22,11 +22,12 @@ class QuestionAddViewModel extends BaseViewModel {
   final TextEditingController contentController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  List<XFile> get imageList => imageService.imageList;
+
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedTitle = false;
   bool isChangedPassword = false;
 
-  List<XFile> get imageList => imageService.imageList;
   String get title => titleController.text;
   String get content => contentController.text;
   String get password => passwordController.text;

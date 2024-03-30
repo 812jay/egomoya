@@ -8,14 +8,14 @@ class UserRes {
   UserRes({
     required this.userId,
     required this.email,
-    this.nickName,
+    this.nickname,
   });
   @JsonKey(name: 'userId')
   final String userId;
   @JsonKey(name: 'email')
   final String email;
-  @JsonKey(name: 'nickName')
-  final String? nickName;
+  @JsonKey(name: 'nickname')
+  final String? nickname;
 
   factory UserRes.fromJson(Map<String, dynamic> json) =>
       _$UserResFromJson(json);
@@ -27,6 +27,6 @@ extension UserResExt on UserRes {
   User toDto() => User(
         userId: userId,
         email: email,
-        nickName: nickName,
+        nickname: nickname,
       );
 }
