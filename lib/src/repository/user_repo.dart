@@ -6,8 +6,7 @@ import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/src/repository/base_repo.dart';
 
 class UserRepo extends BaseRepo {
-  //post
-  Future<UserRes?> signIn(int userId) async {
+  Future<UserRes?> signIn(String userId) async {
     try {
       final response = await dio.get('$prefix/api/users/$userId');
       final result = UserRes.fromJson(response.data);
@@ -31,7 +30,7 @@ class UserRepo extends BaseRepo {
     }
   }
 
-  Future<void> deleteUser(int userId) async {
+  Future<void> deleteUser(String userId) async {
     try {
       await dio.delete(
         '$prefix/api/posts/$userId',
