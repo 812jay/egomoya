@@ -3,8 +3,8 @@ import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/util/helper/toast_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpViewModel extends BaseViewModel {
   SignUpViewModel(this._userModel);
@@ -77,24 +77,16 @@ class SignUpViewModel extends BaseViewModel {
   }
 
   Future<void> signUp(BuildContext context) async {
-    final SignUpType res = await _userModel.signUp(
+    final SignUpType result = await _userModel.signUp(
       UserReq(
         email: email,
         password: password,
         nickname: nickname,
       ),
     );
-    showToast(res.toastText);
-    if (res == SignUpType.success) {
+    ToastHelper.showToast(result.toastText);
+    if (result == SignUpType.success) {
       Navigator.popUntil(context, (route) => route.isFirst);
     }
-  }
-
-  void showToast(String text) {
-    Fluttertoast.showToast(
-      msg: text,
-      gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 2,
-    );
   }
 }

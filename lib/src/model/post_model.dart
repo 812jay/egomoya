@@ -1,4 +1,6 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/enum/post_type.dart';
+import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
 import 'package:egomoya/src/repository/post_repo.dart';
 
@@ -17,5 +19,8 @@ class PostModel {
     return result;
   }
 
-  Future<void> registPost() async {}
+  Future<PostRegistType> registPost(PostReq req) async {
+    final res = await _postRepo.registPost(req: req);
+    return res;
+  }
 }

@@ -5,15 +5,14 @@ part 'post_req.g.dart';
 @JsonSerializable()
 class PostReq {
   PostReq({
-    this.id,
     required this.title,
     required this.content,
     this.imageList,
     this.password,
+    required this.nickname,
+    required this.userId,
   });
 
-  @JsonKey(name: 'id', disallowNullValue: true)
-  final int? id;
   @JsonKey(name: 'title')
   final String title;
   @JsonKey(name: 'content')
@@ -22,6 +21,10 @@ class PostReq {
   final List<PostImageReq>? imageList;
   @JsonKey(name: 'password', disallowNullValue: true)
   final int? password;
+  @JsonKey(name: 'nickname', disallowNullValue: true)
+  final String nickname;
+  @JsonKey(name: 'userId', disallowNullValue: true)
+  final String userId;
 
   factory PostReq.fromJson(Map<String, dynamic> json) =>
       _$PostReqFromJson(json);

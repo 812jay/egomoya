@@ -9,21 +9,25 @@ part of 'post_req.dart';
 PostReq _$PostReqFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    disallowNullValues: const ['id', 'images', 'password'],
+    disallowNullValues: const ['images', 'password', 'nickname', 'userId'],
   );
   return PostReq(
-    id: json['id'] as int?,
     title: json['title'] as String,
     content: json['content'] as String,
     imageList: (json['images'] as List<dynamic>?)
         ?.map((e) => PostImageReq.fromJson(e as Map<String, dynamic>))
         .toList(),
     password: json['password'] as int?,
+    nickname: json['nickname'] as String,
+    userId: json['userId'] as String,
   );
 }
 
 Map<String, dynamic> _$PostReqToJson(PostReq instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'title': instance.title,
+    'content': instance.content,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -31,11 +35,10 @@ Map<String, dynamic> _$PostReqToJson(PostReq instance) {
     }
   }
 
-  writeNotNull('id', instance.id);
-  val['title'] = instance.title;
-  val['content'] = instance.content;
   writeNotNull('images', instance.imageList);
   writeNotNull('password', instance.password);
+  val['nickname'] = instance.nickname;
+  val['userId'] = instance.userId;
   return val;
 }
 
