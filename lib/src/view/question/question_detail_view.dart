@@ -7,6 +7,7 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/src/view/question/widget/comment_box.dart';
 import 'package:egomoya/src/view/question/widget/content_image.dart';
+import 'package:egomoya/src/view/question/widget/reply_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/app_theme.dart';
@@ -195,11 +196,50 @@ class _QuestDetailCommentList extends StatelessWidget {
           );
         }
         final dataList = value.comment!.dataList;
+        // final dataList = [
+        //   CommentData(
+        //     id: 3,
+        //     content: '오백',
+        //     uniqueUserId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
+        //     children: [],
+        //   ),
+        //   CommentData(
+        //     id: 2,
+        //     content: '얼만데',
+        //     uniqueUserId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
+        //     children: [
+        //       CommentData(
+        //         id: 3,
+        //         content: '오백',
+        //         uniqueUserId: "ebe1135ee2b7",
+        //       )
+        //     ],
+        //   ),
+        //   CommentData(
+        //     id: 3,
+        //     content: '개비쌈',
+        //     uniqueUserId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
+        //     children: [
+        //       CommentData(
+        //         id: 2,
+        //         content: '오백이 비싸냐',
+        //         uniqueUserId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
+        //         children: [],
+        //       ),
+        //       CommentData(
+        //         id: 3,
+        //         content: '너 돈 많어?',
+        //         uniqueUserId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
+        //         children: [],
+        //       ),
+        //     ],
+        //   ),
+        // ];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '댓글',
+              '댓글 ${dataList.length}',
               style: context.typo.body1.bold,
             ),
             const SizedBox(height: 25),
@@ -207,25 +247,46 @@ class _QuestDetailCommentList extends StatelessWidget {
               shrinkWrap: true,
               itemCount: dataList.length,
               physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) => const SizedBox(height: 25),
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
               itemBuilder: (context, index) {
                 final data = dataList[index];
-                return CommentBox(
-                  content: data.content,
-                  commentId: data.id,
-                  onTapReply: (postId) {},
-                  userId: data.uniqueUserId,
-                  writedAt: DateTime.now().subtract(
-                    Duration(
-                      days: index,
+                return Column(
+                  children: [
+                    CommentBox(
+                      content: data.content,
+                      commentId: data.id,
+                      onTapReply: (postId) {},
+                      userId: data.uniqueUserId,
+                      writedAt: DateTime.now().subtract(
+                        Duration(
+                          days: index,
+                        ),
+                      ),
                     ),
-                  ),
+                    if (data.children != null) const SizedBox(height: 8),
+                    if (data.children != null)
+                      ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: data.children!.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final reply = data.children![index];
+                          return ReplyBox(
+                            commentId: reply.id,
+                            userId: reply.uniqueUserId,
+                            content: reply.content,
+                            writedAt: DateTime.now().subtract(
+                              Duration(
+                                days: index,
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 8),
+                      )
+                  ],
                 );
-                // return ReplyBox(
-                //   commentId: data.id,
-                //   userId: data.uniqueUserId,
-                //   writedAt: DateTime.now(),
-                // );
               },
             ),
           ],
