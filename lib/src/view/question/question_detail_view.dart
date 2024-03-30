@@ -90,9 +90,7 @@ class QuestionDetailView extends StatelessWidget {
                               //댓글 목록
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: _QuestDetailCommentList(
-                                  commentList: [],
-                                ),
+                                child: _QuestDetailCommentList(),
                               ),
                               const SizedBox(height: 25),
                             ],
@@ -185,40 +183,54 @@ class _QuestDetailContent extends StatelessWidget {
 class _QuestDetailCommentList extends StatelessWidget {
   const _QuestDetailCommentList({
     super.key,
-    required this.commentList,
   });
-  final List commentList;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '댓글',
-          style: context.typo.body1.bold,
-        ),
-        const SizedBox(height: 25),
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: 3,
-          physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) => const SizedBox(height: 25),
-          itemBuilder: (context, index) {
-            return CommentBox(
-              content: 'comment$index',
-              commentId: 0,
-              onTapReply: (postId) {},
-              userId: '요고요고$index',
-              writedAt: DateTime.now().subtract(
-                Duration(
-                  days: index,
-                ),
-              ),
-            );
-          },
-        ),
-      ],
+    return Consumer<QuestionDetailViewModel>(
+      builder: (context, value, child) {
+        if (value.comment == null || value.comment!.dataList.isEmpty) {
+          return const Center(
+            child: Text('댓글이 없어요.'),
+          );
+        }
+        final dataList = value.comment!.dataList;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '댓글',
+              style: context.typo.body1.bold,
+            ),
+            const SizedBox(height: 25),
+            ListView.separated(
+              shrinkWrap: true,
+              itemCount: dataList.length,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => const SizedBox(height: 25),
+              itemBuilder: (context, index) {
+                final data = dataList[index];
+                return CommentBox(
+                  content: data.content,
+                  commentId: data.id,
+                  onTapReply: (postId) {},
+                  userId: data.uniqueUserId,
+                  writedAt: DateTime.now().subtract(
+                    Duration(
+                      days: index,
+                    ),
+                  ),
+                );
+                // return ReplyBox(
+                //   commentId: data.id,
+                //   userId: data.uniqueUserId,
+                //   writedAt: DateTime.now(),
+                // );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
