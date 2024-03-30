@@ -14,16 +14,18 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pageList = [
-      const _MainHome(),
-      const _MainCelebrity(),
-      const _MainQuestion(),
-    ];
     return BaseView(
       viewModel: MainViewModel(
         context.read(),
       ),
       builder: (context, viewModel) {
+        List<Widget> pageList = [
+          _MainHome(
+            onTapQuestionCategory: (index) => viewModel.onTapCategory(index),
+          ),
+          const _MainCelebrity(),
+          const _MainQuestion(),
+        ];
         return Scaffold(
           body: SafeArea(
             child: NestedScrollView(
@@ -146,43 +148,51 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class _MainHome extends StatelessWidget {
-  const _MainHome({super.key});
+  const _MainHome({
+    super.key,
+    required this.onTapQuestionCategory,
+  });
+  final Function(int index) onTapQuestionCategory;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        PostTitle(
-          onTap: () {},
-          title: '요고 궁금해요 TOP 3',
-        ),
-        const SizedBox(height: 26),
-        Consumer<MainViewModel>(builder: (context, value, child) {
-          if (value.post == null) return const SizedBox.shrink();
-          return ListView.separated(
-            shrinkWrap: true,
-            itemCount: value.post!.contentList.length ?? 0,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => const SizedBox(height: 13),
-            itemBuilder: (context, index) {
-              final content = value.post!.contentList[index];
-              return QuestionBox(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  RoutePath.questionDetail,
-                  arguments: index,
-                ),
-                title: content.title,
-                content: content.content,
-                writedAt: DateTime.now().subtract(
-                  const Duration(days: 1),
-                ),
-                commentCnt: 3,
-              );
-            },
-          );
-        }),
-      ],
+    return Consumer<MainViewModel>(
+      builder: (context, value, child) {
+        return Column(
+          children: [
+            PostTitle(
+              onTap: () => onTapQuestionCategory(2),
+              title: '요고 궁금해요 TOP 3',
+            ),
+            const SizedBox(height: 26),
+            value.post == null
+                ? const Text('none')
+                : ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: value.post!.contentList.length ?? 0,
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 13),
+                    itemBuilder: (context, index) {
+                      final content = value.post!.contentList[index];
+                      return QuestionBox(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          RoutePath.questionDetail,
+                          arguments: index,
+                        ),
+                        title: content.title,
+                        content: content.content,
+                        writedAt: DateTime.now().subtract(
+                          const Duration(days: 1),
+                        ),
+                        commentCnt: 3,
+                      );
+                    },
+                  ),
+          ],
+        );
+      },
     );
   }
 }
