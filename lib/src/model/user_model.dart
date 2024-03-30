@@ -1,4 +1,5 @@
 import 'package:egomoya/src/data/dto/user/user.dart';
+import 'package:egomoya/src/data/enum/sign_up_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/src/repository/user_repo.dart';
@@ -17,8 +18,9 @@ class UserModel {
     return result;
   }
 
-  Future<void> signUp(UserReq req) async {
-    await _userRepo.signUp(req: req);
+  Future<SignUpType> signUp(UserReq req) async {
+    final SignUpType res = await _userRepo.signUp(req: req);
+    return res;
   }
 
   Future<void> deleteUser(String userId) async {

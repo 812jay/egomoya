@@ -5,16 +5,16 @@ part 'user_req.g.dart';
 @JsonSerializable()
 class UserReq {
   UserReq({
-    required this.userId,
     required this.email,
-    this.nickName,
+    required this.password,
+    required this.nickname,
   });
-  @JsonKey(name: 'userId')
-  final String userId;
   @JsonKey(name: 'email')
   final String email;
-  @JsonKey(name: 'nickName', disallowNullValue: true)
-  final String? nickName;
+  @JsonKey(name: 'password')
+  final String password;
+  @JsonKey(name: 'nickname')
+  final String nickname;
 
   factory UserReq.fromJson(Map<String, dynamic> json) =>
       _$UserReqFromJson(json);

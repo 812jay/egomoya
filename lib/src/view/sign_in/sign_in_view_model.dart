@@ -1,9 +1,12 @@
 import 'package:egomoya/src/data/enum/validator_type.dart';
+import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewModel extends BaseViewModel {
+  SignInViewModel(this.userModel);
+  final UserModel userModel;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 

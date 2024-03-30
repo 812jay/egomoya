@@ -63,7 +63,7 @@ class QuestionDetailView extends StatelessWidget {
                                   children: [
                                     _QuestionDetailHead(
                                       title: data?.title ?? '',
-                                      userId: data?.user.nickName ?? '익명',
+                                      userId: data?.user.nickname ?? '익명',
                                       writedAt: DateTime.now().subtract(
                                         const Duration(seconds: 1),
                                       ),

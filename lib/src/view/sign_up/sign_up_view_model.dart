@@ -1,42 +1,48 @@
+import 'package:egomoya/src/data/enum/sign_up_type.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
+import 'package:egomoya/src/data/remote/user/user_req.dart';
+import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpViewModel extends BaseViewModel {
+  SignUpViewModel(this._userModel);
+  final UserModel _userModel;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController nickNameController = TextEditingController();
+  final TextEditingController nicknameController = TextEditingController();
 
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedEmail = false;
   bool isChangedPassword = false;
-  bool isChangedNickName = false;
+  bool isChangedNickname = false;
 
   String get email => emailController.text;
   String get password => passwordController.text;
-  String get nickName => nickNameController.text;
+  String get nickname => nicknameController.text;
 
   bool get isEmailValidate =>
       RegExp(SignValidateType.email.pattern).hasMatch(email);
   bool get isPasswordValidate =>
       RegExp(SignValidateType.password.pattern).hasMatch(password);
-  bool get isNickNameValidate =>
-      RegExp(SignValidateType.nickName.pattern).hasMatch(nickName);
+  bool get isNicknameValidate =>
+      RegExp(SignValidateType.nickname.pattern).hasMatch(nickname);
   String? get emailErrMsg =>
       (isEmailValidate || !isChangedEmail) ? null : '이메일 형식을 확인해주세요';
   String? get passwordErrMsg => (isPasswordValidate || !isChangedPassword)
       ? null
       : '영문,숫자, 특수문자를 포함해 8자 이상 입력해 주세요';
-  String? get nickNameErrMsg =>
-      (isNickNameValidate || !isChangedNickName) ? null : '2자리~10자리 이상 입력해 주세요';
+  String? get nicknameErrMsg =>
+      (isNicknameValidate || !isChangedNickname) ? null : '2자리~10자리 이상 입력해 주세요';
   bool get isValidateSignUp =>
-      isEmailValidate && isPasswordValidate && isNickNameValidate;
+      isEmailValidate && isPasswordValidate && isNicknameValidate;
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    nickNameController.dispose();
+    nicknameController.dispose();
     super.dispose();
   }
 
@@ -50,8 +56,8 @@ class SignUpViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void onChangeNickName(String newNickName) {
-    isChangedNickName = true;
+  void onChangeNickname(String newNickname) {
+    isChangedNickname = true;
     notifyListeners();
   }
 
@@ -65,8 +71,30 @@ class SignUpViewModel extends BaseViewModel {
     passwordController.clear();
   }
 
-  void onClearNickName() {
+  void onClearNickname() {
     notifyListeners();
-    nickNameController.clear();
+    nicknameController.clear();
+  }
+
+  Future<void> signUp(BuildContext context) async {
+    final SignUpType res = await _userModel.signUp(
+      UserReq(
+        email: email,
+        password: password,
+        nickname: nickname,
+      ),
+    );
+    showToast(res.toastText);
+    if (res == SignUpType.success) {
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }
+  }
+
+  void showToast(String text) {
+    Fluttertoast.showToast(
+      msg: text,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 2,
+    );
   }
 }

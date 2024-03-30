@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
@@ -14,10 +12,11 @@ class SignUpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: SignUpViewModel(),
+      viewModel: SignUpViewModel(context.read()),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
         return GestureDetector(
+          onTap: FocusScope.of(context).unfocus,
           child: const Scaffold(
             appBar: BaseAppBar(
               title: '이메일 회원가입',
@@ -34,7 +33,7 @@ class SignUpView extends StatelessWidget {
                       spaceBig,
                       _InputPassword(),
                       spaceBig,
-                      _InputNickName(),
+                      _InputNickname(),
                       spaceBig,
                       _SubmitButton(),
                       SizedBox(height: 20),
@@ -125,21 +124,21 @@ class _InputPassword extends StatelessWidget {
   }
 }
 
-class _InputNickName extends StatelessWidget {
-  const _InputNickName({super.key});
+class _InputNickname extends StatelessWidget {
+  const _InputNickname({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<SignUpViewModel>(
       builder: (context, value, child) {
         return TextField(
-          controller: value.nickNameController,
+          controller: value.nicknameController,
           keyboardType: TextInputType.text,
-          onChanged: (text) => value.onChangeNickName(text),
+          onChanged: (text) => value.onChangeNickname(text),
           decoration: InputDecoration(
             labelText: '닉네임',
             hintText: '닉네임을 입력해 주세요.',
-            errorText: value.nickNameErrMsg,
+            errorText: value.nicknameErrMsg,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: const BorderSide(
@@ -150,7 +149,7 @@ class _InputNickName extends StatelessWidget {
               iconPath: AssetIconType.close.path,
               color: Colors.black,
               type: ButtonType.flat,
-              onPressed: value.onClearNickName,
+              onPressed: value.onClearNickname,
             ),
           ),
         );
@@ -167,9 +166,7 @@ class _SubmitButton extends StatelessWidget {
     return Consumer<SignUpViewModel>(
       builder: (context, value, child) {
         return Button(
-          onPressed: () {
-            log('회원가입');
-          },
+          onPressed: () => value.signUp(context),
           text: '회원가입',
           isInactive: !value.isValidateSignUp,
           width: double.infinity,

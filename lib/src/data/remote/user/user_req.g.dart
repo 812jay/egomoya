@@ -6,30 +6,14 @@ part of 'user_req.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserReq _$UserReqFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    disallowNullValues: const ['nickName'],
-  );
-  return UserReq(
-    userId: json['userId'] as String,
-    email: json['email'] as String,
-    nickName: json['nickName'] as String?,
-  );
-}
+UserReq _$UserReqFromJson(Map<String, dynamic> json) => UserReq(
+      email: json['email'] as String,
+      password: json['password'] as String,
+      nickname: json['nickname'] as String,
+    );
 
-Map<String, dynamic> _$UserReqToJson(UserReq instance) {
-  final val = <String, dynamic>{
-    'userId': instance.userId,
-    'email': instance.email,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('nickName', instance.nickName);
-  return val;
-}
+Map<String, dynamic> _$UserReqToJson(UserReq instance) => <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+      'nickname': instance.nickname,
+    };

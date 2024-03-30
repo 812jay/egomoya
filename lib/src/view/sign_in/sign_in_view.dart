@@ -16,10 +16,13 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: SignInViewModel(),
+      viewModel: SignInViewModel(
+        context.read(),
+      ),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
         return GestureDetector(
+          onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
             appBar: const BaseAppBar(
               title: '로그인',
