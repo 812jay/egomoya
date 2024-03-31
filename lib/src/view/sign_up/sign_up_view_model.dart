@@ -1,4 +1,4 @@
-import 'package:egomoya/src/data/enum/sign_up_type.dart';
+import 'package:egomoya/src/data/enum/user_type.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';

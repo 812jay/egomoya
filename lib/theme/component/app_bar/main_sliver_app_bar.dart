@@ -1,11 +1,14 @@
-
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class MainSliverAppBar extends StatelessWidget {
-  const MainSliverAppBar({super.key});
+  const MainSliverAppBar({
+    super.key,
+    required this.isSignedIn,
+  });
+  final bool isSignedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +32,21 @@ class MainSliverAppBar extends StatelessWidget {
           size: 22,
         ),
         const SizedBox(width: 20),
-        GestureDetector(
-          onTap: () => Navigator.pushNamed(context, RoutePath.signIn),
-          child: const AssetIcon(
-            'assets/icons/group.svg',
-            size: 22,
-          ),
-        ),
+        isSignedIn
+            ? GestureDetector(
+                onTap: () {},
+                child: const AssetIcon(
+                  'assets/icons/group.svg',
+                  size: 22,
+                ),
+              )
+            : GestureDetector(
+                onTap: () => Navigator.pushNamed(context, RoutePath.signIn),
+                child: Text(
+                  '로그인',
+                  style: context.typo.body2,
+                ),
+              ),
         const SizedBox(width: 20),
       ],
     );

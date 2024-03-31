@@ -18,14 +18,15 @@ void main() async {
     MultiProvider(
       providers: [
         Provider(
-          create: (contxt) => UserModel(prefHelper),
+          create: (context) => UserModel(prefHelper),
         ),
         Provider(
-          create: (contxt) => CommentModel(),
+          create: (context) => PostModel(prefHelper),
         ),
         Provider(
-          create: (contxt) => PostModel(),
+          create: (context) => CommentModel(),
         ),
+        
         ChangeNotifierProvider(
           create: (context) => ThemeService(),
         ),

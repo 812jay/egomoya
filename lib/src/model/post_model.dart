@@ -3,8 +3,11 @@ import 'package:egomoya/src/data/enum/post_type.dart';
 import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
 import 'package:egomoya/src/repository/post_repo.dart';
+import 'package:egomoya/util/helper/perf_helper.dart';
 
 class PostModel {
+  PostModel(this._pref);
+  final PrefHelper _pref;
   final PostRepo _postRepo = PostRepo();
 
   Future<Post?> fetchPostList() async {

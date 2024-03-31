@@ -1,4 +1,6 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
@@ -18,7 +20,8 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: MainViewModel(
-        context.read(),
+        context.read<PostModel>(),
+        context.read<UserModel>(),
       ),
       builder: (context, viewModel) {
         List<Widget> pageList = [
@@ -31,7 +34,9 @@ class MainView extends StatelessWidget {
             child: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return <Widget>[
-                  const MainSliverAppBar(),
+                  MainSliverAppBar(
+                    isSignedIn: viewModel.isSignedIn,
+                  ),
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                       context,
