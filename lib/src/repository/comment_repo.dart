@@ -21,6 +21,8 @@ class CommentRepo extends BaseRepo {
     required int postId,
     required CommentReq req,
   }) async {
+    log('$prefix/api/comments/$postId');
+    log('req: ${req.toJson()}');
     try {
       await dio.post(
         '$prefix/api/comments/$postId',

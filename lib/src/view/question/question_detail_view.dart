@@ -187,8 +187,15 @@ class _QuestDetailCommentList extends StatelessWidget {
     return Consumer<QuestionDetailViewModel>(
       builder: (context, value, child) {
         if (value.comment == null || value.comment!.dataList.isEmpty) {
-          return const Center(
-            child: Text('댓글이 없어요.'),
+          return SizedBox(
+            height: 100,
+            child: Center(
+              child: Text(
+                '내가 알고있는 상품이라면\n댓글을 남겨주세요',
+                style: context.typo.body2.subText,
+                textAlign: TextAlign.center,
+              ),
+            ),
           );
         }
         final dataList = value.comment!.dataList;
