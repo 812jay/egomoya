@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/theme_service.dart';
@@ -101,9 +99,7 @@ class QuestionDetailView extends StatelessWidget {
                       //댓글 등록
                       _QuestionDetailAddComment(
                         controller: viewModel.commentAddController,
-                        onSubmit: () {
-                          log('댓글 등록');
-                        },
+                        onSubmit: viewModel.addComment,
                       ),
                     ],
                   ),

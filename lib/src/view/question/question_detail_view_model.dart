@@ -1,5 +1,6 @@
 import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/remote/comment/comment_req.dart';
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
@@ -21,6 +22,8 @@ class QuestionDetailViewModel extends BaseViewModel {
 
   final int postId;
   final TextEditingController commentAddController = TextEditingController();
+  String get commentText => commentAddController.text;
+
   PostData? postData;
   Comment? comment;
 
@@ -34,6 +37,20 @@ class QuestionDetailViewModel extends BaseViewModel {
     final Comment? result = await commentModel.fetchComment(postId);
     comment = result;
     notifyListeners();
+  }
+
+  Future<void> addComment() async {
+    await commentModel.registComment(
+      postId: postId,
+      req: CommentReq(
+        content: commentText,
+        userId: 'user1',
+        parentId: null,
+      ),
+    );
+    //comment refresh
+    await fetchCommentListDetail();
+    onClearAddComment();
   }
 
   void onTapMore(BuildContext context) {
@@ -50,5 +67,10 @@ class QuestionDetailViewModel extends BaseViewModel {
         );
       },
     );
+  }
+
+  void onClearAddComment() {
+    commentAddController.clear();
+    notifyListeners();
   }
 }
