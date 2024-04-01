@@ -71,7 +71,7 @@ class ReplyBox extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        updatedAt.formatRelativeDateTime(),
+                        DateTimeHelper.formatRelativeDateTime(updatedAt),
                         style: context.typo.body2.subText,
                       ),
                     ],

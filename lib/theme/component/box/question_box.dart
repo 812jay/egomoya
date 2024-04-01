@@ -95,7 +95,7 @@ class QuestionBox extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  writedAt.formatRelativeDateTime(),
+                  DateTimeHelper.formatRelativeDateTime(writedAt),
                   style: context.typo.body3.copyWith(
                     color: context.color.subText,
                   ),

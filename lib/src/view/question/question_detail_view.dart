@@ -68,9 +68,8 @@ class QuestionDetailView extends StatelessWidget {
                                     _QuestionDetailHead(
                                       title: data?.title ?? '',
                                       userId: data?.user.nickname ?? '익명',
-                                      writedAt: DateTime.now().subtract(
-                                        const Duration(seconds: 1),
-                                      ),
+                                      updatedAt:
+                                          data?.updatedAt ?? DateTime.now(),
                                     ),
                                     const SizedBox(height: 10),
                                     _QuestDetailContent(
@@ -119,11 +118,11 @@ class _QuestionDetailHead extends StatelessWidget {
   const _QuestionDetailHead({
     super.key,
     required this.title,
-    required this.writedAt,
+    required this.updatedAt,
     required this.userId,
   });
   final String title;
-  final DateTime writedAt;
+  final DateTime updatedAt;
   final String userId;
 
   @override
@@ -137,7 +136,7 @@ class _QuestionDetailHead extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          '$userId • ${writedAt.formatRelativeDateTime()}',
+          '$userId • ${DateTimeHelper.formatRelativeDateTime(updatedAt)}',
           style: context.typo.body3.subText,
         ),
       ],

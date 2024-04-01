@@ -1,5 +1,6 @@
 import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
+import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'comment_res.g.dart';
@@ -63,8 +64,8 @@ extension CommentDataResExt on CommentDataRes {
         content: content,
         user: user?.toDto(),
         children: children?.map((e) => e.toDto()).toList(),
-        createdAt: DateTime.parse(createdAt).toLocal(),
-        updatedAt: DateTime.parse(updatedAt).toLocal(),
+        createdAt: DateTimeHelper.formatUtcStringToLocal(createdAt),
+        updatedAt: DateTimeHelper.formatUtcStringToLocal(updatedAt),
       );
 }
 

@@ -60,7 +60,7 @@ class CommentBox extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                updatedAt.formatRelativeDateTime(),
+                DateTimeHelper.formatRelativeDateTime(updatedAt),
                 style: context.typo.body2.subText,
               ),
             ),
