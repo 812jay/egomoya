@@ -25,9 +25,6 @@ class CommentBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (content == '삭제된 댓글입니다') {
-      return const _DeletedCommentBox();
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -74,30 +71,6 @@ class CommentBox extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _DeletedCommentBox extends StatelessWidget {
-  const _DeletedCommentBox({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: context.color.lightGrayBackground,
-        borderRadius: BorderRadius.circular(
-          10,
-        ),
-      ),
-      child: Center(
-        child: Text(
-          '삭제된 댓글입니다.',
-          style: context.typo.body2.subText,
-        ),
-      ),
     );
   }
 }

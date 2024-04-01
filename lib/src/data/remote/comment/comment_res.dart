@@ -24,7 +24,10 @@ class CommentRes {
 
 extension CommentResExt on CommentRes {
   Comment toDto() => Comment(
-        dataList: dataList.map((e) => e.toDto()).toList(),
+        dataList: dataList
+            .where((e) => e.content != '삭제된 댓글입니다')
+            .map((e) => e.toDto())
+            .toList(),
         pageInfo: pageInfo.toDto(),
       );
 }
