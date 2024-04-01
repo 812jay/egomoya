@@ -9,6 +9,8 @@ import 'package:egomoya/theme/component/app_bar/main_sliver_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/button/category_button.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -147,12 +149,10 @@ class _MainHome extends StatelessWidget {
               title: '요고 궁금해요 TOP 3',
             ),
             const SizedBox(height: 26),
-            value.post?.dataList == null
-                ? const Text('none')
-                : _QuestionList(
-                    postList: value.post?.dataList,
-                    limit: 3,
-                  )
+            _QuestionList(
+              postList: value.post?.dataList,
+              limit: 3,
+            )
           ],
         );
       },
@@ -200,7 +200,7 @@ class _QuestionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (postList == null || postList!.isEmpty) {
-      return const Text('없어요');
+      return const _EmptyQuestionBox();
     }
     return ListView.separated(
       shrinkWrap: true,
@@ -222,6 +222,29 @@ class _QuestionList extends StatelessWidget {
           commentCnt: 3,
         );
       },
+    );
+  }
+}
+
+class _EmptyQuestionBox extends StatelessWidget {
+  const _EmptyQuestionBox({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const AssetIcon(
+          'assets/images/logo_icon.png',
+          size: 100,
+        ),
+        Text(
+          textAlign: TextAlign.center,
+          '요고 궁금 게시글이 없어요.\n게시글을 등록해주세요.',
+          style: context.typo.subTitle3.subText,
+        ),
+      ],
     );
   }
 }
