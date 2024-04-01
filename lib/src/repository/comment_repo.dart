@@ -34,9 +34,10 @@ class CommentRepo extends BaseRepo {
     }
   }
 
-  Future<void> deleteComment(int postId) async {
+  Future<void> deleteComment(int commentId) async {
     try {
-      await dio.delete('$prefix/api/comments/$postId');
+      log('deleteComment: $prefix/api/comments/$commentId');
+      await dio.delete('$prefix/api/comments/$commentId');
     } catch (e) {
       log('Fail to deleteComment', error: e);
       return;

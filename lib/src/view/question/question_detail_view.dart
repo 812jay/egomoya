@@ -1,5 +1,6 @@
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
@@ -28,6 +29,7 @@ class QuestionDetailView extends StatelessWidget {
         postId: postId,
         postModel: context.read<PostModel>(),
         commentModel: context.read<CommentModel>(),
+        dialogService: context.read<DialogService>(),
       ),
       builder: (context, viewModel) {
         return GestureDetector(
@@ -40,7 +42,7 @@ class QuestionDetailView extends StatelessWidget {
                   title: '질문 상세',
                   actions: [
                     GestureDetector(
-                      onTap: () => viewModel.onTapMore(context),
+                      onTap: () => viewModel.onTapMorePost(context),
                       child: const AssetIcon(
                         'assets/icons/more.svg',
                         size: 24,
@@ -224,7 +226,10 @@ class _QuestDetailCommentList extends StatelessWidget {
                       ),
                       nickname: data.user?.nickname ?? '',
                       updatedAt: data.updatedAt,
-                      onTapMore: () => value.onTapMore(context),
+                      onTapMore: (commentId) => value.onTapMoreComment(
+                        context,
+                        commentId: commentId,
+                      ),
                     ),
                     if (data.children != null) const SizedBox(height: 8),
                     if (data.children != null)

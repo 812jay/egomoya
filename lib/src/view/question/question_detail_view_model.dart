@@ -2,8 +2,8 @@ import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
-import 'package:egomoya/theme/component/dialog/bottom_dialog/post_edit_dialog.dart';
 import 'package:flutter/material.dart';
 
 class QuestionDetailViewModel extends BaseViewModel {
@@ -11,6 +11,7 @@ class QuestionDetailViewModel extends BaseViewModel {
     required this.postId,
     required this.postModel,
     required this.commentModel,
+    required this.dialogService,
   }) {
     fetchPostListDetail();
     fetchCommentListDetail();
@@ -18,6 +19,7 @@ class QuestionDetailViewModel extends BaseViewModel {
 
   final PostModel postModel;
   final CommentModel commentModel;
+  final DialogService dialogService;
 
   final int postId;
   final TextEditingController commentAddController = TextEditingController();
@@ -49,19 +51,28 @@ class QuestionDetailViewModel extends BaseViewModel {
     onClearAddComment();
   }
 
-  void onTapMore(BuildContext context) {
-    showMoreDialog(context);
+  Future<void> onUpdateComment() async {}
+
+  Future<void> onDeleteComment(int commentId) async {
+    await commentModel.deleteComment(commentId);
   }
 
-  void showMoreDialog(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return const SafeArea(
-          child: PostEditDialog(),
-        );
-      },
+  void onTapMorePost(BuildContext context) {
+    dialogService.showMoreDialog(
+      context,
+      onUpdate: () {},
+      onDelete: () {},
+    );
+  }
+
+  void onTapMoreComment(
+    BuildContext context, {
+    required int commentId,
+  }) {
+    dialogService.showMoreDialog(
+      context,
+      onUpdate: () {},
+      onDelete: () => onDeleteComment(commentId),
     );
   }
 

@@ -30,10 +30,9 @@ class CommentModel {
         parentId: parentId,
       ),
     );
-    await fetchComment(postId);
   }
 
-  Future<void> deleteComment(int postId) async {
-    await _commentRepo.deleteComment(postId);
+  Future<void> deleteComment(int commentId) async {
+    await _commentRepo.deleteComment(commentId);
   }
 }

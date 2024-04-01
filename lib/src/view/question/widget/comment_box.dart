@@ -12,14 +12,14 @@ class CommentBox extends StatelessWidget {
     required this.updatedAt,
     required this.onTapReply,
     this.content,
-    this.onTapMore,
+    required this.onTapMore,
   });
   final int commentId;
   final String nickname;
   final String? content;
   final Function(int? parentId) onTapReply;
   final DateTime updatedAt;
-  final GestureTapCallback? onTapMore;
+  final Function(int commentId) onTapMore;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class CommentBox extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: onTapMore,
+              onTap: () => onTapMore(commentId),
               child: AssetIcon(
                 'assets/icons/more.svg',
                 size: 24,
