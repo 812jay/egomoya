@@ -21,8 +21,6 @@ class CommentRepo extends BaseRepo {
     required int postId,
     required CommentReq req,
   }) async {
-    log('$prefix/api/comments/$postId');
-    log('req: ${req.toJson()}');
     try {
       await dio.post(
         '$prefix/api/comments/$postId',
@@ -36,7 +34,6 @@ class CommentRepo extends BaseRepo {
 
   Future<void> deleteComment(int commentId) async {
     try {
-      log('deleteComment: $prefix/api/comments/$commentId');
       await dio.delete('$prefix/api/comments/$commentId');
     } catch (e) {
       log('Fail to deleteComment', error: e);
