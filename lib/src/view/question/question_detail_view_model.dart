@@ -44,13 +44,11 @@ class QuestionDetailViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> addComment({
-    int? parentId,
-  }) async {
+  Future<void> addComment() async {
     await commentModel.registComment(
       postId: postId,
       content: commentText,
-      parentId: parentId,
+      parentId: curCommentParentId,
     );
     //comment refresh
     await fetchCommentListDetail();

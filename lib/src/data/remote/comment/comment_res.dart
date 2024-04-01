@@ -78,6 +78,7 @@ class CommentPageInfoRes {
     required this.pageNumber,
     required this.pageSize,
     required this.last,
+    required this.total,
   });
   @JsonKey(name: 'pageNumber')
   final int pageNumber;
@@ -85,6 +86,8 @@ class CommentPageInfoRes {
   final int pageSize;
   @JsonKey(name: 'last')
   final bool last;
+  @JsonKey(name: 'total')
+  final int total;
 
   factory CommentPageInfoRes.fromJson(Map<String, dynamic> json) =>
       _$CommentPageInfoResFromJson(json);
@@ -97,5 +100,6 @@ extension CommentPageInfoResExt on CommentPageInfoRes {
         pageNumber: pageNumber,
         pageSize: pageSize,
         last: last,
+        total: total,
       );
 }

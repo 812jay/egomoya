@@ -41,13 +41,15 @@ class CommentPageInfo {
     required this.pageNumber,
     required this.pageSize,
     required this.last,
+    required this.total,
   });
   final int pageNumber;
   final int pageSize;
   final bool last;
+  final int total;
 
   @override
   String toString() {
-    return 'CommentPageInfo(pageNumber: $pageNumber, pageSize: $pageSize, last: $last)';
+    return 'CommentPageInfo(pageNumber: $pageNumber, pageSize: $pageSize, last: $last, total: $total)';
   }
 }

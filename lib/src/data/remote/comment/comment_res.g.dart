@@ -49,6 +49,7 @@ CommentPageInfoRes _$CommentPageInfoResFromJson(Map<String, dynamic> json) =>
       pageNumber: json['pageNumber'] as int,
       pageSize: json['pageSize'] as int,
       last: json['last'] as bool,
+      total: json['total'] as int,
     );
 
 Map<String, dynamic> _$CommentPageInfoResToJson(CommentPageInfoRes instance) =>
@@ -56,4 +57,5 @@ Map<String, dynamic> _$CommentPageInfoResToJson(CommentPageInfoRes instance) =>
       'pageNumber': instance.pageNumber,
       'pageSize': instance.pageSize,
       'last': instance.last,
+      'total': instance.total,
     };
