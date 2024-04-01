@@ -201,6 +201,7 @@ class _QuestDetailCommentList extends StatelessWidget {
           );
         }
         final dataList = value.comment!.dataList;
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -219,8 +220,9 @@ class _QuestDetailCommentList extends StatelessWidget {
                 return Column(
                   children: [
                     CommentBox(
-                      content: data.content,
                       commentId: data.id,
+                      isCurUser: data.user?.userId == value.userId,
+                      content: data.content,
                       onTapReply: (parentId) => value.addComment(
                         parentId: parentId,
                       ),
@@ -244,6 +246,10 @@ class _QuestDetailCommentList extends StatelessWidget {
                             nickname: reply.user?.nickname ?? '',
                             content: reply.content,
                             updatedAt: reply.updatedAt,
+                            onTapMore: (commentId) => value.onTapMoreComment(
+                              context,
+                              commentId: commentId,
+                            ),
                           );
                         },
                         separatorBuilder: (context, index) =>

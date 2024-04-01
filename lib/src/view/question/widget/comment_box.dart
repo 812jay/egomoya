@@ -8,6 +8,7 @@ class CommentBox extends StatelessWidget {
   const CommentBox({
     super.key,
     required this.commentId,
+    this.isCurUser,
     required this.nickname,
     required this.updatedAt,
     required this.onTapReply,
@@ -15,6 +16,7 @@ class CommentBox extends StatelessWidget {
     required this.onTapMore,
   });
   final int commentId;
+  final bool? isCurUser;
   final String nickname;
   final String? content;
   final Function(int? parentId) onTapReply;
@@ -37,14 +39,15 @@ class CommentBox extends StatelessWidget {
                 style: context.typo.body2.bold.subText,
               ),
             ),
-            GestureDetector(
-              onTap: () => onTapMore(commentId),
-              child: AssetIcon(
-                'assets/icons/more.svg',
-                size: 24,
-                color: context.color.subText,
+            if (isCurUser == true)
+              GestureDetector(
+                onTap: () => onTapMore(commentId),
+                child: AssetIcon(
+                  'assets/icons/more.svg',
+                  size: 24,
+                  color: context.color.subText,
+                ),
               ),
-            ),
           ],
         ),
         const SizedBox(height: 10),

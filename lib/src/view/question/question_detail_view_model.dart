@@ -26,6 +26,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   final int postId;
   final TextEditingController commentAddController = TextEditingController();
   String get commentText => commentAddController.text;
+  String get userId => commentModel.userId;
 
   PostData? postData;
   Comment? comment;

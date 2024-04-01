@@ -8,14 +8,18 @@ class ReplyBox extends StatelessWidget {
   const ReplyBox({
     super.key,
     required this.commentId,
+    this.isCurUser,
     required this.nickname,
     required this.updatedAt,
     this.content,
+    required this.onTapMore,
   });
   final int commentId;
+  final bool? isCurUser;
   final String nickname;
   final String? content;
   final DateTime updatedAt;
+  final Function(int commentId) onTapMore;
 
   @override
   Widget build(BuildContext context) {
@@ -33,25 +37,46 @@ class ReplyBox extends StatelessWidget {
             size: 14,
           ),
           const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                nickname,
-                style: context.typo.body2.bold.subColor,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                content ?? '',
-                style: context.typo.body2,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                updatedAt.formatRelativeDateTime(),
-                style: context.typo.body2.subText,
-              ),
-            ],
-          ),
+          content == '삭제된 댓글입니다.'
+              ? Text(
+                  '삭제된 댓글입니다.',
+                  style: context.typo.body2,
+                )
+              : Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              nickname,
+                              style: context.typo.body2.bold.subColor,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => onTapMore(commentId),
+                            child: AssetIcon(
+                              'assets/icons/more.svg',
+                              size: 24,
+                              color: context.color.subText,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        content ?? '',
+                        style: context.typo.body2,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        updatedAt.formatRelativeDateTime(),
+                        style: context.typo.body2.subText,
+                      ),
+                    ],
+                  ),
+                ),
         ],
       ),
     );
