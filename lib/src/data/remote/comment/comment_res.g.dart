@@ -30,6 +30,8 @@ CommentDataRes _$CommentDataResFromJson(Map<String, dynamic> json) =>
       children: (json['children'] as List<dynamic>?)
           ?.map((e) => CommentDataRes.fromJson(e as Map<String, dynamic>))
           .toList(),
+      createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String,
     );
 
 Map<String, dynamic> _$CommentDataResToJson(CommentDataRes instance) =>
@@ -38,6 +40,8 @@ Map<String, dynamic> _$CommentDataResToJson(CommentDataRes instance) =>
       'content': instance.content,
       'user': instance.user,
       'children': instance.children,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
     };
 
 CommentPageInfoRes _$CommentPageInfoResFromJson(Map<String, dynamic> json) =>

@@ -35,6 +35,8 @@ class CommentDataRes {
     required this.content,
     required this.user,
     this.children,
+    required this.createdAt,
+    required this.updatedAt,
   });
   @JsonKey(name: 'id')
   final int id;
@@ -44,6 +46,10 @@ class CommentDataRes {
   final UserRes? user;
   @JsonKey(name: 'children')
   final List<CommentDataRes>? children;
+  @JsonKey(name: 'createdAt')
+  final String createdAt;
+  @JsonKey(name: 'updatedAt')
+  final String updatedAt;
 
   factory CommentDataRes.fromJson(Map<String, dynamic> json) =>
       _$CommentDataResFromJson(json);
@@ -57,6 +63,8 @@ extension CommentDataResExt on CommentDataRes {
         content: content,
         user: user?.toDto(),
         children: children?.map((e) => e.toDto()).toList(),
+        createdAt: DateTime.parse(createdAt).toLocal(),
+        updatedAt: DateTime.parse(updatedAt).toLocal(),
       );
 }
 

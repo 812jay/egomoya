@@ -20,11 +20,15 @@ class CommentData {
     this.content,
     this.user,
     this.children,
+    required this.createdAt,
+    required this.updatedAt,
   });
   final int id;
   final String? content;
   final User? user;
   final List<CommentData>? children;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   @override
   String toString() {

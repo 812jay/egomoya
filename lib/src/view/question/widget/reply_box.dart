@@ -9,13 +9,13 @@ class ReplyBox extends StatelessWidget {
     super.key,
     required this.commentId,
     required this.nickname,
-    required this.writedAt,
+    required this.updatedAt,
     this.content,
   });
   final int commentId;
   final String nickname;
   final String? content;
-  final DateTime writedAt;
+  final DateTime updatedAt;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class ReplyBox extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                writedAt.formatRelativeDateTime(),
+                updatedAt.formatRelativeDateTime(),
                 style: context.typo.body2.subText,
               ),
             ],

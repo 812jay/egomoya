@@ -223,11 +223,8 @@ class _QuestDetailCommentList extends StatelessWidget {
                         parentId: parentId,
                       ),
                       nickname: data.user?.nickname ?? '',
-                      writedAt: DateTime.now().subtract(
-                        Duration(
-                          days: index,
-                        ),
-                      ),
+                      updatedAt: data.updatedAt,
+                      onTapMore: () => value.onTapMore(context),
                     ),
                     if (data.children != null) const SizedBox(height: 8),
                     if (data.children != null)
@@ -241,11 +238,7 @@ class _QuestDetailCommentList extends StatelessWidget {
                             commentId: reply.id,
                             nickname: reply.user?.nickname ?? '',
                             content: reply.content,
-                            writedAt: DateTime.now().subtract(
-                              Duration(
-                                days: index,
-                              ),
-                            ),
+                            updatedAt: reply.updatedAt,
                           );
                         },
                         separatorBuilder: (context, index) =>
