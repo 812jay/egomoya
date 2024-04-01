@@ -33,7 +33,10 @@ class QuestionDetailView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         return GestureDetector(
-          onTap: FocusScope.of(context).unfocus,
+          onTap: () {
+            FocusScope.of(context).unfocus;
+            viewModel.onClearReplyText();
+          },
           child: Consumer<QuestionDetailViewModel>(
             builder: (context, value, child) {
               final data = value.postData;
@@ -222,9 +225,7 @@ class _QuestDetailCommentList extends StatelessWidget {
                       commentId: data.id,
                       isCurUser: data.user?.userId == value.userId,
                       content: data.content,
-                      onTapReply: (parentId) => value.addComment(
-                        parentId: parentId,
-                      ),
+                      onTapReply: value.onTapReply,
                       nickname: data.user?.nickname ?? '',
                       updatedAt: data.updatedAt,
                       onTapMore: (commentId) => value.onTapMoreComment(
@@ -279,7 +280,23 @@ class _QuestionDetailAddComment extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Consumer<QuestionDetailViewModel>(
+            builder: (context, value, child) {
+              return value.replyText != null && value.curCommentParentId != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        value.replyText!,
+                        style: context.typo.body2.subColor.bold,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    )
+                  : const SizedBox.shrink();
+            },
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Row(

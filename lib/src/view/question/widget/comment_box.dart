@@ -19,7 +19,11 @@ class CommentBox extends StatelessWidget {
   final bool? isCurUser;
   final String nickname;
   final String? content;
-  final Function(int? parentId) onTapReply;
+  final Function({
+    int? parentId,
+    String? nickname,
+    String? content,
+  }) onTapReply;
   final DateTime updatedAt;
   final Function(int commentId) onTapMore;
 
@@ -62,7 +66,11 @@ class CommentBox extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () => onTapReply(commentId),
+              onTap: () => onTapReply(
+                parentId: commentId,
+                nickname: nickname,
+                content: content,
+              ),
               child: Text(
                 '답글',
                 style: context.typo.body2.subColor,

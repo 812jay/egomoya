@@ -29,6 +29,9 @@ class QuestionDetailViewModel extends BaseViewModel {
   PostData? postData;
   Comment? comment;
 
+  int? curCommentParentId;
+  String? replyText;
+
   Future<void> fetchPostListDetail() async {
     final PostData? result = await postModel.fetchPostListDetail(postId);
     postData = result;
@@ -41,7 +44,9 @@ class QuestionDetailViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> addComment({int? parentId}) async {
+  Future<void> addComment({
+    int? parentId,
+  }) async {
     await commentModel.registComment(
       postId: postId,
       content: commentText,
@@ -83,6 +88,26 @@ class QuestionDetailViewModel extends BaseViewModel {
 
   void onClearAddComment() {
     commentAddController.clear();
+    notifyListeners();
+  }
+
+  void onTapReply({
+    int? parentId,
+    String? nickname,
+    String? content,
+  }) {
+    curCommentParentId = parentId;
+    replyText = '$nickname: $content';
+    notifyListeners();
+  }
+
+  void onClearReplyText() {
+    if (curCommentParentId != null) {
+      curCommentParentId = null;
+    }
+    if (replyText != null) {
+      replyText = null;
+    }
     notifyListeners();
   }
 }
