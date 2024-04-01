@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/comment_model.dart';
@@ -37,6 +39,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   Future<void> fetchCommentListDetail() async {
     final Comment? result = await commentModel.fetchComment(postId);
     comment = result;
+    log('comment: $comment');
     notifyListeners();
   }
 
