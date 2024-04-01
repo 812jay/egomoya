@@ -20,12 +20,14 @@ class CommentModel {
   Future<void> registComment({
     required int postId,
     required String content,
+    int? parentId,
   }) async {
     await _commentRepo.registComment(
       postId: postId,
       req: CommentReq(
         content: content,
         userId: userId,
+        parentId: parentId,
       ),
     );
     await fetchComment(postId);

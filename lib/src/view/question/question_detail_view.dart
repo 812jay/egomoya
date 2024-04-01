@@ -99,7 +99,7 @@ class QuestionDetailView extends StatelessWidget {
                       //댓글 등록
                       _QuestionDetailAddComment(
                         controller: viewModel.commentAddController,
-                        onSubmit: viewModel.addComment,
+                        onSubmit: () => viewModel.addComment(),
                       ),
                     ],
                   ),
@@ -199,45 +199,6 @@ class _QuestDetailCommentList extends StatelessWidget {
           );
         }
         final dataList = value.comment!.dataList;
-        // final dataList = [
-        //   CommentData(
-        //     id: 3,
-        //     content: '오백',
-        //     userId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
-        //     children: [],
-        //   ),
-        //   CommentData(
-        //     id: 2,
-        //     content: '얼만데',
-        //     userId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
-        //     children: [
-        //       CommentData(
-        //         id: 3,
-        //         content: '오백',
-        //         userId: "ebe1135ee2b7",
-        //       )
-        //     ],
-        //   ),
-        //   CommentData(
-        //     id: 3,
-        //     content: '개비쌈',
-        //     userId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
-        //     children: [
-        //       CommentData(
-        //         id: 2,
-        //         content: '오백이 비싸냐',
-        //         userId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
-        //         children: [],
-        //       ),
-        //       CommentData(
-        //         id: 3,
-        //         content: '너 돈 많어?',
-        //         userId: "2db207b1-f98e-41f9-ab9c-ebe1135ee2b7",
-        //         children: [],
-        //       ),
-        //     ],
-        //   ),
-        // ];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -258,7 +219,9 @@ class _QuestDetailCommentList extends StatelessWidget {
                     CommentBox(
                       content: data.content,
                       commentId: data.id,
-                      onTapReply: (postId) {},
+                      onTapReply: (parentId) => value.addComment(
+                        parentId: parentId,
+                      ),
                       nickname: data.user?.nickname ?? '',
                       writedAt: DateTime.now().subtract(
                         Duration(

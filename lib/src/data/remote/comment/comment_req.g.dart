@@ -14,7 +14,7 @@ CommentReq _$CommentReqFromJson(Map<String, dynamic> json) {
   return CommentReq(
     content: json['content'] as String,
     userId: json['userId'] as String,
-    parentId: json['parentId'] as String?,
+    parentId: json['parentId'] as int?,
   );
 }
 

@@ -14,7 +14,7 @@ class CommentReq {
   @JsonKey(name: 'userId')
   final String userId;
   @JsonKey(name: 'parentId', disallowNullValue: true)
-  final String? parentId;
+  final int? parentId;
 
   factory CommentReq.fromJson(Map<String, dynamic> json) =>
       _$CommentReqFromJson(json);

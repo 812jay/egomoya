@@ -15,7 +15,7 @@ class CommentBox extends StatelessWidget {
   final int commentId;
   final String nickname;
   final String? content;
-  final Function(int postId) onTapReply;
+  final Function(int? parentId) onTapReply;
   final DateTime writedAt;
 
   @override
