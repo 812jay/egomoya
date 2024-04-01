@@ -1,3 +1,5 @@
+import 'package:egomoya/src/data/dto/user/user.dart';
+
 class Comment {
   Comment({
     required this.dataList,
@@ -15,18 +17,18 @@ class Comment {
 class CommentData {
   CommentData({
     required this.id,
-    required this.content,
-    required this.uniqueUserId,
+    this.content,
+    this.user,
     this.children,
   });
   final int id;
-  final String content;
-  final String uniqueUserId;
+  final String? content;
+  final User? user;
   final List<CommentData>? children;
 
   @override
   String toString() {
-    return 'CommentData(id: $id, content: $content, uniqueUserId: $uniqueUserId, children: $children)';
+    return 'CommentData(id: $id, content: $content, user: $user, children: $children)';
   }
 }
 

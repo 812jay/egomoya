@@ -23,8 +23,10 @@ Map<String, dynamic> _$CommentResToJson(CommentRes instance) =>
 CommentDataRes _$CommentDataResFromJson(Map<String, dynamic> json) =>
     CommentDataRes(
       id: json['id'] as int,
-      content: json['content'] as String,
-      uniqueUserId: json['uniqueUserId'] as String,
+      content: json['content'] as String?,
+      user: json['user'] == null
+          ? null
+          : UserRes.fromJson(json['user'] as Map<String, dynamic>),
       children: (json['children'] as List<dynamic>?)
           ?.map((e) => CommentDataRes.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -34,7 +36,7 @@ Map<String, dynamic> _$CommentDataResToJson(CommentDataRes instance) =>
     <String, dynamic>{
       'id': instance.id,
       'content': instance.content,
-      'uniqueUserId': instance.uniqueUserId,
+      'user': instance.user,
       'children': instance.children,
     };
 

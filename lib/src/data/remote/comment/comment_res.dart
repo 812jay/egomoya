@@ -1,4 +1,5 @@
 import 'package:egomoya/src/data/dto/comment/comment.dart';
+import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'comment_res.g.dart';
@@ -32,15 +33,15 @@ class CommentDataRes {
   CommentDataRes({
     required this.id,
     required this.content,
-    required this.uniqueUserId,
+    required this.user,
     this.children,
   });
   @JsonKey(name: 'id')
   final int id;
   @JsonKey(name: 'content')
-  final String content;
-  @JsonKey(name: 'uniqueUserId')
-  final String uniqueUserId;
+  final String? content;
+  @JsonKey(name: 'user')
+  final UserRes? user;
   @JsonKey(name: 'children')
   final List<CommentDataRes>? children;
 
@@ -54,7 +55,7 @@ extension CommentDataResExt on CommentDataRes {
   CommentData toDto() => CommentData(
         id: id,
         content: content,
-        uniqueUserId: uniqueUserId,
+        user: user?.toDto(),
         children: children?.map((e) => e.toDto()).toList(),
       );
 }

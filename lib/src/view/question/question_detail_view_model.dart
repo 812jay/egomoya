@@ -1,6 +1,5 @@
 import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
-import 'package:egomoya/src/data/remote/comment/comment_req.dart';
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
@@ -42,11 +41,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   Future<void> addComment() async {
     await commentModel.registComment(
       postId: postId,
-      req: CommentReq(
-        content: commentText,
-        userId: 'user1',
-        parentId: null,
-      ),
+      content: commentText,
     );
     //comment refresh
     await fetchCommentListDetail();

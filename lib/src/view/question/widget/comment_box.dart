@@ -7,13 +7,13 @@ class CommentBox extends StatelessWidget {
   const CommentBox({
     super.key,
     required this.commentId,
-    required this.userId,
+    required this.nickname,
     required this.writedAt,
     required this.onTapReply,
     this.content,
   });
   final int commentId;
-  final String userId;
+  final String nickname;
   final String? content;
   final Function(int postId) onTapReply;
   final DateTime writedAt;
@@ -24,7 +24,7 @@ class CommentBox extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          userId,
+          nickname,
           style: context.typo.body2.bold.subText,
         ),
         const SizedBox(height: 10),

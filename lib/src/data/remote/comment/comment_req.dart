@@ -13,7 +13,7 @@ class CommentReq {
   final String content;
   @JsonKey(name: 'userId')
   final String userId;
-  @JsonKey(name: 'parentId')
+  @JsonKey(name: 'parentId', disallowNullValue: true)
   final String? parentId;
 
   factory CommentReq.fromJson(Map<String, dynamic> json) =>

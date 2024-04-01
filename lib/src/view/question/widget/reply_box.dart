@@ -8,12 +8,12 @@ class ReplyBox extends StatelessWidget {
   const ReplyBox({
     super.key,
     required this.commentId,
-    required this.userId,
+    required this.nickname,
     required this.writedAt,
     this.content,
   });
   final int commentId;
-  final String userId;
+  final String nickname;
   final String? content;
   final DateTime writedAt;
 
@@ -37,7 +37,7 @@ class ReplyBox extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                userId,
+                nickname,
                 style: context.typo.body2.bold.subColor,
               ),
               const SizedBox(height: 10),

@@ -24,9 +24,8 @@ void main() async {
           create: (context) => PostModel(prefHelper),
         ),
         Provider(
-          create: (context) => CommentModel(),
+          create: (context) => CommentModel(prefHelper),
         ),
-        
         ChangeNotifierProvider(
           create: (context) => ThemeService(),
         ),
