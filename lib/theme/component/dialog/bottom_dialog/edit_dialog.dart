@@ -1,13 +1,15 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/util/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class PostEditDialog extends StatelessWidget {
-  const PostEditDialog({
+class EditDialog extends StatelessWidget {
+  const EditDialog({
     super.key,
+    this.onUpdate,
+    this.onDelete,
   });
+  final GestureTapCallback? onUpdate;
+  final GestureTapCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,7 @@ class PostEditDialog extends StatelessWidget {
           ),
           Expanded(
             child: TextButton(
-              onPressed: () {
-                log('수정');
-              },
+              onPressed: onUpdate,
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -55,9 +55,7 @@ class PostEditDialog extends StatelessWidget {
           const Divider(),
           Expanded(
             child: TextButton(
-              onPressed: () {
-                log('삭제');
-              },
+              onPressed: onDelete,
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(

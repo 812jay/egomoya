@@ -7,14 +7,14 @@ class UserReq {
   UserReq({
     required this.email,
     required this.password,
-    required this.nickname,
+    this.nickname,
   });
   @JsonKey(name: 'email')
   final String email;
   @JsonKey(name: 'password')
   final String password;
-  @JsonKey(name: 'nickname')
-  final String nickname;
+  @JsonKey(name: 'nickname', disallowNullValue: true)
+  final String? nickname;
 
   factory UserReq.fromJson(Map<String, dynamic> json) =>
       _$UserReqFromJson(json);

@@ -26,6 +26,7 @@ extension ValidateTypeExt on SignValidateType {
 enum PostValidateType {
   title,
   password,
+  nickname,
 }
 
 extension PostValidateTypeExt on PostValidateType {
@@ -35,6 +36,8 @@ extension PostValidateTypeExt on PostValidateType {
         return r'^.{1,40}$';
       case PostValidateType.password:
         return r'^\d{4,8}$';
+      case PostValidateType.nickname:
+        return r'^[a-zA-Z0-9]{2,10}$';
     }
   }
 }

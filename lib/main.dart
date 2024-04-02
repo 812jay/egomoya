@@ -1,6 +1,7 @@
+import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/model/user_model.dart';
-import 'package:egomoya/src/repository/post_repo.dart';
+import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/main/main_view.dart';
@@ -18,13 +19,16 @@ void main() async {
     MultiProvider(
       providers: [
         Provider(
-          create: (contxt) => UserModel(prefHelper),
+          create: (context) => UserModel(prefHelper),
         ),
         Provider(
-          create: (context) => PostRepo(),
+          create: (context) => PostModel(prefHelper),
         ),
         Provider(
-          create: (contxt) => PostModel(),
+          create: (context) => CommentModel(prefHelper),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DialogService(),
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeService(),

@@ -150,9 +150,7 @@ class _SubmitButton extends StatelessWidget {
     return Consumer<SignInViewModel>(
       builder: (context, value, child) {
         return Button(
-          onPressed: () {
-            log('login');
-          },
+          onPressed: () => value.signIn(context),
           text: '로그인',
           isInactive: !value.isValidateSignIn,
           width: double.infinity,

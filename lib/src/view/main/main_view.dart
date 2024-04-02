@@ -1,3 +1,6 @@
+import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
@@ -6,6 +9,8 @@ import 'package:egomoya/theme/component/app_bar/main_sliver_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/button/category_button.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +22,8 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: MainViewModel(
-        context.read(),
+        context.read<PostModel>(),
+        context.read<UserModel>(),
       ),
       builder: (context, viewModel) {
         List<Widget> pageList = [
@@ -30,7 +36,9 @@ class MainView extends StatelessWidget {
             child: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return <Widget>[
-                  const MainSliverAppBar(),
+                  MainSliverAppBar(
+                    isSignedIn: viewModel.isSignedIn,
+                  ),
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                       context,
@@ -61,7 +69,7 @@ class MainView extends StatelessWidget {
           ),
           floatingActionButton: Consumer<MainViewModel>(
             builder: (context, value, child) {
-              return value.selectedCategoryIndex == 1
+              return value.selectedCategoryIndex == 2
                   ? Button(
                       onPressed: () => Navigator.pushNamed(
                         context,
@@ -141,30 +149,10 @@ class _MainHome extends StatelessWidget {
               title: '요고 궁금해요 TOP 3',
             ),
             const SizedBox(height: 26),
-            value.post?.dataList == null
-                ? const Text('none')
-                : ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: value.post!.dataList.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 13),
-                    itemBuilder: (context, index) {
-                      final content = value.post!.dataList[index];
-                      return QuestionBox(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          RoutePath.questionDetail,
-                          arguments: content.postId,
-                        ),
-                        title: content.title,
-                        content: content.content,
-                        writedAt: content.createdAt,
-                        imgList: content.imageList ?? [],
-                        commentCnt: 3,
-                      );
-                    },
-                  ),
+            _QuestionList(
+              postList: value.post?.dataList,
+              limit: 3,
+            )
           ],
         );
       },
@@ -190,9 +178,72 @@ class _MainQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Consumer<MainViewModel>(
+      builder: (context, value, child) {
+        return _QuestionList(
+          postList: value.post!.dataList,
+        );
+      },
+    );
+  }
+}
+
+class _QuestionList extends StatelessWidget {
+  const _QuestionList({
+    super.key,
+    required this.postList,
+    this.limit,
+  });
+  final List<PostData>? postList;
+  final int? limit;
+
+  @override
+  Widget build(BuildContext context) {
+    if (postList == null || postList!.isEmpty) {
+      return const _EmptyQuestionBox();
+    }
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount: limit ?? postList!.length,
+      physics: const NeverScrollableScrollPhysics(),
+      separatorBuilder: (context, index) => const SizedBox(height: 20),
+      itemBuilder: (context, index) {
+        final content = postList![index];
+        return QuestionBox(
+          onTap: () => Navigator.pushNamed(
+            context,
+            RoutePath.questionDetail,
+            arguments: content.postId,
+          ),
+          title: content.title,
+          content: content.content,
+          writedAt: content.createdAt,
+          imgList: content.imageList ?? [],
+          commentCnt: 3,
+        );
+      },
+    );
+  }
+}
+
+class _EmptyQuestionBox extends StatelessWidget {
+  const _EmptyQuestionBox({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('_MainQuestion'),
+        const AssetIcon(
+          'assets/images/logo_icon.png',
+          size: 100,
+        ),
+        Text(
+          textAlign: TextAlign.center,
+          '요고 궁금 게시글이 없어요.\n게시글을 등록해주세요.',
+          style: context.typo.subTitle3.subText,
+        ),
       ],
     );
   }

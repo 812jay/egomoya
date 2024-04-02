@@ -1,4 +1,6 @@
+import 'package:egomoya/src/data/enum/user_type.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
+import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
@@ -58,5 +60,15 @@ class SignInViewModel extends BaseViewModel {
   void navigateSignUpEmail(BuildContext context) =>
       Navigator.pushNamed(context, RoutePath.signUp);
 
-  Future<void> signIn() async {}
+  Future<void> signIn(BuildContext context) async {
+    final result = await _userModel.signIn(
+      UserReq(
+        email: email,
+        password: password,
+      ),
+    );
+    if (result == SignInType.success) {
+      Navigator.pop(context);
+    }
+  }
 }

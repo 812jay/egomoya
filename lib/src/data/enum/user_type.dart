@@ -13,3 +13,19 @@ extension SignUpTypeExt on SignUpType {
     }
   }
 }
+
+enum SignInType {
+  success,
+  fail,
+}
+
+extension SignInTypeExt on SignInType {
+  String get toastText {
+    switch (this) {
+      case SignInType.success:
+        return '로그인에 성공했습니다.';
+      case SignInType.fail:
+        return '로그인에 실패했습니다.';
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
+import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post_res.g.dart';
@@ -28,7 +29,6 @@ extension PostResExt on PostRes {
       );
 }
 
-//content
 @JsonSerializable()
 class PostDataRes {
   PostDataRes({
@@ -68,14 +68,11 @@ extension PostDataResExt on PostDataRes {
         content: content,
         imageList: images?.map((e) => e.toDto()).toList() ?? [],
         user: user.toDto(),
-        createdAt: DateTime.tryParse(createdAt) ?? DateTime.now(),
-        updatedAt: DateTime.tryParse(updatedAt) ?? DateTime.now(),
+        createdAt: DateTimeHelper.formatUtcStringToLocal(createdAt),
+        updatedAt: DateTimeHelper.formatUtcStringToLocal(updatedAt),
       );
 }
 
-//image
-
-//content
 @JsonSerializable()
 class PostImageRes {
   PostImageRes({
@@ -100,7 +97,6 @@ extension PostImageResExt on PostImageRes {
       );
 }
 
-//pageInfo
 @JsonSerializable()
 class PostPageInfoRes {
   PostPageInfoRes({

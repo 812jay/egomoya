@@ -1,18 +1,22 @@
 import 'package:egomoya/src/data/dto/main/main_category.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/helper/immutable_helper.dart';
 import 'package:flutter/material.dart';
 
 class MainViewModel extends BaseViewModel {
-  MainViewModel(this.postModel) {
+  MainViewModel(
+    this.postModel,
+    this.userModel,
+  ) {
     fetchPostList();
   }
 
   final PostModel postModel;
+  final UserModel userModel;
   final ScrollController scrollController = ScrollController();
-  // final PageController pageController = PageController(initialPage: 0);
   Post? post;
   List<MainCategory> categoryList = [
     MainCategory(index: 0, title: '홈', isActive: true),
@@ -21,12 +25,12 @@ class MainViewModel extends BaseViewModel {
   ];
 
   int selectedCategoryIndex = 0;
+  bool get isSignedIn => userModel.isSignedIn;
 
   @override
   void dispose() {
     super.dispose();
     scrollController.dispose();
-    // pageController.dispose();
   }
 
   Future<void> fetchPostList() async {
@@ -41,7 +45,6 @@ class MainViewModel extends BaseViewModel {
     final category = categoryList[index];
     onChangeCategory(index, category.copyWith(isActive: !category.isActive));
     selectedCategoryIndex = index;
-    // onChangePage(index);
     notifyListeners();
   }
 

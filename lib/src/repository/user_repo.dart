@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:egomoya/src/data/enum/sign_up_type.dart';
+import 'package:egomoya/src/data/enum/user_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/src/repository/base_repo.dart';
 
 class UserRepo extends BaseRepo {
-  Future<UserRes?> signIn(String userId) async {
+  Future<UserRes?> signIn({required UserReq req}) async {
     try {
-      final response = await dio.get('$prefix/api/users/$userId');
+      final response = await dio.post(
+        '$prefix/api/users/login',
+        data: jsonEncode(req),
+      );
       final result = UserRes.fromJson(response.data);
       return result;
     } catch (e) {
@@ -18,9 +21,7 @@ class UserRepo extends BaseRepo {
     }
   }
 
-  Future<SignUpType> signUp({
-    required UserReq req,
-  }) async {
+  Future<SignUpType> signUp({required UserReq req}) async {
     try {
       await dio.post(
         '$prefix/api/users',

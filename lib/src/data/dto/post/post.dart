@@ -14,7 +14,6 @@ class Post {
   }
 }
 
-//content
 class PostData {
   PostData({
     required this.postId,
@@ -35,7 +34,7 @@ class PostData {
 
   @override
   String toString() {
-    return 'PostContent(postId: $postId, title: $title, content: $content, imageList: $imageList, user: $user, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'PostData(postId: $postId, title: $title, content: $content, imageList: $imageList, user: $user, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
@@ -55,7 +54,6 @@ class PostImage {
   }
 }
 
-//pageable
 class PostPageInfo {
   PostPageInfo({
     required this.pageNumber,
@@ -68,6 +66,6 @@ class PostPageInfo {
 
   @override
   String toString() {
-    return 'PostPageable(pageNumber: $pageNumber, pageSize: $pageSize, last: $last)';
+    return 'PostPageInfo(pageNumber: $pageNumber, pageSize: $pageSize, last: $last)';
   }
 }

@@ -1,8 +1,13 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/enum/post_type.dart';
+import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
 import 'package:egomoya/src/repository/post_repo.dart';
+import 'package:egomoya/util/helper/perf_helper.dart';
 
 class PostModel {
+  PostModel(this._pref);
+  final PrefHelper _pref;
   final PostRepo _postRepo = PostRepo();
 
   Future<Post?> fetchPostList() async {
@@ -17,5 +22,8 @@ class PostModel {
     return result;
   }
 
-  Future<void> registPost() async {}
+  Future<PostRegistType> registPost(PostReq req) async {
+    final res = await _postRepo.registPost(req: req);
+    return res;
+  }
 }

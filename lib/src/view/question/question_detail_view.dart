@@ -1,10 +1,12 @@
-import 'dart:developer';
-
+import 'package:egomoya/src/model/comment_model.dart';
+import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/src/view/question/widget/comment_box.dart';
 import 'package:egomoya/src/view/question/widget/content_image.dart';
+import 'package:egomoya/src/view/question/widget/reply_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/app_theme.dart';
@@ -25,11 +27,16 @@ class QuestionDetailView extends StatelessWidget {
     return BaseView(
       viewModel: QuestionDetailViewModel(
         postId: postId,
-        postModel: context.read(),
+        postModel: context.read<PostModel>(),
+        commentModel: context.read<CommentModel>(),
+        dialogService: context.read<DialogService>(),
       ),
       builder: (context, viewModel) {
         return GestureDetector(
-          onTap: FocusScope.of(context).unfocus,
+          onTap: () {
+            FocusScope.of(context).unfocus;
+            viewModel.onClearReplyText();
+          },
           child: Consumer<QuestionDetailViewModel>(
             builder: (context, value, child) {
               final data = value.postData;
@@ -38,7 +45,7 @@ class QuestionDetailView extends StatelessWidget {
                   title: '질문 상세',
                   actions: [
                     GestureDetector(
-                      onTap: () => viewModel.onTapMore(context),
+                      onTap: () => viewModel.onTapMorePost(context),
                       child: const AssetIcon(
                         'assets/icons/more.svg',
                         size: 24,
@@ -64,9 +71,8 @@ class QuestionDetailView extends StatelessWidget {
                                     _QuestionDetailHead(
                                       title: data?.title ?? '',
                                       userId: data?.user.nickname ?? '익명',
-                                      writedAt: DateTime.now().subtract(
-                                        const Duration(seconds: 1),
-                                      ),
+                                      updatedAt:
+                                          data?.updatedAt ?? DateTime.now(),
                                     ),
                                     const SizedBox(height: 10),
                                     _QuestDetailContent(
@@ -87,9 +93,7 @@ class QuestionDetailView extends StatelessWidget {
                               //댓글 목록
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: _QuestDetailCommentList(
-                                  commentList: [],
-                                ),
+                                child: _QuestDetailCommentList(),
                               ),
                               const SizedBox(height: 25),
                             ],
@@ -99,9 +103,7 @@ class QuestionDetailView extends StatelessWidget {
                       //댓글 등록
                       _QuestionDetailAddComment(
                         controller: viewModel.commentAddController,
-                        onSubmit: () {
-                          log('댓글 등록');
-                        },
+                        onSubmit: () => viewModel.addComment(),
                       ),
                     ],
                   ),
@@ -119,11 +121,11 @@ class _QuestionDetailHead extends StatelessWidget {
   const _QuestionDetailHead({
     super.key,
     required this.title,
-    required this.writedAt,
+    required this.updatedAt,
     required this.userId,
   });
   final String title;
-  final DateTime writedAt;
+  final DateTime updatedAt;
   final String userId;
 
   @override
@@ -137,7 +139,7 @@ class _QuestionDetailHead extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          '$userId • ${writedAt.formatRelativeDateTime()}',
+          '$userId • ${DateTimeHelper.formatRelativeDateTime(updatedAt)}',
           style: context.typo.body3.subText,
         ),
       ],
@@ -182,40 +184,84 @@ class _QuestDetailContent extends StatelessWidget {
 class _QuestDetailCommentList extends StatelessWidget {
   const _QuestDetailCommentList({
     super.key,
-    required this.commentList,
   });
-  final List commentList;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '댓글',
-          style: context.typo.body1.bold,
-        ),
-        const SizedBox(height: 25),
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: 3,
-          physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) => const SizedBox(height: 25),
-          itemBuilder: (context, index) {
-            return CommentBox(
-              content: 'comment$index',
-              commentId: 0,
-              onTapReply: (postId) {},
-              userId: '요고요고$index',
-              writedAt: DateTime.now().subtract(
-                Duration(
-                  days: index,
-                ),
+    return Consumer<QuestionDetailViewModel>(
+      builder: (context, value, child) {
+        if (value.comment == null || value.comment!.dataList.isEmpty) {
+          return SizedBox(
+            height: 100,
+            child: Center(
+              child: Text(
+                '내가 알고있는 상품이라면\n댓글을 남겨주세요',
+                style: context.typo.body2.subText,
+                textAlign: TextAlign.center,
               ),
-            );
-          },
-        ),
-      ],
+            ),
+          );
+        }
+        final dataList = value.comment!.dataList;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '댓글 ${dataList.length}',
+              style: context.typo.body1.bold,
+            ),
+            const SizedBox(height: 25),
+            ListView.separated(
+              shrinkWrap: true,
+              itemCount: dataList.length,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              itemBuilder: (context, index) {
+                final data = dataList[index];
+                return Column(
+                  children: [
+                    CommentBox(
+                      commentId: data.id,
+                      isCurUser: data.user?.userId == value.userId,
+                      content: data.content,
+                      onTapReply: value.onTapReply,
+                      nickname: data.user?.nickname ?? '',
+                      updatedAt: data.updatedAt,
+                      onTapMore: (commentId) => value.onTapMoreComment(
+                        context,
+                        commentId: commentId,
+                      ),
+                    ),
+                    if (data.children != null) const SizedBox(height: 8),
+                    if (data.children != null)
+                      ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: data.children!.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final reply = data.children![index];
+                          return ReplyBox(
+                            commentId: reply.id,
+                            nickname: reply.user?.nickname ?? '',
+                            content: reply.content,
+                            updatedAt: reply.updatedAt,
+                            onTapMore: (commentId) => value.onTapMoreComment(
+                              context,
+                              commentId: commentId,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 8),
+                      )
+                  ],
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -234,7 +280,23 @@ class _QuestionDetailAddComment extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Consumer<QuestionDetailViewModel>(
+            builder: (context, value, child) {
+              return value.replyText != null && value.curCommentParentId != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        value.replyText!,
+                        style: context.typo.body2.subColor.bold,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    )
+                  : const SizedBox.shrink();
+            },
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Row(

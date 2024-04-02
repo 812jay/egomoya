@@ -1,4 +1,4 @@
-import 'package:egomoya/src/repository/post_repo.dart';
+import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
@@ -19,8 +19,8 @@ class QuestionAddView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: QuestionAddViewModel(
-        imageService: ImageService(),
-        postRepo: PostRepo(),
+        context.read<ImageService>(),
+        context.read<PostModel>(),
       ),
       builder: (context, viewModel) {
         return GestureDetector(
@@ -30,33 +30,24 @@ class QuestionAddView extends StatelessWidget {
               title: '질문 등록',
               onTapLeading: () => viewModel.onTapLeading(context),
             ),
-            body: SingleChildScrollView(
+            body: const SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _InputPicture(),
-                    const SizedBox(height: 15),
-                    _InputTitle(
-                      controller: viewModel.titleController,
-                      onChanged: viewModel.onChangeTitle,
-                      onClear: viewModel.onClearTitle,
-                    ),
-                    const SizedBox(height: 15),
-                    _InputContent(
-                      controller: viewModel.contentController,
-                      onChanged: viewModel.onChangeContent,
-                    ),
-                    const SizedBox(height: 15),
-                    _InputPassword(
-                      controller: viewModel.passwordController,
-                      onChanged: viewModel.onChangePassword,
-                      onClear: viewModel.onClearPassword,
-                    ),
-                    const SizedBox(height: 23),
-                    const _SubmitButton(),
-                    const SizedBox(height: 33),
+                    _InputPicture(),
+                    SizedBox(height: 15),
+                    _InputTitle(),
+                    SizedBox(height: 15),
+                    _InputContent(),
+                    SizedBox(height: 15),
+                    _InputNickname(),
+                    SizedBox(height: 15),
+                    _InputPassword(),
+                    SizedBox(height: 23),
+                    _SubmitButton(),
+                    SizedBox(height: 33),
                   ],
                 ),
               ),
@@ -120,25 +111,13 @@ class _InputPicture extends StatelessWidget {
 }
 
 class _InputTitle extends StatelessWidget {
-  const _InputTitle({
-    super.key,
-    required this.controller,
-    required this.onChanged,
-    required this.onClear,
-  });
-  final TextEditingController controller;
-  final void Function(String) onChanged;
-  final GestureTapCallback onClear;
+  const _InputTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Text.rich(
-        //   '제목',
-        //   style: context.typo.body2.bold,
-        // ),
         Text.rich(
           TextSpan(
             children: [
@@ -157,9 +136,9 @@ class _InputTitle extends StatelessWidget {
         Consumer<QuestionAddViewModel>(
           builder: (context, value, child) {
             return TextField(
-              controller: controller,
+              controller: value.titleController,
               keyboardType: TextInputType.text,
-              onChanged: (value) => onChanged(value),
+              onChanged: (text) => value.onChangeTitle(text),
               inputFormatters: [
                 LengthLimitingTextInputFormatter(40),
               ],
@@ -173,13 +152,13 @@ class _InputTitle extends StatelessWidget {
                     width: 1,
                   ),
                 ),
-                suffixIcon: controller.text.isEmpty
+                suffixIcon: value.titleController.text.isEmpty
                     ? null
                     : Button(
                         iconPath: AssetIconType.close.path,
                         color: Colors.black,
                         type: ButtonType.flat,
-                        onPressed: onClear,
+                        onPressed: value.onClearTitle,
                       ),
               ),
             );
@@ -191,32 +170,26 @@ class _InputTitle extends StatelessWidget {
 }
 
 class _InputContent extends StatelessWidget {
-  const _InputContent({
-    super.key,
-    required this.controller,
-    required this.onChanged,
-  });
-  final TextEditingController controller;
-  final void Function(String) onChanged;
+  const _InputContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<QuestionAddViewModel>(
-      builder: (context, value, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '내용',
-              style: context.typo.body2.bold,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: controller,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '내용',
+          style: context.typo.body2.bold,
+        ),
+        const SizedBox(height: 12),
+        Consumer<QuestionAddViewModel>(
+          builder: (context, value, child) {
+            return TextField(
+              controller: value.contentController,
               keyboardType: TextInputType.multiline,
               maxLength: 500,
               maxLines: 10,
-              onChanged: (value) => onChanged(value),
+              onChanged: (text) => value.onChangeContent(text),
               inputFormatters: [
                 LengthLimitingTextInputFormatter(500),
               ],
@@ -229,24 +202,75 @@ class _InputContent extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
-        );
-      },
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _InputNickname extends StatelessWidget {
+  const _InputNickname({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '닉네임',
+                style: context.typo.body2.bold,
+              ),
+              TextSpan(
+                text: '*',
+                style: context.typo.body2.bold.pointColor,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Consumer<QuestionAddViewModel>(
+          builder: (context, value, child) {
+            return TextField(
+              controller: value.nicknameController,
+              keyboardType: TextInputType.text,
+              onChanged: (text) => value.onChangeNickname(text),
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(10),
+              ],
+              decoration: InputDecoration(
+                hintText: '닉네임을 입력해 주세요',
+                errorText: value.nicknameErrMsg,
+                counterText: '${value.title.length}/10',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 1,
+                  ),
+                ),
+                suffixIcon: value.nicknameController.text.isEmpty
+                    ? null
+                    : Button(
+                        iconPath: AssetIconType.close.path,
+                        color: Colors.black,
+                        type: ButtonType.flat,
+                        onPressed: value.onClearNickname,
+                      ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
 
 class _InputPassword extends StatelessWidget {
-  const _InputPassword({
-    super.key,
-    required this.controller,
-    required this.onChanged,
-    required this.onClear,
-  });
-  final TextEditingController controller;
-  final void Function(String) onChanged;
-  final GestureTapCallback onClear;
+  const _InputPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -289,10 +313,10 @@ class _InputPassword extends StatelessWidget {
         Consumer<QuestionAddViewModel>(
           builder: (context, value, child) {
             return TextField(
-              controller: controller,
+              controller: value.passwordController,
               keyboardType: TextInputType.number,
               obscureText: true,
-              onChanged: (value) => onChanged(value),
+              onChanged: (text) => value.onChangePassword(text),
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(8),
@@ -306,13 +330,13 @@ class _InputPassword extends StatelessWidget {
                     width: 1,
                   ),
                 ),
-                suffixIcon: controller.text.isEmpty
+                suffixIcon: value.passwordController.text.isEmpty
                     ? null
                     : Button(
                         iconPath: AssetIconType.close.path,
                         color: Colors.black,
                         type: ButtonType.flat,
-                        onPressed: onClear,
+                        onPressed: value.onClearPassword,
                       ),
               ),
             );
@@ -331,7 +355,8 @@ class _SubmitButton extends StatelessWidget {
     return Consumer<QuestionAddViewModel>(
       builder: (context, value, child) {
         return Button(
-          onPressed: () => value.isActiveSubmitButton ? value.onSubmit() : null,
+          onPressed: () =>
+              value.isActiveSubmitButton ? value.onSubmit(context) : null,
           isInactive: !value.isActiveSubmitButton,
           width: double.infinity,
           text: '질문 등록',
