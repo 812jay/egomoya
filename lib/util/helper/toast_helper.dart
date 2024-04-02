@@ -1,18 +1,18 @@
-import 'package:egomoya/src/service/theme_service.dart';
-import 'package:flutter/material.dart';
+import 'package:egomoya/theme/res/palette.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ToastHelper {
   static void showToast(
-    BuildContext context, {
-    required String text,
-  }) {
-    Fluttertoast.showToast(
-      msg: text,
-      gravity: ToastGravity.TOP,
+    String msg,
+  ) async {
+    await Fluttertoast.cancel();
+    await Fluttertoast.showToast(
+      msg: msg,
+      gravity: ToastGravity.BOTTOM,
+      toastLength: Toast.LENGTH_LONG,
       timeInSecForIosWeb: 2,
-      backgroundColor: context.color.primary,
-      textColor: context.color.white,
+      backgroundColor: Palette.red,
+      textColor: Palette.white,
     );
   }
 }

@@ -1,9 +1,9 @@
-import 'package:egomoya/src/data/enum/user_type.dart';
+import 'dart:developer';
+
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
-import 'package:egomoya/util/helper/toast_helper.dart';
 import 'package:flutter/material.dart';
 
 class SignUpViewModel extends BaseViewModel {
@@ -77,16 +77,20 @@ class SignUpViewModel extends BaseViewModel {
   }
 
   Future<void> signUp(BuildContext context) async {
-    final SignUpType result = await _userModel.signUp(
+    final result = await _userModel.signUp(
       UserReq(
         email: email,
         password: password,
         nickname: nickname,
       ),
     );
-    ToastHelper.showToast(context, text: result.toastText);
-    if (result == SignUpType.success) {
-      Navigator.popUntil(context, (route) => route.isFirst);
-    }
+    result
+      ..onFailure((e) {
+        log('${e.exception}');
+        showToast('이메일 회원가입에 실패했어요');
+      })
+      ..onSuccess((value) {
+        showToast('이메일 회원가입에 성공했어요');
+      });
   }
 }

@@ -1,4 +1,5 @@
-import 'package:egomoya/src/data/enum/user_type.dart';
+import 'dart:developer';
+
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
@@ -67,8 +68,14 @@ class SignInViewModel extends BaseViewModel {
         password: password,
       ),
     );
-    if (result == SignInType.success) {
-      Navigator.pop(context);
-    }
+    result
+      ..onFailure((e) {
+        log('${e.exception}');
+        showToast('로그인에 실패했어요');
+      })
+      ..onSuccess((value) {
+        showToast('로그인에 성공했어요');
+        Navigator.pop(context);
+      });
   }
 }

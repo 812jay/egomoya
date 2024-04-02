@@ -35,8 +35,12 @@ class MainViewModel extends BaseViewModel {
 
   Future<void> fetchPostList() async {
     isBusy = false;
-    final Post? result = await postModel.fetchPostList();
-    post = result;
+    final result = await postModel.fetchPostList();
+    result.onFailure((e) {
+      showToast('요고 궁금 데이터들을 불러오는데 실패했어요');
+    }).onSuccess((newPost) {
+      post = newPost;
+    });
     isBusy = true;
   }
 
@@ -59,12 +63,4 @@ class MainViewModel extends BaseViewModel {
         .map((e) => e.key == index ? newCategory : e.value)
         .toImmutable();
   }
-
-  // void onChangePage(int index) {
-  //   pageController.animateToPage(
-  //     index,
-  //     duration: const Duration(microseconds: 300),
-  //     curve: Curves.easeIn,
-  //   );
-  // }
 }

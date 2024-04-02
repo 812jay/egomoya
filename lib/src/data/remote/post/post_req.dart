@@ -21,7 +21,7 @@ class PostReq {
   @JsonKey(name: 'images', disallowNullValue: true)
   final List<ImageReq>? imageList;
   @JsonKey(name: 'password', disallowNullValue: true)
-  final int? password;
+  final String? password;
   @JsonKey(name: 'nickname', disallowNullValue: true)
   final String nickname;
   @JsonKey(name: 'userId', disallowNullValue: true)

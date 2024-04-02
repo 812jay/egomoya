@@ -149,9 +149,13 @@ class _MainHome extends StatelessWidget {
               title: '요고 궁금해요 TOP 3',
             ),
             const SizedBox(height: 26),
-            _QuestionList(
-              postList: value.post?.dataList,
-              limit: 3,
+            Consumer<MainViewModel>(
+              builder: (context, value, child) {
+                return _QuestionList(
+                  postList: value.post?.dataList,
+                  limit: 3,
+                );
+              },
             )
           ],
         );
@@ -180,8 +184,9 @@ class _MainQuestion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MainViewModel>(
       builder: (context, value, child) {
+        if (value.post == null) return const _EmptyQuestionBox();
         return _QuestionList(
-          postList: value.post!.dataList,
+          postList: value.post?.dataList,
         );
       },
     );

@@ -17,7 +17,7 @@ PostReq _$PostReqFromJson(Map<String, dynamic> json) {
     imageList: (json['images'] as List<dynamic>?)
         ?.map((e) => ImageReq.fromJson(e as Map<String, dynamic>))
         .toList(),
-    password: json['password'] as int?,
+    password: json['password'] as String?,
     nickname: json['nickname'] as String,
     userId: json['userId'] as String,
   );

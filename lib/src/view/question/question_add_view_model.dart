@@ -1,13 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 
-import 'package:egomoya/src/data/enum/post_type.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
-import 'package:egomoya/util/helper/toast_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -123,15 +122,17 @@ class QuestionAddViewModel extends BaseViewModel {
       PostReq(
         title: title,
         content: content,
-        password: int.tryParse(password) ?? 0000,
+        password: password,
         imageList: null,
         nickname: nickname,
-        userId: 'user-$nickname',
+        userId: _postModel.userId,
       ),
     );
-    ToastHelper.showToast(context, text: result.toastText);
-    if (result == PostRegistType.success) {
-      Navigator.popUntil(context, (route) => route.isFirst);
-    }
+    result.onFailure((e) {
+      log('${e.exception}');
+      showToast('요고 궁금 게시글을 등록하는데 실패했어요');
+    }).onSuccess((value) {
+      log('요고 궁금 게시글을 등록했어요');
+    });
   }
 }
