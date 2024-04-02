@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/comment_model.dart';
@@ -66,7 +64,6 @@ class QuestionDetailViewModel extends BaseViewModel {
     );
     result
       ..onFailure((e) {
-        log('${e.exception}');
         showToast('댓글을 삭제하는데 실패했어요');
       })
       ..onSuccess((value) async {

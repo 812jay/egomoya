@@ -129,7 +129,6 @@ class QuestionAddViewModel extends BaseViewModel {
       ),
     );
     result.onFailure((e) {
-      log('${e.exception}');
       showToast('요고 궁금 게시글을 등록하는데 실패했어요');
     }).onSuccess((value) {
       log('요고 궁금 게시글을 등록했어요');

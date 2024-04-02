@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:egomoya/util/exeptions.dart';
 
@@ -73,6 +75,7 @@ Future<RequestResult<T>> handleRequest<T>(
     return RequestResult.success(await requestFunc());
   } catch (e, s) {
     if (e is DioException) {
+      log('error: $e\nstackTrace: $s');
       return RequestResult.failure(
         CustomException(
           msg: 'API Error',
@@ -82,8 +85,10 @@ Future<RequestResult<T>> handleRequest<T>(
         ),
       );
     } else if (e is CustomException) {
+      log('error: $e\nstackTrace: $s');
       return RequestResult.failure(e);
     } else {
+      log('error: $e\nstackTrace: $s');
       return RequestResult.failure(
         CustomException(
           msg: 'Unknown Exeption...',
