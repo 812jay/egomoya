@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
@@ -9,6 +10,7 @@ class PostModel {
   PostModel(this._pref);
   final PrefHelper _pref;
   final PostRepo _postRepo = PostRepo();
+
   String get userId => _pref.userId;
 
   Future<RequestResult<Post?>> fetchPostList() => handleRequest(() async {
@@ -24,8 +26,22 @@ class PostModel {
         return result;
       });
 
-  Future<RequestResult<void>> registPost(PostReq req) =>
+  Future<RequestResult<void>> registPost({
+    required String title,
+    String? content,
+    String? password,
+    required String nickname,
+    FormData? imgFormData,
+  }) =>
       handleRequest(() async {
-        await _postRepo.registPost(req: req);
+        await _postRepo.registPost(
+          req: PostReq(
+            title: title,
+            content: content,
+            nickname: nickname,
+            password: password,
+            userId: userId,
+          ),
+        );
       });
 }

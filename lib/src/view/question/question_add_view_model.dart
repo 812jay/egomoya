@@ -1,14 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
-import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class QuestionAddViewModel extends BaseViewModel {
   QuestionAddViewModel(
@@ -24,7 +23,7 @@ class QuestionAddViewModel extends BaseViewModel {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
 
-  List<XFile> get imageList => imageService.imageList;
+  List<File> get imageList => imageService.imageList;
 
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedTitle = false;
@@ -109,29 +108,30 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void selectImage() => imageService.select(limit: 5);
 
-  void onDeleteImage(int index) => imageService.delete(
-        imageList.elementAt(index),
-      );
+  void onDeleteImage(int index) =>
+      imageService.delete(imageList.elementAt(index));
 
   void onSubmit(BuildContext context) async {
-    final imageFileList = [];
-    for (var image in imageList) {
-      imageFileList.add(File(image.path));
-    }
+    final fileList = imageService.imageList;
+
+    final FormData formData = await imageService.xFileListToFormData(
+      fileList: fileList,
+      userId: _postModel.userId,
+    );
+
     final result = await _postModel.registPost(
-      PostReq(
-        title: title,
-        content: content,
-        password: password,
-        imageList: null,
-        nickname: nickname,
-        userId: _postModel.userId,
-      ),
+      title: title,
+      content: content,
+      password: password,
+      nickname: nickname,
+      imgFormData: formData,
     );
     result.onFailure((e) {
       showToast('요고 궁금 게시글을 등록하는데 실패했어요');
     }).onSuccess((value) {
+      showToast('요고 궁금 게시글을 등록했어요');
       log('요고 궁금 게시글을 등록했어요');
+      Navigator.pop(context);
     });
   }
 }
