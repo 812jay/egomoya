@@ -33,33 +33,58 @@ class QuestionDetailViewModel extends BaseViewModel {
   String? replyText;
 
   Future<void> fetchPostListDetail() async {
-    final PostData? result = await postModel.fetchPostListDetail(postId);
-    postData = result;
-    notifyListeners();
+    final result = await postModel.fetchPostListDetail(postId);
+    result
+      ..onFailure((e) {
+        showToast('요고 궁금 게시글을 불러오는데 실패했어요');
+      })
+      ..onSuccess((newPostData) {
+        postData = newPostData;
+        notifyListeners();
+      });
   }
 
   Future<void> fetchCommentListDetail() async {
-    final Comment? result = await commentModel.fetchComment(postId);
-    comment = result;
+    final result = await commentModel.fetchComment(postId);
+    result
+      ..onFailure((e) {
+        showToast('댓글을 불러오는데 실패했어요');
+      })
+      ..onSuccess((newComment) {
+        comment = newComment;
+      });
     notifyListeners();
   }
 
   Future<void> addComment() async {
-    await commentModel.registComment(
+    final result = await commentModel.registComment(
       postId: postId,
       content: commentText,
       parentId: curCommentParentId,
     );
-    //comment refresh
-    await fetchCommentListDetail();
-    onClearAddComment();
+    result
+      ..onFailure((e) {
+        showToast('댓글을 삭제하는데 실패했어요');
+      })
+      ..onSuccess((value) async {
+        //comment refresh
+        await fetchCommentListDetail();
+        onClearAddComment();
+      });
   }
 
   Future<void> onUpdateComment() async {}
 
   Future<void> onDeleteComment(int commentId) async {
-    await commentModel.deleteComment(commentId);
-    await fetchCommentListDetail();
+    final result = await commentModel.deleteComment(commentId);
+    result
+      ..onFailure((e) {
+        showToast('댓글 삭제에 실패했어요');
+      })
+      ..onSuccess((value) async {
+        showToast('댓글을 삭제했어요');
+        await fetchCommentListDetail();
+      });
   }
 
   void onTapMorePost(BuildContext context) {

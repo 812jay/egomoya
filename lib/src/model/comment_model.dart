@@ -3,6 +3,7 @@ import 'package:egomoya/src/data/remote/comment/comment_req.dart';
 import 'package:egomoya/src/data/remote/comment/comment_res.dart';
 import 'package:egomoya/src/repository/comment_repo.dart';
 import 'package:egomoya/util/helper/perf_helper.dart';
+import 'package:egomoya/util/request_result.dart';
 
 class CommentModel {
   CommentModel(this._pref);
@@ -11,28 +12,31 @@ class CommentModel {
 
   String get userId => _pref.userId;
 
-  Future<Comment?> fetchComment(int postId) async {
-    final response = await _commentRepo.fetchComment(postId);
-    final result = response?.toDto();
-    return result;
-  }
+  Future<RequestResult<Comment?>> fetchComment(int postId) =>
+      handleRequest(() async {
+        final response = await _commentRepo.fetchComment(postId);
+        final result = response?.toDto();
+        return result;
+      });
 
-  Future<void> registComment({
+  Future<RequestResult<void>> registComment({
     required int postId,
     required String content,
     int? parentId,
-  }) async {
-    await _commentRepo.registComment(
-      postId: postId,
-      req: CommentReq(
-        content: content,
-        userId: userId,
-        parentId: parentId,
-      ),
-    );
-  }
+  }) =>
+      handleRequest(() async {
+        await _commentRepo.registComment(
+          postId: postId,
+          req: CommentReq(
+            content: content,
+            userId: userId,
+            parentId: parentId,
+          ),
+        );
+      });
 
-  Future<void> deleteComment(int commentId) async {
-    await _commentRepo.deleteComment(commentId);
-  }
+  Future<RequestResult<void>> deleteComment(int commentId) =>
+      handleRequest(() async {
+        await _commentRepo.deleteComment(commentId);
+      });
 }
