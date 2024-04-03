@@ -57,6 +57,7 @@ PostPageInfoRes _$PostPageInfoResFromJson(Map<String, dynamic> json) =>
     PostPageInfoRes(
       pageNumber: json['pageNumber'] as int,
       pageSize: json['pageSize'] as int,
+      total: json['total'] as int,
       last: json['last'] as bool,
     );
 
@@ -64,5 +65,6 @@ Map<String, dynamic> _$PostPageInfoResToJson(PostPageInfoRes instance) =>
     <String, dynamic>{
       'pageNumber': instance.pageNumber,
       'pageSize': instance.pageSize,
+      'total': instance.total,
       'last': instance.last,
     };
