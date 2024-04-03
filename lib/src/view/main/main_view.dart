@@ -151,8 +151,9 @@ class _MainHome extends StatelessWidget {
             const SizedBox(height: 26),
             Consumer<MainViewModel>(
               builder: (context, value, child) {
+                final dataList = value.post?.dataList;
                 return _QuestionList(
-                  postList: value.post?.dataList,
+                  postList: dataList,
                   limit: 3,
                 );
               },
@@ -184,7 +185,6 @@ class _MainQuestion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MainViewModel>(
       builder: (context, value, child) {
-        if (value.post == null) return const _EmptyQuestionBox();
         return _QuestionList(
           postList: value.post?.dataList,
         );
@@ -207,9 +207,15 @@ class _QuestionList extends StatelessWidget {
     if (postList == null || postList!.isEmpty) {
       return const _EmptyQuestionBox();
     }
+    int postCnt = postList!.length;
+    if (limit != null) {
+      if (limit! < postList!.length) {
+        postCnt = limit!;
+      }
+    }
     return ListView.separated(
       shrinkWrap: true,
-      itemCount: limit ?? postList!.length,
+      itemCount: postCnt,
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => const SizedBox(height: 20),
       itemBuilder: (context, index) {
