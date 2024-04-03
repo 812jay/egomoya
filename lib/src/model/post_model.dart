@@ -44,4 +44,10 @@ class PostModel {
           ),
         );
       });
+
+  Future<RequestResult<void>> deletePost(int postId) => handleRequest(() async {
+        await _postRepo.deletePost(
+          postId: postId,
+        );
+      });
 }

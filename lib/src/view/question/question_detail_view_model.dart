@@ -56,6 +56,19 @@ class QuestionDetailViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<void> deletePost(BuildContext context) async {
+    final result = await postModel.deletePost(postId);
+    result
+      ..onFailure((e) {
+        showToast('게시글을 삭제하는데 실패했어요');
+      })
+      ..onSuccess((value) {
+        showToast('게시글을 삭제하는데 성공했어요');
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
+  }
+
   Future<void> addComment() async {
     final result = await commentModel.registComment(
       postId: postId,
@@ -91,7 +104,9 @@ class QuestionDetailViewModel extends BaseViewModel {
     dialogService.showMoreDialog(
       context,
       onUpdate: () {},
-      onDelete: () {},
+      onDelete: () {
+        deletePost(context);
+      },
     );
   }
 
