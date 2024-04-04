@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -103,9 +102,16 @@ class QuestionAddViewModel extends BaseViewModel {
       showToast('요고 궁금 게시글을 등록하는데 실패했어요');
     }).onSuccess((value) async {
       showToast('요고 궁금 게시글을 등록했어요');
-      log('요고 궁금 게시글을 등록했어요');
       Navigator.pop(context);
-      await postService.refreshPostList();
     });
+  }
+
+  Future<void> fetchPost() async {
+    final result = await postService.fetchPost();
+    result
+      ..onFailure((e) => showToast('요고 궁금 데이터들을 불러오는데 실패했어요'))
+      ..onSuccess((newPost) async {
+        postService.setPost(newPost);
+      });
   }
 }

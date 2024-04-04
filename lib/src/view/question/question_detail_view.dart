@@ -1,5 +1,4 @@
 import 'package:egomoya/src/model/comment_model.dart';
-import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
@@ -28,7 +27,6 @@ class QuestionDetailView extends StatelessWidget {
     return BaseView(
       viewModel: QuestionDetailViewModel(
         postId: postId,
-        postModel: context.read<PostModel>(),
         postService: context.read<PostService>(),
         commentModel: context.read<CommentModel>(),
         dialogService: context.read<DialogService>(),

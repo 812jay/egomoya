@@ -1,7 +1,6 @@
 import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/comment_model.dart';
-import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 class QuestionDetailViewModel extends BaseViewModel {
   QuestionDetailViewModel({
     required this.postId,
-    required this.postModel,
     required this.postService,
     required this.commentModel,
     required this.dialogService,
@@ -26,7 +24,6 @@ class QuestionDetailViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  final PostModel postModel;
   final PostService postService;
   final CommentModel commentModel;
   final DialogService dialogService;
@@ -43,15 +40,23 @@ class QuestionDetailViewModel extends BaseViewModel {
   String? replyText;
 
   Future<void> fetchPostDetail() async {
-    final result = await postModel.fetchPostDetail(postId);
+    final result = await postService.fetchPostDetail(postId);
 
     result
       ..onFailure((e) {
         showToast('요고 궁금 게시글을 불러오는데 실패했어요');
       })
-      ..onSuccess((newPostData) {
-        postData = newPostData;
-        notifyListeners();
+      ..onSuccess((newPostData) async {
+        await postService.fetchPostDetail(postId);
+      });
+  }
+
+  Future<void> fetchPost() async {
+    final result = await postService.fetchPost();
+    result
+      ..onFailure((e) => showToast('요고 궁금 데이터들을 불러오는데 실패했어요'))
+      ..onSuccess((newPost) {
+        postService.setPost(newPost);
       });
   }
 
@@ -68,7 +73,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   }
 
   Future<void> deletePost(BuildContext context) async {
-    final result = await postModel.deletePost(postId);
+    final result = await postService.deletePost(postId);
     result
       ..onFailure((e) {
         showToast('게시글을 삭제하는데 실패했어요');
@@ -77,7 +82,7 @@ class QuestionDetailViewModel extends BaseViewModel {
         showToast('게시글을 삭제하는데 성공했어요');
         Navigator.pop(context);
         Navigator.pop(context);
-        await postService.refreshPostList();
+        await fetchPost();
       });
   }
 

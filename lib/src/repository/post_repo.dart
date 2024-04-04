@@ -28,11 +28,7 @@ class PostRepo extends BaseRepo {
     return result;
   }
 
-  Future<void> deletePost({
-    required int postId,
-  }) async {
-    await dio.delete(
-      '$prefix/api/posts/$postId',
-    );
+  Future<void> deletePost(int postId) async {
+    await dio.delete('$prefix/api/posts/$postId');
   }
 }

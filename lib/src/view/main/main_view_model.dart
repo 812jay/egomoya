@@ -11,7 +11,7 @@ class MainViewModel extends BaseViewModel {
     this.postService,
     this.userModel,
   ) {
-    postService.refreshPostList();
+    fetchPost();
     postService.addListener(notifyListeners);
   }
 
@@ -34,6 +34,15 @@ class MainViewModel extends BaseViewModel {
 
   int selectedCategoryIndex = 0;
   bool get isSignedIn => userModel.isSignedIn;
+
+  Future<void> fetchPost() async {
+    final result = await postService.fetchPost();
+    result
+      ..onFailure((e) => showToast('요고 궁금 데이터들을 불러오는데 실패했어요'))
+      ..onSuccess((newPost) {
+        postService.setPost(newPost);
+      });
+  }
 
   void onTapCategory(int index) {
     if (selectedCategoryIndex == index) return;
