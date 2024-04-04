@@ -1,6 +1,6 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
-import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/model/user_model.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
@@ -16,13 +16,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainView extends StatelessWidget {
-  const MainView({super.key});
+  const MainView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: MainViewModel(
-        context.read<PostModel>(),
+        context.read<PostService>(),
         context.read<UserModel>(),
       ),
       builder: (context, viewModel) {

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/image_service.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,13 @@ import 'package:flutter/material.dart';
 class QuestionAddViewModel extends BaseViewModel {
   QuestionAddViewModel(
     this.imageService,
+    this.postService,
     this._postModel,
   ) {
     imageService.addListener(notifyListeners);
   }
   final ImageService imageService;
+  final PostService postService;
   final PostModel _postModel;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
@@ -54,6 +57,7 @@ class QuestionAddViewModel extends BaseViewModel {
   @override
   void dispose() {
     imageService.removeListener(notifyListeners);
+    postService.removeListener(notifyListeners);
     titleController.dispose();
     contentController.dispose();
     passwordController.dispose();
@@ -133,10 +137,11 @@ class QuestionAddViewModel extends BaseViewModel {
     );
     result.onFailure((e) {
       showToast('요고 궁금 게시글을 등록하는데 실패했어요');
-    }).onSuccess((value) {
+    }).onSuccess((value) async {
       showToast('요고 궁금 게시글을 등록했어요');
       log('요고 궁금 게시글을 등록했어요');
       Navigator.pop(context);
+      await postService.refreshPostList();
     });
   }
 }

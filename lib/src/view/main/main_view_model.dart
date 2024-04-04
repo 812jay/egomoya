@@ -1,23 +1,23 @@
 import 'package:egomoya/src/data/dto/main/main_category.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
-import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/model/user_model.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/helper/immutable_helper.dart';
 import 'package:flutter/material.dart';
 
 class MainViewModel extends BaseViewModel {
   MainViewModel(
-    this.postModel,
+    this.postService,
     this.userModel,
   ) {
     fetchPostList();
+    postService.addListener(notifyListeners);
   }
-
-  final PostModel postModel;
+  final PostService postService;
   final UserModel userModel;
   final ScrollController scrollController = ScrollController();
-  Post? post;
+  Post? get post => postService.post;
   List<MainCategory> categoryList = [
     MainCategory(index: 0, title: '홈', isActive: true),
     MainCategory(index: 1, title: '셀럽템', isActive: false),
@@ -31,16 +31,12 @@ class MainViewModel extends BaseViewModel {
   void dispose() {
     super.dispose();
     scrollController.dispose();
+    postService.removeListener(notifyListeners);
   }
 
   Future<void> fetchPostList() async {
     isBusy = false;
-    final result = await postModel.fetchPostList();
-    result.onFailure((e) {
-      showToast('요고 궁금 데이터들을 불러오는데 실패했어요');
-    }).onSuccess((newPost) {
-      post = newPost;
-    });
+    await postService.refreshPostList();
     isBusy = true;
   }
 

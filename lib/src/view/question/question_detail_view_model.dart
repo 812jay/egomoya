@@ -3,6 +3,7 @@ import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +11,17 @@ class QuestionDetailViewModel extends BaseViewModel {
   QuestionDetailViewModel({
     required this.postId,
     required this.postModel,
+    required this.postService,
     required this.commentModel,
     required this.dialogService,
   }) {
     fetchPostDetail();
     fetchCommentListDetail();
+    postService.addListener(notifyListeners);
   }
 
   final PostModel postModel;
+  final PostService postService;
   final CommentModel commentModel;
   final DialogService dialogService;
 
@@ -67,7 +71,7 @@ class QuestionDetailViewModel extends BaseViewModel {
         showToast('게시글을 삭제하는데 성공했어요');
         Navigator.pop(context);
         Navigator.pop(context);
-        
+        await postService.refreshPostList();
       });
   }
 

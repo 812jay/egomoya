@@ -1,5 +1,6 @@
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/image_service.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_add_view_model.dart';
@@ -20,6 +21,7 @@ class QuestionAddView extends StatelessWidget {
     return BaseView(
       viewModel: QuestionAddViewModel(
         context.read<ImageService>(),
+        context.read<PostService>(),
         context.read<PostModel>(),
       ),
       builder: (context, viewModel) {
