@@ -24,36 +24,21 @@ class QuestionAddViewModel extends BaseViewModel {
   final PostModel _postModel;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController nicknameController = TextEditingController();
 
   List<File> get imageList => imageService.imageList;
 
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedTitle = false;
-  bool isChangedPassword = false;
-  bool isChangedNickname = false;
 
   String get title => titleController.text;
   String get content => contentController.text;
-  String get password => passwordController.text;
-  String get nickname => nicknameController.text;
   bool get isValidateTitle =>
       RegExp(PostValidateType.title.pattern).hasMatch(title);
-  bool get isValidatePassword =>
-      RegExp(PostValidateType.password.pattern).hasMatch(password);
-  bool get isValidateNickname =>
-      RegExp(PostValidateType.nickname.pattern).hasMatch(nickname);
-  bool get isActiveSubmitButton =>
-      isValidateTitle && isValidateNickname && isValidatePassword;
+  bool get isActiveSubmitButton => isValidateTitle;
 
   // 에러 메시지
   String? get titleErrMsg =>
       (isValidateTitle || !isChangedTitle) ? null : '1자 이상, 40자 이하 입력해주세요';
-  String? get passwordErrMsg =>
-      (isValidatePassword || !isChangedPassword) ? null : '숫자4자리~8자리로 구성해주세요';
-  String? get nicknameErrMsg =>
-      (isValidateNickname || !isChangedNickname) ? null : '2자리~10자리로 구성해주세요';
 
   @override
   void dispose() {
@@ -61,8 +46,6 @@ class QuestionAddViewModel extends BaseViewModel {
     postService.removeListener(notifyListeners);
     titleController.dispose();
     contentController.dispose();
-    passwordController.dispose();
-    nicknameController.dispose();
     super.dispose();
   }
 
@@ -91,29 +74,9 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void onChangeContent(String newContent) => notifyListeners();
 
-  void onChangePassword(String newPassword) {
-    isChangedPassword = true;
-    notifyListeners();
-  }
-
   void onClearTitle() {
     notifyListeners();
     titleController.clear();
-  }
-
-  void onChangeNickname(String newNickname) {
-    isChangedNickname = true;
-    notifyListeners();
-  }
-
-  void onClearPassword() {
-    notifyListeners();
-    passwordController.clear();
-  }
-
-  void onClearNickname() {
-    notifyListeners();
-    nicknameController.clear();
   }
 
   void selectImage() => imageService.select(limit: 5);
@@ -132,8 +95,8 @@ class QuestionAddViewModel extends BaseViewModel {
     final result = await _postModel.registPost(
       title: title,
       content: content,
-      password: password,
-      nickname: nickname,
+      password: '1111',
+      nickname: 'nickname',
       imgFormData: formData,
     );
     result.onFailure((e) {
