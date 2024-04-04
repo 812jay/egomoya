@@ -48,4 +48,8 @@ class ImageService with ChangeNotifier {
     final result = FormData.fromMap(formDataMap);
     return result;
   }
+
+  void onClearImageList() {
+    imageList = [].toImmutable();
+  }
 }

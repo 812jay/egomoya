@@ -19,7 +19,7 @@ class PostModel {
         return result;
       });
 
-  Future<RequestResult<PostData?>> fetchPostListDetail(int postId) =>
+  Future<RequestResult<PostData?>> fetchPostDetail(int postId) =>
       handleRequest(() async {
         final res = await _postRepo.fetchPostDetail(postId);
         final result = res?.toDto();

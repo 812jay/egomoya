@@ -13,7 +13,7 @@ class QuestionDetailViewModel extends BaseViewModel {
     required this.commentModel,
     required this.dialogService,
   }) {
-    fetchPostListDetail();
+    fetchPostDetail();
     fetchCommentListDetail();
   }
 
@@ -32,8 +32,9 @@ class QuestionDetailViewModel extends BaseViewModel {
   int? curCommentParentId;
   String? replyText;
 
-  Future<void> fetchPostListDetail() async {
-    final result = await postModel.fetchPostListDetail(postId);
+  Future<void> fetchPostDetail() async {
+    final result = await postModel.fetchPostDetail(postId);
+
     result
       ..onFailure((e) {
         showToast('요고 궁금 게시글을 불러오는데 실패했어요');
@@ -62,10 +63,11 @@ class QuestionDetailViewModel extends BaseViewModel {
       ..onFailure((e) {
         showToast('게시글을 삭제하는데 실패했어요');
       })
-      ..onSuccess((value) {
+      ..onSuccess((value) async {
         showToast('게시글을 삭제하는데 성공했어요');
         Navigator.pop(context);
         Navigator.pop(context);
+        
       });
   }
 

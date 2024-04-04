@@ -65,10 +65,15 @@ class QuestionAddViewModel extends BaseViewModel {
     showDialog(
       context: context,
       builder: (context) {
-        return const BaseDialog(
+        return BaseDialog(
           content: '뒤로가기하면 등록하던 글을 다시 작성해야해요. 그래도 나가시겠어요?',
           cancelText: '나가기',
           confirmText: '계속 작성하기',
+          onTapCancel: () {
+            imageService.onClearImageList();
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
         );
       },
     );
