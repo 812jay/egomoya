@@ -23,7 +23,6 @@ class QuestionDetailViewModel extends BaseViewModel {
   @override
   void dispose() {
     postService.removeListener(notifyListeners);
-    dialogService.dispose();
     super.dispose();
   }
 
