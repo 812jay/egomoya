@@ -25,6 +25,7 @@ class QuestionAddView extends StatelessWidget {
         context.read<PostModel>(),
       ),
       builder: (context, viewModel) {
+        const SizedBox space = SizedBox(height: 36);
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
@@ -39,13 +40,13 @@ class QuestionAddView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _InputPicture(),
-                    SizedBox(height: 15),
+                    space,
                     _InputTitle(),
-                    SizedBox(height: 15),
+                    space,
                     _InputContent(),
-                    SizedBox(height: 15),
+                    space,
                     _InputNickname(),
-                    SizedBox(height: 15),
+                    space,
                     _InputPassword(),
                     SizedBox(height: 23),
                     _SubmitButton(),
@@ -73,7 +74,7 @@ class _InputPicture extends StatelessWidget {
           '사진',
           style: context.typo.body2.bold,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Consumer<QuestionAddViewModel>(
           builder: (context, value, child) {
             return SizedBox(
@@ -89,16 +90,16 @@ class _InputPicture extends StatelessWidget {
                           ? ImageAddContainer(
                               onTap: value.selectImage,
                               padding: const EdgeInsets.only(right: 10),
-                              height: 122,
-                              width: 133,
+                              height: 120,
+                              width: 120,
                               limitCnt: 5,
                               curCnt: value.imageList.length,
                             )
                           : ImageBox(
                               imgPath: value.imageList[index - 1].path,
                               onDelete: () => value.onDeleteImage(index - 1),
-                              height: 122,
-                              width: 133,
+                              height: 120,
+                              width: 120,
                             ),
                     ],
                   );
@@ -134,7 +135,7 @@ class _InputTitle extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Consumer<QuestionAddViewModel>(
           builder: (context, value, child) {
             return TextField(
@@ -149,7 +150,7 @@ class _InputTitle extends StatelessWidget {
                 errorText: value.titleErrMsg,
                 counterText: '${value.title.length}/40',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(
                     width: 1,
                   ),
@@ -183,7 +184,7 @@ class _InputContent extends StatelessWidget {
           '내용',
           style: context.typo.body2.bold,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Consumer<QuestionAddViewModel>(
           builder: (context, value, child) {
             return TextField(
@@ -198,7 +199,7 @@ class _InputContent extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: '내용을 입력해 주세요',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(
                     width: 1,
                   ),
@@ -234,7 +235,7 @@ class _InputNickname extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Consumer<QuestionAddViewModel>(
           builder: (context, value, child) {
             return TextField(
@@ -247,9 +248,8 @@ class _InputNickname extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: '닉네임을 입력해 주세요',
                 errorText: value.nicknameErrMsg,
-                counterText: '${value.title.length}/10',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(
                     width: 1,
                   ),
@@ -293,7 +293,7 @@ class _InputPassword extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(
@@ -311,7 +311,7 @@ class _InputPassword extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Consumer<QuestionAddViewModel>(
           builder: (context, value, child) {
             return TextField(
@@ -327,7 +327,7 @@ class _InputPassword extends StatelessWidget {
                 hintText: '숫자4자리~8자리로 구성해주세요',
                 errorText: value.passwordErrMsg,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(
                     width: 1,
                   ),

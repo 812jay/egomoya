@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/util/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ImageAddContainer extends StatelessWidget {
@@ -31,8 +34,10 @@ class ImageAddContainer extends StatelessWidget {
           height: height,
           width: width,
           decoration: BoxDecoration(
+            color: context.color.lightGrayBackground,
             border: Border.all(
-              width: 1,
+              width: 2,
+              color: context.color.descriptionBackground,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -40,12 +45,17 @@ class ImageAddContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.camera_enhance,
-                size: 47,
+              AssetIcon(
+                'assets/icons/camera.svg',
+                size: 30,
+                color: context.color.grayText,
               ),
+              const SizedBox(height: 5),
               if (curCnt != null && limitCnt != null)
-                Text('$curCnt / $limitCnt'),
+                Text(
+                  '$curCnt / $limitCnt',
+                  style: context.typo.body2.subText.bold,
+                ),
             ],
           ),
         ),
