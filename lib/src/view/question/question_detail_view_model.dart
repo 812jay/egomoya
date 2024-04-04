@@ -20,6 +20,13 @@ class QuestionDetailViewModel extends BaseViewModel {
     postService.addListener(notifyListeners);
   }
 
+  @override
+  void dispose() {
+    postService.removeListener(notifyListeners);
+    dialogService.dispose();
+    super.dispose();
+  }
+
   final PostModel postModel;
   final PostService postService;
   final CommentModel commentModel;

@@ -11,9 +11,17 @@ class MainViewModel extends BaseViewModel {
     this.postService,
     this.userModel,
   ) {
-    fetchPostList();
+    postService.refreshPostList();
     postService.addListener(notifyListeners);
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+    postService.removeListener(notifyListeners);
+  }
+
   final PostService postService;
   final UserModel userModel;
   final ScrollController scrollController = ScrollController();
@@ -26,19 +34,6 @@ class MainViewModel extends BaseViewModel {
 
   int selectedCategoryIndex = 0;
   bool get isSignedIn => userModel.isSignedIn;
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController.dispose();
-    postService.removeListener(notifyListeners);
-  }
-
-  Future<void> fetchPostList() async {
-    isBusy = false;
-    await postService.refreshPostList();
-    isBusy = true;
-  }
 
   void onTapCategory(int index) {
     if (selectedCategoryIndex == index) return;

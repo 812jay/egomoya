@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
+import 'package:egomoya/src/repository/image_repo.dart';
 import 'package:egomoya/src/repository/post_repo.dart';
 import 'package:egomoya/util/helper/perf_helper.dart';
 import 'package:egomoya/util/request_result.dart';
@@ -10,6 +11,7 @@ class PostModel {
   PostModel(this._pref);
   final PrefHelper _pref;
   final PostRepo _postRepo = PostRepo();
+  final ImageRepo _imageRepo = ImageRepo();
 
   String get userId => _pref.userId;
 
@@ -34,7 +36,7 @@ class PostModel {
     FormData? imgFormData,
   }) =>
       handleRequest(() async {
-        await _postRepo.registPost(
+        final res = await _postRepo.registPost(
           req: PostReq(
             title: title,
             content: content,
@@ -43,6 +45,12 @@ class PostModel {
             userId: userId,
           ),
         );
+        if (imgFormData != null) {
+          await _imageRepo.registPostImageList(
+            postId: res.postId,
+            imageFormData: imgFormData,
+          );
+        }
       });
 
   Future<RequestResult<void>> deletePost(int postId) => handleRequest(() async {

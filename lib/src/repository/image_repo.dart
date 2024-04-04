@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:egomoya/src/repository/base_repo.dart';
 
@@ -10,7 +8,7 @@ class ImageRepo extends BaseRepo {
   }) async {
     await dio.post(
       '$prefix/api/images/$postId',
-      data: jsonEncode(imageFormData),
+      data: imageFormData,
     );
   }
 }

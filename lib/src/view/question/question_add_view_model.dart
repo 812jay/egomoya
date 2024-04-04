@@ -17,6 +17,7 @@ class QuestionAddViewModel extends BaseViewModel {
     this._postModel,
   ) {
     imageService.addListener(notifyListeners);
+    postService.addListener(notifyListeners);
   }
   final ImageService imageService;
   final PostService postService;
