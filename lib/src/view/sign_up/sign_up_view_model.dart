@@ -84,10 +84,11 @@ class SignUpViewModel extends BaseViewModel {
     );
     result
       ..onFailure((e) {
-        showToast('이메일 회원가입에 실패했어요');
+        showToast('이메일 회원가입에 실패했어요\n기존에 가입한 회원이 아닌지 확인해 주세요');
       })
       ..onSuccess((value) {
-        showToast('이메일 회원가입에 성공했어요');
+        showToast('이메일 회원가입에 성공했어요\n로그인 해주세요');
+        Navigator.pop(context);
       });
   }
 }

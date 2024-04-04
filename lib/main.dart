@@ -3,6 +3,7 @@ import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/image_service.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/main/main_view.dart';
 import 'package:egomoya/util/helper/perf_helper.dart';
@@ -26,6 +27,9 @@ void main() async {
         ),
         Provider(
           create: (context) => CommentModel(prefHelper),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PostService(context.read()),
         ),
         ChangeNotifierProvider(
           create: (context) => DialogService(),

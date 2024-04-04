@@ -17,12 +17,22 @@ class PostRepo extends BaseRepo {
     return result;
   }
 
-  Future<void> registPost({
+  Future<PostDataRes> registPost({
     required PostReq req,
   }) async {
-    await dio.post(
+    final response = await dio.post(
       '$prefix/api/posts',
       data: jsonEncode(req),
+    );
+    final result = PostDataRes.fromJson(response.data);
+    return result;
+  }
+
+  Future<void> deletePost({
+    required int postId,
+  }) async {
+    await dio.delete(
+      '$prefix/api/posts/$postId',
     );
   }
 }

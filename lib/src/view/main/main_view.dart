@@ -1,6 +1,6 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
-import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/model/user_model.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
@@ -16,13 +16,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainView extends StatelessWidget {
-  const MainView({super.key});
+  const MainView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: MainViewModel(
-        context.read<PostModel>(),
+        context.read<PostService>(),
         context.read<UserModel>(),
       ),
       builder: (context, viewModel) {
@@ -151,8 +153,9 @@ class _MainHome extends StatelessWidget {
             const SizedBox(height: 26),
             Consumer<MainViewModel>(
               builder: (context, value, child) {
+                final dataList = value.post?.dataList;
                 return _QuestionList(
-                  postList: value.post?.dataList,
+                  postList: dataList,
                   limit: 3,
                 );
               },
@@ -184,7 +187,6 @@ class _MainQuestion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MainViewModel>(
       builder: (context, value, child) {
-        if (value.post == null) return const _EmptyQuestionBox();
         return _QuestionList(
           postList: value.post?.dataList,
         );
@@ -207,9 +209,15 @@ class _QuestionList extends StatelessWidget {
     if (postList == null || postList!.isEmpty) {
       return const _EmptyQuestionBox();
     }
+    int postCnt = postList!.length;
+    if (limit != null) {
+      if (limit! < postList!.length) {
+        postCnt = limit!;
+      }
+    }
     return ListView.separated(
       shrinkWrap: true,
-      itemCount: limit ?? postList!.length,
+      itemCount: postCnt,
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => const SizedBox(height: 20),
       itemBuilder: (context, index) {

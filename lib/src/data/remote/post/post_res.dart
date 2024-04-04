@@ -102,12 +102,15 @@ class PostPageInfoRes {
   PostPageInfoRes({
     required this.pageNumber,
     required this.pageSize,
+    required this.total,
     required this.last,
   });
   @JsonKey(name: 'pageNumber')
   final int pageNumber;
   @JsonKey(name: 'pageSize')
   final int pageSize;
+  @JsonKey(name: 'total')
+  final int total;
   @JsonKey(name: 'last')
   final bool last;
 

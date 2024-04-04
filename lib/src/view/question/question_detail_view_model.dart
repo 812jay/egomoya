@@ -3,6 +3,7 @@ import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
+import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +11,23 @@ class QuestionDetailViewModel extends BaseViewModel {
   QuestionDetailViewModel({
     required this.postId,
     required this.postModel,
+    required this.postService,
     required this.commentModel,
     required this.dialogService,
   }) {
-    fetchPostListDetail();
+    fetchPostDetail();
     fetchCommentListDetail();
+    postService.addListener(notifyListeners);
+  }
+
+  @override
+  void dispose() {
+    postService.removeListener(notifyListeners);
+    super.dispose();
   }
 
   final PostModel postModel;
+  final PostService postService;
   final CommentModel commentModel;
   final DialogService dialogService;
 
@@ -32,8 +42,9 @@ class QuestionDetailViewModel extends BaseViewModel {
   int? curCommentParentId;
   String? replyText;
 
-  Future<void> fetchPostListDetail() async {
-    final result = await postModel.fetchPostListDetail(postId);
+  Future<void> fetchPostDetail() async {
+    final result = await postModel.fetchPostDetail(postId);
+
     result
       ..onFailure((e) {
         showToast('요고 궁금 게시글을 불러오는데 실패했어요');
@@ -54,6 +65,20 @@ class QuestionDetailViewModel extends BaseViewModel {
         comment = newComment;
       });
     notifyListeners();
+  }
+
+  Future<void> deletePost(BuildContext context) async {
+    final result = await postModel.deletePost(postId);
+    result
+      ..onFailure((e) {
+        showToast('게시글을 삭제하는데 실패했어요');
+      })
+      ..onSuccess((value) async {
+        showToast('게시글을 삭제하는데 성공했어요');
+        Navigator.pop(context);
+        Navigator.pop(context);
+        await postService.refreshPostList();
+      });
   }
 
   Future<void> addComment() async {
@@ -91,7 +116,9 @@ class QuestionDetailViewModel extends BaseViewModel {
     dialogService.showMoreDialog(
       context,
       onUpdate: () {},
-      onDelete: () {},
+      onDelete: () {
+        deletePost(context);
+      },
     );
   }
 
