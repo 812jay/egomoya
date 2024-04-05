@@ -7,7 +7,7 @@ import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
-import 'package:egomoya/src/view/main/widget/post_title.dart';
+import 'package:egomoya/src/view/main/widget/main_title.dart';
 import 'package:egomoya/theme/component/app_bar/main_sliver_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/theme/component/button/button.dart';
@@ -151,7 +151,7 @@ class _MainHome extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: PostTitle(
+              child: MainTitle(
                 onTap: () => value.onTapCategory(2),
                 title: '요즘 셀럽들의 PICK! 🛍️',
               ),
@@ -161,7 +161,7 @@ class _MainHome extends StatelessWidget {
             const SizedBox(height: 70),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: PostTitle(
+              child: MainTitle(
                 onTap: () => value.onTapCategory(2),
                 title: '요고 궁금해요 TOP 3 🙋‍♀️',
               ),
