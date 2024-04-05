@@ -4,6 +4,7 @@ import 'package:egomoya/src/view/celeb/widget/celeb_item_card.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CelebCard extends StatelessWidget {
   const CelebCard({
@@ -20,11 +21,27 @@ class CelebCard extends StatelessWidget {
         children: [
           SizedBox(
             height: 400,
+            width: MediaQuery.of(context).size.width,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: AssetIcon(
                 celeb.imgPath,
                 fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 12,
+            right: 12,
+            child: GestureDetector(
+              onTap: () {
+                if (celeb.instaLink != null || celeb.instaLink!.isNotEmpty) {
+                  launchUrl(Uri.parse(celeb.instaLink!));
+                }
+              },
+              child: AssetIcon(
+                'assets/icons/insta.svg',
+                color: context.color.white,
               ),
             ),
           ),
