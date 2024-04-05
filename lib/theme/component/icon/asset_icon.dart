@@ -8,11 +8,13 @@ class AssetIcon extends StatelessWidget {
     super.key,
     this.color,
     this.size,
+    this.fit,
   });
 
   final String path;
   final Color? color;
   final double? size;
+  final BoxFit? fit;
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +28,14 @@ class AssetIcon extends StatelessWidget {
           color ?? context.color.black,
           BlendMode.srcIn,
         ),
-        fit: BoxFit.contain,
+        fit: fit ?? BoxFit.contain,
       );
     }
     return Image.asset(
       path,
       width: size,
       height: size,
-      fit: BoxFit.contain,
+      fit: fit ?? BoxFit.contain,
     );
   }
 }

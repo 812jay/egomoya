@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/post_service.dart';
@@ -30,7 +33,7 @@ class MainView extends StatelessWidget {
       builder: (context, viewModel) {
         List<Widget> pageList = [
           const _MainHome(),
-          const _MainCelebrity(),
+          const _MainCeleb(),
           const _MainQuestion(),
         ];
         return Scaffold(
@@ -58,7 +61,7 @@ class MainView extends StatelessWidget {
                     itemCount: 1,
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                      horizontal: 0,
                       vertical: 20,
                     ),
                     itemBuilder: (context, index) {
@@ -146,17 +149,33 @@ class _MainHome extends StatelessWidget {
       builder: (context, value, child) {
         return Column(
           children: [
-            PostTitle(
-              onTap: () => value.onTapCategory(2),
-              title: '요고 궁금해요 TOP 3',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: PostTitle(
+                onTap: () => value.onTapCategory(2),
+                title: '요즘 셀럽들의 PICK! 🛍️',
+              ),
+            ),
+            const SizedBox(height: 26),
+            const _CelebList(),
+            const SizedBox(height: 70),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: PostTitle(
+                onTap: () => value.onTapCategory(2),
+                title: '요고 궁금해요 TOP 3 🙋‍♀️',
+              ),
             ),
             const SizedBox(height: 26),
             Consumer<MainViewModel>(
               builder: (context, value, child) {
                 final dataList = value.post?.dataList;
-                return _QuestionList(
-                  postList: dataList,
-                  limit: 3,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: _QuestionList(
+                    postList: dataList,
+                    limit: 3,
+                  ),
                 );
               },
             )
@@ -167,14 +186,234 @@ class _MainHome extends StatelessWidget {
   }
 }
 
-class _MainCelebrity extends StatelessWidget {
-  const _MainCelebrity({super.key});
+class _MainCeleb extends StatelessWidget {
+  const _MainCeleb({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Column(
+      children: [],
+    );
+  }
+}
+
+class _CelebList extends StatelessWidget {
+  const _CelebList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final imgList = [
+      'assets/images/detail1.png',
+      'assets/images/detail2.png',
+      'assets/images/detail1.png',
+      'assets/images/detail2.png'
+    ];
+    return Stack(
       children: [
-        Text('_MainCelebrity'),
+        CarouselSlider.builder(
+          itemCount: imgList.length,
+          options: CarouselOptions(
+            scrollDirection: Axis.horizontal,
+            initialPage: 0,
+            enableInfiniteScroll: false,
+            height: 400,
+            viewportFraction: 0.9,
+            enlargeFactor: 0.2,
+            enlargeCenterPage: true,
+            autoPlayCurve: Curves.easeInOut,
+            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayAnimationDuration: const Duration(seconds: 1),
+            pauseAutoPlayInFiniteScroll: true,
+            autoPlay: true,
+          ),
+          itemBuilder: (context, index, realIndex) {
+            final img = imgList[index];
+            return Stack(
+              children: [
+                SizedBox(
+                  height: 400,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: AssetIcon(
+                      img,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 20,
+                  right: 20,
+                  child: AssetIcon(
+                    'assets/icons/insta.svg',
+                    color: context.color.white,
+                  ),
+                ),
+                Positioned(
+                  bottom: 98,
+                  left: 10,
+                  child: Button(
+                    onPressed: () {},
+                    text: '태연의 Pick',
+                    backgroundColor: context.color.black,
+                    color: context.color.black,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              log('1');
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Container(
+                                height: 80,
+                                width: 226,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: context.color.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 0.5,
+                                          color:
+                                              context.color.lightGrayBackground,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: const AssetIcon(
+                                          'assets/images/detail1.png',
+                                          size: 60,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [Text('나스')],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              log('1');
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Container(
+                                height: 80,
+                                width: 226,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: context.color.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 0.5,
+                                          color:
+                                              context.color.lightGrayBackground,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: const AssetIcon(
+                                          'assets/images/detail1.png',
+                                          size: 60,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [Text('나스')],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              log('1');
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Container(
+                                height: 80,
+                                width: 226,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: context.color.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 0.5,
+                                          color:
+                                              context.color.lightGrayBackground,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: const AssetIcon(
+                                          'assets/images/detail1.png',
+                                          size: 60,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [Text('나스')],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        )
       ],
     );
   }
