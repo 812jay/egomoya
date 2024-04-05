@@ -1,0 +1,4 @@
+enum CelebPostCategory {
+  fashion,
+  beauty,
+}

@@ -1,11 +1,11 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:egomoya/src/data/dto/celeb/celeb.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
+import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
 import 'package:egomoya/src/view/main/widget/main_title.dart';
 import 'package:egomoya/theme/component/app_bar/main_sliver_app_bar.dart';
@@ -32,7 +32,7 @@ class MainView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         List<Widget> pageList = [
-          const _MainHome(),
+          _MainHome(mainCelebList: viewModel.mainCelebList),
           const _MainCeleb(),
           const _MainQuestion(),
         ];
@@ -141,7 +141,9 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _MainHome extends StatelessWidget {
   const _MainHome({
     super.key,
+    required this.mainCelebList,
   });
+  final List<Celeb> mainCelebList;
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +159,7 @@ class _MainHome extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 26),
-            const _CelebList(),
+            _CelebCarousel(celebList: mainCelebList),
             const SizedBox(height: 70),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -197,224 +199,35 @@ class _MainCeleb extends StatelessWidget {
   }
 }
 
-class _CelebList extends StatelessWidget {
-  const _CelebList({super.key});
+class _CelebCarousel extends StatelessWidget {
+  const _CelebCarousel({
+    super.key,
+    required this.celebList,
+  });
+  final List<Celeb> celebList;
 
   @override
   Widget build(BuildContext context) {
-    final imgList = [
-      'assets/images/detail1.png',
-      'assets/images/detail2.png',
-      'assets/images/detail1.png',
-      'assets/images/detail2.png'
-    ];
-    return Stack(
-      children: [
-        CarouselSlider.builder(
-          itemCount: imgList.length,
-          options: CarouselOptions(
-            scrollDirection: Axis.horizontal,
-            initialPage: 0,
-            enableInfiniteScroll: false,
-            height: 400,
-            viewportFraction: 0.9,
-            enlargeFactor: 0.2,
-            enlargeCenterPage: true,
-            autoPlayCurve: Curves.easeInOut,
-            autoPlayInterval: const Duration(seconds: 3),
-            autoPlayAnimationDuration: const Duration(seconds: 1),
-            pauseAutoPlayInFiniteScroll: true,
-            autoPlay: true,
-          ),
-          itemBuilder: (context, index, realIndex) {
-            final img = imgList[index];
-            return Stack(
-              children: [
-                SizedBox(
-                  height: 400,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: AssetIcon(
-                      img,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 20,
-                  right: 20,
-                  child: AssetIcon(
-                    'assets/icons/insta.svg',
-                    color: context.color.white,
-                  ),
-                ),
-                Positioned(
-                  bottom: 98,
-                  left: 10,
-                  child: Button(
-                    onPressed: () {},
-                    text: '태연의 Pick',
-                    backgroundColor: context.color.black,
-                    color: context.color.black,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              log('1');
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Container(
-                                height: 80,
-                                width: 226,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: context.color.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          width: 0.5,
-                                          color:
-                                              context.color.lightGrayBackground,
-                                        ),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: const AssetIcon(
-                                          'assets/images/detail1.png',
-                                          size: 60,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [Text('나스')],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              log('1');
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Container(
-                                height: 80,
-                                width: 226,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: context.color.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          width: 0.5,
-                                          color:
-                                              context.color.lightGrayBackground,
-                                        ),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: const AssetIcon(
-                                          'assets/images/detail1.png',
-                                          size: 60,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [Text('나스')],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              log('1');
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Container(
-                                height: 80,
-                                width: 226,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: context.color.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          width: 0.5,
-                                          color:
-                                              context.color.lightGrayBackground,
-                                        ),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: const AssetIcon(
-                                          'assets/images/detail1.png',
-                                          size: 60,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [Text('나스')],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        )
-      ],
+    return CarouselSlider.builder(
+      itemCount: celebList.length,
+      options: CarouselOptions(
+        scrollDirection: Axis.horizontal,
+        initialPage: 0,
+        enableInfiniteScroll: false,
+        height: 400,
+        viewportFraction: 0.85,
+        enlargeFactor: 0.2,
+        enlargeCenterPage: true,
+        autoPlayCurve: Curves.easeInOut,
+        autoPlayInterval: const Duration(seconds: 3),
+        autoPlayAnimationDuration: const Duration(seconds: 1),
+        pauseAutoPlayInFiniteScroll: true,
+        autoPlay: true,
+      ),
+      itemBuilder: (context, index, realIndex) {
+        final celeb = celebList[index];
+        return CelebCard(celeb: celeb);
+      },
     );
   }
 }
