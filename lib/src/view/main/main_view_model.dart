@@ -41,6 +41,10 @@ class MainViewModel extends BaseViewModel {
   ]
     ..shuffle(Random())
     ..sublist(0, 4);
+  List<Celeb> celebList = [
+    ...CelebDummyData.beautyCeleb,
+    ...CelebDummyData.fashionCeleb,
+  ]..shuffle(Random());
   List<Celeb> beautyCelebList = CelebDummyData.beautyCeleb;
   List<Celeb> fashionCelebList = CelebDummyData.fashionCeleb;
 

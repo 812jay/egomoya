@@ -32,8 +32,8 @@ class MainView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         List<Widget> pageList = [
-          _MainHome(mainCelebList: viewModel.mainCelebList),
-          const _MainCeleb(),
+          _MainHome(celebList: viewModel.mainCelebList),
+          _MainCeleb(celebList: viewModel.celebList),
           const _MainQuestion(),
         ];
         return Scaffold(
@@ -141,9 +141,9 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _MainHome extends StatelessWidget {
   const _MainHome({
     super.key,
-    required this.mainCelebList,
+    required this.celebList,
   });
-  final List<Celeb> mainCelebList;
+  final List<Celeb> celebList;
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +159,7 @@ class _MainHome extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 26),
-            _CelebCarousel(celebList: mainCelebList),
+            _CelebCarousel(celebList: celebList),
             const SizedBox(height: 70),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -189,12 +189,54 @@ class _MainHome extends StatelessWidget {
 }
 
 class _MainCeleb extends StatelessWidget {
-  const _MainCeleb({super.key});
+  const _MainCeleb({
+    super.key,
+    required this.celebList,
+  });
+  final List<Celeb> celebList;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('패션'),
+                Text('뷰티'),
+              ],
+            ),
+          ),
+          const Divider(
+            thickness: 0.1,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text('최신순'),
+                Text('추천순'),
+              ],
+            ),
+          ),
+          ListView.separated(
+            scrollDirection: Axis.vertical,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: celebList.length,
+            itemBuilder: (context, index) {
+              final celeb = celebList[index];
+              return CelebCard(celeb: celeb);
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+          )
+        ],
+      ),
     );
   }
 }

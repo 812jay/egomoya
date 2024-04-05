@@ -14,52 +14,55 @@ class CelebCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: 400,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: AssetIcon(
-              celeb.imgPath,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 105,
-          left: 10,
-          child: Button(
-            onPressed: () {},
-            text: '${celeb.celebName}의 Pick',
-            backgroundColor: context.color.black,
-            color: context.color.black,
-          ),
-        ),
-        if (celeb.itemList != null && celeb.itemList!.isNotEmpty)
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    ...List.generate(
-                      celeb.itemList!.length,
-                      (index) {
-                        return CelebItemCard(
-                          celebItem: celeb.itemList![index],
-                        );
-                      },
-                    ).toList()
-                  ],
-                ),
+    return SizedBox(
+      height: 400,
+      child: Stack(
+        children: [
+          SizedBox(
+            height: 400,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: AssetIcon(
+                celeb.imgPath,
+                fit: BoxFit.cover,
               ),
             ),
           ),
-      ],
+          Positioned(
+            bottom: 105,
+            left: 10,
+            child: Button(
+              onPressed: () {},
+              text: '${celeb.celebName}의 Pick',
+              backgroundColor: context.color.black,
+              color: context.color.black,
+            ),
+          ),
+          if (celeb.itemList != null && celeb.itemList!.isNotEmpty)
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      ...List.generate(
+                        celeb.itemList!.length,
+                        (index) {
+                          return CelebItemCard(
+                            celebItem: celeb.itemList![index],
+                          );
+                        },
+                      ).toList()
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
