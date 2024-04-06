@@ -4,6 +4,7 @@ import 'package:egomoya/src/data/dto/celeb/celeb.dart';
 import 'package:egomoya/src/data/dto/main/main_category.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/dummy_data/celeb_dummy_data.dart';
+import 'package:egomoya/src/data/enum/celeb_type.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
@@ -35,21 +36,21 @@ class MainViewModel extends BaseViewModel {
     MainCategory(index: 1, title: '셀럽템', isActive: false),
     MainCategory(index: 2, title: '요고 궁금', isActive: false),
   ];
+
+  // Celeb
   List<Celeb> mainCelebList = [
     ...CelebDummyData.beautyCeleb,
     ...CelebDummyData.fashionCeleb,
   ]
     ..shuffle(Random())
     ..sublist(0, 4);
-  List<Celeb> celebList = [
-    ...CelebDummyData.beautyCeleb,
-    ...CelebDummyData.fashionCeleb,
-  ]..shuffle(Random());
   List<Celeb> beautyCelebList = CelebDummyData.beautyCeleb;
   List<Celeb> fashionCelebList = CelebDummyData.fashionCeleb;
 
   int selectedCategoryIndex = 0;
   bool get isSignedIn => userModel.isSignedIn;
+
+  CelebPostCategory selectedCelebPostCategory = CelebPostCategory.fashion;
 
   void onTapCategory(int index) {
     if (selectedCategoryIndex == index) return;
@@ -69,5 +70,11 @@ class MainViewModel extends BaseViewModel {
         .entries
         .map((e) => e.key == index ? newCategory : e.value)
         .toImmutable();
+  }
+
+  // Celeb
+  void onTapCelebCategory(CelebPostCategory newCategory) {
+    selectedCelebPostCategory = newCategory;
+    notifyListeners();
   }
 }
