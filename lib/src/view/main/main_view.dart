@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:egomoya/src/data/dto/celeb/celeb.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
@@ -200,26 +202,66 @@ class _MainCeleb extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text('패션'),
-                Text('뷰티'),
-              ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: context.color.subBackground,
+                    width: 0.3,
+                  ),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      log('패션');
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: context.color.black,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        '패션',
+                        style: context.typo.subTitle3.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      '뷰티',
+                      style: context.typo.body1.subText.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          const Divider(
-            thickness: 0.1,
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('최신순'),
-                Text('추천순'),
+                Text(
+                  '최신순',
+                  style: context.typo.body2.subColor,
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  '추천순',
+                  style: context.typo.body2.subText,
+                ),
               ],
             ),
           ),
