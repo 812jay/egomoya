@@ -5,14 +5,11 @@ class IntlHelper {
     required double price,
     required String symbol,
   }) {
-    final format = NumberFormat('$symbol###,###,###,###');
-    if (symbol == '£') {
-      final euroFormat = NumberFormat.currency(
-        symbol: symbol,
-        decimalDigits: 2,
-      );
-      return euroFormat.format(price);
-    }
-    return format.format(price);
+    int decimalDigits = symbol == '₩' ? 0 : 2;
+    final currencyFormat = NumberFormat.currency(
+      symbol: symbol,
+      decimalDigits: decimalDigits,
+    );
+    return currencyFormat.format(price);
   }
 }
