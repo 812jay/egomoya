@@ -12,6 +12,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C41mjuJttfv/?igsh=dWM5czRod2dyMXl3'
               .trim(),
+      likeCnt: 17,
+      createdAt: DateTime(2024, 2, 20, 17, 30),
+      updatedAt: DateTime(2024, 2, 20, 17, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -37,6 +40,9 @@ class CelebDummyData {
       instaLink:
           ' https://www.instagram.com/p/C4g0UJ4yg0n/?igsh=YjFoZ2dsdnRidmt1'
               .trim(),
+      likeCnt: 18,
+      createdAt: DateTime(2024, 2, 21, 17, 30),
+      updatedAt: DateTime(2024, 2, 21, 17, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -73,6 +79,9 @@ class CelebDummyData {
       category: CelebPostCategory.beauty,
       imgPath: 'assets/images/detail1.png',
       celebName: 'LE SSERAFIM – 채원',
+      likeCnt: 23,
+      createdAt: DateTime(2024, 2, 20, 19, 30),
+      updatedAt: DateTime(2024, 2, 20, 19, 30),
       instaLink:
           'https://www.instagram.com/p/C4CNiKdMevn/?igsh=cG8xazl4czA4ajAx'
               .trim(),
@@ -94,6 +103,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C3_lSj3oSBm/?igsh=MTY5bDB0empsb2J1Mg=='
               .trim(),
+      likeCnt: 4,
+      createdAt: DateTime(2024, 2, 20, 20, 30),
+      updatedAt: DateTime(2024, 2, 20, 20, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -119,6 +131,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C4NB_P2JsqS/?igsh=MThlOTg4bzNpc3dxMg=='
               .trim(),
+      likeCnt: 4,
+      createdAt: DateTime(2024, 3, 3, 2, 30),
+      updatedAt: DateTime(2024, 3, 3, 2, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -144,6 +159,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C44LXokpfwH/?igsh=azhxM2ZpaHp1aXJr'
               .trim(),
+      likeCnt: 11,
+      createdAt: DateTime(2024, 3, 4, 2, 30),
+      updatedAt: DateTime(2024, 3, 4, 2, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -172,6 +190,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C5AwUJpRD8z/?igsh=b2E5dnFwc294Z3Js'
               .trim(),
+      likeCnt: 11,
+      createdAt: DateTime(2024, 3, 5, 2, 30),
+      updatedAt: DateTime(2024, 3, 5, 2, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -190,6 +211,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C5Fd36xStje/?igsh=MXNyZWJnZ2hqc292Zg=='
               .trim(),
+      likeCnt: 2,
+      createdAt: DateTime(2024, 3, 6, 1, 30),
+      updatedAt: DateTime(2024, 3, 6, 2, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -206,6 +230,9 @@ class CelebDummyData {
       imgPath: 'assets/images/detail2.png',
       celebName: '태연',
       instaLink: 'https://www.google.com'.trim(),
+      likeCnt: 12,
+      createdAt: DateTime(2024, 3, 9, 1, 30),
+      updatedAt: DateTime(2024, 3, 9, 2, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -238,6 +265,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C4nN4ESB494/?igsh=MXkxOGI3emxwYWUyZw=='
               .trim(),
+      likeCnt: 12,
+      createdAt: DateTime(2024, 3, 23, 1, 30),
+      updatedAt: DateTime(2024, 3, 23, 2, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
@@ -263,6 +293,9 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C5AFs69ScGS/?igsh=MTdwcDl6a3BibGZuMA=='
               .trim(),
+      likeCnt: 12,
+      createdAt: DateTime(2024, 4, 1, 1, 30),
+      updatedAt: DateTime(2024, 4, 1, 2, 30),
       itemList: [
         CelebItem(
           imgPath: 'assets/images/logo_icon.png',
