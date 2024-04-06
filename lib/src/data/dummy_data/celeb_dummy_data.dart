@@ -40,7 +40,7 @@ class CelebDummyData {
       instaLink:
           ' https://www.instagram.com/p/C4g0UJ4yg0n/?igsh=YjFoZ2dsdnRidmt1'
               .trim(),
-      likeCnt: 18,
+      likeCnt: 2,
       createdAt: DateTime(2024, 2, 21, 17, 30),
       updatedAt: DateTime(2024, 2, 21, 17, 30),
       itemList: [
@@ -103,7 +103,7 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C3_lSj3oSBm/?igsh=MTY5bDB0empsb2J1Mg=='
               .trim(),
-      likeCnt: 4,
+      likeCnt: 1,
       createdAt: DateTime(2024, 2, 20, 20, 30),
       updatedAt: DateTime(2024, 2, 20, 20, 30),
       itemList: [
@@ -211,7 +211,7 @@ class CelebDummyData {
       instaLink:
           'https://www.instagram.com/p/C5Fd36xStje/?igsh=MXNyZWJnZ2hqc292Zg=='
               .trim(),
-      likeCnt: 2,
+      likeCnt: 23,
       createdAt: DateTime(2024, 3, 6, 1, 30),
       updatedAt: DateTime(2024, 3, 6, 2, 30),
       itemList: [

@@ -44,13 +44,17 @@ class MainViewModel extends BaseViewModel {
   ]
     ..shuffle(Random())
     ..sublist(0, 4);
-  List<Celeb> beautyCelebList = CelebDummyData.beautyCeleb;
-  List<Celeb> fashionCelebList = CelebDummyData.fashionCeleb;
+
+  List<Celeb> get beautyCelebList =>
+      sortedCelebList(CelebDummyData.beautyCeleb);
+  List<Celeb> get fashionCelebList =>
+      sortedCelebList(CelebDummyData.fashionCeleb);
 
   int selectedCategoryIndex = 0;
   bool get isSignedIn => userModel.isSignedIn;
 
   CelebPostCategory selectedCelebPostCategory = CelebPostCategory.fashion;
+  CelebPostSort selectedCelebPostSort = CelebPostSort.latest;
 
   void onTapCategory(int index) {
     if (selectedCategoryIndex == index) return;
@@ -76,5 +80,17 @@ class MainViewModel extends BaseViewModel {
   void onTapCelebCategory(CelebPostCategory newCategory) {
     selectedCelebPostCategory = newCategory;
     notifyListeners();
+  }
+
+  void onTapCelebSort(CelebPostSort newSort) {
+    selectedCelebPostSort = newSort;
+    notifyListeners();
+  }
+
+  List<Celeb> sortedCelebList(List<Celeb> celebList) {
+    if (selectedCelebPostSort.isLatest) {
+      return celebList..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    }
+    return celebList..sort((a, b) => b.likeCnt.compareTo(a.likeCnt));
   }
 }

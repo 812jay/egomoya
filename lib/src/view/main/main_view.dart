@@ -8,6 +8,7 @@ import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
 import 'package:egomoya/src/view/celeb/widget/celeb_category_form.dart';
+import 'package:egomoya/src/view/celeb/widget/celeb_sort_tab.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
 import 'package:egomoya/src/view/main/widget/main_title.dart';
 import 'package:egomoya/theme/component/app_bar/main_sliver_app_bar.dart';
@@ -217,14 +218,16 @@ class _MainCeleb extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      '최신순',
-                      style: context.typo.body2.subColor,
+                    CelebSortTab(
+                      sort: CelebPostSort.latest,
+                      onTap: (sort) => value.onTapCelebSort(sort),
+                      isSelected: value.selectedCelebPostSort.isLatest,
                     ),
                     const SizedBox(width: 16),
-                    Text(
-                      '추천순',
-                      style: context.typo.body2.subText,
+                    CelebSortTab(
+                      sort: CelebPostSort.like,
+                      onTap: (sort) => value.onTapCelebSort(sort),
+                      isSelected: value.selectedCelebPostSort.isLike,
                     ),
                   ],
                 ),
@@ -242,7 +245,7 @@ class _MainCeleb extends StatelessWidget {
                 },
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 20),
-              )
+              ),
             ],
           ),
         );
