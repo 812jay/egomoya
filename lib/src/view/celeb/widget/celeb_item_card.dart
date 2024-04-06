@@ -2,6 +2,7 @@ import 'package:egomoya/src/data/dto/celeb/celeb_item.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/app_theme.dart';
+import 'package:egomoya/util/helper/intl_helper.dart';
 import 'package:flutter/material.dart';
 
 class CelebItemCard extends StatelessWidget {
@@ -58,7 +59,10 @@ class CelebItemCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    '${celebItem.currency}${double.parse(celebItem.price.toStringAsFixed(2))}',
+                    IntlHelper.priceFormat(
+                      price: celebItem.price,
+                      symbol: celebItem.currency,
+                    ),
                     style: context.typo.body3,
                   ),
                 ],
