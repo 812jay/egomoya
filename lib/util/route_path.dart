@@ -3,10 +3,12 @@ import 'package:egomoya/src/view/question/question_add_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view.dart';
+import 'package:egomoya/src/view/splash_view.dart';
 import 'package:egomoya/theme/component/constrained_screen.dart';
 import 'package:flutter/material.dart';
 
 abstract class RoutePath {
+  static const String splash = 'splash';
   static const String main = 'main';
   static const String signIn = 'signIn';
   static const String signUp = 'signUp';
@@ -16,6 +18,9 @@ abstract class RoutePath {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late final Widget page;
     switch (settings.name) {
+      case RoutePath.splash:
+        page = const SplashView();
+        break;
       case RoutePath.main:
         page = const MainView();
         break;
