@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
         );
       },
       theme: context.themeService.themeData,
-      initialRoute: RoutePath.main,
+      initialRoute: RoutePath.splash,
       onGenerateRoute: RoutePath.onGenerateRoute,
     );
   }
