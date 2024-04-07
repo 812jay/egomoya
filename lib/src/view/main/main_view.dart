@@ -1,10 +1,16 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:egomoya/src/data/dto/celeb/celeb.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/enum/celeb_type.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
+import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
+import 'package:egomoya/src/view/celeb/widget/celeb_category_form.dart';
+import 'package:egomoya/src/view/celeb/widget/celeb_sort_tab.dart';
 import 'package:egomoya/src/view/main/main_view_model.dart';
-import 'package:egomoya/src/view/main/widget/post_title.dart';
+import 'package:egomoya/src/view/main/widget/main_title.dart';
 import 'package:egomoya/theme/component/app_bar/main_sliver_app_bar.dart';
 import 'package:egomoya/theme/component/box/question_box.dart';
 import 'package:egomoya/theme/component/button/button.dart';
@@ -29,8 +35,8 @@ class MainView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         List<Widget> pageList = [
-          const _MainHome(),
-          const _MainCelebrity(),
+          _MainHome(celebList: viewModel.mainCelebList),
+          const _MainCeleb(),
           const _MainQuestion(),
         ];
         return Scaffold(
@@ -58,7 +64,7 @@ class MainView extends StatelessWidget {
                     itemCount: 1,
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                      horizontal: 0,
                       vertical: 20,
                     ),
                     itemBuilder: (context, index) {
@@ -138,7 +144,9 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _MainHome extends StatelessWidget {
   const _MainHome({
     super.key,
+    required this.celebList,
   });
+  final List<Celeb> celebList;
 
   @override
   Widget build(BuildContext context) {
@@ -146,17 +154,33 @@ class _MainHome extends StatelessWidget {
       builder: (context, value, child) {
         return Column(
           children: [
-            PostTitle(
-              onTap: () => value.onTapCategory(2),
-              title: '요고 궁금해요 TOP 3',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: MainTitle(
+                onTap: () => value.onTapCategory(2),
+                title: '요즘 셀럽들의 PICK! 🛍️',
+              ),
+            ),
+            const SizedBox(height: 26),
+            _CelebCarousel(celebList: celebList),
+            const SizedBox(height: 70),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: MainTitle(
+                onTap: () => value.onTapCategory(2),
+                title: '요고 궁금해요 TOP 3 🙋‍♀️',
+              ),
             ),
             const SizedBox(height: 26),
             Consumer<MainViewModel>(
               builder: (context, value, child) {
                 final dataList = value.post?.dataList;
-                return _QuestionList(
-                  postList: dataList,
-                  limit: 3,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: _QuestionList(
+                    postList: dataList,
+                    limit: 3,
+                  ),
                 );
               },
             )
@@ -167,15 +191,98 @@ class _MainHome extends StatelessWidget {
   }
 }
 
-class _MainCelebrity extends StatelessWidget {
-  const _MainCelebrity({super.key});
+class _MainCeleb extends StatelessWidget {
+  const _MainCeleb({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text('_MainCelebrity'),
-      ],
+    return Consumer<MainViewModel>(
+      builder: (context, value, child) {
+        final List<Celeb> celebList = value.selectedCelebPostCategory.isFashion
+            ? value.fashionCelebList
+            : value.beautyCelebList;
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CelebCategoryForm(
+                categoryList: CelebPostCategory.values,
+                selectedCategory: value.selectedCelebPostCategory,
+                onTap: value.onTapCelebCategory,
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CelebSortTab(
+                      sort: CelebPostSort.latest,
+                      onTap: (sort) => value.onTapCelebSort(sort),
+                      isSelected: value.selectedCelebPostSort.isLatest,
+                    ),
+                    const SizedBox(width: 16),
+                    CelebSortTab(
+                      sort: CelebPostSort.like,
+                      onTap: (sort) => value.onTapCelebSort(sort),
+                      isSelected: value.selectedCelebPostSort.isLike,
+                    ),
+                  ],
+                ),
+              ),
+              ListView.separated(
+                scrollDirection: Axis.vertical,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: celebList.length,
+                itemBuilder: (context, index) {
+                  final celeb = celebList[index];
+                  return CelebCard(celeb: celeb);
+                },
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _CelebCarousel extends StatelessWidget {
+  const _CelebCarousel({
+    super.key,
+    required this.celebList,
+  });
+  final List<Celeb> celebList;
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider.builder(
+      itemCount: celebList.length,
+      options: CarouselOptions(
+        scrollDirection: Axis.horizontal,
+        initialPage: 0,
+        enableInfiniteScroll: false,
+        height: 400,
+        viewportFraction: 0.85,
+        enlargeFactor: 0.2,
+        enlargeCenterPage: true,
+        autoPlayCurve: Curves.easeInOut,
+        autoPlayInterval: const Duration(seconds: 3),
+        autoPlayAnimationDuration: const Duration(seconds: 1),
+        pauseAutoPlayInFiniteScroll: true,
+        autoPlay: true,
+      ),
+      itemBuilder: (context, index, realIndex) {
+        final celeb = celebList[index];
+        return CelebCard(celeb: celeb);
+      },
     );
   }
 }

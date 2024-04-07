@@ -1,5 +1,10 @@
+import 'dart:math';
+
+import 'package:egomoya/src/data/dto/celeb/celeb.dart';
 import 'package:egomoya/src/data/dto/main/main_category.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/dummy_data/celeb_dummy_data.dart';
+import 'package:egomoya/src/data/enum/celeb_type.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
@@ -32,8 +37,24 @@ class MainViewModel extends BaseViewModel {
     MainCategory(index: 2, title: '요고 궁금', isActive: false),
   ];
 
+  // Celeb
+  List<Celeb> mainCelebList = [
+    ...CelebDummyData.beautyCeleb,
+    ...CelebDummyData.fashionCeleb,
+  ]
+    ..shuffle(Random())
+    ..sublist(0, 4);
+
+  List<Celeb> get beautyCelebList =>
+      sortedCelebList(CelebDummyData.beautyCeleb);
+  List<Celeb> get fashionCelebList =>
+      sortedCelebList(CelebDummyData.fashionCeleb);
+
   int selectedCategoryIndex = 0;
   bool get isSignedIn => userModel.isSignedIn;
+
+  CelebPostCategory selectedCelebPostCategory = CelebPostCategory.fashion;
+  CelebPostSort selectedCelebPostSort = CelebPostSort.latest;
 
   void onTapCategory(int index) {
     if (selectedCategoryIndex == index) return;
@@ -53,5 +74,23 @@ class MainViewModel extends BaseViewModel {
         .entries
         .map((e) => e.key == index ? newCategory : e.value)
         .toImmutable();
+  }
+
+  // Celeb
+  void onTapCelebCategory(CelebPostCategory newCategory) {
+    selectedCelebPostCategory = newCategory;
+    notifyListeners();
+  }
+
+  void onTapCelebSort(CelebPostSort newSort) {
+    selectedCelebPostSort = newSort;
+    notifyListeners();
+  }
+
+  List<Celeb> sortedCelebList(List<Celeb> celebList) {
+    if (selectedCelebPostSort.isLatest) {
+      return celebList..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    }
+    return celebList..sort((a, b) => b.likeCnt.compareTo(a.likeCnt));
   }
 }

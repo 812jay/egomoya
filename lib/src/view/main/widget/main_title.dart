@@ -2,8 +2,8 @@ import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/util/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class PostTitle extends StatelessWidget {
-  const PostTitle({
+class MainTitle extends StatelessWidget {
+  const MainTitle({
     super.key,
     this.onTap,
     this.title,
