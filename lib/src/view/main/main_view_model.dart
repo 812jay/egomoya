@@ -39,16 +39,15 @@ class MainViewModel extends BaseViewModel {
 
   // Celeb
   List<Celeb> mainCelebList = [
-    ...CelebDummyData.beautyCeleb,
-    ...CelebDummyData.fashionCeleb,
+    ...CelebDummyData.celebData,
   ]
     ..shuffle(Random())
     ..sublist(0, 4);
 
-  List<Celeb> get beautyCelebList =>
-      sortedCelebList(CelebDummyData.beautyCeleb);
-  List<Celeb> get fashionCelebList =>
-      sortedCelebList(CelebDummyData.fashionCeleb);
+  List<Celeb> get beautyCelebList => sortedCelebList(
+      CelebDummyData.celebData.where((e) => e.category.isBeauty).toList());
+  List<Celeb> get fashionCelebList => sortedCelebList(
+      CelebDummyData.celebData.where((e) => e.category.isFashion).toList());
 
   int selectedCategoryIndex = 0;
   bool get isSignedIn => userModel.isSignedIn;

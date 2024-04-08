@@ -18,30 +18,34 @@ class CelebCategoryForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: context.color.subBackground,
-              width: 0.2,
+      child: SizedBox(
+        height: 44,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: context.color.subBackground,
+                    width: 0.2,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-        child: SizedBox(
-          height: 44,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: categoryList.length,
-            itemBuilder: (context, index) {
-              final category = categoryList[index];
-              return _CategoryButton(
-                category: category,
-                isSelected: category == selectedCategory,
-                onTap: onTap,
-              );
-            },
-          ),
+            ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: categoryList.length,
+              itemBuilder: (context, index) {
+                final category = categoryList[index];
+                return _CategoryButton(
+                  category: category,
+                  isSelected: category == selectedCategory,
+                  onTap: onTap,
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -69,14 +73,17 @@ class _CategoryButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: context.color.black,
-              width: isSelected ? 2 : 0,
+              color: isSelected ? context.color.black : context.color.divider,
+              width: isSelected ? 1 : 0,
             ),
           ),
         ),
         child: Text(
           category.name,
-          style: context.typo.subTitle3.bold,
+          style: isSelected
+              ? context.typo.subTitle3.bold
+              : context.typo.body1.subText,
+          textAlign: TextAlign.center,
         ),
       ),
     );

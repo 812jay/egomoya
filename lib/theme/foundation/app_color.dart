@@ -16,6 +16,7 @@ class AppColor {
     required this.inactiveBackground,
     required this.lightGrayBackground,
     required this.grayText,
+    required this.divider,
   });
 
   final Color primary;
@@ -32,6 +33,7 @@ class AppColor {
   final Color inactiveBackground;
   final Color lightGrayBackground;
   final Color grayText;
+  final Color divider;
 
   // final Color gray0;
   // final Color gray1;
