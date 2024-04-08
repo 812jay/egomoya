@@ -77,6 +77,9 @@ flutter:
     - assets/icons/
     - assets/svgs/
     - assets/images/
+    - assets/images/celeb/
+    - assets/images/celeb/beauty/
+    - assets/images/celeb/fashion/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
