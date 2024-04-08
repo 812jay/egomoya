@@ -24,6 +24,7 @@ class DarkTheme implements AppTheme {
     text: Palette.black,
     lightGrayBackground: Palette.gray0,
     grayText: Palette.gray4,
+    divider: Palette.gray3,
   );
 
   @override
