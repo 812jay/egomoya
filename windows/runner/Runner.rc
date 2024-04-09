@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.team403" "\0"
+            VALUE "CompanyName", "com.team" "\0"
             VALUE "FileDescription", "egomoya" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "egomoya" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.team403. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.team. All rights reserved." "\0"
             VALUE "OriginalFilename", "egomoya.exe" "\0"
             VALUE "ProductName", "egomoya" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
