@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "741798797945",
+    "project_id": "egomoya-feca6",
+    "storage_bucket": "egomoya-feca6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741798797945:android:c9862c4fe61025cd83aaa8",
+        "android_client_info": {
+          "package_name": "com.team.egomoya"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWdMfBca6X-9DYIZYYRtghnegd_0-yRnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
