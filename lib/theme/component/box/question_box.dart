@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/image/empty_image.dart';
@@ -55,13 +56,17 @@ class QuestionBox extends StatelessWidget {
                       ? const EmptyImage()
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            imgList.first.imageUrl,
-                            width: 90,
+                          child: CachedNetworkImage(
+                            imageUrl: imgList.first.imageUrl,
                             height: 90,
+                            width: 90,
                             fit: BoxFit.fill,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const EmptyImage();
+                            placeholder: (context, url) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: context.color.lightGrayBackground,
+                                ),
+                              );
                             },
                           ),
                         ),
