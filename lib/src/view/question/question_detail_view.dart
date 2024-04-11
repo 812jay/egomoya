@@ -218,7 +218,8 @@ class _QuestDetailCommentList extends StatelessWidget {
               shrinkWrap: true,
               itemCount: dataList.length,
               physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              separatorBuilder: (context, index) =>
+                  const Divider(thickness: 0.5),
               itemBuilder: (context, index) {
                 final data = dataList[index];
                 return Column(

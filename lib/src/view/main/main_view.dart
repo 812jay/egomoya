@@ -107,7 +107,6 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
           height: 50,
           decoration: BoxDecoration(color: context.color.white),
           padding: const EdgeInsets.only(left: 20),
-          alignment: Alignment.centerLeft,
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -337,7 +336,7 @@ class _QuestionList extends StatelessWidget {
           content: content.content,
           writedAt: content.createdAt,
           imgList: content.imageList ?? [],
-          commentCnt: 3,
+          commentCnt: content.commentCnt ?? 0,
         );
       },
     );

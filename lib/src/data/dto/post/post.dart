@@ -21,20 +21,22 @@ class PostData {
     required this.content,
     this.imageList,
     required this.user,
+    this.commentCnt,
     required this.createdAt,
     required this.updatedAt,
   });
-  final int? postId;
+  final int postId;
   final String title;
   final String content;
   final List<PostImage>? imageList;
   final User user;
+  int? commentCnt;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'PostData(postId: $postId, title: $title, content: $content, imageList: $imageList, user: $user, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'PostData(postId: $postId, title: $title, content: $content, imageList: $imageList, user: $user, commentCnt: $commentCnt, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
