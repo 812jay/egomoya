@@ -7,11 +7,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.onTapLeading,
     this.actions,
+    this.hasLeading,
   });
 
   final String? title;
   final GestureTapCallback? onTapLeading;
   final List<Widget>? actions;
+  final bool? hasLeading;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,12 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         title ?? '',
         style: context.typo.subTitle3,
       ),
-      leading: GestureDetector(
-        onTap: onTapLeading ?? () => Navigator.pop(context),
-        child: const Icon(Icons.arrow_back_ios),
-      ),
+      leading: hasLeading == false
+          ? null
+          : GestureDetector(
+              onTap: onTapLeading ?? () => Navigator.pop(context),
+              child: const Icon(Icons.arrow_back_ios),
+            ),
       actions: actions,
     );
   }

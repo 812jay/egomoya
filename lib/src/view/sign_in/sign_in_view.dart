@@ -26,6 +26,7 @@ class SignInView extends StatelessWidget {
           child: Scaffold(
             appBar: const BaseAppBar(
               title: '로그인',
+              hasLeading: false,
             ),
             body: SafeArea(
               child: Padding(
