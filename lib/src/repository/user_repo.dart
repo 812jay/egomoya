@@ -28,4 +28,10 @@ class UserRepo extends BaseRepo {
       '$prefix/api/users/$userId',
     );
   }
+
+  Future<UserRes> fetchUser(String userId) async {
+    final response = await dio.get('$prefix/api/users/$userId');
+    final result = UserRes.fromJson(response.data);
+    return result;
+  }
 }
