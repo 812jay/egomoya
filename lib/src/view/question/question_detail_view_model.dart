@@ -94,6 +94,7 @@ class QuestionDetailViewModel extends BaseViewModel {
       ..onSuccess((value) async {
         //comment refresh
         await fetchCommentListDetail();
+        await postService.refreshPostList();
         onClearAddComment();
       });
   }
