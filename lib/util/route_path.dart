@@ -1,4 +1,5 @@
 import 'package:egomoya/src/view/main/main_view.dart';
+import 'package:egomoya/src/view/profile/profile_view.dart';
 import 'package:egomoya/src/view/question/question_add_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view.dart';
@@ -12,6 +13,7 @@ abstract class RoutePath {
   static const String main = 'main';
   static const String signIn = 'signIn';
   static const String signUp = 'signUp';
+  static const String profile = 'profile';
   static const String questionAdd = 'questionAdd';
   static const String questionDetail = 'questionDetail';
 
@@ -29,6 +31,9 @@ abstract class RoutePath {
         break;
       case RoutePath.signUp:
         page = const SignUpView();
+        break;
+      case RoutePath.profile:
+        page = const ProfileView();
         break;
       case RoutePath.questionAdd:
         page = const QuestionAddView();

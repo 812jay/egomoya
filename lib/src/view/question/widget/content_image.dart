@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:egomoya/src/service/theme_service.dart';
 import 'package:flutter/material.dart';
 
 class ContentImageBox extends StatelessWidget {
@@ -11,9 +13,16 @@ class ContentImageBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
-      child: Image.network(
-        imageUrl,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
         fit: BoxFit.contain,
+        placeholder: (context, url) {
+          return Container(
+            decoration: BoxDecoration(
+              color: context.color.lightGrayBackground,
+            ),
+          );
+        },
       ),
     );
   }

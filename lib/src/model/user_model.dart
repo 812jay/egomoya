@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/dto/user/user.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/src/repository/user_repo.dart';
@@ -23,8 +24,18 @@ class UserModel {
         await _userRepo.signUp(req: req);
       });
 
+  Future<RequestResult<void>> signOut() => handleRequest(() async {
+        await _pref.setUserId('');
+      });
+
   Future<RequestResult<void>> deleteUser(String userId) =>
       handleRequest(() async {
         await _userRepo.deleteUser(userId);
+      });
+
+  Future<RequestResult<User>> fetchUser() => handleRequest(() async {
+        final response = await _userRepo.fetchUser(_pref.userId);
+        final result = response.toDto();
+        return result;
       });
 }
