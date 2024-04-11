@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 class MainSliverAppBar extends StatelessWidget {
   const MainSliverAppBar({
     super.key,
-    required this.isSignedIn,
   });
-  final bool isSignedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +30,13 @@ class MainSliverAppBar extends StatelessWidget {
           size: 22,
         ),
         const SizedBox(width: 20),
-        isSignedIn
-            ? GestureDetector(
-                onTap: () {},
-                child: const AssetIcon(
-                  'assets/icons/group.svg',
-                  size: 22,
-                ),
-              )
-            : GestureDetector(
-                onTap: () => Navigator.pushNamed(context, RoutePath.signIn),
-                child: Text(
-                  '로그인',
-                  style: context.typo.body2,
-                ),
-              ),
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, RoutePath.profile),
+          child: const AssetIcon(
+            'assets/icons/group.svg',
+            size: 22,
+          ),
+        ),
         const SizedBox(width: 20),
       ],
     );

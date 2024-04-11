@@ -23,6 +23,10 @@ class UserModel {
         await _userRepo.signUp(req: req);
       });
 
+  Future<RequestResult<void>> signOut() => handleRequest(() async {
+        await _pref.setUserId('');
+      });
+
   Future<RequestResult<void>> deleteUser(String userId) =>
       handleRequest(() async {
         await _userRepo.deleteUser(userId);
