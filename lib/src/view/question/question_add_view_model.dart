@@ -41,7 +41,7 @@ class QuestionAddViewModel extends BaseViewModel {
   String get content => contentController.text;
   bool get isValidateTitle =>
       RegExp(PostValidateType.title.pattern).hasMatch(title);
-  bool get isActiveSubmitButton => isValidateTitle;
+  bool get isActiveSubmitButton => isValidateTitle && !isBusy;
 
   // 에러 메시지
   String? get titleErrMsg =>
@@ -92,6 +92,7 @@ class QuestionAddViewModel extends BaseViewModel {
       _imageService.delete(imageList.elementAt(index));
 
   void onSubmit(BuildContext context) async {
+    isBusy = true;
     final fileList = _imageService.imageList;
 
     final FormData formData = await _imageService.xFileListToFormData(
@@ -114,5 +115,7 @@ class QuestionAddViewModel extends BaseViewModel {
       Navigator.pop(context);
       await _postService.refreshPostList();
     });
+    isBusy = false;
+    notifyListeners();
   }
 }
