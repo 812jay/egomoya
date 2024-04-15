@@ -5,6 +5,7 @@ import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class QuestionDetailViewModel extends BaseViewModel {
@@ -81,6 +82,12 @@ class QuestionDetailViewModel extends BaseViewModel {
       });
   }
 
+  void navigateToUpdatePost(BuildContext context) => Navigator.pushNamed(
+        context,
+        RoutePath.questionAdd,
+        arguments: postData,
+      );
+
   Future<void> addComment() async {
     final result = await commentModel.registComment(
       postId: postId,
@@ -116,7 +123,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   void onTapMorePost(BuildContext context) {
     dialogService.showMoreDialog(
       context,
-      onUpdate: () {},
+      onUpdate: () => navigateToUpdatePost(context),
       onDelete: () {
         deletePost(context);
       },

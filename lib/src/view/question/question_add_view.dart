@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/post_model.dart';
 import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/post_service.dart';
@@ -14,7 +15,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class QuestionAddView extends StatelessWidget {
-  const QuestionAddView({super.key});
+  const QuestionAddView({
+    super.key,
+    this.postData,
+  });
+  final PostData? postData;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +28,7 @@ class QuestionAddView extends StatelessWidget {
         context.read<ImageService>(),
         context.read<PostService>(),
         context.read<PostModel>(),
+        postData,
       ),
       builder: (context, viewModel) {
         const SizedBox space = SizedBox(height: 36);

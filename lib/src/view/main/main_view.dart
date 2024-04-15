@@ -40,37 +40,35 @@ class MainView extends StatelessWidget {
           const _MainQuestion(),
         ];
         return Scaffold(
-          body: SafeArea(
-            child: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return <Widget>[
-                  const MainSliverAppBar(),
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      context,
-                    ),
-                    sliver: SliverPersistentHeader(
-                      delegate: MainHeaderDelegate(),
-                    ),
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return <Widget>[
+                const MainSliverAppBar(),
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
                   ),
-                ];
+                  sliver: SliverPersistentHeader(
+                    delegate: MainHeaderDelegate(),
+                  ),
+                ),
+              ];
+            },
+            floatHeaderSlivers: true,
+            body: Consumer<MainViewModel>(
+              builder: (context, value, child) {
+                return ListView.builder(
+                  itemCount: 1,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 20,
+                  ),
+                  itemBuilder: (context, index) {
+                    return pageList[value.selectedCategoryIndex];
+                  },
+                );
               },
-              floatHeaderSlivers: true,
-              body: Consumer<MainViewModel>(
-                builder: (context, value, child) {
-                  return ListView.builder(
-                    itemCount: 1,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 0,
-                      vertical: 20,
-                    ),
-                    itemBuilder: (context, index) {
-                      return pageList[value.selectedCategoryIndex];
-                    },
-                  );
-                },
-              ),
             ),
           ),
           floatingActionButton: Consumer<MainViewModel>(
@@ -154,7 +152,7 @@ class _MainHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: MainTitle(
-                onTap: () => value.onTapCategory(2),
+                onTap: () => value.onTapCategory(1),
                 title: '요즘 셀럽들의 PICK! 🛍️',
               ),
             ),

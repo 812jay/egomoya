@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/view/main/main_view.dart';
 import 'package:egomoya/src/view/profile/profile_view.dart';
 import 'package:egomoya/src/view/question/question_add_view.dart';
@@ -36,7 +37,10 @@ abstract class RoutePath {
         page = const ProfileView();
         break;
       case RoutePath.questionAdd:
-        page = const QuestionAddView();
+        final PostData? postData = settings.arguments as PostData?;
+        page = QuestionAddView(
+          postData: postData,
+        );
         break;
       case RoutePath.questionDetail:
         final int postId = settings.arguments as int;
