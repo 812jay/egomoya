@@ -18,12 +18,18 @@ class PostRepo extends BaseRepo {
   }
 
   Future<PostDataRes> registPost({
+    int? postId,
     required PostReq req,
   }) async {
-    final response = await dio.post(
-      '$prefix/api/posts',
-      data: jsonEncode(req),
-    );
+    final response = postId != null
+        ? await dio.patch(
+            '$prefix/api/posts/$postId',
+            data: jsonEncode(req),
+          )
+        : await dio.post(
+            '$prefix/api/posts',
+            data: jsonEncode(req),
+          );
     final result = PostDataRes.fromJson(response.data);
     return result;
   }

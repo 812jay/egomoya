@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -103,6 +102,7 @@ class QuestionAddViewModel extends BaseViewModel {
     final result = await _postModel.registPost(
       title: title,
       content: content,
+      postId: _postData?.postId,
       password: '1111',
       nickname: 'nickname',
       imgFormData: formData,

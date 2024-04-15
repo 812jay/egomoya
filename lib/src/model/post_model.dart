@@ -38,6 +38,7 @@ class PostModel {
 
   Future<RequestResult<void>> registPost({
     required String title,
+    int? postId,
     String? content,
     String? password,
     required String nickname,
@@ -45,6 +46,7 @@ class PostModel {
   }) =>
       handleRequest(() async {
         final res = await _postRepo.registPost(
+          postId: postId,
           req: PostReq(
             title: title,
             content: content,
