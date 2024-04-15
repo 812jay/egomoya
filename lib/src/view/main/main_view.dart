@@ -75,10 +75,7 @@ class MainView extends StatelessWidget {
             builder: (context, value, child) {
               return value.selectedCategoryIndex == 2
                   ? Button(
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        RoutePath.questionAdd,
-                      ),
+                      onPressed: () => viewModel.onTapQuestionAdd(context),
                       backgroundColor: context.color.black,
                       color: context.color.white,
                       text: '글쓰기',

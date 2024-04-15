@@ -36,7 +36,7 @@ class BaseDialog extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
-                text: cancelText ?? '나가기',
+                text: cancelText ?? '취소',
                 color: context.color.white,
               ),
             ),
@@ -44,7 +44,7 @@ class BaseDialog extends StatelessWidget {
             Expanded(
               child: Button(
                 onPressed: onTapConfirm ?? () => Navigator.pop(context),
-                text: confirmText ?? '계속 작성하기',
+                text: confirmText ?? '확인',
                 color: context.color.white,
               ),
             ),

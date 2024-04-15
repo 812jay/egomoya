@@ -8,7 +8,9 @@ import 'package:egomoya/src/data/enum/celeb_type.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/theme/component/dialog/base_dialog.dart';
 import 'package:egomoya/util/helper/immutable_helper.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class MainViewModel extends BaseViewModel {
@@ -85,6 +87,37 @@ class MainViewModel extends BaseViewModel {
     selectedCelebPostSort = newSort;
     notifyListeners();
   }
+
+  void onTapQuestionAdd(BuildContext context) {
+    if (!isSignedIn) {
+      showSignInDialog(context);
+      return;
+    }
+    navigateToQuestionAdd(context);
+  }
+
+  void showSignInDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BaseDialog(
+          content: '로그인 해야 질문을 작성할 수 있어요. 로그인 하시겠어요?',
+          confirmText: '로그인',
+          cancelText: '취소',
+          onTapCancel: () => Navigator.pop(context),
+          onTapConfirm: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, RoutePath.signIn);
+          },
+        );
+      },
+    );
+  }
+
+  void navigateToQuestionAdd(BuildContext context) => Navigator.pushNamed(
+        context,
+        RoutePath.questionAdd,
+      );
 
   List<Celeb> sortedCelebList(List<Celeb> celebList) {
     if (selectedCelebPostSort.isLatest) {
