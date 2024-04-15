@@ -36,8 +36,8 @@ class ProfileViewModel extends BaseViewModel {
   void navigateToSignIn(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(
       context,
-      RoutePath.signIn,
-      (route) => route.isFirst,
+      RoutePath.main,
+      (route) => false,
     );
   }
 }
