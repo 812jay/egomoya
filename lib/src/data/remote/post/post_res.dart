@@ -78,11 +78,14 @@ class PostImageRes {
   PostImageRes({
     required this.postId,
     required this.imageUrl,
+    this.uploadName,
   });
   @JsonKey(name: 'postId')
   final int? postId;
   @JsonKey(name: 'imageUrl')
   final String imageUrl;
+  @JsonKey(name: 'uploadName')
+  final String? uploadName;
 
   factory PostImageRes.fromJson(Map<String, dynamic> json) =>
       _$PostImageResFromJson(json);
