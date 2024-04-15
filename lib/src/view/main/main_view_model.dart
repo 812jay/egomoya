@@ -106,8 +106,7 @@ class MainViewModel extends BaseViewModel {
           cancelText: '취소',
           onTapCancel: () => Navigator.pop(context),
           onTapConfirm: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, RoutePath.signIn);
+            Navigator.restorablePopAndPushNamed(context, RoutePath.signIn);
           },
         );
       },
