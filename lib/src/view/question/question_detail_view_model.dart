@@ -128,8 +128,12 @@ class QuestionDetailViewModel extends BaseViewModel {
   void onTapMorePost(BuildContext context) {
     dialogService.showMoreDialog(
       context,
-      onUpdate: () => navigateToUpdatePost(context),
+      onUpdate: () {
+        Navigator.pop(context);
+        navigateToUpdatePost(context);
+      },
       onDelete: () {
+        Navigator.pop(context);
         deletePost(context);
       },
     );
@@ -164,10 +168,12 @@ class QuestionDetailViewModel extends BaseViewModel {
   }) {
     dialogService.showMoreDialog(
       context,
-      onUpdate: () {},
-      onDelete: () {
-        onDeleteComment(commentId);
+      onUpdate: () {
         Navigator.pop(context);
+      },
+      onDelete: () {
+        Navigator.pop(context);
+        onDeleteComment(commentId);
       },
     );
   }
