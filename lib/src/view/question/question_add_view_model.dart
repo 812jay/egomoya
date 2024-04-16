@@ -4,35 +4,30 @@ import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/model/post_model.dart';
-import 'package:egomoya/src/service/image_service.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
+import 'package:egomoya/util/helper/image_helper.dart';
 import 'package:flutter/material.dart';
 
 class QuestionAddViewModel extends BaseViewModel {
   QuestionAddViewModel(
-    this._imageService,
     this._postService,
     this._postModel,
     this._postData,
   ) {
-    _imageService.addListener(notifyListeners);
     _postService.addListener(notifyListeners);
     titleController = TextEditingController(text: _postData?.title ?? '');
     contentController = TextEditingController(text: _postData?.content ?? '');
-    _imageService.cachedNetworkFile(
-      _postData?.imageList?.map((e) => e.imageUrl).toList() ?? [],
-    );
+    setInitImageList();
   }
-  final ImageService _imageService;
   final PostService _postService;
   final PostModel _postModel;
   final PostData? _postData;
   late TextEditingController titleController;
   late TextEditingController contentController;
 
-  List<File> get imageList => _imageService.imageList;
+  List<File> imageList = [];
 
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedTitle = false;
@@ -49,11 +44,19 @@ class QuestionAddViewModel extends BaseViewModel {
 
   @override
   void dispose() {
-    _imageService.removeListener(notifyListeners);
     _postService.removeListener(notifyListeners);
     titleController.dispose();
     contentController.dispose();
     super.dispose();
+  }
+
+  void setInitImageList() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      imageList = await ImageHelper.urlListToFileList(
+        _postData?.imageList?.map((e) => e.imageUrl).toList() ?? [],
+      );
+      notifyListeners();
+    });
   }
 
   void onTapLeading(BuildContext context) {
@@ -65,7 +68,6 @@ class QuestionAddViewModel extends BaseViewModel {
           cancelText: '나가기',
           confirmText: '계속 작성하기',
           onTapCancel: () {
-            _imageService.onClearImageList();
             Navigator.pop(context);
             Navigator.pop(context);
           },
@@ -86,17 +88,24 @@ class QuestionAddViewModel extends BaseViewModel {
     titleController.clear();
   }
 
-  void selectImage() => _imageService.select(limit: 5);
+  void selectImage() async {
+    imageList = await ImageHelper.selectList(imageList: imageList, limit: 5);
+    notifyListeners();
+  }
 
-  void onDeleteImage(int index) =>
-      _imageService.delete(imageList.elementAt(index));
+  void onDeleteImage(int index) {
+    imageList = ImageHelper.deleteFromList(
+      imageList: imageList,
+      file: imageList.elementAt(index),
+    );
+    notifyListeners();
+  }
 
   void onSubmit(BuildContext context) async {
     isBusy = true;
-    final fileList = _imageService.imageList;
 
-    final FormData? formData = await _imageService.xFileListToFormData(
-      fileList: fileList,
+    final FormData? formData = await ImageHelper.xFileListToFormData(
+      fileList: imageList,
       userId: _postModel.userId,
     );
 
