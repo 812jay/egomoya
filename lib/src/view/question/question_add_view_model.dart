@@ -21,6 +21,7 @@ class QuestionAddViewModel extends BaseViewModel {
     contentController = TextEditingController(text: _postData?.content ?? '');
     setInitImageList();
   }
+
   final PostService _postService;
   final PostModel _postModel;
   final PostData? _postData;
@@ -93,7 +94,6 @@ class QuestionAddViewModel extends BaseViewModel {
     isBusy = true;
     await Future.delayed(const Duration(seconds: 1));
     isBusy = false;
-    notifyListeners();
   }
 
   void onDeleteImage(int index) {
@@ -125,7 +125,6 @@ class QuestionAddViewModel extends BaseViewModel {
       Navigator.pop(context);
       await _postService.refreshPostList();
     });
-    await Future.delayed(const Duration(seconds: 1));
     isBusy = false;
     notifyListeners();
   }
