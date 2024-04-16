@@ -95,7 +95,7 @@ class QuestionAddViewModel extends BaseViewModel {
     isBusy = true;
     final fileList = _imageService.imageList;
 
-    final FormData formData = await _imageService.xFileListToFormData(
+    final FormData? formData = await _imageService.xFileListToFormData(
       fileList: fileList,
       userId: _postModel.userId,
     );

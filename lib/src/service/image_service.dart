@@ -36,10 +36,11 @@ class ImageService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<FormData> xFileListToFormData({
+  Future<FormData?> xFileListToFormData({
     required List<File> fileList,
     required String userId,
   }) async {
+    if (fileList.isEmpty) return null;
     final List<MultipartFile> multipartFileList = fileList
         .map((file) => MultipartFile.fromFileSync(
               file.path,
