@@ -21,6 +21,7 @@ class QuestionAddViewModel extends BaseViewModel {
     contentController = TextEditingController(text: _postData?.content ?? '');
     setInitImageList();
   }
+
   final PostService _postService;
   final PostModel _postModel;
   final PostData? _postData;
@@ -90,7 +91,9 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void onSelectImage() async {
     imageList = await ImageHelper.selectList(imageList: imageList, limit: 5);
-    notifyListeners();
+    isBusy = true;
+    await Future.delayed(const Duration(seconds: 1));
+    isBusy = false;
   }
 
   void onDeleteImage(int index) {
@@ -113,8 +116,6 @@ class QuestionAddViewModel extends BaseViewModel {
       title: _title,
       content: _content,
       postId: _postData?.postId,
-      password: '1111',
-      nickname: 'nickname',
       imgFormData: formData,
     );
     result.onFailure((e) {

@@ -299,8 +299,11 @@ class _MainQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _QuestionList(
-      postList: dataList,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: _QuestionList(
+        postList: dataList,
+      ),
     );
   }
 }
@@ -330,6 +333,7 @@ class _QuestionList extends StatelessWidget {
       itemCount: postCnt,
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => const SizedBox(height: 20),
+      padding: EdgeInsets.zero,
       itemBuilder: (context, index) {
         final content = postList![index];
         return QuestionBox(

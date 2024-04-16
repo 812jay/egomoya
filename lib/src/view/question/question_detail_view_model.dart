@@ -133,7 +133,6 @@ class QuestionDetailViewModel extends BaseViewModel {
         navigateToUpdatePost(context);
       },
       onDelete: () {
-        Navigator.pop(context);
         deletePost(context);
       },
     );

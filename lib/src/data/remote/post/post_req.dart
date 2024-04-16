@@ -7,8 +7,6 @@ class PostReq {
   PostReq({
     required this.title,
     this.content,
-    this.password,
-    this.nickname,
     required this.userId,
   });
 
@@ -16,10 +14,6 @@ class PostReq {
   final String title;
   @JsonKey(name: 'content')
   final String? content;
-  @JsonKey(name: 'password', disallowNullValue: true)
-  final String? password;
-  @JsonKey(name: 'nickname', disallowNullValue: true)
-  final String? nickname;
   @JsonKey(name: 'userId', disallowNullValue: true)
   final String userId;
 
