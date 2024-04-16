@@ -45,12 +45,14 @@ Map<String, dynamic> _$PostDataResToJson(PostDataRes instance) =>
 PostImageRes _$PostImageResFromJson(Map<String, dynamic> json) => PostImageRes(
       postId: json['postId'] as int?,
       imageUrl: json['imageUrl'] as String,
+      uploadName: json['uploadName'] as String?,
     );
 
 Map<String, dynamic> _$PostImageResToJson(PostImageRes instance) =>
     <String, dynamic>{
       'postId': instance.postId,
       'imageUrl': instance.imageUrl,
+      'uploadName': instance.uploadName,
     };
 
 PostPageInfoRes _$PostPageInfoResFromJson(Map<String, dynamic> json) =>

@@ -40,47 +40,42 @@ class MainView extends StatelessWidget {
           const _MainQuestion(),
         ];
         return Scaffold(
-          body: SafeArea(
-            child: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return <Widget>[
-                  const MainSliverAppBar(),
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      context,
-                    ),
-                    sliver: SliverPersistentHeader(
-                      delegate: MainHeaderDelegate(),
-                    ),
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return <Widget>[
+                MainSliverAppBar(isSignedIn: viewModel.isSignedIn),
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
                   ),
-                ];
+                  sliver: SliverPersistentHeader(
+                    delegate: MainHeaderDelegate(),
+                  ),
+                ),
+              ];
+            },
+            floatHeaderSlivers: true,
+            body: Consumer<MainViewModel>(
+              builder: (context, value, child) {
+                return ListView.builder(
+                  itemCount: 1,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 20,
+                  ),
+                  itemBuilder: (context, index) {
+                    return pageList[value.selectedCategoryIndex];
+                  },
+                );
               },
-              floatHeaderSlivers: true,
-              body: Consumer<MainViewModel>(
-                builder: (context, value, child) {
-                  return ListView.builder(
-                    itemCount: 1,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 0,
-                      vertical: 20,
-                    ),
-                    itemBuilder: (context, index) {
-                      return pageList[value.selectedCategoryIndex];
-                    },
-                  );
-                },
-              ),
             ),
           ),
           floatingActionButton: Consumer<MainViewModel>(
             builder: (context, value, child) {
               return value.selectedCategoryIndex == 2
                   ? Button(
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        RoutePath.questionAdd,
-                      ),
+                      onPressed: () => viewModel.onTapQuestionAdd(context),
                       backgroundColor: context.color.black,
                       color: context.color.white,
                       text: '글쓰기',
@@ -107,7 +102,6 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
           height: 50,
           decoration: BoxDecoration(color: context.color.white),
           padding: const EdgeInsets.only(left: 20),
-          alignment: Alignment.centerLeft,
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -155,7 +149,7 @@ class _MainHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: MainTitle(
-                onTap: () => value.onTapCategory(2),
+                onTap: () => value.onTapCategory(1),
                 title: '요즘 셀럽들의 PICK! 🛍️',
               ),
             ),
@@ -337,7 +331,7 @@ class _QuestionList extends StatelessWidget {
           content: content.content,
           writedAt: content.createdAt,
           imgList: content.imageList ?? [],
-          commentCnt: 3,
+          commentCnt: content.commentCnt ?? 0,
         );
       },
     );

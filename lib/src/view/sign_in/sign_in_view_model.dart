@@ -72,7 +72,11 @@ class SignInViewModel extends BaseViewModel {
       })
       ..onSuccess((value) {
         showToast('로그인에 성공했어요');
-        Navigator.pushReplacementNamed(context, RoutePath.main);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutePath.main,
+          (route) => false,
+        );
       });
   }
 }

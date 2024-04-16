@@ -24,4 +24,10 @@ class CommentRepo extends BaseRepo {
   Future<void> deleteComment(int commentId) async {
     await dio.delete('$prefix/api/comments/$commentId');
   }
+
+  Future<int> fetchCommentCnt(int postId) async {
+    final response = await dio.get('$prefix/api/comments/count/$postId');
+    final int result = response.data;
+    return result;
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
@@ -28,6 +29,7 @@ class QuestionDetailView extends StatelessWidget {
     return BaseView(
       viewModel: QuestionDetailViewModel(
         postId: postId,
+        userModel: context.read<UserModel>(),
         postModel: context.read<PostModel>(),
         postService: context.read<PostService>(),
         commentModel: context.read<CommentModel>(),
@@ -106,6 +108,9 @@ class QuestionDetailView extends StatelessWidget {
                       _QuestionDetailAddComment(
                         controller: viewModel.commentAddController,
                         onSubmit: () => viewModel.addComment(),
+                        onTapTextField: () =>
+                            viewModel.onTapCommentField(context),
+                        isSignedIn: viewModel.isSignedIn,
                       ),
                     ],
                   ),
@@ -218,7 +223,8 @@ class _QuestDetailCommentList extends StatelessWidget {
               shrinkWrap: true,
               itemCount: dataList.length,
               physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              separatorBuilder: (context, index) =>
+                  const Divider(thickness: 0.5),
               itemBuilder: (context, index) {
                 final data = dataList[index];
                 return Column(
@@ -272,10 +278,14 @@ class _QuestionDetailAddComment extends StatelessWidget {
   const _QuestionDetailAddComment({
     super.key,
     required this.controller,
+    this.onTapTextField,
     this.onSubmit,
+    required this.isSignedIn,
   });
   final TextEditingController controller;
+  final GestureTapCallback? onTapTextField;
   final GestureTapCallback? onSubmit;
+  final bool isSignedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -306,10 +316,12 @@ class _QuestionDetailAddComment extends StatelessWidget {
                 Expanded(
                   child: TextField(
                     controller: controller,
+                    onTap: onTapTextField,
                     textAlignVertical: TextAlignVertical.center,
                     keyboardType: TextInputType.multiline,
                     minLines: 1,
                     maxLines: 5,
+                    readOnly: !isSignedIn,
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(500),
                     ],

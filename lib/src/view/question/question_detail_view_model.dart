@@ -2,14 +2,18 @@ import 'package:egomoya/src/data/dto/comment/comment.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/model/comment_model.dart';
 import 'package:egomoya/src/model/post_model.dart';
+import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/dialog_service.dart';
 import 'package:egomoya/src/service/post_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/theme/component/dialog/base_dialog.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class QuestionDetailViewModel extends BaseViewModel {
   QuestionDetailViewModel({
     required this.postId,
+    required this.userModel,
     required this.postModel,
     required this.postService,
     required this.commentModel,
@@ -26,6 +30,7 @@ class QuestionDetailViewModel extends BaseViewModel {
     super.dispose();
   }
 
+  final UserModel userModel;
   final PostModel postModel;
   final PostService postService;
   final CommentModel commentModel;
@@ -35,6 +40,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   final TextEditingController commentAddController = TextEditingController();
   String get commentText => commentAddController.text;
   String get userId => commentModel.userId;
+  bool get isSignedIn => userModel.isSignedIn;
 
   PostData? postData;
   Comment? comment;
@@ -81,6 +87,12 @@ class QuestionDetailViewModel extends BaseViewModel {
       });
   }
 
+  void navigateToUpdatePost(BuildContext context) => Navigator.pushNamed(
+        context,
+        RoutePath.questionAdd,
+        arguments: postData,
+      );
+
   Future<void> addComment() async {
     final result = await commentModel.registComment(
       postId: postId,
@@ -94,6 +106,7 @@ class QuestionDetailViewModel extends BaseViewModel {
       ..onSuccess((value) async {
         //comment refresh
         await fetchCommentListDetail();
+        await postService.refreshPostList();
         onClearAddComment();
       });
   }
@@ -115,9 +128,36 @@ class QuestionDetailViewModel extends BaseViewModel {
   void onTapMorePost(BuildContext context) {
     dialogService.showMoreDialog(
       context,
-      onUpdate: () {},
+      onUpdate: () {
+        Navigator.pop(context);
+        navigateToUpdatePost(context);
+      },
       onDelete: () {
+        Navigator.pop(context);
         deletePost(context);
+      },
+    );
+  }
+
+  void onTapCommentField(BuildContext context) {
+    if (!isSignedIn) {
+      showSignInDialog(context);
+      return;
+    }
+  }
+
+  void showSignInDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BaseDialog(
+          content: '로그인 해야 댓글을 작성할 수 있어요. 로그인 하시겠어요?',
+          confirmText: '로그인',
+          cancelText: '취소',
+          onTapCancel: () => Navigator.pop(context),
+          onTapConfirm: () =>
+              Navigator.restorablePopAndPushNamed(context, RoutePath.signIn),
+        );
       },
     );
   }
@@ -128,10 +168,12 @@ class QuestionDetailViewModel extends BaseViewModel {
   }) {
     dialogService.showMoreDialog(
       context,
-      onUpdate: () {},
-      onDelete: () {
-        onDeleteComment(commentId);
+      onUpdate: () {
         Navigator.pop(context);
+      },
+      onDelete: () {
+        Navigator.pop(context);
+        onDeleteComment(commentId);
       },
     );
   }

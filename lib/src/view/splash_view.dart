@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/util/app_theme.dart';
-import 'package:egomoya/util/helper/perf_helper.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({
@@ -54,19 +50,9 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> initRoute() async {
-    final prefs = await SharedPreferences.getInstance();
-    var prefHelper = PrefHelper(prefs);
-    final String userId = prefHelper.userId;
     await Future.delayed(
       const Duration(milliseconds: 3000),
-      () {
-        log('userId: $userId');
-        if (userId.isNotEmpty) {
-          Navigator.pushReplacementNamed(context, RoutePath.main);
-        } else {
-          Navigator.pushReplacementNamed(context, RoutePath.signIn);
-        }
-      },
+      () => Navigator.pushReplacementNamed(context, RoutePath.main),
     );
   }
 }

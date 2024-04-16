@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/image/empty_image.dart';
 import 'package:egomoya/util/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
@@ -105,22 +106,22 @@ class QuestionBox extends StatelessWidget {
                     color: context.color.subText,
                   ),
                 ),
-                // Text(
-                //   ' • ',
-                //   style: context.typo.body3.copyWith(
-                //     color: context.color.subText,
-                //   ),
-                // ),
-                // AssetIcon(
-                //   'assets/icons/comment.svg',
-                //   color: context.color.subText,
-                // ),
-                // Text(
-                //   ' $commentCnt',
-                //   style: context.typo.body3.copyWith(
-                //     color: context.color.subText,
-                //   ),
-                // ),
+                Text(
+                  ' • ',
+                  style: context.typo.body3.copyWith(
+                    color: context.color.subText,
+                  ),
+                ),
+                AssetIcon(
+                  'assets/icons/comment.svg',
+                  color: context.color.subText,
+                ),
+                Text(
+                  ' $commentCnt',
+                  style: context.typo.body3.copyWith(
+                    color: context.color.subText,
+                  ),
+                ),
               ],
             )
           ],
