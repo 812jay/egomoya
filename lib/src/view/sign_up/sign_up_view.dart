@@ -17,26 +17,44 @@ class SignUpView extends StatelessWidget {
         const spaceBig = SizedBox(height: 20);
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
-          child: const Scaffold(
-            appBar: BaseAppBar(
+          child: Scaffold(
+            appBar: const BaseAppBar(
               title: '이메일 회원가입',
             ),
             body: SafeArea(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       spaceBig,
-                      _InputEmail(),
+                      _InputEmail(
+                        controller: viewModel.emailController,
+                        onChange: viewModel.onChangeEmail,
+                        errMsg: viewModel.emailErrMsg,
+                        onClear: viewModel.onClearEmail,
+                      ),
                       spaceBig,
-                      _InputPassword(),
+                      _InputPassword(
+                        controller: viewModel.passwordController,
+                        onChange: viewModel.onChangePassword,
+                        errMsg: viewModel.passwordErrMsg,
+                        onClear: viewModel.onClearPassword,
+                      ),
                       spaceBig,
-                      _InputNickname(),
+                      _InputNickname(
+                        controller: viewModel.nicknameController,
+                        onChange: viewModel.onChangeNickname,
+                        errMsg: viewModel.nicknameErrMsg,
+                        onClear: viewModel.onClearNickname,
+                      ),
                       spaceBig,
-                      _SubmitButton(),
-                      SizedBox(height: 20),
+                      _SubmitButton(
+                        isValid: viewModel.isValidateSignUp,
+                        onTap: viewModel.signUp,
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -52,35 +70,39 @@ class SignUpView extends StatelessWidget {
 class _InputEmail extends StatelessWidget {
   const _InputEmail({
     super.key,
+    required this.controller,
+    required this.onChange,
+    this.errMsg,
+    required this.onClear,
   });
+  final TextEditingController controller;
+  final Function(String) onChange;
+  final String? errMsg;
+  final GestureTapCallback onClear;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpViewModel>(
-      builder: (context, value, child) {
-        return TextField(
-          controller: value.emailController,
-          keyboardType: TextInputType.emailAddress,
-          onChanged: (text) => value.onChangeEmail(text),
-          decoration: InputDecoration(
-            labelText: '이메일',
-            hintText: '이메일을 입력해 주세요.',
-            errorText: value.emailErrMsg,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(
-                width: 1,
-              ),
-            ),
-            suffixIcon: Button(
-              iconPath: AssetIconType.close.path,
-              color: Colors.black,
-              type: ButtonType.flat,
-              onPressed: value.onClearEmail,
-            ),
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.emailAddress,
+      onChanged: (text) => onChange(text),
+      decoration: InputDecoration(
+        labelText: '이메일',
+        hintText: '이메일을 입력해 주세요.',
+        errorText: errMsg,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            width: 1,
           ),
-        );
-      },
+        ),
+        suffixIcon: Button(
+          iconPath: AssetIconType.close.path,
+          color: Colors.black,
+          type: ButtonType.flat,
+          onPressed: onClear,
+        ),
+      ),
     );
   }
 }
@@ -88,90 +110,102 @@ class _InputEmail extends StatelessWidget {
 class _InputPassword extends StatelessWidget {
   const _InputPassword({
     super.key,
+    required this.controller,
+    required this.onChange,
+    this.errMsg,
+    required this.onClear,
   });
+  final TextEditingController controller;
+  final Function(String) onChange;
+  final String? errMsg;
+  final GestureTapCallback onClear;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpViewModel>(
-      builder: (context, value, child) {
-        return TextField(
-          controller: value.passwordController,
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: true,
-          onChanged: (text) => value.onChangePassword(text),
-          decoration: InputDecoration(
-            labelText: '비밀번호',
-            hintText: '비밀번호를 입력해 주세요.',
-            errorText: value.passwordErrMsg,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(
-                width: 1,
-              ),
-            ),
-            suffixIcon: value.passwordController.text.isEmpty
-                ? null
-                : Button(
-                    iconPath: AssetIconType.close.path,
-                    color: Colors.black,
-                    type: ButtonType.flat,
-                    onPressed: value.onClearPassword,
-                  ),
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.visiblePassword,
+      obscureText: true,
+      onChanged: (text) => onChange(text),
+      decoration: InputDecoration(
+        labelText: '비밀번호',
+        hintText: '비밀번호를 입력해 주세요.',
+        errorText: errMsg,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            width: 1,
           ),
-        );
-      },
+        ),
+        suffixIcon: controller.text.isEmpty
+            ? null
+            : Button(
+                iconPath: AssetIconType.close.path,
+                color: Colors.black,
+                type: ButtonType.flat,
+                onPressed: onClear,
+              ),
+      ),
     );
   }
 }
 
 class _InputNickname extends StatelessWidget {
-  const _InputNickname({super.key});
+  const _InputNickname({
+    super.key,
+    required this.controller,
+    required this.onChange,
+    this.errMsg,
+    required this.onClear,
+  });
+  final TextEditingController controller;
+  final Function(String) onChange;
+  final String? errMsg;
+  final GestureTapCallback onClear;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpViewModel>(
-      builder: (context, value, child) {
-        return TextField(
-          controller: value.nicknameController,
-          keyboardType: TextInputType.text,
-          onChanged: (text) => value.onChangeNickname(text),
-          decoration: InputDecoration(
-            labelText: '닉네임',
-            hintText: '닉네임을 입력해 주세요.',
-            errorText: value.nicknameErrMsg,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(
-                width: 1,
-              ),
-            ),
-            suffixIcon: Button(
-              iconPath: AssetIconType.close.path,
-              color: Colors.black,
-              type: ButtonType.flat,
-              onPressed: value.onClearNickname,
-            ),
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.text,
+      onChanged: (text) => onChange(text),
+      decoration: InputDecoration(
+        labelText: '닉네임',
+        hintText: '닉네임을 입력해 주세요.',
+        errorText: errMsg,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            width: 1,
           ),
-        );
-      },
+        ),
+        suffixIcon: Button(
+          iconPath: AssetIconType.close.path,
+          color: Colors.black,
+          type: ButtonType.flat,
+          onPressed: onClear,
+        ),
+      ),
     );
   }
 }
 
 class _SubmitButton extends StatelessWidget {
-  const _SubmitButton({super.key});
+  const _SubmitButton({
+    super.key,
+    required this.onTap,
+    required this.isValid,
+  });
+  final Function(BuildContext) onTap;
+  final bool isValid;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpViewModel>(
-      builder: (context, value, child) {
-        return Button(
-          onPressed: () => value.signUp(context),
-          text: '회원가입',
-          isInactive: !value.isValidateSignUp,
-          width: double.infinity,
-        );
-      },
+    return Button(
+      onPressed: () => onTap(context),
+      text: '회원가입',
+      isInactive: !isValid,
+      width: double.infinity,
     );
   }
 }

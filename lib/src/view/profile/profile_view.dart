@@ -24,41 +24,35 @@ class ProfileView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Consumer<ProfileViewModel>(
-                      builder: (context, value, child) {
-                        return Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor:
-                                  context.color.lightGrayBackground,
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: context.color.lightGrayBackground,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          '${value.userInfo?.nickname}님',
-                                          style: context.typo.body2,
-                                        ),
-                                      ),
-                                      Text(
-                                        '프로필 수정',
-                                        style: context.typo.body2,
-                                      ),
-                                    ],
+                                  Expanded(
+                                    child: Text(
+                                      '${viewModel.userInfo?.nickname}님',
+                                      style: context.typo.body2,
+                                    ),
+                                  ),
+                                  Text(
+                                    '프로필 수정',
+                                    style: context.typo.body2,
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        );
-                      },
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     Align(
