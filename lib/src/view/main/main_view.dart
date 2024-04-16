@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:egomoya/src/data/dto/celeb/celeb.dart';
+import 'package:egomoya/src/data/dto/main/main_category.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/enum/celeb_type.dart';
 import 'package:egomoya/src/model/user_model.dart';
@@ -35,9 +36,23 @@ class MainView extends StatelessWidget {
       ),
       builder: (context, viewModel) {
         List<Widget> pageList = [
-          _MainHome(celebList: viewModel.mainCelebList),
-          const _MainCeleb(),
-          const _MainQuestion(),
+          _MainHome(
+            celebList: viewModel.mainCelebList,
+            onTapCategory: (index) => viewModel.onTapCategory(index),
+            dataList: viewModel.post?.dataList,
+          ),
+          _MainCeleb(
+            celebList: viewModel.selectedCelebPostCategory.isFashion
+                ? viewModel.fashionCelebList
+                : viewModel.beautyCelebList,
+            selectedCelebPostCategory: viewModel.selectedCelebPostCategory,
+            onTapCelebCategory: viewModel.onTapCelebCategory,
+            onTapCelebSort: viewModel.onTapCelebSort,
+            selectedCelebPostSort: viewModel.selectedCelebPostSort,
+          ),
+          _MainQuestion(
+            dataList: viewModel.post?.dataList,
+          ),
         ];
         return Scaffold(
           body: NestedScrollView(
@@ -49,40 +64,36 @@ class MainView extends StatelessWidget {
                     context,
                   ),
                   sliver: SliverPersistentHeader(
-                    delegate: MainHeaderDelegate(),
+                    delegate: MainHeaderDelegate(
+                      itemCnt: viewModel.categoryList.length,
+                      categoryList: viewModel.categoryList,
+                      onTapCategory: (index) => viewModel.onTapCategory(index),
+                    ),
                   ),
                 ),
               ];
             },
             floatHeaderSlivers: true,
-            body: Consumer<MainViewModel>(
-              builder: (context, value, child) {
-                return ListView.builder(
-                  itemCount: 1,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 0,
-                    vertical: 20,
-                  ),
-                  itemBuilder: (context, index) {
-                    return pageList[value.selectedCategoryIndex];
-                  },
-                );
+            body: ListView.builder(
+              itemCount: 1,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 0,
+                vertical: 20,
+              ),
+              itemBuilder: (context, index) {
+                return pageList[viewModel.selectedCategoryIndex];
               },
             ),
           ),
-          floatingActionButton: Consumer<MainViewModel>(
-            builder: (context, value, child) {
-              return value.selectedCategoryIndex == 2
-                  ? Button(
-                      onPressed: () => viewModel.onTapQuestionAdd(context),
-                      backgroundColor: context.color.black,
-                      color: context.color.white,
-                      text: '글쓰기',
-                    )
-                  : const SizedBox.shrink();
-            },
-          ),
+          floatingActionButton: viewModel.selectedCategoryIndex == 2
+              ? Button(
+                  onPressed: () => viewModel.onTapQuestionAdd(context),
+                  backgroundColor: context.color.black,
+                  color: context.color.white,
+                  text: '글쓰기',
+                )
+              : const SizedBox.shrink(),
         );
       },
     );
@@ -90,34 +101,38 @@ class MainView extends StatelessWidget {
 }
 
 class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
+  MainHeaderDelegate({
+    required this.itemCnt,
+    required this.categoryList,
+    required this.onTapCategory,
+  });
+  final int itemCnt;
+  final List<MainCategory> categoryList;
+  final void Function(int) onTapCategory;
   @override
   Widget build(
     BuildContext context,
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Consumer<MainViewModel>(
-      builder: (context, value, child) {
-        return Container(
-          height: 50,
-          decoration: BoxDecoration(color: context.color.white),
-          padding: const EdgeInsets.only(left: 20),
-          child: ListView.separated(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: value.categoryList.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 8),
-            itemBuilder: (context, index) {
-              return CategoryButton(
-                value.categoryList[index].title,
-                isActive: value.categoryList[index].isActive,
-                index: index,
-                onTap: (index) => value.onTapCategory(index),
-              );
-            },
-          ),
-        );
-      },
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(color: context.color.white),
+      padding: const EdgeInsets.only(left: 20),
+      child: ListView.separated(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: itemCnt,
+        separatorBuilder: (context, index) => const SizedBox(width: 8),
+        itemBuilder: (context, index) {
+          return CategoryButton(
+            categoryList[index].title,
+            isActive: categoryList[index].isActive,
+            index: index,
+            onTap: (index) => onTapCategory(index),
+          );
+        },
+      ),
     );
   }
 
@@ -137,48 +152,43 @@ class _MainHome extends StatelessWidget {
   const _MainHome({
     super.key,
     required this.celebList,
+    required this.onTapCategory,
+    this.dataList,
   });
   final List<Celeb> celebList;
+  final Function(int) onTapCategory;
+  final List<PostData>? dataList;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainViewModel>(
-      builder: (context, value, child) {
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: MainTitle(
-                onTap: () => value.onTapCategory(1),
-                title: '요즘 셀럽들의 PICK! 🛍️',
-              ),
-            ),
-            const SizedBox(height: 26),
-            _CelebCarousel(celebList: celebList),
-            const SizedBox(height: 70),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: MainTitle(
-                onTap: () => value.onTapCategory(2),
-                title: '요고 궁금해요 TOP 3 🙋‍♀️',
-              ),
-            ),
-            const SizedBox(height: 26),
-            Consumer<MainViewModel>(
-              builder: (context, value, child) {
-                final dataList = value.post?.dataList;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: _QuestionList(
-                    postList: dataList,
-                    limit: 3,
-                  ),
-                );
-              },
-            )
-          ],
-        );
-      },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: MainTitle(
+            onTap: () => onTapCategory(1),
+            title: '요즘 셀럽들의 PICK! 🛍️',
+          ),
+        ),
+        const SizedBox(height: 26),
+        _CelebCarousel(celebList: celebList),
+        const SizedBox(height: 70),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: MainTitle(
+            onTap: () => onTapCategory(2),
+            title: '요고 궁금해요 TOP 3 🙋‍♀️',
+          ),
+        ),
+        const SizedBox(height: 26),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _QuestionList(
+            postList: dataList,
+            limit: 3,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -186,62 +196,63 @@ class _MainHome extends StatelessWidget {
 class _MainCeleb extends StatelessWidget {
   const _MainCeleb({
     super.key,
+    required this.celebList,
+    required this.selectedCelebPostCategory,
+    required this.onTapCelebCategory,
+    required this.onTapCelebSort,
+    required this.selectedCelebPostSort,
   });
+  final List<Celeb> celebList;
+  final CelebPostCategory selectedCelebPostCategory;
+  final void Function(CelebPostCategory category) onTapCelebCategory;
+  final void Function(CelebPostSort sort) onTapCelebSort;
+  final CelebPostSort selectedCelebPostSort;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainViewModel>(
-      builder: (context, value, child) {
-        final List<Celeb> celebList = value.selectedCelebPostCategory.isFashion
-            ? value.fashionCelebList
-            : value.beautyCelebList;
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CelebCategoryForm(
-                categoryList: CelebPostCategory.values,
-                selectedCategory: value.selectedCelebPostCategory,
-                onTap: value.onTapCelebCategory,
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CelebSortTab(
-                      sort: CelebPostSort.latest,
-                      onTap: (sort) => value.onTapCelebSort(sort),
-                      isSelected: value.selectedCelebPostSort.isLatest,
-                    ),
-                    const SizedBox(width: 16),
-                    CelebSortTab(
-                      sort: CelebPostSort.like,
-                      onTap: (sort) => value.onTapCelebSort(sort),
-                      isSelected: value.selectedCelebPostSort.isLike,
-                    ),
-                  ],
-                ),
-              ),
-              ListView.separated(
-                scrollDirection: Axis.vertical,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: celebList.length,
-                itemBuilder: (context, index) {
-                  final celeb = celebList[index];
-                  return CelebCard(celeb: celeb);
-                },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 20),
-              ),
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CelebCategoryForm(
+            categoryList: CelebPostCategory.values,
+            selectedCategory: selectedCelebPostCategory,
+            onTap: onTapCelebCategory,
           ),
-        );
-      },
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CelebSortTab(
+                  sort: CelebPostSort.latest,
+                  onTap: (sort) => onTapCelebSort(sort),
+                  isSelected: selectedCelebPostSort.isLatest,
+                ),
+                const SizedBox(width: 16),
+                CelebSortTab(
+                  sort: CelebPostSort.like,
+                  onTap: (sort) => onTapCelebSort(sort),
+                  isSelected: selectedCelebPostSort.isLike,
+                ),
+              ],
+            ),
+          ),
+          ListView.separated(
+            scrollDirection: Axis.vertical,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: celebList.length,
+            itemBuilder: (context, index) {
+              final celeb = celebList[index];
+              return CelebCard(celeb: celeb);
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -280,16 +291,16 @@ class _CelebCarousel extends StatelessWidget {
 }
 
 class _MainQuestion extends StatelessWidget {
-  const _MainQuestion({super.key});
+  const _MainQuestion({
+    super.key,
+    this.dataList,
+  });
+  final List<PostData>? dataList;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainViewModel>(
-      builder: (context, value, child) {
-        return _QuestionList(
-          postList: value.post?.dataList,
-        );
-      },
+    return _QuestionList(
+      postList: dataList,
     );
   }
 }
