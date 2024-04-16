@@ -18,7 +18,7 @@ class MainViewModel extends BaseViewModel {
     this.postService,
     this.userModel,
   ) {
-    postService.refreshPostList();
+    _fetchPostList();
     postService.addListener(notifyListeners);
   }
 
@@ -56,6 +56,12 @@ class MainViewModel extends BaseViewModel {
 
   CelebPostCategory selectedCelebPostCategory = CelebPostCategory.fashion;
   CelebPostSort selectedCelebPostSort = CelebPostSort.latest;
+
+  Future<void> _fetchPostList() async {
+    isBusy = true;
+    await postService.refreshPostList();
+    isBusy = false;
+  }
 
   void onTapCategory(int index) {
     if (selectedCategoryIndex == index) return;
