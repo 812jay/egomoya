@@ -40,8 +40,6 @@ class PostModel {
     required String title,
     int? postId,
     String? content,
-    String? password,
-    required String nickname,
     FormData? imgFormData,
   }) =>
       handleRequest(() async {
@@ -50,8 +48,6 @@ class PostModel {
           req: PostReq(
             title: title,
             content: content,
-            nickname: nickname,
-            password: password,
             userId: userId,
           ),
         );

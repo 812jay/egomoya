@@ -90,6 +90,9 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void onSelectImage() async {
     imageList = await ImageHelper.selectList(imageList: imageList, limit: 5);
+    isBusy = true;
+    await Future.delayed(const Duration(seconds: 1));
+    isBusy = false;
     notifyListeners();
   }
 
@@ -113,8 +116,6 @@ class QuestionAddViewModel extends BaseViewModel {
       title: _title,
       content: _content,
       postId: _postData?.postId,
-      password: '1111',
-      nickname: 'nickname',
       imgFormData: formData,
     );
     result.onFailure((e) {
@@ -124,6 +125,7 @@ class QuestionAddViewModel extends BaseViewModel {
       Navigator.pop(context);
       await _postService.refreshPostList();
     });
+    await Future.delayed(const Duration(seconds: 1));
     isBusy = false;
     notifyListeners();
   }
