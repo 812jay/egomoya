@@ -32,10 +32,10 @@ class QuestionAddViewModel extends BaseViewModel {
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedTitle = false;
 
-  String get title => titleController.text;
-  String get content => contentController.text;
+  String get _title => titleController.text;
+  String get _content => contentController.text;
   bool get isValidateTitle =>
-      RegExp(PostValidateType.title.pattern).hasMatch(title);
+      RegExp(PostValidateType.title.pattern).hasMatch(_title);
   bool get isActiveSubmitButton => isValidateTitle && !isBusy;
 
   // 에러 메시지
@@ -88,7 +88,7 @@ class QuestionAddViewModel extends BaseViewModel {
     titleController.clear();
   }
 
-  void selectImage() async {
+  void onSelectImage() async {
     imageList = await ImageHelper.selectList(imageList: imageList, limit: 5);
     notifyListeners();
   }
@@ -110,8 +110,8 @@ class QuestionAddViewModel extends BaseViewModel {
     );
 
     final result = await _postModel.registPost(
-      title: title,
-      content: content,
+      title: _title,
+      content: _content,
       postId: _postData?.postId,
       password: '1111',
       nickname: 'nickname',
