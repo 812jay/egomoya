@@ -33,20 +33,33 @@ class SignInView extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(
+                          const Center(
                             child: AssetIcon(
                               'assets/images/logo_text.png',
                               size: 100,
                             ),
                           ),
-                          _InputEmail(),
+                          _InputEmail(
+                            controller: viewModel.emailController,
+                            onChange: viewModel.onChangeEmail,
+                            onClear: viewModel.onClearEmail,
+                            errMsg: viewModel.emailErrMsg,
+                          ),
                           spaceBig,
-                          _InputPassword(),
+                          _InputPassword(
+                            controller: viewModel.passwordController,
+                            onChange: viewModel.onChangePassword,
+                            errMsg: viewModel.passwordErrMsg,
+                            onClear: viewModel.onClearPassword,
+                          ),
                           spaceBig,
-                          _SubmitButton(),
+                          _SubmitButton(
+                            onTap: viewModel.signIn,
+                            isValid: viewModel.isValidateSignIn,
+                          ),
                         ],
                       ),
                       spaceBig,
@@ -70,35 +83,39 @@ class SignInView extends StatelessWidget {
 class _InputEmail extends StatelessWidget {
   const _InputEmail({
     super.key,
+    required this.controller,
+    required this.onChange,
+    this.errMsg,
+    required this.onClear,
   });
+  final TextEditingController controller;
+  final Function(String) onChange;
+  final String? errMsg;
+  final GestureTapCallback onClear;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignInViewModel>(
-      builder: (context, value, child) {
-        return TextField(
-          controller: value.emailController,
-          keyboardType: TextInputType.emailAddress,
-          onChanged: (text) => value.onChangeEmail(text),
-          decoration: InputDecoration(
-            labelText: '이메일',
-            hintText: '이메일을 입력해 주세요.',
-            errorText: value.emailErrMsg,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(
-                width: 1,
-              ),
-            ),
-            suffixIcon: Button(
-              iconPath: AssetIconType.close.path,
-              color: Colors.black,
-              type: ButtonType.flat,
-              onPressed: value.onClearEmail,
-            ),
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.emailAddress,
+      onChanged: (text) => onChange(text),
+      decoration: InputDecoration(
+        labelText: '이메일',
+        hintText: '이메일을 입력해 주세요.',
+        errorText: errMsg,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            width: 1,
           ),
-        );
-      },
+        ),
+        suffixIcon: Button(
+          iconPath: AssetIconType.close.path,
+          color: Colors.black,
+          type: ButtonType.flat,
+          onPressed: onClear,
+        ),
+      ),
     );
   }
 }
@@ -106,56 +123,62 @@ class _InputEmail extends StatelessWidget {
 class _InputPassword extends StatelessWidget {
   const _InputPassword({
     super.key,
+    required this.controller,
+    required this.onChange,
+    this.errMsg,
+    required this.onClear,
   });
+  final TextEditingController controller;
+  final Function(String) onChange;
+  final String? errMsg;
+  final GestureTapCallback onClear;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignInViewModel>(
-      builder: (context, value, child) {
-        return TextField(
-          controller: value.passwordController,
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: true,
-          onChanged: (text) => value.onChangePassword(text),
-          decoration: InputDecoration(
-            labelText: '비밀번호',
-            hintText: '비밀번호를 입력해 주세요.',
-            errorText: value.passwordErrMsg,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(
-                width: 1,
-              ),
-            ),
-            suffixIcon: value.passwordController.text.isEmpty
-                ? null
-                : Button(
-                    iconPath: AssetIconType.close.path,
-                    color: Colors.black,
-                    type: ButtonType.flat,
-                    onPressed: value.onClearPassword,
-                  ),
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.visiblePassword,
+      obscureText: true,
+      onChanged: (text) => onChange(text),
+      decoration: InputDecoration(
+        labelText: '비밀번호',
+        hintText: '비밀번호를 입력해 주세요.',
+        errorText: errMsg,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            width: 1,
           ),
-        );
-      },
+        ),
+        suffixIcon: controller.text.isEmpty
+            ? null
+            : Button(
+                iconPath: AssetIconType.close.path,
+                color: Colors.black,
+                type: ButtonType.flat,
+                onPressed: onClear,
+              ),
+      ),
     );
   }
 }
 
 class _SubmitButton extends StatelessWidget {
-  const _SubmitButton({super.key});
+  const _SubmitButton({
+    super.key,
+    required this.onTap,
+    required this.isValid,
+  });
+  final Function(BuildContext) onTap;
+  final bool isValid;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignInViewModel>(
-      builder: (context, value, child) {
-        return Button(
-          onPressed: () => value.signIn(context),
-          text: '로그인',
-          isInactive: !value.isValidateSignIn,
-          width: double.infinity,
-        );
-      },
+    return Button(
+      onPressed: () => onTap(context),
+      text: '로그인',
+      isInactive: !isValid,
+      width: double.infinity,
     );
   }
 }
