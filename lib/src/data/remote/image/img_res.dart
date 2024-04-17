@@ -1,4 +1,5 @@
 import 'package:egomoya/src/data/dto/image/img.dart';
+import 'package:egomoya/src/data/enum/img_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'img_res.g.dart';
@@ -20,14 +21,14 @@ class ImgRes {
   @JsonKey(name: 'uploadName')
   final String uploadName;
 
-  factory ImgRes.fromJson(Map<String, dynamic> json) =>
-      _$ImgResFromJson(json);
+  factory ImgRes.fromJson(Map<String, dynamic> json) => _$ImgResFromJson(json);
 
   Map<String, dynamic> toJson() => _$ImgResToJson(this);
 }
 
 extension ImageDataResExt on ImgRes {
   Img toDto() => Img(
+        type: postId != null ? ImgType.post : ImgType.profile,
         imageUrl: imageUrl,
         uploadName: uploadName,
         postId: postId,
