@@ -10,52 +10,57 @@ import 'package:path_provider/path_provider.dart';
 
 class ImageHelper {
   static Future<List<File>> selectList({
-    required List<File> imageList,
+    required List<File> imageFileList,
     int? limit,
   }) async {
     limit = limit ?? 5;
     final ImagePicker picker = ImagePicker();
     final List<XFile> xFiles = await picker.pickMultiImage();
     final List<File> newImageList = xFiles.map((e) => File(e.path)).toList();
-    if (imageList.length + newImageList.length > limit) {
+    if (imageFileList.length + newImageList.length > limit) {
       Fluttertoast.showToast(
         msg: '이미지는 $limit개까지 등록할 수 있어요',
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 2,
       );
-      return imageList;
+      return imageFileList;
     }
-    imageList = [...imageList, ...newImageList].toImmutable();
-    return imageList;
+    imageFileList = [...imageFileList, ...newImageList].toImmutable();
+    return imageFileList;
   }
 
   static List<File> deleteFromList({
-    required List<File> imageList,
-    required File file,
+    required List<File> imageFileList,
+    required File img,
   }) {
     final List<File> result =
-        imageList.where((image) => image != file).toImmutable();
+        imageFileList.where((image) => image != img).toImmutable();
     return result;
   }
 
   static Future<List<File>> urlListToFileList(List<String> urlList) async {
     List<File> imageList = [];
     for (var url in urlList) {
-      final String imageName = url.split('/').last;
-      final http.Response response = await http.get(Uri.parse(url));
-      final Uint8List uint8list = response.bodyBytes;
-      final ByteBuffer buffer = uint8list.buffer;
-      final byteData = ByteData.view(buffer);
-      final String tempDirPath = await _getTemporaryDirectoryPath();
-      File file = await File('$tempDirPath/$imageName').writeAsBytes(
-        buffer.asUint8List(
-          byteData.offsetInBytes,
-          byteData.lengthInBytes,
-        ),
-      );
+      File file = await urlToFile(url);
       imageList = [...imageList, file].toImmutable();
     }
     return imageList;
+  }
+
+  static Future<File> urlToFile(String url) async {
+    final String imageName = url.split('/').last;
+    final http.Response response = await http.get(Uri.parse(url));
+    final Uint8List uint8list = response.bodyBytes;
+    final ByteBuffer buffer = uint8list.buffer;
+    final byteData = ByteData.view(buffer);
+    final String tempDirPath = await _getTemporaryDirectoryPath();
+    File file = await File('$tempDirPath/$imageName').writeAsBytes(
+      buffer.asUint8List(
+        byteData.offsetInBytes,
+        byteData.lengthInBytes,
+      ),
+    );
+    return file;
   }
 
   static Future<String> _getTemporaryDirectoryPath() async {
@@ -78,5 +83,9 @@ class ImageHelper {
     final formDataMap = {'files': multipartFileList};
     final result = FormData.fromMap(formDataMap);
     return result;
+  }
+
+  static String getFileName(String filePath) {
+    return filePath.split('/').last;
   }
 }

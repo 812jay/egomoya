@@ -1,6 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:egomoya/src/data/dto/image/img.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/model/post_model.dart';
@@ -28,7 +29,16 @@ class QuestionAddViewModel extends BaseViewModel {
   late TextEditingController titleController;
   late TextEditingController contentController;
 
-  List<File> imageList = [];
+  List<Img> serverImageList = [];
+  List<File> localImageFileList = [];
+
+  List<String> get serverUploadNameList =>
+      serverImageList.map((e) => e.uploadName).toList();
+  List<String> get localImageUploadNameList =>
+      localImageFileList.map((e) => ImageHelper.getFileName(e.path)).toList();
+
+  List<String> deleteUploadNameList = [];
+  List<String> addUploadNameList = [];
 
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedTitle = false;
@@ -53,10 +63,11 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void setInitImageList() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      imageList = await ImageHelper.urlListToFileList(
-        _postData?.imageList?.map((e) => e.imageUrl).toList() ?? [],
-      );
-      notifyListeners();
+      isBusy = true;
+      serverImageList = _postData?.imageList ?? [];
+      localImageFileList = await ImageHelper.urlListToFileList(
+          _postData?.imageList?.map((e) => e.imageUrl).toList() ?? []);
+      isBusy = false;
     });
   }
 
@@ -90,42 +101,66 @@ class QuestionAddViewModel extends BaseViewModel {
   }
 
   void onSelectImage() async {
-    imageList = await ImageHelper.selectList(imageList: imageList, limit: 5);
     isBusy = true;
+    localImageFileList = await ImageHelper.selectList(
+      imageFileList: localImageFileList,
+      limit: 5,
+    );
     await Future.delayed(const Duration(seconds: 1));
+    onChangeUploadNameList();
     isBusy = false;
   }
 
   void onDeleteImage(int index) {
-    imageList = ImageHelper.deleteFromList(
-      imageList: imageList,
-      file: imageList.elementAt(index),
+    isBusy = true;
+    localImageFileList = ImageHelper.deleteFromList(
+      imageFileList: localImageFileList,
+      img: localImageFileList.elementAt(index),
     );
-    notifyListeners();
+    onChangeUploadNameList();
+    isBusy = false;
+  }
+
+  void onChangeUploadNameList() {
+    addUploadNameList = localImageUploadNameList
+        .where((e) => !serverUploadNameList.contains(e))
+        .toList();
+    deleteUploadNameList = serverUploadNameList
+        .where((e) => !localImageUploadNameList.contains(e))
+        .toList();
   }
 
   void onSubmit(BuildContext context) async {
     isBusy = true;
 
-    final FormData? formData = await ImageHelper.xFileListToFormData(
-      fileList: imageList,
-      userId: _postModel.userId,
-    );
+    ///TODO: 반복문
+    ///localFileList FormData 변환 후 추가
+    ///deletedServerFileList name 그대로 삭제
+    // final FormData? formData = await ImageHelper.xFileListToFormData(
+    //   fileList: [],
+    //   userId: _postModel.userId,
+    // );
 
-    final result = await _postModel.registPost(
-      title: _title,
-      content: _content,
-      postId: _postData?.postId,
-      imgFormData: formData,
-    );
-    result.onFailure((e) {
-      showToast('요고 궁금 게시글을 등록하는데 실패했어요');
-    }).onSuccess((value) async {
-      showToast('요고 궁금 게시글을 등록했어요');
-      Navigator.pop(context);
-      await _postService.refreshPostList();
-    });
+    // final result = await _postModel.registPost(
+    //   title: _title,
+    //   content: _content,
+    //   postId: _postData?.postId,
+    //   imgFormData: formData,
+    // );
+    // result.onFailure((e) {
+    //   showToast('요고 궁금 게시글을 등록하는데 실패했어요');
+    // }).onSuccess((value) async {
+    //   showToast('요고 궁금 게시글을 등록했어요');
+    //   Navigator.pop(context);
+    //   await _postService.refreshPostList();
+    // });
+    log('addUploadNameList: $addUploadNameList');
+    log('deleteUploadNameList: $deleteUploadNameList');
     isBusy = false;
-    notifyListeners();
+  }
+
+  Future<File> urlToFile(String url) async {
+    final result = await ImageHelper.urlToFile(url);
+    return result;
   }
 }

@@ -46,7 +46,7 @@ class QuestionAddView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _InputPicture(
-                      imageList: viewModel.imageList,
+                      imageList: viewModel.localImageFileList,
                       onSelectImage: viewModel.onSelectImage,
                       onDeleteImage: viewModel.onDeleteImage,
                     ),
