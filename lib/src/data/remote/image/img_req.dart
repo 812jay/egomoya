@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'image_req.g.dart';
+part 'img_req.g.dart';
 
 @JsonSerializable()
-class ImageReq {
-  ImageReq({
+class ImgReq {
+  ImgReq({
     required this.uploadName,
     this.isProfile,
   });
@@ -13,8 +13,7 @@ class ImageReq {
   @JsonKey(name: 'isProfile')
   final bool? isProfile;
 
-  factory ImageReq.fromJson(Map<String, dynamic> json) =>
-      _$ImageReqFromJson(json);
+  factory ImgReq.fromJson(Map<String, dynamic> json) => _$ImgReqFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImageReqToJson(this);
+  Map<String, dynamic> toJson() => _$ImgReqToJson(this);
 }

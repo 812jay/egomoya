@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/dto/image/img.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/image/empty_image.dart';
@@ -18,7 +18,7 @@ class QuestionBox extends StatelessWidget {
     required this.commentCnt,
   });
   final GestureTapCallback? onTap;
-  final List<PostImage> imgList;
+  final List<Img> imgList;
   final String title;
   final String content;
   final DateTime writedAt;
