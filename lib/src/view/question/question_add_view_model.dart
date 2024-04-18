@@ -1,6 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/dto/image/img.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
@@ -29,16 +29,18 @@ class QuestionAddViewModel extends BaseViewModel {
   late TextEditingController titleController;
   late TextEditingController contentController;
 
+  String get appbarTitle => _postData != null ? '질문 수정' : '질문 등록';
+
   List<Img> serverImageList = [];
   List<File> localImageFileList = [];
 
-  List<String> get serverUploadNameList =>
+  List<String> get _serverUploadNameList =>
       serverImageList.map((e) => e.uploadName).toList();
-  List<String> get localImageUploadNameList =>
-      localImageFileList.map((e) => ImageHelper.getFileName(e.path)).toList();
+  List<String> get _localImageFilePathList =>
+      localImageFileList.map((e) => e.path).toList();
 
-  List<String> deleteUploadNameList = [];
-  List<String> addUploadNameList = [];
+  List<String> _addFilePathList = [];
+  List<String> _deleteUploadNameList = [];
 
   // 초기 진입시 errMsg 안띄우기 위한 초기값
   bool isChangedTitle = false;
@@ -122,40 +124,37 @@ class QuestionAddViewModel extends BaseViewModel {
   }
 
   void onChangeUploadNameList() {
-    addUploadNameList = localImageUploadNameList
-        .where((e) => !serverUploadNameList.contains(e))
+    _addFilePathList = _localImageFilePathList
+        .where((e) => !_serverUploadNameList.contains(e))
         .toList();
-    deleteUploadNameList = serverUploadNameList
-        .where((e) => !localImageUploadNameList.contains(e))
+    _deleteUploadNameList = _serverUploadNameList
+        .where((e) => !_localImageFilePathList.contains(e))
         .toList();
   }
 
   void onSubmit(BuildContext context) async {
     isBusy = true;
+    final FormData? formData = await ImageHelper.xFileListToFormData(
+      fileList: _addFilePathList.map((e) => File(e)).toList(),
+      userId: _postModel.userId,
+    );
+    final result = await _postModel.registPost(
+      title: _title,
+      content: _content,
+      postId: _postData?.postId,
+      uploadFormData: formData,
+      deleteUploadNameList: _deleteUploadNameList,
+    );
+    result.onFailure((e) {
+      showToast('요고 궁금 게시글을 등록하는데 실패했어요');
+    }).onSuccess((value) async {
+      showToast('요고 궁금 게시글을 등록했어요');
+      Navigator.pop(context);
+      if (_postData != null) {
+        await _postService.refreshPostDetail(_postData.postId);
+      }
+    });
 
-    ///TODO: 반복문
-    ///localFileList FormData 변환 후 추가
-    ///deletedServerFileList name 그대로 삭제
-    // final FormData? formData = await ImageHelper.xFileListToFormData(
-    //   fileList: [],
-    //   userId: _postModel.userId,
-    // );
-
-    // final result = await _postModel.registPost(
-    //   title: _title,
-    //   content: _content,
-    //   postId: _postData?.postId,
-    //   imgFormData: formData,
-    // );
-    // result.onFailure((e) {
-    //   showToast('요고 궁금 게시글을 등록하는데 실패했어요');
-    // }).onSuccess((value) async {
-    //   showToast('요고 궁금 게시글을 등록했어요');
-    //   Navigator.pop(context);
-    //   await _postService.refreshPostList();
-    // });
-    log('addUploadNameList: $addUploadNameList');
-    log('deleteUploadNameList: $deleteUploadNameList');
     isBusy = false;
   }
 

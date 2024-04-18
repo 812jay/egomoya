@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/remote/image/img_req.dart';
 import 'package:egomoya/src/data/remote/post/post_req.dart';
 import 'package:egomoya/src/data/remote/post/post_res.dart';
 import 'package:egomoya/src/repository/comment_repo.dart';
@@ -40,7 +41,8 @@ class PostModel {
     required String title,
     int? postId,
     String? content,
-    FormData? imgFormData,
+    FormData? uploadFormData,
+    required List<String> deleteUploadNameList,
   }) =>
       handleRequest(() async {
         final res = await _postRepo.registPost(
@@ -51,11 +53,21 @@ class PostModel {
             userId: userId,
           ),
         );
-        if (imgFormData != null) {
+        if (uploadFormData != null) {
           await _imageRepo.registPostImageList(
             postId: res.postId,
-            imageFormData: imgFormData,
+            imageFormData: uploadFormData,
           );
+        }
+        if (deleteUploadNameList.isNotEmpty) {
+          for (var deleteUploadName in deleteUploadNameList) {
+            await _imageRepo.deleteImage(
+              req: ImgReq(
+                uploadName: deleteUploadName,
+                isProfile: false,
+              ),
+            );
+          }
         }
       });
 

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:egomoya/src/data/remote/image/img_req.dart';
 import 'package:egomoya/src/repository/base_repo.dart';
 
 class ImageRepo extends BaseRepo {
@@ -26,7 +29,10 @@ class ImageRepo extends BaseRepo {
     );
   }
 
-  Future<void> deleteImage(int imageId) async {
-    await dio.delete('$prefix/api/images/$imageId');
+  Future<void> deleteImage({required ImgReq req}) async {
+    await dio.delete(
+      '$prefix/api/images',
+      data: jsonEncode(req),
+    );
   }
 }

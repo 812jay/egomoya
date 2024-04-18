@@ -59,7 +59,7 @@ class MainViewModel extends BaseViewModel {
 
   Future<void> _fetchPostList() async {
     isBusy = true;
-    await postService.refreshPostList();
+    await postService.fetchPostList();
     isBusy = false;
   }
 
