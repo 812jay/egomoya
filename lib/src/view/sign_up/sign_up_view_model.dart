@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
@@ -155,12 +156,18 @@ class SignUpViewModel extends BaseViewModel {
   }
 
   Future<void> signUp(BuildContext context) async {
+    isBusy = true;
+    FormData? formData;
+    if (profileImg != null) {
+      formData = await ImageHelper.fileToFormData(profileImg!);
+    }
     final result = await _userModel.signUp(
-      UserReq(
+      req: UserReq(
         email: email,
         password: password,
         nickname: nickname,
       ),
+      profileFormData: formData,
     );
     result
       ..onFailure((e) {
@@ -170,5 +177,6 @@ class SignUpViewModel extends BaseViewModel {
         showToast('이메일 회원가입에 성공했어요\n로그인 해주세요');
         Navigator.pop(context);
       });
+    isBusy = false;
   }
 }

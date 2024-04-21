@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/dto/user/user.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
+import 'package:egomoya/src/repository/image_repo.dart';
 import 'package:egomoya/src/repository/user_repo.dart';
 import 'package:egomoya/util/helper/perf_helper.dart';
 import 'package:egomoya/util/request_result.dart';
@@ -9,6 +11,7 @@ class UserModel {
   UserModel(this._pref);
   final PrefHelper _pref;
   final UserRepo _userRepo = UserRepo();
+  final ImageRepo _imageRepo = ImageRepo();
 
   bool get isSignedIn => _pref.userId.isNotEmpty;
 
@@ -20,8 +23,19 @@ class UserModel {
         }
       });
 
-  Future<RequestResult<void>> signUp(UserReq req) => handleRequest(() async {
-        await _userRepo.signUp(req: req);
+  Future<RequestResult<void>> signUp({
+    FormData? profileFormData,
+    required UserReq req,
+  }) =>
+      handleRequest(() async {
+        final res = await _userRepo.signUp(req: req);
+        final User user = res.toDto();
+        if (profileFormData != null) {
+          await _imageRepo.registProfileImage(
+            userId: user.userId,
+            imageFormData: profileFormData,
+          );
+        }
       });
 
   Future<RequestResult<void>> signOut() => handleRequest(() async {

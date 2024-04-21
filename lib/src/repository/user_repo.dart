@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:egomoya/src/data/enum/user_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/src/repository/base_repo.dart';
@@ -15,12 +14,13 @@ class UserRepo extends BaseRepo {
     return result;
   }
 
-  Future<SignUpType> signUp({required UserReq req}) async {
-    await dio.post(
+  Future<UserRes> signUp({required UserReq req}) async {
+    final response = await dio.post(
       '$prefix/api/users',
       data: jsonEncode(req),
     );
-    return SignUpType.success;
+    final result = UserRes.fromJson(response.data);
+    return result;
   }
 
   Future<void> deleteUser(String userId) async {

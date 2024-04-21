@@ -16,12 +16,11 @@ class ImageHelper {
     return file;
   }
 
-  static Future<File?> selectCamera()async{
+  static Future<File?> selectCamera() async {
     final ImagePicker picker = ImagePicker();
     final XFile? xFile = await picker.pickImage(source: ImageSource.camera);
     final File? file = xFile != null ? File(xFile.path) : null;
     return file;
-
   }
 
   static Future<List<File>> selectImageList({
@@ -97,6 +96,13 @@ class ImageHelper {
 
     final formDataMap = {'files': multipartFileList};
     final result = FormData.fromMap(formDataMap);
+    return result;
+  }
+
+  static Future<FormData> fileToFormData(File file) async {
+    final MultipartFile multipartFile = MultipartFile.fromFileSync(file.path);
+    final formData = {'files': multipartFile};
+    final result = FormData.fromMap(formData);
     return result;
   }
 

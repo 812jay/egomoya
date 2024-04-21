@@ -20,11 +20,11 @@ class ImageRepo extends BaseRepo {
   }
 
   Future<void> registProfileImage({
-    required int postId,
+    required String userId,
     required FormData imageFormData,
   }) async {
     await dio.post(
-      '$prefix/api/images/profile/$postId',
+      '$prefix/api/images/profile/$userId',
       data: imageFormData,
     );
   }
