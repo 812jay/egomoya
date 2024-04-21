@@ -4,8 +4,15 @@ import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/theme/component/dialog/bottom_dialog/base_bottom_dialog.dart';
 import 'package:egomoya/util/helper/image_helper.dart';
 import 'package:flutter/material.dart';
+
+enum DialogContentType {
+  camera,
+  image,
+  none,
+}
 
 class SignUpViewModel extends BaseViewModel {
   SignUpViewModel(this._userModel);
@@ -49,18 +56,70 @@ class SignUpViewModel extends BaseViewModel {
   }
 
   void onTapProfileImage(BuildContext context) async {
-    // showModalBottomSheet(
-    //   context: context,
-    //   backgroundColor: Colors.white,
-    //   builder: (context) {
-    //     return Container();
-    //   },
-    // );
-    await getImage();
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return BaseBottomDialog(
+          contentList: [
+            BaseBottomDialogContent(
+              title: '카메라 촬영',
+              onTap: () => onTapDialogContent(
+                context,
+                contentType: DialogContentType.camera,
+              ),
+            ),
+            BaseBottomDialogContent(
+              title: '사진 선택',
+              onTap: () => onTapDialogContent(
+                context,
+                contentType: DialogContentType.image,
+              ),
+            ),
+            BaseBottomDialogContent(
+              title: '기본 이미지로 변경',
+              onTap: () => onTapDialogContent(
+                context,
+                contentType: DialogContentType.none,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void onTapDialogContent(
+    BuildContext context, {
+    required DialogContentType contentType,
+  }) {
+    Navigator.pop(context);
+    switch (contentType) {
+      case DialogContentType.camera:
+        getCamera();
+        break;
+      case DialogContentType.image:
+        getImage();
+        break;
+      case DialogContentType.none:
+        removeImage();
+        break;
+    }
+  }
+
+  void removeImage() {
+    profileImg = null;
+    notifyListeners();
   }
 
   Future<void> getImage() async {
     final image = await ImageHelper.selectImage();
+    profileImg = image;
+    notifyListeners();
+  }
+
+  Future<void> getCamera() async {
+    final image = await ImageHelper.selectCamera();
     profileImg = image;
     notifyListeners();
   }

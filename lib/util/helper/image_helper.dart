@@ -16,6 +16,14 @@ class ImageHelper {
     return file;
   }
 
+  static Future<File?> selectCamera()async{
+    final ImagePicker picker = ImagePicker();
+    final XFile? xFile = await picker.pickImage(source: ImageSource.camera);
+    final File? file = xFile != null ? File(xFile.path) : null;
+    return file;
+
+  }
+
   static Future<List<File>> selectImageList({
     required List<File> imageFileList,
     int? limit,
