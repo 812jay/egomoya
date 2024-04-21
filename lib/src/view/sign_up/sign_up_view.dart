@@ -1,4 +1,5 @@
-import 'package:egomoya/src/data/dto/user/user.dart';
+import 'dart:developer';
+
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
@@ -12,9 +13,7 @@ import 'package:provider/provider.dart';
 class SignUpView extends StatelessWidget {
   const SignUpView({
     super.key,
-    this.user,
   });
-  final User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,8 @@ class SignUpView extends StatelessWidget {
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
-            appBar: const BaseAppBar(
-              title: '이메일 회원가입',
+            appBar: BaseAppBar(
+              title: viewModel.appbarTitle,
             ),
             body: SafeArea(
               child: Padding(
@@ -82,13 +81,14 @@ class SignUpView extends StatelessWidget {
                         errMsg: viewModel.emailErrMsg,
                         onClear: viewModel.onClearEmail,
                       ),
-                      spaceBig,
-                      _InputPassword(
-                        controller: viewModel.passwordController,
-                        onChange: viewModel.onChangePassword,
-                        errMsg: viewModel.passwordErrMsg,
-                        onClear: viewModel.onClearPassword,
-                      ),
+                      if (viewModel.user == null) spaceBig,
+                      if (viewModel.user == null)
+                        _InputPassword(
+                          controller: viewModel.passwordController,
+                          onChange: viewModel.onChangePassword,
+                          errMsg: viewModel.passwordErrMsg,
+                          onClear: viewModel.onClearPassword,
+                        ),
                       spaceBig,
                       _InputNickname(
                         controller: viewModel.nicknameController,
@@ -98,8 +98,9 @@ class SignUpView extends StatelessWidget {
                       ),
                       spaceBig,
                       _SubmitButton(
+                        title: viewModel.submitButtonName,
                         isValid: viewModel.isValidateSignUp,
-                        onTap: viewModel.signUp,
+                        onTap: viewModel.onTapSubmit,
                       ),
                       const SizedBox(height: 20),
                     ],
@@ -240,9 +241,11 @@ class _InputNickname extends StatelessWidget {
 class _SubmitButton extends StatelessWidget {
   const _SubmitButton({
     super.key,
+    required this.title,
     required this.onTap,
     required this.isValid,
   });
+  final String title;
   final Function(BuildContext) onTap;
   final bool isValid;
 
@@ -250,7 +253,7 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Button(
       onPressed: () => onTap(context),
-      text: '회원가입',
+      text: title,
       isInactive: !isValid,
       width: double.infinity,
     );

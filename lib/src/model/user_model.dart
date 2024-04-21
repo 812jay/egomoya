@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:egomoya/src/data/dto/image/img.dart';
 import 'package:egomoya/src/data/dto/user/user.dart';
+import 'package:egomoya/src/data/remote/image/img_req.dart';
+import 'package:egomoya/src/data/remote/image/img_res.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/src/repository/image_repo.dart';
@@ -42,6 +45,30 @@ class UserModel {
         await _pref.setUserId('');
       });
 
+  Future<RequestResult<void>> updateUser({
+    required UserReq req,
+    FormData? profileFormData,
+    String? deleteUploadName,
+  }) =>
+      handleRequest(() async {
+        final res = await _userRepo.updateUser(req);
+        final User user = res.toDto();
+        if (deleteUploadName != null) {
+          await _imageRepo.deleteImage(
+            req: ImgReq(
+              uploadName: deleteUploadName,
+              isProfile: true,
+            ),
+          );
+        }
+        if (profileFormData != null) {
+          await _imageRepo.registProfileImage(
+            userId: user.userId,
+            imageFormData: profileFormData,
+          );
+        }
+      });
+
   Future<RequestResult<void>> deleteUser(String userId) =>
       handleRequest(() async {
         await _userRepo.deleteUser(userId);
@@ -50,6 +77,12 @@ class UserModel {
   Future<RequestResult<User>> fetchUser() => handleRequest(() async {
         final response = await _userRepo.fetchUser(_pref.userId);
         final result = response.toDto();
+        return result;
+      });
+
+  Future<RequestResult<Img?>> fetchProfileImg() => handleRequest(() async {
+        final response = await _imageRepo.fetchProfileImage(_pref.userId);
+        final result = response?.toDto();
         return result;
       });
 }

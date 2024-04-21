@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:egomoya/src/data/dto/image/img.dart';
+import 'package:egomoya/src/data/dto/user/user.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
@@ -18,8 +20,12 @@ enum DialogContentType {
 class SignUpViewModel extends BaseViewModel {
   SignUpViewModel(
     this._userModel,
-  );
+  ) {
+    fetchUserProfileImg();
+    fetchUser();
+  }
   final UserModel _userModel;
+  Img? serverImg;
   File? profileImg;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -30,6 +36,10 @@ class SignUpViewModel extends BaseViewModel {
   bool isChangedPassword = false;
   bool isChangedNickname = false;
 
+  String get appbarTitle => user == null ? '이메일 회원가입' : '프로필 수정';
+  String get submitButtonName => user == null ? '회원가입' : '수정 완료';
+
+  bool get _isSignedIn => _userModel.isSignedIn;
   String get email => emailController.text;
   String get password => passwordController.text;
   String get nickname => nicknameController.text;
@@ -47,8 +57,11 @@ class SignUpViewModel extends BaseViewModel {
       : '영문,숫자, 특수문자를 포함해 8자 이상 입력해 주세요';
   String? get nicknameErrMsg =>
       (isNicknameValidate || !isChangedNickname) ? null : '2자리~10자리 이상 입력해 주세요';
-  bool get isValidateSignUp =>
-      isEmailValidate && isPasswordValidate && isNicknameValidate;
+  bool get isValidateSignUp => user == null
+      ? isEmailValidate && isPasswordValidate && isNicknameValidate
+      : isEmailValidate && isNicknameValidate;
+
+  User? user;
 
   @override
   void dispose() {
@@ -56,6 +69,42 @@ class SignUpViewModel extends BaseViewModel {
     passwordController.dispose();
     nicknameController.dispose();
     super.dispose();
+  }
+
+  Future<void> fetchUserProfileImg() async {
+    isBusy = true;
+    final result = await _userModel.fetchProfileImg();
+    result
+      ..onFailure((e) {})
+      ..onSuccess((newProfileImg) async {
+        if (newProfileImg != null) {
+          serverImg = newProfileImg;
+          profileImg = await ImageHelper.urlToFile(newProfileImg.imageUrl);
+          notifyListeners();
+        }
+      });
+    isBusy = false;
+  }
+
+  Future<void> fetchUser() async {
+    isBusy = true;
+    if (!_isSignedIn) return;
+    final result = await _userModel.fetchUser();
+    result
+      ..onFailure((e) => showToast('유저 정보를 불러오는데 실패했어요'))
+      ..onSuccess((newUser) {
+        user = newUser;
+        setUser();
+        notifyListeners();
+      });
+    isBusy = false;
+  }
+
+  void setUser() {
+    if (user != null) {
+      emailController.text = user!.email;
+      nicknameController.text = user!.nickname ?? '';
+    }
   }
 
   void onTapProfileImage(BuildContext context) async {
@@ -157,6 +206,14 @@ class SignUpViewModel extends BaseViewModel {
     nicknameController.clear();
   }
 
+  void onTapSubmit(BuildContext context) async {
+    if (user == null) {
+      await signUp(context);
+      return;
+    }
+    await updateUser(context);
+  }
+
   Future<void> signUp(BuildContext context) async {
     isBusy = true;
     FormData? formData;
@@ -180,5 +237,33 @@ class SignUpViewModel extends BaseViewModel {
         Navigator.pop(context);
       });
     isBusy = false;
+  }
+
+  Future<void> updateUser(BuildContext context) async {
+    isBusy = true;
+    FormData? formData;
+    if (profileImg != null) {
+      formData = await ImageHelper.fileToFormData(profileImg!);
+    }
+    if (user != null) {
+      final result = await _userModel.updateUser(
+        req: UserReq(
+          userId: user!.userId,
+          email: email,
+          nickname: nickname,
+        ),
+        profileFormData: formData,
+        deleteUploadName: serverImg?.uploadName,
+      );
+      result
+        ..onFailure((e) {
+          showToast('프로필 수정에 실패했어요');
+        })
+        ..onSuccess((value) {
+          showToast('프로필 수정에 성공했어요');
+          Navigator.pop(context);
+        });
+      isBusy = false;
+    }
   }
 }

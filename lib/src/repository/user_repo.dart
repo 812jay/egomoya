@@ -23,6 +23,15 @@ class UserRepo extends BaseRepo {
     return result;
   }
 
+  Future<UserRes> updateUser(UserReq req) async {
+    final response = await dio.patch(
+      '$prefix/api/users',
+      data: jsonEncode(req),
+    );
+    final result = UserRes.fromJson(response.data);
+    return result;
+  }
+
   Future<void> deleteUser(String userId) async {
     await dio.delete(
       '$prefix/api/users/$userId',
