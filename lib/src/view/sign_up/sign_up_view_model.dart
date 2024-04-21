@@ -16,7 +16,9 @@ enum DialogContentType {
 }
 
 class SignUpViewModel extends BaseViewModel {
-  SignUpViewModel(this._userModel);
+  SignUpViewModel(
+    this._userModel,
+  );
   final UserModel _userModel;
   File? profileImg;
   final TextEditingController emailController = TextEditingController();

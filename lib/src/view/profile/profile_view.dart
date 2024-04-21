@@ -4,6 +4,7 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,9 +44,15 @@ class ProfileView extends StatelessWidget {
                                       style: context.typo.body2,
                                     ),
                                   ),
-                                  Text(
-                                    '프로필 수정',
-                                    style: context.typo.body2,
+                                  GestureDetector(
+                                    onTap: () => Navigator.pushNamed(
+                                      context,
+                                      RoutePath.signUp,
+                                    ),
+                                    child: Text(
+                                      '프로필 수정',
+                                      style: context.typo.body2,
+                                    ),
                                   ),
                                 ],
                               ),

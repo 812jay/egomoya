@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/dto/user/user.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
@@ -9,7 +10,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class SignUpView extends StatelessWidget {
-  const SignUpView({super.key});
+  const SignUpView({
+    super.key,
+    this.user,
+  });
+  final User? user;
 
   @override
   Widget build(BuildContext context) {
