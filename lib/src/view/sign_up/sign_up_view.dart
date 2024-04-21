@@ -1,9 +1,11 @@
+import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class SignUpView extends StatelessWidget {
@@ -28,6 +30,46 @@ class SignUpView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(
+                        child: GestureDetector(
+                          onTap: () => viewModel.onTapProfileImage(context),
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                maxRadius: 50,
+                                backgroundColor:
+                                    context.color.inactiveBackground,
+                                backgroundImage: viewModel.profileImg != null
+                                    ? AssetImage(viewModel.profileImg!.path)
+                                    : null,
+                                child: viewModel.profileImg != null
+                                    ? null
+                                    : Text(
+                                        '이미지가\n없어요',
+                                        style: context.typo.body3,
+                                        textAlign: TextAlign.center,
+                                      ),
+                              ),
+                              Positioned(
+                                bottom: 3,
+                                right: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(3.0),
+                                  decoration: BoxDecoration(
+                                    color: context.color.white,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/camera.svg',
+                                    width: 20,
+                                    color: context.color.black,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                       spaceBig,
                       _InputEmail(
                         controller: viewModel.emailController,

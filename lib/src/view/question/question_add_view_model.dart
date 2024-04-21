@@ -104,7 +104,7 @@ class QuestionAddViewModel extends BaseViewModel {
 
   void onSelectImage() async {
     isBusy = true;
-    localImageFileList = await ImageHelper.selectList(
+    localImageFileList = await ImageHelper.selectImageList(
       imageFileList: localImageFileList,
       limit: 5,
     );

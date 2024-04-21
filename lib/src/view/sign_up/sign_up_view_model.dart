@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/util/helper/image_helper.dart';
 import 'package:flutter/material.dart';
 
 class SignUpViewModel extends BaseViewModel {
   SignUpViewModel(this._userModel);
   final UserModel _userModel;
+  File? profileImg;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
@@ -42,6 +46,23 @@ class SignUpViewModel extends BaseViewModel {
     passwordController.dispose();
     nicknameController.dispose();
     super.dispose();
+  }
+
+  void onTapProfileImage(BuildContext context) async {
+    // showModalBottomSheet(
+    //   context: context,
+    //   backgroundColor: Colors.white,
+    //   builder: (context) {
+    //     return Container();
+    //   },
+    // );
+    await getImage();
+  }
+
+  Future<void> getImage() async {
+    final image = await ImageHelper.selectImage();
+    profileImg = image;
+    notifyListeners();
   }
 
   void onChangeEmail(String newEmail) {

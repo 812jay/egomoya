@@ -9,7 +9,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ImageHelper {
-  static Future<List<File>> selectList({
+  static Future<File?> selectImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? xFile = await picker.pickImage(source: ImageSource.gallery);
+    final File? file = xFile != null ? File(xFile.path) : null;
+    return file;
+  }
+
+  static Future<List<File>> selectImageList({
     required List<File> imageFileList,
     int? limit,
   }) async {
