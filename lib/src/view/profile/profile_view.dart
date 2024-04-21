@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/model/user_model.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
+import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/util/route_path.dart';
@@ -9,12 +11,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+  const ProfileView({
+    super.key,
+    required this.args,
+  });
+  final ProfileViewArgument args;
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: ProfileViewModel(userModel: context.read<UserModel>()),
+      viewModel: ProfileViewModel(
+        userModel: context.read<UserModel>(),
+        args: args,
+      ),
       builder: (context, viewModel) {
         return Scaffold(
           appBar: const BaseAppBar(title: '마이페이지'),
@@ -28,6 +37,9 @@ class ProfileView extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                            viewModel.userInfo.profileImg!.imageUrl,
+                          ),
                           backgroundColor: context.color.lightGrayBackground,
                         ),
                         const SizedBox(width: 10),
@@ -40,15 +52,16 @@ class ProfileView extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      '${viewModel.userInfo?.nickname}님',
+                                      '${viewModel.userInfo.nickname}님',
                                       style: context.typo.body2,
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () => Navigator.pushNamed(
-                                      context,
-                                      RoutePath.signUp,
-                                    ),
+                                        context, RoutePath.signUp,
+                                        arguments: SignUpViewArgument(
+                                          user: viewModel.userInfo,
+                                        )),
                                     child: Text(
                                       '프로필 수정',
                                       style: context.typo.body2,

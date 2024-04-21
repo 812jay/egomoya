@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
@@ -13,12 +11,17 @@ import 'package:provider/provider.dart';
 class SignUpView extends StatelessWidget {
   const SignUpView({
     super.key,
+    required this.args,
   });
+  final SignUpViewArgument? args;
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: SignUpViewModel(context.read()),
+      viewModel: SignUpViewModel(
+        args: args,
+        userModel: context.read(),
+      ),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
         return GestureDetector(

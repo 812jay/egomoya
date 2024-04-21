@@ -4,23 +4,26 @@ import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
+class ProfileViewArgument {
+  ProfileViewArgument({
+    required this.user,
+  });
+  final User user;
+}
+
 class ProfileViewModel extends BaseViewModel {
-  ProfileViewModel({required this.userModel}) {
-    Future.delayed(Duration.zero, () {
-      fetchUser();
-    });
+  ProfileViewModel({
+    required this.userModel,
+    required this.args,
+  }) {
+    setInitUser();
   }
   final UserModel userModel;
-  User? userInfo;
+  final ProfileViewArgument args;
+  late User userInfo;
 
-  Future<void> fetchUser() async {
-    final result = await userModel.fetchUser();
-    result
-      ..onFailure((e) => showToast('정보 조회에 실패했습니다.'))
-      ..onSuccess((newUserInfo) {
-        userInfo = newUserInfo;
-        notifyListeners();
-      });
+  void setInitUser() {
+    userInfo = args.user;
   }
 
   Future<void> signOut(BuildContext context) async {

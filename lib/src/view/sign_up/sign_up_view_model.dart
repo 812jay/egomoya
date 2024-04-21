@@ -17,14 +17,20 @@ enum DialogContentType {
   none,
 }
 
+class SignUpViewArgument {
+  SignUpViewArgument({this.user});
+  final User? user;
+}
+
 class SignUpViewModel extends BaseViewModel {
-  SignUpViewModel(
-    this._userModel,
-  ) {
-    fetchUserProfileImg();
-    fetchUser();
+  SignUpViewModel({
+    this.args,
+    required this.userModel,
+  }) {
+    setInit();
   }
-  final UserModel _userModel;
+  final SignUpViewArgument? args;
+  final UserModel userModel;
   Img? serverImg;
   File? profileImg;
   final TextEditingController emailController = TextEditingController();
@@ -39,7 +45,7 @@ class SignUpViewModel extends BaseViewModel {
   String get appbarTitle => user == null ? '이메일 회원가입' : '프로필 수정';
   String get submitButtonName => user == null ? '회원가입' : '수정 완료';
 
-  bool get _isSignedIn => _userModel.isSignedIn;
+  bool get _isSignedIn => userModel.isSignedIn;
   String get email => emailController.text;
   String get password => passwordController.text;
   String get nickname => nicknameController.text;
@@ -71,40 +77,21 @@ class SignUpViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  Future<void> fetchUserProfileImg() async {
-    isBusy = true;
-    final result = await _userModel.fetchProfileImg();
-    result
-      ..onFailure((e) {})
-      ..onSuccess((newProfileImg) async {
-        if (newProfileImg != null) {
-          serverImg = newProfileImg;
-          profileImg = await ImageHelper.urlToFile(newProfileImg.imageUrl);
-          notifyListeners();
-        }
-      });
-    isBusy = false;
-  }
-
-  Future<void> fetchUser() async {
-    isBusy = true;
-    if (!_isSignedIn) return;
-    final result = await _userModel.fetchUser();
-    result
-      ..onFailure((e) => showToast('유저 정보를 불러오는데 실패했어요'))
-      ..onSuccess((newUser) {
-        user = newUser;
-        setUser();
-        notifyListeners();
-      });
-    isBusy = false;
-  }
-
-  void setUser() {
+  void setInit() {
+    user = args?.user;
     if (user != null) {
-      emailController.text = user!.email;
-      nicknameController.text = user!.nickname ?? '';
+      setUser(user!);
     }
+  }
+
+  void setUser(User user) async {
+    serverImg = user.profileImg;
+    if (serverImg != null) {
+      profileImg = await ImageHelper.urlToFile(serverImg!.imageUrl);
+    }
+    emailController.text = user.email;
+    nicknameController.text = user.nickname ?? '';
+    notifyListeners();
   }
 
   void onTapProfileImage(BuildContext context) async {
@@ -220,7 +207,7 @@ class SignUpViewModel extends BaseViewModel {
     if (profileImg != null) {
       formData = await ImageHelper.fileToFormData(profileImg!);
     }
-    final result = await _userModel.signUp(
+    final result = await userModel.signUp(
       req: UserReq(
         email: email,
         password: password,
@@ -246,7 +233,7 @@ class SignUpViewModel extends BaseViewModel {
       formData = await ImageHelper.fileToFormData(profileImg!);
     }
     if (user != null) {
-      final result = await _userModel.updateUser(
+      final result = await userModel.updateUser(
         req: UserReq(
           userId: user!.userId,
           email: email,

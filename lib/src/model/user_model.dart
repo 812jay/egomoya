@@ -76,7 +76,10 @@ class UserModel {
 
   Future<RequestResult<User>> fetchUser() => handleRequest(() async {
         final response = await _userRepo.fetchUser(_pref.userId);
+        final responseImg = await _imageRepo.fetchProfileImage(_pref.userId);
         final result = response.toDto();
+        final imgResult = responseImg?.toDto();
+        result.profileImg = imgResult;
         return result;
       });
 

@@ -58,7 +58,7 @@ class MainView extends StatelessWidget {
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return <Widget>[
-                MainSliverAppBar(isSignedIn: viewModel.isSignedIn),
+                MainSliverAppBar(user: viewModel.user),
                 SliverOverlapAbsorber(
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                     context,
