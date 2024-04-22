@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:egomoya/src/data/dto/celeb/celeb.dart';
 import 'package:egomoya/src/data/dto/main/main_category.dart';
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/dto/user/user.dart';
 import 'package:egomoya/src/data/dummy_data/celeb_dummy_data.dart';
 import 'package:egomoya/src/data/enum/celeb_type.dart';
 import 'package:egomoya/src/model/user_model.dart';
@@ -18,7 +20,10 @@ class MainViewModel extends BaseViewModel {
     this.postService,
     this.userModel,
   ) {
-    _fetchPostList();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _fetchPostList();
+      await fetchUser();
+    });
     postService.addListener(notifyListeners);
   }
 
@@ -39,6 +44,11 @@ class MainViewModel extends BaseViewModel {
     MainCategory(index: 2, title: '요고 궁금', isActive: false),
   ];
 
+  //user
+  User? user;
+  File? profileImg;
+  bool get isSignedIn => userModel.isSignedIn;
+
   // Celeb
   List<Celeb> mainCelebList = [
     ...CelebDummyData.celebData,
@@ -52,14 +62,13 @@ class MainViewModel extends BaseViewModel {
       CelebDummyData.celebData.where((e) => e.category.isFashion).toList());
 
   int selectedCategoryIndex = 0;
-  bool get isSignedIn => userModel.isSignedIn;
 
   CelebPostCategory selectedCelebPostCategory = CelebPostCategory.fashion;
   CelebPostSort selectedCelebPostSort = CelebPostSort.latest;
 
   Future<void> _fetchPostList() async {
     isBusy = true;
-    await postService.refreshPostList();
+    await postService.fetchPostList();
     isBusy = false;
   }
 
@@ -69,6 +78,20 @@ class MainViewModel extends BaseViewModel {
     onChangeCategory(index, category.copyWith(isActive: !category.isActive));
     selectedCategoryIndex = index;
     notifyListeners();
+  }
+
+  Future<void> fetchUser() async {
+    isBusy = true;
+    if (!isSignedIn) return;
+    final result = await userModel.fetchUser();
+    result
+      ..onFailure((e) => showToast('유저 정보를 불러오는데 실패했어요'))
+      ..onSuccess((newUser) async {
+        user = newUser;
+        print(user);
+        notifyListeners();
+      });
+    isBusy = false;
   }
 
   void onChangeCategory(int index, MainCategory newCategory) {

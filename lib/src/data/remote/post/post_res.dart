@@ -1,4 +1,5 @@
 import 'package:egomoya/src/data/dto/post/post.dart';
+import 'package:egomoya/src/data/remote/image/img_res.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -47,7 +48,7 @@ class PostDataRes {
   @JsonKey(name: 'content')
   final String content;
   @JsonKey(name: 'images')
-  final List<PostImageRes>? images;
+  final List<ImgRes>? images;
   @JsonKey(name: 'user')
   final UserRes user;
   @JsonKey(name: 'createdAt')
@@ -73,32 +74,32 @@ extension PostDataResExt on PostDataRes {
       );
 }
 
-@JsonSerializable()
-class PostImageRes {
-  PostImageRes({
-    required this.postId,
-    required this.imageUrl,
-    this.uploadName,
-  });
-  @JsonKey(name: 'postId')
-  final int? postId;
-  @JsonKey(name: 'imageUrl')
-  final String imageUrl;
-  @JsonKey(name: 'uploadName')
-  final String? uploadName;
+// @JsonSerializable()
+// class PostImageRes {
+//   PostImageRes({
+//     required this.postId,
+//     required this.imageUrl,
+//     this.uploadName,
+//   });
+//   @JsonKey(name: 'postId')
+//   final int? postId;
+//   @JsonKey(name: 'imageUrl')
+//   final String imageUrl;
+//   @JsonKey(name: 'uploadName')
+//   final String? uploadName;
 
-  factory PostImageRes.fromJson(Map<String, dynamic> json) =>
-      _$PostImageResFromJson(json);
+//   factory PostImageRes.fromJson(Map<String, dynamic> json) =>
+//       _$PostImageResFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PostImageResToJson(this);
-}
+//   Map<String, dynamic> toJson() => _$PostImageResToJson(this);
+// }
 
-extension PostImageResExt on PostImageRes {
-  PostImage toDto() => PostImage(
-        postId: postId,
-        imageUrl: imageUrl,
-      );
-}
+// extension PostImageResExt on PostImageRes {
+//   PostImage toDto() => PostImage(
+//         postId: postId,
+//         imageUrl: imageUrl,
+//       );
+// }
 
 @JsonSerializable()
 class PostPageInfoRes {

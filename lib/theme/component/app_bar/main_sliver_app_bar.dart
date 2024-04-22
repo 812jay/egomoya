@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:egomoya/src/data/dto/user/user.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +9,9 @@ import 'package:flutter/material.dart';
 class MainSliverAppBar extends StatelessWidget {
   const MainSliverAppBar({
     super.key,
-    required this.isSignedIn,
+    this.user,
   });
-  final bool isSignedIn;
+  final User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +35,30 @@ class MainSliverAppBar extends StatelessWidget {
           size: 22,
         ),
         const SizedBox(width: 20),
-        isSignedIn
+        user != null
             ? GestureDetector(
-                onTap: () => Navigator.pushNamed(context, RoutePath.profile),
-                child: const AssetIcon(
-                  'assets/icons/group.svg',
-                  size: 22,
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  RoutePath.profile,
+                  arguments: ProfileViewArgument(user: user!),
                 ),
+                child: user!.profileImg != null
+                    ? CircleAvatar(
+                        maxRadius: 13,
+                        backgroundImage: CachedNetworkImageProvider(
+                          user!.profileImg!.imageUrl,
+                        ),
+                      )
+                    : const AssetIcon(
+                        'assets/icons/group.svg',
+                        size: 22,
+                      ),
               )
             : GestureDetector(
-                onTap: () => Navigator.pushNamed(context, RoutePath.signIn),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  RoutePath.signIn,
+                ),
                 child: Text(
                   '로그인',
                   style: context.typo.body2,

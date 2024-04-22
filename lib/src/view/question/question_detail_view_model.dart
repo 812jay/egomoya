@@ -42,26 +42,20 @@ class QuestionDetailViewModel extends BaseViewModel {
   String get userId => commentModel.userId;
   bool get isSignedIn => userModel.isSignedIn;
 
-  PostData? postData;
+  PostData? get postData => postService.postData;
   Comment? comment;
 
   int? curCommentParentId;
   String? replyText;
 
   Future<void> fetchPostDetail() async {
-    final result = await postModel.fetchPostDetail(postId);
-
-    result
-      ..onFailure((e) {
-        showToast('요고 궁금 게시글을 불러오는데 실패했어요');
-      })
-      ..onSuccess((newPostData) {
-        postData = newPostData;
-        notifyListeners();
-      });
+    isBusy = true;
+    await postService.refreshPostDetail(postId);
+    isBusy = false;
   }
 
   Future<void> fetchCommentListDetail() async {
+    isBusy = true;
     final result = await commentModel.fetchComment(postId);
     result
       ..onFailure((e) {
@@ -70,10 +64,11 @@ class QuestionDetailViewModel extends BaseViewModel {
       ..onSuccess((newComment) {
         comment = newComment;
       });
-    notifyListeners();
+    isBusy = false;
   }
 
   Future<void> deletePost(BuildContext context) async {
+    isBusy = true;
     final result = await postModel.deletePost(postId);
     result
       ..onFailure((e) {
@@ -83,8 +78,9 @@ class QuestionDetailViewModel extends BaseViewModel {
         showToast('게시글을 삭제하는데 성공했어요');
         Navigator.pop(context);
         Navigator.pop(context);
-        await postService.refreshPostList();
+        await postService.fetchPostList();
       });
+    isBusy = false;
   }
 
   void navigateToUpdatePost(BuildContext context) => Navigator.pushNamed(
@@ -94,6 +90,7 @@ class QuestionDetailViewModel extends BaseViewModel {
       );
 
   Future<void> addComment() async {
+    isBusy = true;
     final result = await commentModel.registComment(
       postId: postId,
       content: commentText,
@@ -106,14 +103,16 @@ class QuestionDetailViewModel extends BaseViewModel {
       ..onSuccess((value) async {
         //comment refresh
         await fetchCommentListDetail();
-        await postService.refreshPostList();
+        await postService.fetchPostList();
         onClearAddComment();
       });
+    isBusy = false;
   }
 
   Future<void> onUpdateComment() async {}
 
   Future<void> onDeleteComment(int commentId) async {
+    isBusy = true;
     final result = await commentModel.deleteComment(commentId);
     result
       ..onFailure((e) {
@@ -123,6 +122,7 @@ class QuestionDetailViewModel extends BaseViewModel {
         showToast('댓글을 삭제했어요');
         await fetchCommentListDetail();
       });
+    isBusy = false;
   }
 
   void onTapMorePost(BuildContext context) {

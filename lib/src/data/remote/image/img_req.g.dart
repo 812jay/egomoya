@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'image_req.dart';
+part of 'img_req.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ImageReq _$ImageReqFromJson(Map<String, dynamic> json) => ImageReq(
+ImgReq _$ImgReqFromJson(Map<String, dynamic> json) => ImgReq(
       uploadName: json['uploadName'] as String,
       isProfile: json['isProfile'] as bool?,
     );
 
-Map<String, dynamic> _$ImageReqToJson(ImageReq instance) => <String, dynamic>{
+Map<String, dynamic> _$ImgReqToJson(ImgReq instance) => <String, dynamic>{
       'uploadName': instance.uploadName,
       'isProfile': instance.isProfile,
     };

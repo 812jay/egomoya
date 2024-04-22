@@ -36,7 +36,7 @@ class QuestionAddView extends StatelessWidget {
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
             appBar: BaseAppBar(
-              title: '질문 등록',
+              title: viewModel.appbarTitle,
               onTapLeading: () => viewModel.onTapLeading(context),
             ),
             body: SingleChildScrollView(
@@ -46,7 +46,7 @@ class QuestionAddView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _InputPicture(
-                      imageList: viewModel.imageList,
+                      imageList: viewModel.localImageFileList,
                       onSelectImage: viewModel.onSelectImage,
                       onDeleteImage: viewModel.onDeleteImage,
                     ),

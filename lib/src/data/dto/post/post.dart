@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/dto/image/img.dart';
 import 'package:egomoya/src/data/dto/user/user.dart';
 
 class Post {
@@ -28,7 +29,7 @@ class PostData {
   final int postId;
   final String title;
   final String content;
-  final List<PostImage>? imageList;
+  final List<Img>? imageList;
   final User user;
   int? commentCnt;
   final DateTime createdAt;
@@ -42,19 +43,19 @@ class PostData {
 
 //image
 
-class PostImage {
-  PostImage({
-    required this.postId,
-    required this.imageUrl,
-  });
-  final int? postId;
-  final String imageUrl;
+// class PostImage {
+//   PostImage({
+//     required this.postId,
+//     required this.imageUrl,
+//   });
+//   final int? postId;
+//   final String imageUrl;
 
-  @override
-  String toString() {
-    return 'PostImage(postId: $postId, imageUrl: $imageUrl)';
-  }
-}
+//   @override
+//   String toString() {
+//     return 'PostImage(postId: $postId, imageUrl: $imageUrl)';
+//   }
+// }
 
 class PostPageInfo {
   PostPageInfo({
