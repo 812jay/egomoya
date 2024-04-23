@@ -82,6 +82,10 @@ flutter:
     - assets/images/celeb/
     - assets/images/celeb/beauty/
     - assets/images/celeb/fashion/
+    - assets/images/sign_in/
+    - assets/images/sign_in/kakao/
+    - assets/images/sign_in/kakao/ko/
+    - assets/images/sign_in/kakao/en/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

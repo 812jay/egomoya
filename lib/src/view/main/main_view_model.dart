@@ -20,10 +20,8 @@ class MainViewModel extends BaseViewModel {
     this.postService,
     this.userModel,
   ) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _fetchPostList();
-      await fetchUser();
-    });
+    _fetchPostList();
+    fetchUser();
     postService.addListener(notifyListeners);
   }
 
@@ -88,8 +86,6 @@ class MainViewModel extends BaseViewModel {
       ..onFailure((e) => showToast('유저 정보를 불러오는데 실패했어요'))
       ..onSuccess((newUser) async {
         user = newUser;
-        print(user);
-        notifyListeners();
       });
     isBusy = false;
   }
