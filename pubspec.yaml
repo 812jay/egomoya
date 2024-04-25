@@ -49,6 +49,10 @@ dependencies:
   intl: ^0.19.0
   path_provider: ^2.1.2
   http: ^1.2.0
+  google_sign_in: ^6.2.1
+  firebase_auth: ^4.17.8
+  firebase_core: ^2.27.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -82,10 +86,6 @@ flutter:
     - assets/images/celeb/
     - assets/images/celeb/beauty/
     - assets/images/celeb/fashion/
-    - assets/images/sign_in/
-    - assets/images/sign_in/kakao/
-    - assets/images/sign_in/kakao/ko/
-    - assets/images/sign_in/kakao/en/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

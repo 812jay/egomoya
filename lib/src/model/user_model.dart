@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:egomoya/src/data/dto/image/img.dart';
 import 'package:egomoya/src/data/dto/user/user.dart';
@@ -9,6 +11,8 @@ import 'package:egomoya/src/repository/image_repo.dart';
 import 'package:egomoya/src/repository/user_repo.dart';
 import 'package:egomoya/util/helper/perf_helper.dart';
 import 'package:egomoya/util/request_result.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class UserModel {
   UserModel(this._pref);
@@ -17,6 +21,26 @@ class UserModel {
   final ImageRepo _imageRepo = ImageRepo();
 
   bool get isSignedIn => _pref.userId.isNotEmpty;
+  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+
+  Future<RequestResult<void>> signInWithGoogle() => handleRequest(() async {
+        final GoogleSignInAccount? account = await _userRepo.signInWithGoogle();
+        final auth.User? user;
+        if (account != null) {
+          GoogleSignInAuthentication authentication =
+              await account.authentication;
+          auth.OAuthCredential googleCredential =
+              auth.GoogleAuthProvider.credential(
+            idToken: authentication.idToken,
+            accessToken: authentication.accessToken,
+          );
+          auth.UserCredential credential =
+              await _firebaseAuth.signInWithCredential(googleCredential);
+          if (credential.user != null) {
+            user = credential.user;
+          }
+        }
+      });
 
   Future<RequestResult<void>> signIn(UserReq req) => handleRequest(() async {
         final response = await _userRepo.signIn(req: req);

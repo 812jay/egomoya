@@ -3,8 +3,15 @@ import 'dart:convert';
 import 'package:egomoya/src/data/remote/user/user_req.dart';
 import 'package:egomoya/src/data/remote/user/user_res.dart';
 import 'package:egomoya/src/repository/base_repo.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class UserRepo extends BaseRepo {
+  Future<GoogleSignInAccount?> signInWithGoogle() async {
+    GoogleSignIn signIn = GoogleSignIn();
+    GoogleSignInAccount? account = await signIn.signIn();
+    return account;
+  }
+
   Future<UserRes?> signIn({required UserReq req}) async {
     final response = await dio.post(
       '$prefix/api/users/login',

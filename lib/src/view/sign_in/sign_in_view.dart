@@ -60,6 +60,12 @@ class SignInView extends StatelessWidget {
                             onTap: viewModel.signIn,
                             isValid: viewModel.isValidateSignIn,
                           ),
+                          spaceBig,
+                          Button(
+                            onPressed: viewModel.signInWithGoogle,
+                            text: 'Google 로그인',
+                            width: double.infinity,
+                          ),
                         ],
                       ),
                       spaceBig,

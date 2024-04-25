@@ -59,6 +59,10 @@ class SignInViewModel extends BaseViewModel {
   void navigateSignUpEmail(BuildContext context) =>
       Navigator.pushNamed(context, RoutePath.signUp);
 
+  Future<void> signInWithGoogle() async {
+    await _userModel.signInWithGoogle();
+  }
+
   Future<void> signIn(BuildContext context) async {
     final result = await _userModel.signIn(
       UserReq(
