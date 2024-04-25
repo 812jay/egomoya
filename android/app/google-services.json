@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "741798797945",
+    "firebase_url": "https://egomoya-feca6-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "egomoya-feca6",
     "storage_bucket": "egomoya-feca6.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.team.egomoya"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "741798797945-qg3cvdf1qv16eufsqi5on784f40pje0u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.team.egomoya",
+            "certificate_hash": "24387c67351e320e8b084945785a57c5707771de"
+          }
+        },
+        {
+          "client_id": "741798797945-k9abcqcdvrsu1ksh7e4nl5h13lrrrnr1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDWdMfBca6X-9DYIZYYRtghnegd_0-yRnA"
@@ -20,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741798797945-k9abcqcdvrsu1ksh7e4nl5h13lrrrnr1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "741798797945-c0gsk8hm151ar2fv0n1v5kq6rmhqbvnf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.team.egomoya"
+              }
+            }
+          ]
         }
       }
     }
