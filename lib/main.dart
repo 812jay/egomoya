@@ -1,3 +1,4 @@
+import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/home/home_view.dart';
 import 'package:egomoya/util/route_path.dart';
@@ -16,6 +17,9 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   runApp(
     MultiProvider(providers: [
+      Provider(
+        create: (context) => CelebRepo(),
+      ),
       ChangeNotifierProvider(
         create: (context) => ThemeService(),
       ),
