@@ -82,3 +82,23 @@ class AppTypo {
     color: fontColor,
   );
 }
+
+extension TypoExt on TextStyle {
+  TextStyle fromColor(Color? color) => copyWith(color: color ?? Palette.black);
+
+  TextStyle get bold => copyWith(fontWeight: FontWeight.w700);
+  TextStyle get semiBold => copyWith(fontWeight: FontWeight.w600);
+  TextStyle get medium => copyWith(fontWeight: FontWeight.w500);
+  TextStyle get regular => copyWith(fontWeight: FontWeight.normal);
+  TextStyle get light => copyWith(fontWeight: FontWeight.w300);
+
+  TextStyle get mainColor => copyWith(color: Palette.hotPink);
+  TextStyle get secondaryColor => copyWith(color: Palette.pink);
+  TextStyle get whiteColor => copyWith(color: Palette.white);
+  TextStyle get subColor => copyWith(color: Palette.subBlue);
+  TextStyle get subText => copyWith(color: Palette.gray4);
+  TextStyle get pointColor => copyWith(color: Palette.red);
+
+  TextStyle get underline => copyWith(decoration: TextDecoration.underline);
+  TextStyle get lineThrough => copyWith(decoration: TextDecoration.lineThrough);
+}
