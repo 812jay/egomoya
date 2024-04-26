@@ -30,7 +30,7 @@ mixin _$Celeb {
   DateTime get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get updatedAt => throw _privateConstructorUsedError;
-  String? get imgRef => throw _privateConstructorUsedError;
+  String? get imgPath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +51,7 @@ abstract class $CelebCopyWith<$Res> {
       int likeCnt,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt,
-      String? imgRef});
+      String? imgPath});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$CelebCopyWithImpl<$Res, $Val extends Celeb>
     Object? likeCnt = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? imgRef = freezed,
+    Object? imgPath = freezed,
   }) {
     return _then(_value.copyWith(
       category: null == category
@@ -110,9 +110,9 @@ class _$CelebCopyWithImpl<$Res, $Val extends Celeb>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      imgRef: freezed == imgRef
-          ? _value.imgRef
-          : imgRef // ignore: cast_nullable_to_non_nullable
+      imgPath: freezed == imgPath
+          ? _value.imgPath
+          : imgPath // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -134,7 +134,7 @@ abstract class _$$CelebImplCopyWith<$Res> implements $CelebCopyWith<$Res> {
       int likeCnt,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt,
-      String? imgRef});
+      String? imgPath});
 }
 
 /// @nodoc
@@ -156,7 +156,7 @@ class __$$CelebImplCopyWithImpl<$Res>
     Object? likeCnt = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? imgRef = freezed,
+    Object? imgPath = freezed,
   }) {
     return _then(_$CelebImpl(
       category: null == category
@@ -191,9 +191,9 @@ class __$$CelebImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      imgRef: freezed == imgRef
-          ? _value.imgRef
-          : imgRef // ignore: cast_nullable_to_non_nullable
+      imgPath: freezed == imgPath
+          ? _value.imgPath
+          : imgPath // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -211,7 +211,7 @@ class _$CelebImpl implements _Celeb {
       required this.likeCnt,
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
-      this.imgRef})
+      this.imgPath})
       : _itemList = itemList;
 
   factory _$CelebImpl.fromJson(Map<String, dynamic> json) =>
@@ -244,11 +244,11 @@ class _$CelebImpl implements _Celeb {
   @TimestampConverter()
   final DateTime updatedAt;
   @override
-  final String? imgRef;
+  final String? imgPath;
 
   @override
   String toString() {
-    return 'Celeb(category: $category, imgName: $imgName, instaLink: $instaLink, celebName: $celebName, itemList: $itemList, likeCnt: $likeCnt, createdAt: $createdAt, updatedAt: $updatedAt, imgRef: $imgRef)';
+    return 'Celeb(category: $category, imgName: $imgName, instaLink: $instaLink, celebName: $celebName, itemList: $itemList, likeCnt: $likeCnt, createdAt: $createdAt, updatedAt: $updatedAt, imgPath: $imgPath)';
   }
 
   @override
@@ -269,7 +269,7 @@ class _$CelebImpl implements _Celeb {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.imgRef, imgRef) || other.imgRef == imgRef));
+            (identical(other.imgPath, imgPath) || other.imgPath == imgPath));
   }
 
   @JsonKey(ignore: true)
@@ -284,7 +284,7 @@ class _$CelebImpl implements _Celeb {
       likeCnt,
       createdAt,
       updatedAt,
-      imgRef);
+      imgPath);
 
   @JsonKey(ignore: true)
   @override
@@ -310,7 +310,7 @@ abstract class _Celeb implements Celeb {
       required final int likeCnt,
       @TimestampConverter() required final DateTime createdAt,
       @TimestampConverter() required final DateTime updatedAt,
-      final String? imgRef}) = _$CelebImpl;
+      final String? imgPath}) = _$CelebImpl;
 
   factory _Celeb.fromJson(Map<String, dynamic> json) = _$CelebImpl.fromJson;
 
@@ -333,7 +333,7 @@ abstract class _Celeb implements Celeb {
   @TimestampConverter()
   DateTime get updatedAt;
   @override
-  String? get imgRef;
+  String? get imgPath;
   @override
   @JsonKey(ignore: true)
   _$$CelebImplCopyWith<_$CelebImpl> get copyWith =>
@@ -348,9 +348,10 @@ CelebItem _$CelebItemFromJson(Map<String, dynamic> json) {
 mixin _$CelebItem {
   String get brand => throw _privateConstructorUsedError;
   String get currency => throw _privateConstructorUsedError;
+  String get itemName => throw _privateConstructorUsedError;
   String? get imgName => throw _privateConstructorUsedError;
   num get price => throw _privateConstructorUsedError;
-  String? get imgRef => throw _privateConstructorUsedError;
+  String? get imgPath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -366,9 +367,10 @@ abstract class $CelebItemCopyWith<$Res> {
   $Res call(
       {String brand,
       String currency,
+      String itemName,
       String? imgName,
       num price,
-      String? imgRef});
+      String? imgPath});
 }
 
 /// @nodoc
@@ -386,9 +388,10 @@ class _$CelebItemCopyWithImpl<$Res, $Val extends CelebItem>
   $Res call({
     Object? brand = null,
     Object? currency = null,
+    Object? itemName = null,
     Object? imgName = freezed,
     Object? price = null,
-    Object? imgRef = freezed,
+    Object? imgPath = freezed,
   }) {
     return _then(_value.copyWith(
       brand: null == brand
@@ -399,6 +402,10 @@ class _$CelebItemCopyWithImpl<$Res, $Val extends CelebItem>
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as String,
+      itemName: null == itemName
+          ? _value.itemName
+          : itemName // ignore: cast_nullable_to_non_nullable
+              as String,
       imgName: freezed == imgName
           ? _value.imgName
           : imgName // ignore: cast_nullable_to_non_nullable
@@ -407,9 +414,9 @@ class _$CelebItemCopyWithImpl<$Res, $Val extends CelebItem>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as num,
-      imgRef: freezed == imgRef
-          ? _value.imgRef
-          : imgRef // ignore: cast_nullable_to_non_nullable
+      imgPath: freezed == imgPath
+          ? _value.imgPath
+          : imgPath // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -426,9 +433,10 @@ abstract class _$$CelebItemImplCopyWith<$Res>
   $Res call(
       {String brand,
       String currency,
+      String itemName,
       String? imgName,
       num price,
-      String? imgRef});
+      String? imgPath});
 }
 
 /// @nodoc
@@ -444,9 +452,10 @@ class __$$CelebItemImplCopyWithImpl<$Res>
   $Res call({
     Object? brand = null,
     Object? currency = null,
+    Object? itemName = null,
     Object? imgName = freezed,
     Object? price = null,
-    Object? imgRef = freezed,
+    Object? imgPath = freezed,
   }) {
     return _then(_$CelebItemImpl(
       brand: null == brand
@@ -457,6 +466,10 @@ class __$$CelebItemImplCopyWithImpl<$Res>
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as String,
+      itemName: null == itemName
+          ? _value.itemName
+          : itemName // ignore: cast_nullable_to_non_nullable
+              as String,
       imgName: freezed == imgName
           ? _value.imgName
           : imgName // ignore: cast_nullable_to_non_nullable
@@ -465,9 +478,9 @@ class __$$CelebItemImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as num,
-      imgRef: freezed == imgRef
-          ? _value.imgRef
-          : imgRef // ignore: cast_nullable_to_non_nullable
+      imgPath: freezed == imgPath
+          ? _value.imgPath
+          : imgPath // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -479,9 +492,10 @@ class _$CelebItemImpl implements _CelebItem {
   const _$CelebItemImpl(
       {required this.brand,
       required this.currency,
+      required this.itemName,
       this.imgName,
       required this.price,
-      this.imgRef});
+      this.imgPath});
 
   factory _$CelebItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$CelebItemImplFromJson(json);
@@ -491,15 +505,17 @@ class _$CelebItemImpl implements _CelebItem {
   @override
   final String currency;
   @override
+  final String itemName;
+  @override
   final String? imgName;
   @override
   final num price;
   @override
-  final String? imgRef;
+  final String? imgPath;
 
   @override
   String toString() {
-    return 'CelebItem(brand: $brand, currency: $currency, imgName: $imgName, price: $price, imgRef: $imgRef)';
+    return 'CelebItem(brand: $brand, currency: $currency, itemName: $itemName, imgName: $imgName, price: $price, imgPath: $imgPath)';
   }
 
   @override
@@ -510,15 +526,17 @@ class _$CelebItemImpl implements _CelebItem {
             (identical(other.brand, brand) || other.brand == brand) &&
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
+            (identical(other.itemName, itemName) ||
+                other.itemName == itemName) &&
             (identical(other.imgName, imgName) || other.imgName == imgName) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.imgRef, imgRef) || other.imgRef == imgRef));
+            (identical(other.imgPath, imgPath) || other.imgPath == imgPath));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, brand, currency, imgName, price, imgRef);
+  int get hashCode => Object.hash(
+      runtimeType, brand, currency, itemName, imgName, price, imgPath);
 
   @JsonKey(ignore: true)
   @override
@@ -538,9 +556,10 @@ abstract class _CelebItem implements CelebItem {
   const factory _CelebItem(
       {required final String brand,
       required final String currency,
+      required final String itemName,
       final String? imgName,
       required final num price,
-      final String? imgRef}) = _$CelebItemImpl;
+      final String? imgPath}) = _$CelebItemImpl;
 
   factory _CelebItem.fromJson(Map<String, dynamic> json) =
       _$CelebItemImpl.fromJson;
@@ -550,11 +569,13 @@ abstract class _CelebItem implements CelebItem {
   @override
   String get currency;
   @override
+  String get itemName;
+  @override
   String? get imgName;
   @override
   num get price;
   @override
-  String? get imgRef;
+  String? get imgPath;
   @override
   @JsonKey(ignore: true)
   _$$CelebItemImplCopyWith<_$CelebItemImpl> get copyWith =>

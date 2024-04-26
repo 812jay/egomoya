@@ -19,7 +19,7 @@ _$CelebImpl _$$CelebImplFromJson(Map<String, dynamic> json) => _$CelebImpl(
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
       updatedAt:
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
-      imgRef: json['imgRef'] as String?,
+      imgPath: json['imgPath'] as String?,
     );
 
 Map<String, dynamic> _$$CelebImplToJson(_$CelebImpl instance) =>
@@ -32,7 +32,7 @@ Map<String, dynamic> _$$CelebImplToJson(_$CelebImpl instance) =>
       'likeCnt': instance.likeCnt,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
-      'imgRef': instance.imgRef,
+      'imgPath': instance.imgPath,
     };
 
 const _$CelebCategoryEnumMap = {
@@ -44,16 +44,18 @@ _$CelebItemImpl _$$CelebItemImplFromJson(Map<String, dynamic> json) =>
     _$CelebItemImpl(
       brand: json['brand'] as String,
       currency: json['currency'] as String,
+      itemName: json['itemName'] as String,
       imgName: json['imgName'] as String?,
       price: json['price'] as num,
-      imgRef: json['imgRef'] as String?,
+      imgPath: json['imgPath'] as String?,
     );
 
 Map<String, dynamic> _$$CelebItemImplToJson(_$CelebItemImpl instance) =>
     <String, dynamic>{
       'brand': instance.brand,
       'currency': instance.currency,
+      'itemName': instance.itemName,
       'imgName': instance.imgName,
       'price': instance.price,
-      'imgRef': instance.imgRef,
+      'imgPath': instance.imgPath,
     };

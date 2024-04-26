@@ -25,14 +25,46 @@ class MainView extends StatelessWidget {
               ];
             },
             body: ListView.builder(
-              itemCount: 1,
+              itemCount: viewModel.celebList.length,
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(
                 horizontal: 0,
                 vertical: 20,
               ),
               itemBuilder: (context, index) {
-                return Text('${viewModel.celebList}');
+                final celeb = viewModel.celebList[index];
+
+                return Column(
+                  children: [
+                    Text(celeb.celebName),
+                    if (celeb.imgPath != null)
+                      Stack(
+                        children: [
+                          Image.network(celeb.imgPath!),
+                          if (celeb.itemList != null)
+                            SizedBox(
+                              height: 30,
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: celeb.itemList!.length,
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(width: 10),
+                                itemBuilder: (context, index) {
+                                  final item = celeb.itemList![index];
+                                  if (item.imgPath != null) {
+                                    return Image.network(item.imgPath!);
+                                  }
+                                  return Text(item.itemName);
+                                },
+                              ),
+                            )
+                        ],
+                      )
+                    else
+                      const Text('empty'),
+                  ],
+                );
               },
             ),
           ),

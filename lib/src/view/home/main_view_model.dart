@@ -18,14 +18,44 @@ class MainViewModel extends BaseViewModel {
   Future<void> fetchCelebList() async {
     isBusy = true;
     List<Celeb>? newCelebList = await celebRepo.fetchCelebList();
-    // if (newCelebList != null) {
-    //   for (var celeb in newCelebList) {
-    //     String imgPath = await imageRepo.fetchCelebImage(
-    //         imgRef: 'images/celeb/thumbnails/${celeb.imgName}');
-    //   }
-    // }
-    celebList = newCelebList ?? [];
-    notifyListeners();
+    if (newCelebList != null) {
+      await setCelebWithImage(newCelebList);
+    }
     isBusy = false;
+  }
+
+  Future<void> setCelebWithImage(List<Celeb> newCelebList) async {
+    for (var celeb in newCelebList) {
+      celebList = [
+        ...celebList,
+        await getCelebWithImage(celeb: celeb),
+      ];
+    }
+  }
+
+  Future<Celeb> getCelebWithImage({
+    required Celeb celeb,
+  }) async {
+    final String imgRef = 'images/celeb/thumbnails/${celeb.imgName}';
+    String imgPath = await getCelebImagePath(imgRef);
+    List<CelebItem> celebItemList = [];
+    if (celeb.itemList != null) {
+      for (var item in celeb.itemList!) {
+        final String itemImgRef = 'images/celeb/items/${item.imgName}';
+        String itemImgPath = await getCelebImagePath(itemImgRef);
+        celebItemList = [
+          ...celebItemList,
+          item.copyWith(imgPath: itemImgPath),
+        ];
+      }
+    }
+    return celeb.copyWith(imgPath: imgPath, itemList: celebItemList);
+  }
+
+  Future<String> getCelebImagePath(String imgRef) async {
+    final result = await imageRepo.fetchCelebImage(
+      imgRef: imgRef,
+    );
+    return result;
   }
 }

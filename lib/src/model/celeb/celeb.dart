@@ -17,12 +17,9 @@ class Celeb with _$Celeb {
     required int likeCnt,
     @TimestampConverter() required DateTime createdAt,
     @TimestampConverter() required DateTime updatedAt,
-    String? imgRef,
+    String? imgPath,
   }) = _Celeb;
-  factory Celeb.fromJson(Map<String, dynamic> json) =>
-      _$CelebFromJson(json).copyWith(
-        imgRef: 'images/celeb/thumbnails/${json['imgName']}',
-      );
+  factory Celeb.fromJson(Map<String, dynamic> json) => _$CelebFromJson(json);
 }
 
 @freezed
@@ -30,11 +27,11 @@ class CelebItem with _$CelebItem {
   const factory CelebItem({
     required String brand,
     required String currency,
+    required String itemName,
     String? imgName,
     required num price,
-    String? imgRef,
+    String? imgPath,
   }) = _CelebItem;
   factory CelebItem.fromJson(Map<String, dynamic> json) =>
-      _$CelebItemFromJson(json)
-          .copyWith(imgRef: 'images/celeb/items/${json['imgName']}');
+      _$CelebItemFromJson(json);
 }
