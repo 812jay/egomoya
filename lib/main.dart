@@ -1,6 +1,7 @@
 import 'package:egomoya/src/repo/celeb_repo.dart';
+import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
-import 'package:egomoya/src/view/home/home_view.dart';
+import 'package:egomoya/src/view/home/main_view.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ void main() async {
     MultiProvider(providers: [
       Provider(
         create: (context) => CelebRepo(),
+      ),
+      Provider(
+        create: (context) => ImageRepo(),
       ),
       ChangeNotifierProvider(
         create: (context) => ThemeService(),
@@ -41,7 +45,7 @@ class MyApp extends StatelessWidget {
         return Overlay(
           initialEntries: [
             OverlayEntry(
-              builder: (context) => child ?? const HomeView(),
+              builder: (context) => child ?? const MainView(),
             )
           ],
         );
