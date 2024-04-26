@@ -1,6 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/view/base_view.dart';
+import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
 import 'package:egomoya/src/view/home/main_view_model.dart';
 import 'package:egomoya/theme/component/main_sliver_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -24,51 +27,48 @@ class MainView extends StatelessWidget {
                 const MainSliverAppBar(),
               ];
             },
-            body: ListView.builder(
-              itemCount: viewModel.celebList.length,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 0,
-                vertical: 20,
-              ),
-              itemBuilder: (context, index) {
-                final celeb = viewModel.celebList[index];
-
-                return Column(
-                  children: [
-                    Text(celeb.celebName),
-                    if (celeb.imgPath != null)
-                      Stack(
-                        children: [
-                          Image.network(celeb.imgPath!),
-                          if (celeb.itemList != null)
-                            SizedBox(
-                              height: 30,
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: celeb.itemList!.length,
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(width: 10),
-                                itemBuilder: (context, index) {
-                                  final item = celeb.itemList![index];
-                                  if (item.imgPath != null) {
-                                    return Image.network(item.imgPath!);
-                                  }
-                                  return Text(item.itemName);
-                                },
-                              ),
-                            )
-                        ],
-                      )
-                    else
-                      const Text('empty'),
-                  ],
-                );
-              },
+            body: Column(
+              children: [
+                _CelebCarousel(
+                  celebList: viewModel.celebList,
+                ),
+              ],
             ),
           ),
         );
+      },
+    );
+  }
+}
+
+class _CelebCarousel extends StatelessWidget {
+  const _CelebCarousel({
+    super.key,
+    required this.celebList,
+  });
+  final List<Celeb> celebList;
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider.builder(
+      itemCount: celebList.length,
+      options: CarouselOptions(
+        scrollDirection: Axis.horizontal,
+        initialPage: 0,
+        enableInfiniteScroll: false,
+        height: 400,
+        viewportFraction: 0.85,
+        enlargeFactor: 0.2,
+        enlargeCenterPage: true,
+        autoPlayCurve: Curves.easeInOut,
+        autoPlayInterval: const Duration(seconds: 3),
+        autoPlayAnimationDuration: const Duration(seconds: 1),
+        pauseAutoPlayInFiniteScroll: true,
+        autoPlay: true,
+      ),
+      itemBuilder: (context, index, realIndex) {
+        final celeb = celebList[index];
+        return CelebCard(celeb: celeb);
       },
     );
   }
