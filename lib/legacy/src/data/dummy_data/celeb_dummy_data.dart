@@ -38,7 +38,7 @@ class CelebDummyData {
       imgPath: 'assets/images/celeb/beauty/lisa.png',
       celebName: 'BLACKPINK – 리사',
       instaLink:
-          ' https://www.instagram.com/p/C4g0UJ4yg0n/?igsh=YjFoZ2dsdnRidmt1'
+          'https://www.instagram.com/p/C4g0UJ4yg0n/?igsh=YjFoZ2dsdnRidmt1'
               .trim(),
       likeCnt: 2,
       createdAt: DateTime(2024, 2, 21, 17, 30),

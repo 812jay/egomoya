@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/view/base_view.dart';
@@ -33,13 +32,7 @@ class MainView extends StatelessWidget {
                 vertical: 20,
               ),
               itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 300,
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        'https://firebasestorage.googleapis.com/v0/b/egomoya-feca6.appspot.com/o/images%2Fceleb%2Fthumbnail%2Fwendy.png?alt=media&token=b083a3dd-9e53-44e4-be3a-233c778423b9',
-                  ),
-                );
+                return Text('${viewModel.celebList}');
               },
             ),
           ),

@@ -25,4 +25,6 @@ class Celeb {
   String toString() {
     return 'Celeb(imgPath: $imgPath, instaLink: $instaLink, celebName: $celebName, itemList: $itemList, likeCnt: $likeCnt, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
+
+  static void fromJson(Object? data) {}
 }

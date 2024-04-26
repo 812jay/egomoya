@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
@@ -14,9 +13,19 @@ class MainViewModel extends BaseViewModel {
   final CelebRepo celebRepo;
   final ImageRepo imageRepo;
 
+  List<Celeb> celebList = [];
+
   Future<void> fetchCelebList() async {
-    await celebRepo.fetchCelebList();
-    String url = await imageRepo.fetchImage();
-    log('url: $url');
+    isBusy = true;
+    List<Celeb>? newCelebList = await celebRepo.fetchCelebList();
+    // if (newCelebList != null) {
+    //   for (var celeb in newCelebList) {
+    //     String imgPath = await imageRepo.fetchCelebImage(
+    //         imgRef: 'images/celeb/thumbnails/${celeb.imgName}');
+    //   }
+    // }
+    celebList = newCelebList ?? [];
+    notifyListeners();
+    isBusy = false;
   }
 }
