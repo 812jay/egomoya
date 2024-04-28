@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/celeb/widget/celeb_item_card.dart';
+import 'package:egomoya/theme/component/button/base_button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -47,16 +49,18 @@ class CelebCard extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: 105,
             left: 10,
-            // child: Button(
-            //   onPressed: () {},
-            //   text: '${celeb.celebName}의 Pick',
-            //   backgroundColor: context.color.black,
-            //   color: context.color.black,
-            // ),
-            child: SizedBox.shrink(),
+            child: BaseButton(
+              title: Text(
+                '${celeb.celebName}의 Pick',
+                style: context.typo.body2.bold.whiteColor,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+              color: context.color.black,
+            ),
           ),
           if (celeb.itemList != null && celeb.itemList!.isNotEmpty)
             Align(
