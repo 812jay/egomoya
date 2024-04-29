@@ -34,5 +34,16 @@
 	<string>1:741798797945:ios:9a120dc955f33c2383aaa8</string>
 	<key>DATABASE_URL</key>
 	<string>https://egomoya-feca6-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.741798797945-c0gsk8hm151ar2fv0n1v5kq6rmhqbvnf</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

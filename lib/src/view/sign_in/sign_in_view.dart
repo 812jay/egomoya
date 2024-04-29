@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view_model.dart';
@@ -9,6 +10,7 @@ import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
@@ -16,7 +18,9 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: SignInViewModel(),
+      viewModel: SignInViewModel(
+        userRepo: context.read<UserRepo>(),
+      ),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
         return GestureDetector(
@@ -67,7 +71,9 @@ class SignInView extends StatelessWidget {
                         ),
                       ),
                       spaceBig,
-                      const _GoogleSignInButton(),
+                      _GoogleSignInButton(
+                        onTap: viewModel.signInWithGoogle,
+                      ),
                       spaceBig,
                       const _AppleSignInButton(),
                       // const _FindEmailPassword(),
@@ -199,11 +205,16 @@ class _SubmitButton extends StatelessWidget {
 }
 
 class _GoogleSignInButton extends StatelessWidget {
-  const _GoogleSignInButton({super.key});
+  const _GoogleSignInButton({
+    super.key,
+    this.onTap,
+  });
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return BaseButton(
+      onTap: onTap,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

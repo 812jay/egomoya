@@ -1,5 +1,6 @@
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
+import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/home/main_view.dart';
 import 'package:egomoya/util/route_path.dart';
@@ -23,6 +24,9 @@ void main() async {
       ),
       Provider(
         create: (context) => ImageRepo(),
+      ),
+      Provider(
+        create: (context) => UserRepo(),
       ),
       ChangeNotifierProvider(
         create: (context) => ThemeService(),
