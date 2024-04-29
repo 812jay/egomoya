@@ -77,7 +77,9 @@ class SignInView extends StatelessWidget {
                         onTap: () => viewModel.signInWithGoogle(context),
                       ),
                       spaceBig,
-                      const _AppleSignInButton(),
+                      _AppleSignInButton(
+                        onTap: () => viewModel.signInWithApple(context),
+                      ),
                       // const _FindEmailPassword(),
                       // spaceBig,
                       // _SignInEmail(
@@ -243,11 +245,16 @@ class _GoogleSignInButton extends StatelessWidget {
 }
 
 class _AppleSignInButton extends StatelessWidget {
-  const _AppleSignInButton({super.key});
+  const _AppleSignInButton({
+    super.key,
+    this.onTap,
+  });
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return BaseButton(
+      onTap: onTap,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

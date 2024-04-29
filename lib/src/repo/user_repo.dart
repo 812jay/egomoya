@@ -5,6 +5,7 @@ import 'package:egomoya/src/repo/base_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -26,6 +27,30 @@ class UserRepo extends BaseRepo {
         idToken: googleAuth?.idToken,
       );
       final userCredential = await fireAuth.signInWithCredential(credential);
+      return userCredential;
+    } catch (e, s) {
+      log('error: $e, stackTrace: $s');
+    }
+    return null;
+  }
+
+  Future<UserCredential?> signInWithApple() async {
+    try {
+      final AuthorizationCredentialAppleID appleCredential =
+          await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final OAuthCredential credential = OAuthProvider('apple.com').credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+      final UserCredential userCredential =
+          await fireAuth.signInWithCredential(credential);
+
       return userCredential;
     } catch (e, s) {
       log('error: $e, stackTrace: $s');

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
@@ -16,6 +18,13 @@ class SignInViewModel extends BaseViewModel {
     await userRepo
         .signInWithGoogle()
         .then((value) => navigateToMainView(context));
+  }
+
+  Future<void> signInWithApple(BuildContext context) async {
+    await userRepo.signInWithApple().onError((e, s) {
+      log('e: $e, s: $s');
+      return null;
+    }).then((value) => navigateToMainView(context));
   }
 
   void navigateToMainView(BuildContext context) {
