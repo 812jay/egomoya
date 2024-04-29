@@ -34,7 +34,7 @@ extension AssetIconTypeExt on AssetIconType {
       case AssetIconType.google:
         return 'google';
       case AssetIconType.apple:
-        return 'apple';
+        return 'apple_fill';
       case AssetIconType.insta:
         return 'insta';
     }
