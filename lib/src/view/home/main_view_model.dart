@@ -17,6 +17,7 @@ class MainViewModel extends BaseViewModel {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await fetchUser();
       await fetchCelebList();
+      userService.addListener(notifyListeners);
     });
   }
   final CelebRepo celebRepo;
@@ -28,6 +29,12 @@ class MainViewModel extends BaseViewModel {
 
   String get userId => userService.userId;
   User? get user => userService.user;
+
+  @override
+  void dispose() {
+    super.dispose();
+    userService.removeListener(notifyListeners);
+  }
 
   Future<void> fetchUser() async {
     isBusy = true;

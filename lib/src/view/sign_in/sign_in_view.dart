@@ -74,7 +74,7 @@ class SignInView extends StatelessWidget {
                       ),
                       spaceBig,
                       _GoogleSignInButton(
-                        onTap: viewModel.signInWithGoogle,
+                        onTap: () => viewModel.signInWithGoogle(context),
                       ),
                       spaceBig,
                       const _AppleSignInButton(),

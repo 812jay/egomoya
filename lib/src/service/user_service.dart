@@ -15,8 +15,10 @@ class UserService with ChangeNotifier {
   Future<void> setUserId(String value) async =>
       await prefHelper.setUserId(value);
 
-  Future<void> signOut() async {
-    await setUserId('');
+  void signOut() {
+    setUserId('');
+    user = null;
+    notifyListeners();
   }
 
   Future<void> setUser(User newUser) async {

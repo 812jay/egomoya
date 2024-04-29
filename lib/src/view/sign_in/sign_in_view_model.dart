@@ -1,6 +1,8 @@
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/util/route_path.dart';
+import 'package:flutter/material.dart';
 
 class SignInViewModel extends BaseViewModel {
   SignInViewModel({
@@ -10,10 +12,15 @@ class SignInViewModel extends BaseViewModel {
   final UserRepo userRepo;
   final UserService userService;
 
-  Future<void> signInWithGoogle() async {
-    final googleAccount = await userRepo.signInWithGoogle();
+  Future<void> signInWithGoogle(BuildContext context) async {
+    await userRepo
+        .signInWithGoogle()
+        .then((value) => navigateToMainView(context));
   }
 
+  void navigateToMainView(BuildContext context) {
+    Navigator.pushNamed(context, RoutePath.main);
+  }
   // final TextEditingController emailController = TextEditingController();
   // final TextEditingController passwordController = TextEditingController();
 

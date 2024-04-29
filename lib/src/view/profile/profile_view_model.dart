@@ -19,6 +19,7 @@ class ProfileViewModel extends BaseViewModel {
     required this.args,
   }) {
     setInitUser();
+    userService.addListener(notifyListeners);
   }
   final UserRepo userRepo;
   final UserService userService;
@@ -28,18 +29,18 @@ class ProfileViewModel extends BaseViewModel {
   @override
   void dispose() {
     super.dispose();
-    userService.dispose();
+    userService.removeListener(notifyListeners);
   }
 
-  Future<void> setInitUser() async {
-    isBusy = true;
+  void setInitUser() {
     user = args.user;
-    isBusy = false;
   }
 
   Future<void> signOut(BuildContext context) async {
-    await userRepo.signOut();
-    await userService.signOut();
+    await userRepo.signOut().then((value) {
+      userService.signOut();
+      navigateToSignIn(context);
+    });
   }
 
   void navigateToSignIn(BuildContext context) {
