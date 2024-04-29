@@ -19,6 +19,9 @@ extension AssetImageTypeExt on AssetImageType {
 enum AssetIconType {
   logoText,
   alarm,
+  google,
+  apple,
+  insta,
 }
 
 extension AssetIconTypeExt on AssetIconType {
@@ -28,6 +31,12 @@ extension AssetIconTypeExt on AssetIconType {
         return 'logo_text';
       case AssetIconType.alarm:
         return 'alarm';
+      case AssetIconType.google:
+        return 'google';
+      case AssetIconType.apple:
+        return 'apple';
+      case AssetIconType.insta:
+        return 'insta';
     }
   }
 

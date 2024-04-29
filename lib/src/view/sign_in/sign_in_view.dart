@@ -207,6 +207,11 @@ class _GoogleSignInButton extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          AssetIcon(
+            AssetIconType.google.path,
+            size: 20,
+          ),
+          const SizedBox(width: 5),
           Text(
             '구글 로그인',
             textAlign: TextAlign.center,
@@ -233,6 +238,12 @@ class _AppleSignInButton extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          AssetIcon(
+            AssetIconType.apple.path,
+            color: context.color.white,
+            size: 20,
+          ),
+          const SizedBox(width: 5),
           Text(
             '애플 로그인',
             textAlign: TextAlign.center,
