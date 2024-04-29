@@ -34,7 +34,12 @@ class MainSliverAppBar extends StatelessWidget {
         ),
         const SizedBox(width: 20),
         userId.isNotEmpty
-            ? const Text('프로필')
+            ? GestureDetector(
+                onTap: () => Navigator.pushNamed(context, RoutePath.profile),
+                child: const Text(
+                  '프로필',
+                ),
+              )
             : GestureDetector(
                 onTap: () => Navigator.pushNamed(context, RoutePath.signIn),
                 child: Text(

@@ -14,10 +14,7 @@ class SignInViewModel extends BaseViewModel {
 
   Future<void> signInWithGoogle() async {
     final googleAccount = await userRepo.signInWithGoogle();
-    if (googleAccount != null) {
-      userService.setUserId(googleAccount.id);
-    }
-    log('userId: ${userService.userId}');
+    log('cre: $googleAccount');
   }
 
   // final TextEditingController emailController = TextEditingController();
