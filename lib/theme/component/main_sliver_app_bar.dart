@@ -1,6 +1,7 @@
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class MainSliverAppBar extends StatelessWidget {
@@ -31,7 +32,7 @@ class MainSliverAppBar extends StatelessWidget {
         ),
         const SizedBox(width: 20),
         GestureDetector(
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(context, RoutePath.signIn),
           child: Text(
             '로그인',
             style: context.typo.body2,

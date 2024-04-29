@@ -10,6 +10,7 @@ class BaseButton extends StatelessWidget {
     this.height,
     this.padding,
     this.color,
+    this.border,
     this.borderRadius,
   });
   final Widget? title;
@@ -18,6 +19,7 @@ class BaseButton extends StatelessWidget {
   final double? height;
   final EdgeInsets? padding;
   final Color? color;
+  final Border? border;
   final BorderRadius? borderRadius;
 
   @override
@@ -34,6 +36,7 @@ class BaseButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: color ?? context.color.primary,
           borderRadius: borderRadius ?? BorderRadius.circular(16),
+          border: border,
         ),
         child: title,
       ),
