@@ -1,15 +1,17 @@
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/util/route_path.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MainSliverAppBar extends StatelessWidget {
   const MainSliverAppBar({
     super.key,
-    required this.userId,
+    required this.user,
   });
-  final String userId;
+  final User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +35,16 @@ class MainSliverAppBar extends StatelessWidget {
           size: 22,
         ),
         const SizedBox(width: 20),
-        userId.isNotEmpty
+        user != null
             ? GestureDetector(
-                onTap: () => Navigator.pushNamed(context, RoutePath.profile),
-                child: const Text(
-                  '프로필',
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  RoutePath.profile,
+                  arguments: ProfileViewArgument(user: user!),
+                ),
+                child: AssetIcon(
+                  AssetIconType.profile.path,
+                  size: 22,
                 ),
               )
             : GestureDetector(

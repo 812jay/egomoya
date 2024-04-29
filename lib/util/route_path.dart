@@ -1,5 +1,6 @@
 import 'package:egomoya/src/view/home/main_view.dart';
 import 'package:egomoya/src/view/profile/profile_view.dart';
+import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view.dart';
 import 'package:egomoya/src/view/splash_view.dart';
 import 'package:egomoya/theme/component/constraint_view.dart';
@@ -25,7 +26,8 @@ abstract class RoutePath {
         page = const SignInView();
         break;
       case RoutePath.profile:
-        page = const ProfileView();
+        final args = settings.arguments as ProfileViewArgument;
+        page = ProfileView(args: args);
         break;
     }
     return MaterialPageRoute(

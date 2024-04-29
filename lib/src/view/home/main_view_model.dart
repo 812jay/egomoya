@@ -1,24 +1,42 @@
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
+import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class MainViewModel extends BaseViewModel {
   MainViewModel({
     required this.celebRepo,
     required this.imageRepo,
+    required this.userRepo,
     required this.userService,
   }) {
-    fetchCelebList();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await fetchUser();
+      await fetchCelebList();
+    });
   }
   final CelebRepo celebRepo;
   final ImageRepo imageRepo;
+  final UserRepo userRepo;
   final UserService userService;
 
   List<Celeb> celebList = [];
 
   String get userId => userService.userId;
+  User? get user => userService.user;
+
+  Future<void> fetchUser() async {
+    isBusy = true;
+    final result = await userRepo.fetchUser();
+    if (result != null) {
+      userService.setUser(result);
+    }
+    isBusy = false;
+  }
 
   Future<void> fetchCelebList() async {
     isBusy = true;

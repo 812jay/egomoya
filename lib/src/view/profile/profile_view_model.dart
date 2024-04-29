@@ -5,16 +5,25 @@ import 'package:egomoya/util/route_path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+class ProfileViewArgument {
+  ProfileViewArgument({
+    required this.user,
+  });
+  final User user;
+}
+
 class ProfileViewModel extends BaseViewModel {
   ProfileViewModel({
     required this.userRepo,
     required this.userService,
+    required this.args,
   }) {
     setInitUser();
   }
   final UserRepo userRepo;
   final UserService userService;
-  User? userInfo;
+  final ProfileViewArgument args;
+  late User user;
 
   @override
   void dispose() {
@@ -24,7 +33,7 @@ class ProfileViewModel extends BaseViewModel {
 
   Future<void> setInitUser() async {
     isBusy = true;
-    userInfo = await userService.getUserInfo();
+    user = args.user;
     isBusy = false;
   }
 

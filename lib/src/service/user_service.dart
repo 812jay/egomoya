@@ -9,7 +9,7 @@ class UserService with ChangeNotifier {
 
   final PrefHelper prefHelper;
   final FirebaseAuth auth = FirebaseAuth.instance;
-  User? userInfo;
+  User? user;
 
   String get userId => prefHelper.userId;
   Future<void> setUserId(String value) async =>
@@ -19,7 +19,7 @@ class UserService with ChangeNotifier {
     await setUserId('');
   }
 
-  Future<User?> getUserInfo() async {
-    return auth.currentUser;
+  Future<void> setUser(User newUser) async {
+    user = newUser;
   }
 }

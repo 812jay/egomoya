@@ -6,12 +6,17 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/base_button.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+  const ProfileView({
+    super.key,
+    required this.args,
+  });
+  final ProfileViewArgument args;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +24,7 @@ class ProfileView extends StatelessWidget {
       viewModel: ProfileViewModel(
         userRepo: context.read<UserRepo>(),
         userService: context.read<UserService>(),
+        args: args,
       ),
       builder: (context, viewModel) {
         return Scaffold(
@@ -32,10 +38,10 @@ class ProfileView extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        viewModel.userInfo != null
+                        viewModel.user.photoURL != null
                             ? CircleAvatar(
                                 backgroundImage: CachedNetworkImageProvider(
-                                  viewModel.userInfo!.photoURL!,
+                                  viewModel.user.photoURL!,
                                 ),
                                 backgroundColor:
                                     context.color.lightGrayBackground,
@@ -51,7 +57,7 @@ class ProfileView extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      '${viewModel.userInfo?.displayName}님',
+                                      '${viewModel.user.displayName}님',
                                       style: context.typo.body2,
                                     ),
                                   ),
@@ -79,7 +85,7 @@ class ProfileView extends StatelessWidget {
                         onTap: () => viewModel.signOut(context),
                         title: Text(
                           '로그아웃',
-                          style: context.typo.body2,
+                          style: context.typo.body2.bold.whiteColor,
                         ),
                       ),
                     ),
