@@ -2,7 +2,9 @@ import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/home/main_view.dart';
+import 'package:egomoya/util/helper/pref_helper.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final prefs = await SharedPreferences.getInstance();
+  final PrefHelper prefHelper = PrefHelper(prefs);
+
   runApp(
     MultiProvider(providers: [
       Provider(
@@ -30,6 +34,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => ThemeService(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => UserService(prefHelper: prefHelper),
       ),
     ], child: const MyApp()),
   );

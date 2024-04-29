@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
 import 'package:egomoya/src/view/home/main_view_model.dart';
@@ -18,13 +19,16 @@ class MainView extends StatelessWidget {
       viewModel: MainViewModel(
         celebRepo: context.read<CelebRepo>(),
         imageRepo: context.read<ImageRepo>(),
+        userService: context.read<UserService>(),
       ),
       builder: (context, viewModel) {
         return Scaffold(
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return <Widget>[
-                const MainSliverAppBar(),
+                MainSliverAppBar(
+                  userId: viewModel.userId,
+                ),
               ];
             },
             body: Column(

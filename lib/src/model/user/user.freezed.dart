@@ -21,7 +21,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
-  String get profileImgName => throw _privateConstructorUsedError;
+  String get profileImgPath => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get signInWith => throw _privateConstructorUsedError;
   String? get nickName => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String profileImgName,
+      String profileImgPath,
       String email,
       String signInWith,
       String? nickName,
@@ -66,7 +66,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @override
   $Res call({
     Object? id = null,
-    Object? profileImgName = null,
+    Object? profileImgPath = null,
     Object? email = null,
     Object? signInWith = null,
     Object? nickName = freezed,
@@ -79,9 +79,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      profileImgName: null == profileImgName
-          ? _value.profileImgName
-          : profileImgName // ignore: cast_nullable_to_non_nullable
+      profileImgPath: null == profileImgPath
+          ? _value.profileImgPath
+          : profileImgPath // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -120,7 +120,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String profileImgName,
+      String profileImgPath,
       String email,
       String signInWith,
       String? nickName,
@@ -140,7 +140,7 @@ class __$$UserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? profileImgName = null,
+    Object? profileImgPath = null,
     Object? email = null,
     Object? signInWith = null,
     Object? nickName = freezed,
@@ -153,9 +153,9 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      profileImgName: null == profileImgName
-          ? _value.profileImgName
-          : profileImgName // ignore: cast_nullable_to_non_nullable
+      profileImgPath: null == profileImgPath
+          ? _value.profileImgPath
+          : profileImgPath // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -190,7 +190,7 @@ class __$$UserImplCopyWithImpl<$Res>
 class _$UserImpl implements _User {
   const _$UserImpl(
       {required this.id,
-      required this.profileImgName,
+      required this.profileImgPath,
       required this.email,
       required this.signInWith,
       this.nickName,
@@ -204,7 +204,7 @@ class _$UserImpl implements _User {
   @override
   final String id;
   @override
-  final String profileImgName;
+  final String profileImgPath;
   @override
   final String email;
   @override
@@ -222,7 +222,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, profileImgName: $profileImgName, email: $email, signInWith: $signInWith, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'User(id: $id, profileImgPath: $profileImgPath, email: $email, signInWith: $signInWith, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -231,8 +231,8 @@ class _$UserImpl implements _User {
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.profileImgName, profileImgName) ||
-                other.profileImgName == profileImgName) &&
+            (identical(other.profileImgPath, profileImgPath) ||
+                other.profileImgPath == profileImgPath) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.signInWith, signInWith) ||
                 other.signInWith == signInWith) &&
@@ -248,7 +248,7 @@ class _$UserImpl implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, profileImgName, email,
+  int get hashCode => Object.hash(runtimeType, id, profileImgPath, email,
       signInWith, nickName, description, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
@@ -268,7 +268,7 @@ class _$UserImpl implements _User {
 abstract class _User implements User {
   const factory _User(
       {required final String id,
-      required final String profileImgName,
+      required final String profileImgPath,
       required final String email,
       required final String signInWith,
       final String? nickName,
@@ -281,7 +281,7 @@ abstract class _User implements User {
   @override
   String get id;
   @override
-  String get profileImgName;
+  String get profileImgPath;
   @override
   String get email;
   @override

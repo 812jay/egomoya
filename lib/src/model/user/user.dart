@@ -9,7 +9,7 @@ part 'user.g.dart';
 class User with _$User {
   const factory User({
     required String id,
-    required String profileImgName,
+    required String profileImgPath,
     required String email,
     required String signInWith,
     String? nickName,

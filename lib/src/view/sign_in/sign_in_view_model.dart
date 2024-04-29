@@ -1,13 +1,23 @@
+import 'dart:developer';
+
 import 'package:egomoya/src/repo/user_repo.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 
 class SignInViewModel extends BaseViewModel {
   SignInViewModel({
     required this.userRepo,
+    required this.userService,
   });
   final UserRepo userRepo;
+  final UserService userService;
+
   Future<void> signInWithGoogle() async {
-    await userRepo.signInWithGoogle();
+    final googleAccount = await userRepo.signInWithGoogle();
+    if (googleAccount != null) {
+      userService.setUserId(googleAccount.id);
+    }
+    log('userId: ${userService.userId}');
   }
 
   // final TextEditingController emailController = TextEditingController();

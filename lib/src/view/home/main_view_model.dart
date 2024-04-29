@@ -1,19 +1,24 @@
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 
 class MainViewModel extends BaseViewModel {
   MainViewModel({
     required this.celebRepo,
     required this.imageRepo,
+    required this.userService,
   }) {
     fetchCelebList();
   }
   final CelebRepo celebRepo;
   final ImageRepo imageRepo;
+  final UserService userService;
 
   List<Celeb> celebList = [];
+
+  String get userId => userService.userId;
 
   Future<void> fetchCelebList() async {
     isBusy = true;

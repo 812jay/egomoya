@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
@@ -20,6 +21,7 @@ class SignInView extends StatelessWidget {
     return BaseView(
       viewModel: SignInViewModel(
         userRepo: context.read<UserRepo>(),
+        userService: context.read<UserService>(),
       ),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
