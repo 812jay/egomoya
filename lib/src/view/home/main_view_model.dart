@@ -39,9 +39,9 @@ class MainViewModel extends BaseViewModel {
   Future<void> fetchUser() async {
     isBusy = true;
     final result = await userRepo.fetchUser();
-    if (result != null) {
-      userService.setUser(result);
-    }
+    // if (result != null) {
+    //   userService.setUser(result);
+    // }
     isBusy = false;
   }
 

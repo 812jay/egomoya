@@ -1,3 +1,4 @@
+import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
@@ -8,6 +9,7 @@ import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditProfileView extends StatelessWidget {
   const EditProfileView({
@@ -19,7 +21,10 @@ class EditProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      viewModel: EditProfileViewModel(args: args),
+      viewModel: EditProfileViewModel(
+        args: args,
+        userRepo: context.read<UserRepo>(),
+      ),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
         return GestureDetector(
@@ -69,6 +74,7 @@ class EditProfileView extends StatelessWidget {
                         controller: viewModel.nicknameController,
                         hintText: '닉네임을 입력해 주세요',
                         onChanged: viewModel.onChangeNickname,
+                        errorText: viewModel.nicknameErrMsg,
                       ),
                       spaceBig,
                       BaseTextField(

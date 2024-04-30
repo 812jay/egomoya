@@ -56,7 +56,7 @@ class SignInViewModel extends BaseViewModel {
         context,
         RoutePath.editProfile,
         arguments: EditProfileViewArgument(
-          user: User(
+          user: UserRes(
             uid: user!.uid,
             profileImgPath: user.photoURL,
             signInMethod: signInMethod,

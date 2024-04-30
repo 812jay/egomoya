@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/base_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -12,8 +12,8 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final auth.FirebaseAuth fireAuth = auth.FirebaseAuth.instance;
 
 class UserRepo extends BaseRepo {
-  Future<User?> fetchUser() async {
-    return null;
+  Future<void> fetchUser() async {
+    return;
 
     // final result = fireAuth.currentUser;
     // return result;
@@ -21,17 +21,25 @@ class UserRepo extends BaseRepo {
 
   Future<bool> fetchUserValidate(String uid) async {
     try {
-      final snapshot = await firestore.collection('user').doc(uid).get();
-      final data = snapshot.data();
-      final hasUserId = data != null && data.isNotEmpty;
-      return hasUserId;
+      final snapshot = firestore.collection('user');
+      final data = await snapshot.get();
+      log('data: $data');
     } catch (e, s) {
       log('error: $e, stackTrace: $s');
     }
     return false;
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<void> registUser(UserReq req) async {
+    try {
+      final ref = firestore.collection('user').doc(req.uid);
+      ref.set(req.toJson());
+    } catch (e, s) {
+      log('error: $e, stackTrace: $s');
+    }
+  }
+
+  Future<auth.UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
@@ -48,7 +56,7 @@ class UserRepo extends BaseRepo {
     return null;
   }
 
-  Future<UserCredential?> signInWithApple() async {
+  Future<auth.UserCredential?> signInWithApple() async {
     try {
       final AuthorizationCredentialAppleID appleCredential =
           await SignInWithApple.getAppleIDCredential(
@@ -58,11 +66,12 @@ class UserRepo extends BaseRepo {
         ],
       );
 
-      final OAuthCredential credential = OAuthProvider('apple.com').credential(
+      final auth.OAuthCredential credential =
+          auth.OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
         accessToken: appleCredential.authorizationCode,
       );
-      final UserCredential userCredential =
+      final auth.UserCredential userCredential =
           await fireAuth.signInWithCredential(credential);
 
       return userCredential;
