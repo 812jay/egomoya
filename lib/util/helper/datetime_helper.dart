@@ -7,7 +7,6 @@ class DateTimeHelper {
   }
 }
 
-
 class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
   const TimestampConverter();
 
@@ -20,3 +19,14 @@ class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
   Timestamp toJson(DateTime date) => Timestamp.fromDate(date);
 }
 
+class DateTimeConverter implements JsonConverter<Timestamp, DateTime> {
+  const DateTimeConverter();
+
+  @override
+  Timestamp fromJson(DateTime dateTime) {
+    return Timestamp.fromDate(dateTime);
+  }
+
+  @override
+  DateTime toJson(Timestamp timestamp) => timestamp.toDate();
+}
