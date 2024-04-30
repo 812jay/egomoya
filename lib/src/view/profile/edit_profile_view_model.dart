@@ -52,7 +52,6 @@ class EditProfileViewModel extends BaseViewModel {
 
   Future<void> onSubmit() async {
     if (user != null) {
-      // final bool result = await userRepo.fetchUserValidate(user!.uid);
       await userRepo.registUser(
         UserReq(
           uid: user!.uid,
@@ -64,7 +63,5 @@ class EditProfileViewModel extends BaseViewModel {
         ),
       );
     }
-    log('nick: ${nicknameController.text}');
-    log('desc: ${descriptionController.text}');
   }
 }

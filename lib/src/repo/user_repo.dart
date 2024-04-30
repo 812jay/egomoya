@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/base_repo.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-final auth.FirebaseAuth fireAuth = auth.FirebaseAuth.instance;
+final FirebaseAuth fireAuth = FirebaseAuth.instance;
 
 class UserRepo extends BaseRepo {
   Future<void> fetchUser() async {
@@ -40,12 +40,12 @@ class UserRepo extends BaseRepo {
     }
   }
 
-  Future<auth.UserCredential?> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
-      final credential = auth.GoogleAuthProvider.credential(
+      final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
@@ -57,7 +57,7 @@ class UserRepo extends BaseRepo {
     return null;
   }
 
-  Future<auth.UserCredential?> signInWithApple() async {
+  Future<UserCredential?> signInWithApple() async {
     try {
       final AuthorizationCredentialAppleID appleCredential =
           await SignInWithApple.getAppleIDCredential(
@@ -67,12 +67,11 @@ class UserRepo extends BaseRepo {
         ],
       );
 
-      final auth.OAuthCredential credential =
-          auth.OAuthProvider('apple.com').credential(
+      final OAuthCredential credential = OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
         accessToken: appleCredential.authorizationCode,
       );
-      final auth.UserCredential userCredential =
+      final UserCredential userCredential =
           await fireAuth.signInWithCredential(credential);
 
       return userCredential;
