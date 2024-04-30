@@ -21,9 +21,10 @@ class UserRepo extends BaseRepo {
 
   Future<bool> fetchUserValidate(String uid) async {
     try {
-      final snapshot = firestore.collection('user');
-      final data = await snapshot.get();
-      log('data: $data');
+      final docSnapshot = await firestore.collection('user').doc(uid).get();
+      final result = docSnapshot.exists;
+      log('result: $result');
+      return result;
     } catch (e, s) {
       log('error: $e, stackTrace: $s');
     }

@@ -16,30 +16,43 @@ class SignInViewModel extends BaseViewModel {
   final UserService userService;
 
   Future<void> signInWithGoogle(BuildContext context) async {
+    isBusy = true;
     await userRepo.signInWithGoogle().then((credential) async {
       if (credential?.user != null) {
-        await userRepo
-            .fetchUserValidate(credential!.user!.uid)
-            .then((hasUserId) {
-          if (!hasUserId) {
+        await userRepo.fetchUserValidate(credential!.user!.uid).then(
+          (hasUserId) {
+            if (hasUserId) {
+              navigateToMainView(context);
+              return;
+            }
             navigateToEditProfileView(
               context,
               credential: credential,
               signInMethod: 'google',
             );
-          }
-        });
+          },
+        );
       }
     });
+
+    isBusy = false;
   }
 
   Future<void> signInWithApple(BuildContext context) async {
-    await userRepo.signInWithApple().then((credential) {
-      if (credential != null) {
-        navigateToEditProfileView(
-          context,
-          credential: credential,
-          signInMethod: 'apple',
+    await userRepo.signInWithApple().then((credential) async {
+      if (credential?.user != null) {
+        await userRepo.fetchUserValidate(credential!.user!.uid).then(
+          (hasUserId) {
+            if (hasUserId) {
+              navigateToMainView(context);
+              return;
+            }
+            navigateToEditProfileView(
+              context,
+              credential: credential,
+              signInMethod: 'apple',
+            );
+          },
         );
       }
     });
