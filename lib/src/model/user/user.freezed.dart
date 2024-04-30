@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-User _$UserFromJson(Map<String, dynamic> json) {
-  return _User.fromJson(json);
+UserRes _$UserResFromJson(Map<String, dynamic> json) {
+  return _UserRes.fromJson(json);
 }
 
 /// @nodoc
-mixin _$User {
+mixin _$UserRes {
   String get uid => throw _privateConstructorUsedError;
   String? get profileImgPath => throw _privateConstructorUsedError;
   String get signInMethod => throw _privateConstructorUsedError;
@@ -32,13 +32,13 @@ mixin _$User {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
+  $UserResCopyWith<UserRes> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserCopyWith<$Res> {
-  factory $UserCopyWith(User value, $Res Function(User) then) =
-      _$UserCopyWithImpl<$Res, User>;
+abstract class $UserResCopyWith<$Res> {
+  factory $UserResCopyWith(UserRes value, $Res Function(UserRes) then) =
+      _$UserResCopyWithImpl<$Res, UserRes>;
   @useResult
   $Res call(
       {String uid,
@@ -51,9 +51,9 @@ abstract class $UserCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UserCopyWithImpl<$Res, $Val extends User>
-    implements $UserCopyWith<$Res> {
-  _$UserCopyWithImpl(this._value, this._then);
+class _$UserResCopyWithImpl<$Res, $Val extends UserRes>
+    implements $UserResCopyWith<$Res> {
+  _$UserResCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -105,10 +105,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 }
 
 /// @nodoc
-abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
-  factory _$$UserImplCopyWith(
-          _$UserImpl value, $Res Function(_$UserImpl) then) =
-      __$$UserImplCopyWithImpl<$Res>;
+abstract class _$$UserResImplCopyWith<$Res> implements $UserResCopyWith<$Res> {
+  factory _$$UserResImplCopyWith(
+          _$UserResImpl value, $Res Function(_$UserResImpl) then) =
+      __$$UserResImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -122,10 +122,11 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$UserImplCopyWithImpl<$Res>
-    extends _$UserCopyWithImpl<$Res, _$UserImpl>
-    implements _$$UserImplCopyWith<$Res> {
-  __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
+class __$$UserResImplCopyWithImpl<$Res>
+    extends _$UserResCopyWithImpl<$Res, _$UserResImpl>
+    implements _$$UserResImplCopyWith<$Res> {
+  __$$UserResImplCopyWithImpl(
+      _$UserResImpl _value, $Res Function(_$UserResImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -139,7 +140,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(_$UserImpl(
+    return _then(_$UserResImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -174,8 +175,8 @@ class __$$UserImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UserImpl implements _User {
-  const _$UserImpl(
+class _$UserResImpl implements _UserRes {
+  const _$UserResImpl(
       {required this.uid,
       this.profileImgPath,
       required this.signInMethod,
@@ -184,8 +185,8 @@ class _$UserImpl implements _User {
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt});
 
-  factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserImplFromJson(json);
+  factory _$UserResImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserResImplFromJson(json);
 
   @override
   final String uid;
@@ -206,14 +207,14 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(uid: $uid, profileImgPath: $profileImgPath, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserRes(uid: $uid, profileImgPath: $profileImgPath, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserImpl &&
+            other is _$UserResImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.profileImgPath, profileImgPath) ||
                 other.profileImgPath == profileImgPath) &&
@@ -237,28 +238,28 @@ class _$UserImpl implements _User {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
-      __$$UserImplCopyWithImpl<_$UserImpl>(this, _$identity);
+  _$$UserResImplCopyWith<_$UserResImpl> get copyWith =>
+      __$$UserResImplCopyWithImpl<_$UserResImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserImplToJson(
+    return _$$UserResImplToJson(
       this,
     );
   }
 }
 
-abstract class _User implements User {
-  const factory _User(
+abstract class _UserRes implements UserRes {
+  const factory _UserRes(
       {required final String uid,
       final String? profileImgPath,
       required final String signInMethod,
       final String? nickName,
       final String? description,
       @TimestampConverter() required final DateTime createdAt,
-      @TimestampConverter() required final DateTime updatedAt}) = _$UserImpl;
+      @TimestampConverter() required final DateTime updatedAt}) = _$UserResImpl;
 
-  factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
+  factory _UserRes.fromJson(Map<String, dynamic> json) = _$UserResImpl.fromJson;
 
   @override
   String get uid;
@@ -278,6 +279,275 @@ abstract class _User implements User {
   DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+  _$$UserResImplCopyWith<_$UserResImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+UserReq _$UserReqFromJson(Map<String, dynamic> json) {
+  return _UserReq.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UserReq {
+  String get uid => throw _privateConstructorUsedError;
+  String? get profileImgPath => throw _privateConstructorUsedError;
+  String get signInMethod => throw _privateConstructorUsedError;
+  String? get nickName => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  @DateTimeConverter()
+  Timestamp get createdAt => throw _privateConstructorUsedError;
+  @DateTimeConverter()
+  Timestamp get updatedAt => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UserReqCopyWith<UserReq> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserReqCopyWith<$Res> {
+  factory $UserReqCopyWith(UserReq value, $Res Function(UserReq) then) =
+      _$UserReqCopyWithImpl<$Res, UserReq>;
+  @useResult
+  $Res call(
+      {String uid,
+      String? profileImgPath,
+      String signInMethod,
+      String? nickName,
+      String? description,
+      @DateTimeConverter() Timestamp createdAt,
+      @DateTimeConverter() Timestamp updatedAt});
+}
+
+/// @nodoc
+class _$UserReqCopyWithImpl<$Res, $Val extends UserReq>
+    implements $UserReqCopyWith<$Res> {
+  _$UserReqCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+    Object? profileImgPath = freezed,
+    Object? signInMethod = null,
+    Object? nickName = freezed,
+    Object? description = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_value.copyWith(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImgPath: freezed == profileImgPath
+          ? _value.profileImgPath
+          : profileImgPath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signInMethod: null == signInMethod
+          ? _value.signInMethod
+          : signInMethod // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickName: freezed == nickName
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UserReqImplCopyWith<$Res> implements $UserReqCopyWith<$Res> {
+  factory _$$UserReqImplCopyWith(
+          _$UserReqImpl value, $Res Function(_$UserReqImpl) then) =
+      __$$UserReqImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String uid,
+      String? profileImgPath,
+      String signInMethod,
+      String? nickName,
+      String? description,
+      @DateTimeConverter() Timestamp createdAt,
+      @DateTimeConverter() Timestamp updatedAt});
+}
+
+/// @nodoc
+class __$$UserReqImplCopyWithImpl<$Res>
+    extends _$UserReqCopyWithImpl<$Res, _$UserReqImpl>
+    implements _$$UserReqImplCopyWith<$Res> {
+  __$$UserReqImplCopyWithImpl(
+      _$UserReqImpl _value, $Res Function(_$UserReqImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+    Object? profileImgPath = freezed,
+    Object? signInMethod = null,
+    Object? nickName = freezed,
+    Object? description = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_$UserReqImpl(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImgPath: freezed == profileImgPath
+          ? _value.profileImgPath
+          : profileImgPath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signInMethod: null == signInMethod
+          ? _value.signInMethod
+          : signInMethod // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickName: freezed == nickName
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserReqImpl implements _UserReq {
+  const _$UserReqImpl(
+      {required this.uid,
+      this.profileImgPath,
+      required this.signInMethod,
+      this.nickName,
+      this.description,
+      @DateTimeConverter() required this.createdAt,
+      @DateTimeConverter() required this.updatedAt});
+
+  factory _$UserReqImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserReqImplFromJson(json);
+
+  @override
+  final String uid;
+  @override
+  final String? profileImgPath;
+  @override
+  final String signInMethod;
+  @override
+  final String? nickName;
+  @override
+  final String? description;
+  @override
+  @DateTimeConverter()
+  final Timestamp createdAt;
+  @override
+  @DateTimeConverter()
+  final Timestamp updatedAt;
+
+  @override
+  String toString() {
+    return 'UserReq(uid: $uid, profileImgPath: $profileImgPath, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserReqImpl &&
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.profileImgPath, profileImgPath) ||
+                other.profileImgPath == profileImgPath) &&
+            (identical(other.signInMethod, signInMethod) ||
+                other.signInMethod == signInMethod) &&
+            (identical(other.nickName, nickName) ||
+                other.nickName == nickName) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, uid, profileImgPath,
+      signInMethod, nickName, description, createdAt, updatedAt);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserReqImplCopyWith<_$UserReqImpl> get copyWith =>
+      __$$UserReqImplCopyWithImpl<_$UserReqImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserReqImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UserReq implements UserReq {
+  const factory _UserReq(
+      {required final String uid,
+      final String? profileImgPath,
+      required final String signInMethod,
+      final String? nickName,
+      final String? description,
+      @DateTimeConverter() required final Timestamp createdAt,
+      @DateTimeConverter() required final Timestamp updatedAt}) = _$UserReqImpl;
+
+  factory _UserReq.fromJson(Map<String, dynamic> json) = _$UserReqImpl.fromJson;
+
+  @override
+  String get uid;
+  @override
+  String? get profileImgPath;
+  @override
+  String get signInMethod;
+  @override
+  String? get nickName;
+  @override
+  String? get description;
+  @override
+  @DateTimeConverter()
+  Timestamp get createdAt;
+  @override
+  @DateTimeConverter()
+  Timestamp get updatedAt;
+  @override
+  @JsonKey(ignore: true)
+  _$$UserReqImplCopyWith<_$UserReqImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

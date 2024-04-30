@@ -6,7 +6,8 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
+_$UserResImpl _$$UserResImplFromJson(Map<String, dynamic> json) =>
+    _$UserResImpl(
       uid: json['uid'] as String,
       profileImgPath: json['profileImgPath'] as String?,
       signInMethod: json['signInMethod'] as String,
@@ -18,7 +19,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
     );
 
-Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
+Map<String, dynamic> _$$UserResImplToJson(_$UserResImpl instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'profileImgPath': instance.profileImgPath,
@@ -27,4 +28,28 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'description': instance.description,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
+    };
+
+_$UserReqImpl _$$UserReqImplFromJson(Map<String, dynamic> json) =>
+    _$UserReqImpl(
+      uid: json['uid'] as String,
+      profileImgPath: json['profileImgPath'] as String?,
+      signInMethod: json['signInMethod'] as String,
+      nickName: json['nickName'] as String?,
+      description: json['description'] as String?,
+      createdAt:
+          const DateTimeConverter().fromJson(json['createdAt'] as DateTime),
+      updatedAt:
+          const DateTimeConverter().fromJson(json['updatedAt'] as DateTime),
+    );
+
+Map<String, dynamic> _$$UserReqImplToJson(_$UserReqImpl instance) =>
+    <String, dynamic>{
+      'uid': instance.uid,
+      'profileImgPath': instance.profileImgPath,
+      'signInMethod': instance.signInMethod,
+      'nickName': instance.nickName,
+      'description': instance.description,
+      'createdAt': const DateTimeConverter().toJson(instance.createdAt),
+      'updatedAt': const DateTimeConverter().toJson(instance.updatedAt),
     };
