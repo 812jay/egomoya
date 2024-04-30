@@ -13,8 +13,22 @@ final auth.FirebaseAuth fireAuth = auth.FirebaseAuth.instance;
 
 class UserRepo extends BaseRepo {
   Future<User?> fetchUser() async {
+    return null;
+
     // final result = fireAuth.currentUser;
     // return result;
+  }
+
+  Future<bool> fetchUserValidate(String uid) async {
+    try {
+      final snapshot = await firestore.collection('user').doc(uid).get();
+      final data = snapshot.data();
+      final hasUserId = data != null && data.isNotEmpty;
+      return hasUserId;
+    } catch (e, s) {
+      log('error: $e, stackTrace: $s');
+    }
+    return false;
   }
 
   Future<UserCredential?> signInWithGoogle() async {

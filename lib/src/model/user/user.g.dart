@@ -7,10 +7,9 @@ part of 'user.dart';
 // **************************************************************************
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
-      id: json['id'] as String,
-      profileImgPath: json['profileImgPath'] as String,
-      email: json['email'] as String,
-      signInWith: json['signInWith'] as String,
+      uid: json['uid'] as String,
+      profileImgPath: json['profileImgPath'] as String?,
+      signInMethod: json['signInMethod'] as String,
       nickName: json['nickName'] as String?,
       description: json['description'] as String?,
       createdAt:
@@ -21,10 +20,9 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'uid': instance.uid,
       'profileImgPath': instance.profileImgPath,
-      'email': instance.email,
-      'signInWith': instance.signInWith,
+      'signInMethod': instance.signInMethod,
       'nickName': instance.nickName,
       'description': instance.description,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),

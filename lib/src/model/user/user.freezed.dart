@@ -20,10 +20,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
-  String get id => throw _privateConstructorUsedError;
-  String get profileImgPath => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get signInWith => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
+  String? get profileImgPath => throw _privateConstructorUsedError;
+  String get signInMethod => throw _privateConstructorUsedError;
   String? get nickName => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -42,10 +41,9 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {String id,
-      String profileImgPath,
-      String email,
-      String signInWith,
+      {String uid,
+      String? profileImgPath,
+      String signInMethod,
       String? nickName,
       String? description,
       @TimestampConverter() DateTime createdAt,
@@ -65,31 +63,26 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? profileImgPath = null,
-    Object? email = null,
-    Object? signInWith = null,
+    Object? uid = null,
+    Object? profileImgPath = freezed,
+    Object? signInMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      profileImgPath: null == profileImgPath
+      profileImgPath: freezed == profileImgPath
           ? _value.profileImgPath
           : profileImgPath // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      signInWith: null == signInWith
-          ? _value.signInWith
-          : signInWith // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signInMethod: null == signInMethod
+          ? _value.signInMethod
+          : signInMethod // ignore: cast_nullable_to_non_nullable
               as String,
       nickName: freezed == nickName
           ? _value.nickName
@@ -119,10 +112,9 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
-      String profileImgPath,
-      String email,
-      String signInWith,
+      {String uid,
+      String? profileImgPath,
+      String signInMethod,
       String? nickName,
       String? description,
       @TimestampConverter() DateTime createdAt,
@@ -139,31 +131,26 @@ class __$$UserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? profileImgPath = null,
-    Object? email = null,
-    Object? signInWith = null,
+    Object? uid = null,
+    Object? profileImgPath = freezed,
+    Object? signInMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
     return _then(_$UserImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      profileImgPath: null == profileImgPath
+      profileImgPath: freezed == profileImgPath
           ? _value.profileImgPath
           : profileImgPath // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      signInWith: null == signInWith
-          ? _value.signInWith
-          : signInWith // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signInMethod: null == signInMethod
+          ? _value.signInMethod
+          : signInMethod // ignore: cast_nullable_to_non_nullable
               as String,
       nickName: freezed == nickName
           ? _value.nickName
@@ -189,10 +176,9 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl implements _User {
   const _$UserImpl(
-      {required this.id,
-      required this.profileImgPath,
-      required this.email,
-      required this.signInWith,
+      {required this.uid,
+      this.profileImgPath,
+      required this.signInMethod,
       this.nickName,
       this.description,
       @TimestampConverter() required this.createdAt,
@@ -202,13 +188,11 @@ class _$UserImpl implements _User {
       _$$UserImplFromJson(json);
 
   @override
-  final String id;
+  final String uid;
   @override
-  final String profileImgPath;
+  final String? profileImgPath;
   @override
-  final String email;
-  @override
-  final String signInWith;
+  final String signInMethod;
   @override
   final String? nickName;
   @override
@@ -222,7 +206,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, profileImgPath: $profileImgPath, email: $email, signInWith: $signInWith, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'User(uid: $uid, profileImgPath: $profileImgPath, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -230,12 +214,11 @@ class _$UserImpl implements _User {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.profileImgPath, profileImgPath) ||
                 other.profileImgPath == profileImgPath) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.signInWith, signInWith) ||
-                other.signInWith == signInWith) &&
+            (identical(other.signInMethod, signInMethod) ||
+                other.signInMethod == signInMethod) &&
             (identical(other.nickName, nickName) ||
                 other.nickName == nickName) &&
             (identical(other.description, description) ||
@@ -248,8 +231,8 @@ class _$UserImpl implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, profileImgPath, email,
-      signInWith, nickName, description, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, uid, profileImgPath,
+      signInMethod, nickName, description, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -267,10 +250,9 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final String id,
-      required final String profileImgPath,
-      required final String email,
-      required final String signInWith,
+      {required final String uid,
+      final String? profileImgPath,
+      required final String signInMethod,
       final String? nickName,
       final String? description,
       @TimestampConverter() required final DateTime createdAt,
@@ -279,13 +261,11 @@ abstract class _User implements User {
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
-  String get id;
+  String get uid;
   @override
-  String get profileImgPath;
+  String? get profileImgPath;
   @override
-  String get email;
-  @override
-  String get signInWith;
+  String get signInMethod;
   @override
   String? get nickName;
   @override

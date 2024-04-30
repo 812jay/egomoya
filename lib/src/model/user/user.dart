@@ -8,10 +8,9 @@ part 'user.g.dart';
 @freezed
 class User with _$User {
   const factory User({
-    required String id,
-    required String profileImgPath,
-    required String email,
-    required String signInWith,
+    required String uid,
+    String? profileImgPath,
+    required String signInMethod,
     String? nickName,
     String? description,
     @TimestampConverter() required DateTime createdAt,

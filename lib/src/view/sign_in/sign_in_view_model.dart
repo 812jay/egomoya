@@ -1,9 +1,10 @@
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
-import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
+import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 
 class SignInViewModel extends BaseViewModel {
@@ -15,12 +16,19 @@ class SignInViewModel extends BaseViewModel {
   final UserService userService;
 
   Future<void> signInWithGoogle(BuildContext context) async {
-    await userRepo.signInWithGoogle().then((credential) {
-      if (credential != null) {
-        navigateToSignUpView(
-          context,
-          credential: credential,
-        );
+    await userRepo.signInWithGoogle().then((credential) async {
+      if (credential?.user != null) {
+        await userRepo
+            .fetchUserValidate(credential!.user!.uid)
+            .then((hasUserId) {
+          if (!hasUserId) {
+            navigateToEditProfileView(
+              context,
+              credential: credential,
+              signInMethod: 'google',
+            );
+          }
+        });
       }
     });
   }
@@ -28,25 +36,38 @@ class SignInViewModel extends BaseViewModel {
   Future<void> signInWithApple(BuildContext context) async {
     await userRepo.signInWithApple().then((credential) {
       if (credential != null) {
-        navigateToSignUpView(
+        navigateToEditProfileView(
           context,
           credential: credential,
+          signInMethod: 'apple',
         );
       }
     });
   }
 
-  void navigateToSignUpView(
+  void navigateToEditProfileView(
     BuildContext context, {
-    required UserCredential credential,
+    required auth.UserCredential credential,
+    required String signInMethod,
   }) {
-    Navigator.pushNamed(
-      context,
-      RoutePath.signUp,
-      arguments: SignUpViewArgument(
-        credential: credential,
-      ),
-    );
+    if (credential.user != null) {
+      final user = credential.user;
+      Navigator.pushNamed(
+        context,
+        RoutePath.editProfile,
+        arguments: EditProfileViewArgument(
+          user: User(
+            uid: user!.uid,
+            profileImgPath: user.photoURL,
+            signInMethod: signInMethod,
+            nickName: user.displayName,
+            description: '',
+            createdAt: user.metadata.creationTime ?? DateTime.now(),
+            updatedAt: user.metadata.creationTime ?? DateTime.now(),
+          ),
+        ),
+      );
+    }
   }
 
   void navigateToMainView(BuildContext context) {
