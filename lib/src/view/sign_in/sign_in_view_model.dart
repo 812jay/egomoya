@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewModel extends BaseViewModel {
@@ -15,16 +15,38 @@ class SignInViewModel extends BaseViewModel {
   final UserService userService;
 
   Future<void> signInWithGoogle(BuildContext context) async {
-    await userRepo
-        .signInWithGoogle()
-        .then((value) => navigateToMainView(context));
+    await userRepo.signInWithGoogle().then((credential) {
+      if (credential != null) {
+        navigateToSignUpView(
+          context,
+          credential: credential,
+        );
+      }
+    });
   }
 
   Future<void> signInWithApple(BuildContext context) async {
-    await userRepo.signInWithApple().onError((e, s) {
-      log('e: $e, s: $s');
-      return null;
-    }).then((value) => navigateToMainView(context));
+    await userRepo.signInWithApple().then((credential) {
+      if (credential != null) {
+        navigateToSignUpView(
+          context,
+          credential: credential,
+        );
+      }
+    });
+  }
+
+  void navigateToSignUpView(
+    BuildContext context, {
+    required UserCredential credential,
+  }) {
+    Navigator.pushNamed(
+      context,
+      RoutePath.signUp,
+      arguments: SignUpViewArgument(
+        credential: credential,
+      ),
+    );
   }
 
   void navigateToMainView(BuildContext context) {

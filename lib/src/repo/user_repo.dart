@@ -13,8 +13,8 @@ final auth.FirebaseAuth fireAuth = auth.FirebaseAuth.instance;
 
 class UserRepo extends BaseRepo {
   Future<User?> fetchUser() async {
-    final result = fireAuth.currentUser;
-    return result;
+    // final result = fireAuth.currentUser;
+    // return result;
   }
 
   Future<UserCredential?> signInWithGoogle() async {

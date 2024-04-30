@@ -15,7 +15,7 @@ class MainViewModel extends BaseViewModel {
     required this.userService,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await fetchUser();
+      // await fetchUser();
       await fetchCelebList();
       userService.addListener(notifyListeners);
     });

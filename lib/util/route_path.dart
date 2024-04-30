@@ -2,6 +2,8 @@ import 'package:egomoya/src/view/home/main_view.dart';
 import 'package:egomoya/src/view/profile/profile_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view.dart';
+import 'package:egomoya/src/view/sign_up/sign_up_view.dart';
+import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
 import 'package:egomoya/src/view/splash_view.dart';
 import 'package:egomoya/theme/component/constraint_view.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,10 @@ abstract class RoutePath {
         break;
       case RoutePath.signIn:
         page = const SignInView();
+        break;
+      case RoutePath.signUp:
+        final args = settings.arguments as SignUpViewArgument;
+        page = SignUpView(args: args);
         break;
       case RoutePath.profile:
         final args = settings.arguments as ProfileViewArgument;
