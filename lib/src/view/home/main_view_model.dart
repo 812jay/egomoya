@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:egomoya/src/model/celeb/celeb.dart';
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MainViewModel extends BaseViewModel {
@@ -15,7 +17,7 @@ class MainViewModel extends BaseViewModel {
     required this.userService,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // await fetchUser();
+      await fetchUser();
       await fetchCelebList();
       userService.addListener(notifyListeners);
     });
@@ -28,7 +30,8 @@ class MainViewModel extends BaseViewModel {
   List<Celeb> celebList = [];
 
   String get userId => userService.userId;
-  User? get user => userService.user;
+  UserRes? get user => userService.user;
+  String? get profileImgUrl => userService.profileImgUrl;
 
   @override
   void dispose() {
@@ -38,10 +41,11 @@ class MainViewModel extends BaseViewModel {
 
   Future<void> fetchUser() async {
     isBusy = true;
-    final result = await userRepo.fetchUser();
-    // if (result != null) {
-    //   userService.setUser(result);
-    // }
+    final result = await userRepo.fetchUser(userService.userId);
+    if (result != null) {
+      userService.setUser(result);
+      await fetchProfileImg(result.profileImgName);
+    }
     isBusy = false;
   }
 
@@ -83,9 +87,15 @@ class MainViewModel extends BaseViewModel {
   }
 
   Future<String> getCelebImagePath(String imgRef) async {
-    final result = await imageRepo.fetchCelebImage(
-      imgRef: imgRef,
-    );
+    final result = await imageRepo.fetchImage(imgRef: imgRef);
     return result;
+  }
+
+  Future<void> fetchProfileImg(String? fileName) async {
+    if (fileName == null) return;
+    final String url =
+        await imageRepo.fetchImage(imgRef: 'images/profile/$fileName');
+    userService.setProfileUrl(url);
+    log('url: ${userService.profileImgUrl}');
   }
 }

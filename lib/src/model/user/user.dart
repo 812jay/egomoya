@@ -9,7 +9,7 @@ part 'user.g.dart';
 class UserRes with _$UserRes {
   const factory UserRes({
     required String uid,
-    String? profileImgPath,
+    String? profileImgName,
     required String signInMethod,
     String? nickName,
     String? description,
@@ -24,7 +24,7 @@ class UserRes with _$UserRes {
 class UserReq with _$UserReq {
   const factory UserReq({
     required String uid,
-    String? profileImgPath,
+    String? uploadProfileImgName,
     required String signInMethod,
     String? nickName,
     String? description,

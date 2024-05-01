@@ -12,11 +12,21 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final FirebaseAuth fireAuth = FirebaseAuth.instance;
 
 class UserRepo extends BaseRepo {
-  Future<void> fetchUser() async {
-    return;
-
-    // final result = fireAuth.currentUser;
-    // return result;
+  final CollectionReference userCollection = firestore.collection('user');
+  Future<UserRes?> fetchUser(String uid) async {
+    try {
+      DocumentSnapshot docSnapshot = await userCollection.doc(uid).get();
+      final data = docSnapshot.data() as Map<String, dynamic>?;
+      log('data: $data');
+      UserRes? result;
+      if (data != null) {
+        result = UserRes.fromJson(data);
+      }
+      return result;
+    } catch (e, s) {
+      log('error: $e, stackTrace: $s');
+    }
+    return null;
   }
 
   Future<bool> fetchUserValidate(String uid) async {
@@ -31,13 +41,15 @@ class UserRepo extends BaseRepo {
     return false;
   }
 
-  Future<void> registUser(UserReq req) async {
+  Future<String?> registUser(UserReq req) async {
     try {
       final ref = firestore.collection('user').doc(req.uid);
       ref.set(req.toJson());
+      return req.uid;
     } catch (e, s) {
       log('error: $e, stackTrace: $s');
     }
+    return null;
   }
 
   Future<UserCredential?> signInWithGoogle() async {

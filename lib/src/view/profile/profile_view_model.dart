@@ -1,15 +1,15 @@
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileViewArgument {
   ProfileViewArgument({
     required this.user,
   });
-  final User user;
+  final UserRes user;
 }
 
 class ProfileViewModel extends BaseViewModel {
@@ -24,7 +24,7 @@ class ProfileViewModel extends BaseViewModel {
   final UserRepo userRepo;
   final UserService userService;
   final ProfileViewArgument args;
-  late User user;
+  late UserRes user;
 
   @override
   void dispose() {

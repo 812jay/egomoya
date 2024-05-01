@@ -1,5 +1,7 @@
+import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
@@ -24,6 +26,8 @@ class EditProfileView extends StatelessWidget {
       viewModel: EditProfileViewModel(
         args: args,
         userRepo: context.read<UserRepo>(),
+        userService: context.read<UserService>(),
+        imageRepo: context.read<ImageRepo>(),
       ),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
@@ -41,16 +45,21 @@ class EditProfileView extends StatelessWidget {
                     children: [
                       Center(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: viewModel.onTapProfileImg,
                           child: Stack(
                             children: [
                               CircleAvatar(
                                 maxRadius: 50,
                                 backgroundColor:
                                     context.color.inactiveBackground,
-                                child: AssetIcon(
-                                  AssetIconType.logoIcon.path,
-                                ),
+                                backgroundImage: viewModel.profileImg != null
+                                    ? AssetImage(viewModel.profileImg!.path)
+                                    : null,
+                                child: viewModel.profileImg != null
+                                    ? null
+                                    : AssetIcon(
+                                        AssetIconType.logoIcon.path,
+                                      ),
                               ),
                               Positioned(
                                 bottom: 3,
@@ -85,7 +94,7 @@ class EditProfileView extends StatelessWidget {
                       spaceBig,
                       BaseButton(
                         onTap: viewModel.isValidateSubmit
-                            ? viewModel.onSubmit
+                            ? () => viewModel.onSubmit(context)
                             : null,
                         title: Text(
                           '프로필 등록',

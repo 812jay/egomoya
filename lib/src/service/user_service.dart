@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/util/helper/pref_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +12,9 @@ class UserService with ChangeNotifier {
 
   final PrefHelper prefHelper;
   final FirebaseAuth auth = FirebaseAuth.instance;
-  User? user;
+
+  UserRes? user;
+  String? profileImgUrl;
 
   String get userId => prefHelper.userId;
   Future<void> setUserId(String value) async =>
@@ -17,11 +22,17 @@ class UserService with ChangeNotifier {
 
   void signOut() {
     setUserId('');
-    user = null;
     notifyListeners();
   }
 
-  Future<void> setUser(User newUser) async {
+  Future<void> setUser(UserRes newUser) async {
     user = newUser;
+    log('user from service: $user');
+    notifyListeners();
+  }
+
+  Future<void> setProfileUrl(String newProfileUrl) async {
+    profileImgUrl = newProfileUrl;
+    notifyListeners();
   }
 }

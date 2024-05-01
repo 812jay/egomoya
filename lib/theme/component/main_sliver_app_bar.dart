@@ -1,19 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/theme/component/empty_image.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/util/route_path.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MainSliverAppBar extends StatelessWidget {
   const MainSliverAppBar({
     super.key,
-    required this.user,
+    this.user,
+    this.profileImgUrl,
   });
-  final User? user;
+  final UserRes? user;
+  final String? profileImgUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,9 @@ class MainSliverAppBar extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(26),
-              child: user!.photoURL != null
+              child: profileImgUrl != null
                   ? CachedNetworkImage(
-                      imageUrl: user!.photoURL!,
+                      imageUrl: profileImgUrl!,
                       width: 26,
                       height: 26,
                       errorWidget: (context, url, error) => const EmptyImage(),

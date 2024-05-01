@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
@@ -38,15 +37,15 @@ class ProfileView extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        viewModel.user.photoURL != null
-                            ? CircleAvatar(
-                                backgroundImage: CachedNetworkImageProvider(
-                                  viewModel.user.photoURL!,
-                                ),
-                                backgroundColor:
-                                    context.color.lightGrayBackground,
-                              )
-                            : const Text('empty'),
+                        // viewModel.user.photoURL != null
+                        //     ? CircleAvatar(
+                        //         backgroundImage: CachedNetworkImageProvider(
+                        //           viewModel.user.photoURL!,
+                        //         ),
+                        //         backgroundColor:
+                        //             context.color.lightGrayBackground,
+                        //       )
+                        //     : const Text('empty'),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Column(
@@ -57,7 +56,7 @@ class ProfileView extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      '${viewModel.user.displayName}님',
+                                      '${viewModel.user.nickName}님',
                                       style: context.typo.body2,
                                     ),
                                   ),

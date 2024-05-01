@@ -71,7 +71,7 @@ class SignInViewModel extends BaseViewModel {
         arguments: EditProfileViewArgument(
           user: UserRes(
             uid: user!.uid,
-            profileImgPath: user.photoURL,
+            profileImgName: user.photoURL,
             signInMethod: signInMethod,
             nickName: user.displayName,
             description: '',
