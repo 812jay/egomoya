@@ -10,6 +10,7 @@ _$UserResImpl _$$UserResImplFromJson(Map<String, dynamic> json) =>
     _$UserResImpl(
       uid: json['uid'] as String,
       profileImgName: json['profileImgName'] as String?,
+      profileImgPath: json['profileImgPath'] as String?,
       signInMethod: json['signInMethod'] as String,
       nickName: json['nickName'] as String?,
       description: json['description'] as String?,
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$UserResImplToJson(_$UserResImpl instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'profileImgName': instance.profileImgName,
+      'profileImgPath': instance.profileImgPath,
       'signInMethod': instance.signInMethod,
       'nickName': instance.nickName,
       'description': instance.description,

@@ -22,6 +22,7 @@ UserRes _$UserResFromJson(Map<String, dynamic> json) {
 mixin _$UserRes {
   String get uid => throw _privateConstructorUsedError;
   String? get profileImgName => throw _privateConstructorUsedError;
+  String? get profileImgPath => throw _privateConstructorUsedError;
   String get signInMethod => throw _privateConstructorUsedError;
   String? get nickName => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $UserResCopyWith<$Res> {
   $Res call(
       {String uid,
       String? profileImgName,
+      String? profileImgPath,
       String signInMethod,
       String? nickName,
       String? description,
@@ -65,6 +67,7 @@ class _$UserResCopyWithImpl<$Res, $Val extends UserRes>
   $Res call({
     Object? uid = null,
     Object? profileImgName = freezed,
+    Object? profileImgPath = freezed,
     Object? signInMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
@@ -79,6 +82,10 @@ class _$UserResCopyWithImpl<$Res, $Val extends UserRes>
       profileImgName: freezed == profileImgName
           ? _value.profileImgName
           : profileImgName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImgPath: freezed == profileImgPath
+          ? _value.profileImgPath
+          : profileImgPath // ignore: cast_nullable_to_non_nullable
               as String?,
       signInMethod: null == signInMethod
           ? _value.signInMethod
@@ -114,6 +121,7 @@ abstract class _$$UserResImplCopyWith<$Res> implements $UserResCopyWith<$Res> {
   $Res call(
       {String uid,
       String? profileImgName,
+      String? profileImgPath,
       String signInMethod,
       String? nickName,
       String? description,
@@ -134,6 +142,7 @@ class __$$UserResImplCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
     Object? profileImgName = freezed,
+    Object? profileImgPath = freezed,
     Object? signInMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
@@ -148,6 +157,10 @@ class __$$UserResImplCopyWithImpl<$Res>
       profileImgName: freezed == profileImgName
           ? _value.profileImgName
           : profileImgName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImgPath: freezed == profileImgPath
+          ? _value.profileImgPath
+          : profileImgPath // ignore: cast_nullable_to_non_nullable
               as String?,
       signInMethod: null == signInMethod
           ? _value.signInMethod
@@ -179,6 +192,7 @@ class _$UserResImpl implements _UserRes {
   const _$UserResImpl(
       {required this.uid,
       this.profileImgName,
+      this.profileImgPath,
       required this.signInMethod,
       this.nickName,
       this.description,
@@ -192,6 +206,8 @@ class _$UserResImpl implements _UserRes {
   final String uid;
   @override
   final String? profileImgName;
+  @override
+  final String? profileImgPath;
   @override
   final String signInMethod;
   @override
@@ -207,7 +223,7 @@ class _$UserResImpl implements _UserRes {
 
   @override
   String toString() {
-    return 'UserRes(uid: $uid, profileImgName: $profileImgName, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserRes(uid: $uid, profileImgName: $profileImgName, profileImgPath: $profileImgPath, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -218,6 +234,8 @@ class _$UserResImpl implements _UserRes {
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.profileImgName, profileImgName) ||
                 other.profileImgName == profileImgName) &&
+            (identical(other.profileImgPath, profileImgPath) ||
+                other.profileImgPath == profileImgPath) &&
             (identical(other.signInMethod, signInMethod) ||
                 other.signInMethod == signInMethod) &&
             (identical(other.nickName, nickName) ||
@@ -232,8 +250,16 @@ class _$UserResImpl implements _UserRes {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, profileImgName,
-      signInMethod, nickName, description, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      uid,
+      profileImgName,
+      profileImgPath,
+      signInMethod,
+      nickName,
+      description,
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -253,6 +279,7 @@ abstract class _UserRes implements UserRes {
   const factory _UserRes(
       {required final String uid,
       final String? profileImgName,
+      final String? profileImgPath,
       required final String signInMethod,
       final String? nickName,
       final String? description,
@@ -265,6 +292,8 @@ abstract class _UserRes implements UserRes {
   String get uid;
   @override
   String? get profileImgName;
+  @override
+  String? get profileImgPath;
   @override
   String get signInMethod;
   @override

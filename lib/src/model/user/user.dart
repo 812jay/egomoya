@@ -10,6 +10,7 @@ class UserRes with _$UserRes {
   const factory UserRes({
     required String uid,
     String? profileImgName,
+    String? profileImgPath,
     required String signInMethod,
     String? nickName,
     String? description,
