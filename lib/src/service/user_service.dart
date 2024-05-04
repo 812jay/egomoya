@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/util/helper/pref_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,14 +23,16 @@ class UserService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setUser(UserRes newUser) async {
-    user = newUser;
-    log('user from service: $user');
+  Future<void> setUser(UserRes newUser, String? newProfileUrl) async {
+    user = newUser.copyWith(
+      profileImgPath: newProfileUrl,
+    );
     notifyListeners();
   }
 
   Future<void> setProfileUrl(String newProfileUrl) async {
     profileImgUrl = newProfileUrl;
+    user = user?.copyWith(profileImgName: profileImgUrl);
     notifyListeners();
   }
 }

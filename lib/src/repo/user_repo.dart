@@ -17,7 +17,6 @@ class UserRepo extends BaseRepo {
     try {
       DocumentSnapshot docSnapshot = await userCollection.doc(uid).get();
       final data = docSnapshot.data() as Map<String, dynamic>?;
-      log('data: $data');
       UserRes? result;
       if (data != null) {
         result = UserRes.fromJson(data);
@@ -33,7 +32,6 @@ class UserRepo extends BaseRepo {
     try {
       final docSnapshot = await firestore.collection('user').doc(uid).get();
       final result = docSnapshot.exists;
-      log('result: $result');
       return result;
     } catch (e, s) {
       log('error: $e, stackTrace: $s');

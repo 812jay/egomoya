@@ -2,6 +2,7 @@ import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +42,14 @@ class ProfileViewModel extends BaseViewModel {
       userService.signOut();
       navigateToSignIn(context);
     });
+  }
+
+  void navigateToEditProfile(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      RoutePath.editProfile,
+      arguments: EditProfileViewArgument(user: user),
+    );
   }
 
   void navigateToSignIn(BuildContext context) {

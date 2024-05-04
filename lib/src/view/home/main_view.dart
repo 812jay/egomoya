@@ -30,7 +30,6 @@ class MainView extends StatelessWidget {
               return <Widget>[
                 MainSliverAppBar(
                   user: viewModel.user,
-                  profileImgUrl: viewModel.profileImgUrl,
                 ),
               ];
             },

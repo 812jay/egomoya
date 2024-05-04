@@ -12,10 +12,8 @@ class MainSliverAppBar extends StatelessWidget {
   const MainSliverAppBar({
     super.key,
     this.user,
-    this.profileImgUrl,
   });
   final UserRes? user;
-  final String? profileImgUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +45,16 @@ class MainSliverAppBar extends StatelessWidget {
               arguments: ProfileViewArgument(user: user!),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(26),
-              child: profileImgUrl != null
+              borderRadius: BorderRadius.circular(100),
+              child: user?.profileImgPath != null
                   ? CachedNetworkImage(
-                      imageUrl: profileImgUrl!,
-                      width: 26,
-                      height: 26,
+                      imageUrl: user!.profileImgPath!,
+                      width: 30,
+                      height: 30,
                       errorWidget: (context, url, error) => const EmptyImage(),
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
-                      fit: BoxFit.contain,
+                      fit: BoxFit.cover,
                     )
                   : const EmptyImage(
                       width: 26,

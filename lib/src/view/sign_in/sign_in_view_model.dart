@@ -20,9 +20,11 @@ class SignInViewModel extends BaseViewModel {
     await userRepo.signInWithGoogle().then((credential) async {
       if (credential?.user != null) {
         await userRepo.fetchUserValidate(credential!.user!.uid).then(
-          (hasUserId) {
+          (hasUserId) async {
             if (hasUserId) {
-              navigateToMainView(context);
+              await userService.setUserId(credential.user!.uid).then(
+                    (value) => navigateToMainView(context),
+                  );
               return;
             }
             navigateToEditProfileView(
@@ -42,9 +44,11 @@ class SignInViewModel extends BaseViewModel {
     await userRepo.signInWithApple().then((credential) async {
       if (credential?.user != null) {
         await userRepo.fetchUserValidate(credential!.user!.uid).then(
-          (hasUserId) {
+          (hasUserId) async {
             if (hasUserId) {
-              navigateToMainView(context);
+              await userService.setUserId(credential.user!.uid).then(
+                    (value) => navigateToMainView(context),
+                  );
               return;
             }
             navigateToEditProfileView(

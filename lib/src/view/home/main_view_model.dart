@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
@@ -43,8 +41,8 @@ class MainViewModel extends BaseViewModel {
     isBusy = true;
     final result = await userRepo.fetchUser(userService.userId);
     if (result != null) {
-      userService.setUser(result);
-      await fetchProfileImg(result.profileImgName);
+      final String? imgUrl = await getProfileImg(result.profileImgName);
+      userService.setUser(result, imgUrl);
     }
     isBusy = false;
   }
@@ -91,11 +89,10 @@ class MainViewModel extends BaseViewModel {
     return result;
   }
 
-  Future<void> fetchProfileImg(String? fileName) async {
-    if (fileName == null) return;
+  Future<String?> getProfileImg(String? fileName) async {
+    if (fileName == null) return null;
     final String url =
         await imageRepo.fetchImage(imgRef: 'images/profile/$fileName');
-    userService.setProfileUrl(url);
-    log('url: ${userService.profileImgUrl}');
+    return url;
   }
 }
