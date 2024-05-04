@@ -8,16 +8,17 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
+final ImagePicker picker = ImagePicker();
+
 class ImageHelper {
   static Future<File?> selectImage() async {
-    final ImagePicker picker = ImagePicker();
     final XFile? xFile = await picker.pickImage(source: ImageSource.gallery);
-    final File? file = xFile != null ? File(xFile.path) : null;
+    if (xFile == null) return null;
+    final File file = File(xFile.path);
     return file;
   }
 
   static Future<File?> selectCamera() async {
-    final ImagePicker picker = ImagePicker();
     final XFile? xFile = await picker.pickImage(source: ImageSource.camera);
     final File? file = xFile != null ? File(xFile.path) : null;
     return file;
@@ -28,7 +29,6 @@ class ImageHelper {
     int? limit,
   }) async {
     limit = limit ?? 5;
-    final ImagePicker picker = ImagePicker();
     final List<XFile> xFiles = await picker.pickMultiImage();
     final List<File> newImageList = xFiles.map((e) => File(e.path)).toList();
     if (imageFileList.length + newImageList.length > limit) {
@@ -52,23 +52,25 @@ class ImageHelper {
     return result;
   }
 
-  static Future<List<File>> urlListToFileList(List<String> urlList) async {
-    List<File> imageList = [];
-    for (var url in urlList) {
-      File file = await urlToFile(url);
-      imageList = [...imageList, file].toImmutable();
-    }
-    return imageList;
-  }
+  // static Future<List<File>> urlListToFileList(List<String> urlList) async {
+  //   List<File> imageList = [];
+  //   for (var url in urlList) {
+  //     File file = await urlToFile(url);
+  //     imageList = [...imageList, file].toImmutable();
+  //   }
+  //   return imageList;
+  // }
 
-  static Future<File> urlToFile(String url) async {
-    final String imageName = url.split('/').last;
+  static Future<File> urlToFile({
+    required String url,
+    required String fileName,
+  }) async {
     final http.Response response = await http.get(Uri.parse(url));
     final Uint8List uint8list = response.bodyBytes;
     final ByteBuffer buffer = uint8list.buffer;
     final byteData = ByteData.view(buffer);
     final String tempDirPath = await _getTemporaryDirectoryPath();
-    File file = await File('$tempDirPath/$imageName').writeAsBytes(
+    File file = await File('$tempDirPath/$fileName').writeAsBytes(
       buffer.asUint8List(
         byteData.offsetInBytes,
         byteData.lengthInBytes,

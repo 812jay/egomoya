@@ -25,7 +25,8 @@ class EditProfileViewModel extends BaseViewModel {
     required this.userService,
     required this.imageRepo,
   }) {
-    setInitArgs();
+    isBusy = true;
+    setInit();
     userService.addListener(notifyListeners);
   }
 
@@ -52,23 +53,34 @@ class EditProfileViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  void setInitArgs() {
+  void setInit() async {
+    isBusy = true;
     user = args.user;
     if (user != null) {
+      if (user!.profileImgPath != null && user!.profileImgName != null) {
+        profileImg = await ImageHelper.urlToFile(
+          url: user!.profileImgPath!,
+          fileName: user!.profileImgName!,
+        );
+      }
       nicknameController.text = user!.nickName ?? '';
       descriptionController.text = user!.description ?? '';
     }
-    notifyListeners();
+    isBusy = false;
   }
 
-  void onChangeNickname(String newNickname) {
-    notifyListeners();
-  }
+  void onChangeNickname(String newNickname) => notifyListeners();
 
   Future<void> onTapProfileImg() async {
     isBusy = true;
-    final newImage = await ImageHelper.selectImage();
-    profileImg = newImage;
+    await ImageHelper.selectImage()
+        .onError((error, stackTrace) => showToast('해당 이미지를 가져올 수 없어요'))
+        .then((newImg) {
+      if (newImg != null) {
+        profileImg = newImg;
+      }
+    });
+
     isBusy = false;
   }
 
