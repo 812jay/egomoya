@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
@@ -6,6 +5,8 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/base_button.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,16 +36,31 @@ class ProfileView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: viewModel.user.profileImgPath != null
-                          ? CachedNetworkImage(
-                              imageUrl: viewModel.user.profileImgPath!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(100),
+                    //   child: viewModel.user.profileImgPath != null
+                    //       ? CachedNetworkImage(
+                    //           imageUrl: viewModel.user.profileImgPath!,
+                    //           width: 100,
+                    //           height: 100,
+                    //           fit: BoxFit.cover,
+                    //         )
+                    //       : Container(),
+                    // ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: context.color.lightGrayBackground,
+                      backgroundImage: viewModel.user.profileImgPath != null
+                          ? AssetImage(
+                              viewModel.user.profileImgPath!,
                             )
-                          : Container(),
+                          : null,
+                      child: viewModel.user.profileImgPath != null
+                          ? null
+                          : AssetIcon(
+                              AssetImageType.logoIcon.path,
+                              size: 60,
+                            ),
                     ),
                     const SizedBox(height: 10),
                     Text(

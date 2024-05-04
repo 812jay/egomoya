@@ -49,16 +49,19 @@ class EditProfileView extends StatelessWidget {
                           child: Stack(
                             children: [
                               CircleAvatar(
-                                maxRadius: 50,
+                                radius: 50,
                                 backgroundColor:
-                                    context.color.inactiveBackground,
+                                    context.color.lightGrayBackground,
                                 backgroundImage: viewModel.profileImg != null
-                                    ? AssetImage(viewModel.profileImg!.path)
+                                    ? AssetImage(
+                                        viewModel.profileImg!.path,
+                                      )
                                     : null,
                                 child: viewModel.profileImg != null
                                     ? null
                                     : AssetIcon(
-                                        AssetIconType.logoIcon.path,
+                                        AssetImageType.logoIcon.path,
+                                        size: 60,
                                       ),
                               ),
                               Positioned(
