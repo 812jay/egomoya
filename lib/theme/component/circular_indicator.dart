@@ -12,14 +12,14 @@ class CircularIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        child,
+    return IgnorePointer(
+      ignoring: isBusy,
+      child: Stack(
+        children: [
+          child,
 
-        /// CircularIndicator
-        IgnorePointer(
-          ignoring: !isBusy,
-          child: AnimatedOpacity(
+          /// CircularIndicator
+          AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: isBusy ? 1 : 0,
             child: Container(
@@ -29,8 +29,8 @@ class CircularIndicator extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
