@@ -16,7 +16,12 @@ class CircularIndicator extends StatelessWidget {
       ignoring: isBusy,
       child: Stack(
         children: [
-          child,
+          AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: isBusy ? 0.9 : 1,
+            curve: Curves.easeIn,
+            child: child,
+          ),
 
           /// CircularIndicator
           AnimatedOpacity(
