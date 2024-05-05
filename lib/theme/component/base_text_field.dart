@@ -1,6 +1,7 @@
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BaseTextField extends StatelessWidget {
   const BaseTextField({
@@ -13,6 +14,7 @@ class BaseTextField extends StatelessWidget {
     this.hintText,
     this.errorText,
     this.maxLines,
+    this.inputFormatters,
   });
   final TextEditingController controller;
   final String? title;
@@ -22,6 +24,7 @@ class BaseTextField extends StatelessWidget {
   final String? hintText;
   final String? errorText;
   final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,7 @@ class BaseTextField extends StatelessWidget {
           keyboardType: keyboardType,
           maxLines: maxLines,
           onChanged: onChanged,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
             hintText: hintText,
             errorText: errorText,

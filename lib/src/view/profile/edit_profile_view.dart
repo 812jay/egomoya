@@ -88,6 +88,7 @@ class EditProfileView extends StatelessWidget {
                         hintText: '닉네임을 입력해 주세요',
                         onChanged: viewModel.onChangeNickname,
                         errorText: viewModel.nicknameErrMsg,
+                        inputFormatters: viewModel.nicknameFormatter,
                       ),
                       spaceBig,
                       BaseTextField(

@@ -12,6 +12,7 @@ import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/helper/image_helper.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EditProfileViewArgument {
   EditProfileViewArgument({
@@ -44,8 +45,11 @@ class EditProfileViewModel extends BaseViewModel {
   bool get isNicknameValidate =>
       RegExp(ProfileValidateType.nickname.pattern).hasMatch(nickname);
   String? get nicknameErrMsg =>
-      isNicknameValidate ? null : '2자리 이상~12자리 이하 입력해 주세요';
+      isNicknameValidate ? null : '공백을 제외한 2자리 이상~12자리 이하 입력해 주세요';
   bool get isValidateSubmit => isNicknameValidate;
+  final List<FilteringTextInputFormatter> nicknameFormatter = [
+    FilteringTextInputFormatter.deny(RegExp(r'\s'))
+  ];
 
   UserRes? user;
   File? profileImg;
@@ -91,17 +95,16 @@ class EditProfileViewModel extends BaseViewModel {
   }
 
   Future<void> onSubmit(BuildContext context) async {
-    isBusy = true;
     await registUser(context);
-    isBusy = false;
   }
 
   Future<void> registUser(BuildContext context) async {
+    isBusy = true;
     String? imgName =
         profileImg != null ? '${user!.uid}_${profileImg.hashCode}' : null;
     final req = UserReq(
       uid: user!.uid,
-      nickName: nickname,
+      nickName: nickname.trim(),
       profileImgName: imgName,
       description: description,
       authMethod: user!.authMethod.eng,
@@ -121,15 +124,17 @@ class EditProfileViewModel extends BaseViewModel {
             );
           }
           if (user?.uid != null) {
-            await setUserId(user!.uid)
-                .then((value) => navigateToMainView(context));
+            await setUserId(user!.uid).then(
+              (value) => navigateToMainView(context),
+            );
           }
         }
       });
+    isBusy = false;
   }
 
   Future<void> setUserId(String uid) async {
-    userService.setUserId(uid);
+    await userService.setUserId(uid);
   }
 
   void navigateToMainView(BuildContext context) {

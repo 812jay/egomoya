@@ -20,6 +20,7 @@ class UserService with ChangeNotifier {
 
   void signOut() {
     setUserId('');
+    user = null;
     notifyListeners();
   }
 

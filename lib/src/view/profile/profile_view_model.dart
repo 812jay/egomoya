@@ -39,10 +39,13 @@ class ProfileViewModel extends BaseViewModel {
   }
 
   Future<void> signOut(BuildContext context) async {
-    await userRepo.signOut().then((value) {
-      userService.signOut();
-      navigateToSignIn(context);
-    });
+    final result = await userRepo.signOut();
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((value) {
+        userService.signOut();
+        navigateToSignIn(context);
+      });
   }
 
   void navigateToEditProfile(BuildContext context) {

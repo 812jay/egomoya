@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/base_repo.dart';
@@ -66,11 +64,7 @@ class UserRepo extends BaseRepo {
         return userCredential;
       });
 
-  Future<void> signOut() async {
-    try {
-      await fireAuth.signOut();
-    } catch (e, s) {
-      log('error: $e, stackTrace: $s');
-    }
-  }
+  Future<RequestResult<void>> signOut() => handleRequest(() async {
+        await fireAuth.signOut();
+      });
 }
