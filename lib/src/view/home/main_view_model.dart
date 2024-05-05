@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
@@ -69,12 +71,12 @@ class MainViewModel extends BaseViewModel {
     required Celeb celeb,
   }) async {
     final String imgRef = 'images/celeb/thumbnails/${celeb.imgName}';
-    String imgPath = await getCelebImagePath(imgRef);
+    String? imgPath = await getCelebImagePath(imgRef);
     List<CelebItem> celebItemList = [];
     if (celeb.itemList != null) {
       for (var item in celeb.itemList!) {
         final String itemImgRef = 'images/celeb/items/${item.imgName}';
-        String itemImgPath = await getCelebImagePath(itemImgRef);
+        String? itemImgPath = await getCelebImagePath(itemImgRef);
         celebItemList = [
           ...celebItemList,
           item.copyWith(imgPath: itemImgPath),
@@ -84,15 +86,16 @@ class MainViewModel extends BaseViewModel {
     return celeb.copyWith(imgPath: imgPath, itemList: celebItemList);
   }
 
-  Future<String> getCelebImagePath(String imgRef) async {
+  Future<String?> getCelebImagePath(String imgRef) async {
     final result = await imageRepo.fetchImage(imgRef: imgRef);
     return result;
   }
 
   Future<String?> getProfileImg(String? fileName) async {
     if (fileName == null) return null;
-    final String url =
+    final String? url =
         await imageRepo.fetchImage(imgRef: 'images/profile/$fileName');
+    log('url: $url');
     return url;
   }
 }

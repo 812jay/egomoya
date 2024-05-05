@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
@@ -51,7 +52,7 @@ class ProfileView extends StatelessWidget {
                       radius: 50,
                       backgroundColor: context.color.lightGrayBackground,
                       backgroundImage: viewModel.user.profileImgPath != null
-                          ? AssetImage(
+                          ? CachedNetworkImageProvider(
                               viewModel.user.profileImgPath!,
                             )
                           : null,

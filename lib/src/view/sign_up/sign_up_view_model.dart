@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -18,6 +16,5 @@ class SignUpViewModel extends BaseViewModel {
   UserCredential? credential;
   setInitArgs() {
     credential = args?.credential;
-    log('credential: $credential');
   }
 }

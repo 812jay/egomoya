@@ -25,7 +25,6 @@ class EditProfileViewModel extends BaseViewModel {
     required this.userService,
     required this.imageRepo,
   }) {
-    isBusy = true;
     setInit();
     userService.addListener(notifyListeners);
   }
@@ -85,40 +84,38 @@ class EditProfileViewModel extends BaseViewModel {
   }
 
   Future<void> onSubmit(BuildContext context) async {
+    isBusy = true;
     if (user != null) {
       String? imgName =
           profileImg != null ? '${user!.uid}_${profileImg.hashCode}' : null;
       final imgRef = 'images/profile/$imgName';
+      final req = UserReq(
+        uid: user!.uid,
+        nickName: nickname,
+        profileImgName: imgName,
+        description: description,
+        signInMethod: user!.signInMethod,
+        createdAt: Timestamp.fromDate(DateTime.now()),
+        updatedAt: Timestamp.fromDate(DateTime.now()),
+      );
       if (profileImg != null) {
         await imageRepo.registImage(
           imgRef: imgRef,
           image: profileImg!,
         );
       }
-      await userRepo
-          .registUser(
-        UserReq(
-          uid: user!.uid,
-          nickName: nickname,
-          uploadProfileImgName: imgName,
-          description: description,
-          signInMethod: user!.signInMethod,
-          createdAt: Timestamp.fromDate(DateTime.now()),
-          updatedAt: Timestamp.fromDate(DateTime.now()),
-        ),
-      )
-          .then(
-        (uid) {
+      await userRepo.registUser(req).then(
+        (uid) async {
           if (uid != null) {
-            setUserId(uid);
-            navigateToMainView(context);
+            await setUserId(uid).then((value) => navigateToMainView(context));
           }
         },
       );
     }
+    isBusy = false;
   }
 
-  void setUserId(String uid) {
+  Future<void> setUserId(String uid) async {
     userService.setUserId(uid);
   }
 

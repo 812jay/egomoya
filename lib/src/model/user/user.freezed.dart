@@ -319,7 +319,7 @@ UserReq _$UserReqFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserReq {
   String get uid => throw _privateConstructorUsedError;
-  String? get uploadProfileImgName => throw _privateConstructorUsedError;
+  String? get profileImgName => throw _privateConstructorUsedError;
   String get signInMethod => throw _privateConstructorUsedError;
   String? get nickName => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
@@ -340,7 +340,7 @@ abstract class $UserReqCopyWith<$Res> {
   @useResult
   $Res call(
       {String uid,
-      String? uploadProfileImgName,
+      String? profileImgName,
       String signInMethod,
       String? nickName,
       String? description,
@@ -362,7 +362,7 @@ class _$UserReqCopyWithImpl<$Res, $Val extends UserReq>
   @override
   $Res call({
     Object? uid = null,
-    Object? uploadProfileImgName = freezed,
+    Object? profileImgName = freezed,
     Object? signInMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
@@ -374,9 +374,9 @@ class _$UserReqCopyWithImpl<$Res, $Val extends UserReq>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadProfileImgName: freezed == uploadProfileImgName
-          ? _value.uploadProfileImgName
-          : uploadProfileImgName // ignore: cast_nullable_to_non_nullable
+      profileImgName: freezed == profileImgName
+          ? _value.profileImgName
+          : profileImgName // ignore: cast_nullable_to_non_nullable
               as String?,
       signInMethod: null == signInMethod
           ? _value.signInMethod
@@ -411,7 +411,7 @@ abstract class _$$UserReqImplCopyWith<$Res> implements $UserReqCopyWith<$Res> {
   @useResult
   $Res call(
       {String uid,
-      String? uploadProfileImgName,
+      String? profileImgName,
       String signInMethod,
       String? nickName,
       String? description,
@@ -431,7 +431,7 @@ class __$$UserReqImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uid = null,
-    Object? uploadProfileImgName = freezed,
+    Object? profileImgName = freezed,
     Object? signInMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
@@ -443,9 +443,9 @@ class __$$UserReqImplCopyWithImpl<$Res>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadProfileImgName: freezed == uploadProfileImgName
-          ? _value.uploadProfileImgName
-          : uploadProfileImgName // ignore: cast_nullable_to_non_nullable
+      profileImgName: freezed == profileImgName
+          ? _value.profileImgName
+          : profileImgName // ignore: cast_nullable_to_non_nullable
               as String?,
       signInMethod: null == signInMethod
           ? _value.signInMethod
@@ -476,7 +476,7 @@ class __$$UserReqImplCopyWithImpl<$Res>
 class _$UserReqImpl implements _UserReq {
   const _$UserReqImpl(
       {required this.uid,
-      this.uploadProfileImgName,
+      this.profileImgName,
       required this.signInMethod,
       this.nickName,
       this.description,
@@ -489,7 +489,7 @@ class _$UserReqImpl implements _UserReq {
   @override
   final String uid;
   @override
-  final String? uploadProfileImgName;
+  final String? profileImgName;
   @override
   final String signInMethod;
   @override
@@ -505,7 +505,7 @@ class _$UserReqImpl implements _UserReq {
 
   @override
   String toString() {
-    return 'UserReq(uid: $uid, uploadProfileImgName: $uploadProfileImgName, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserReq(uid: $uid, profileImgName: $profileImgName, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -514,8 +514,8 @@ class _$UserReqImpl implements _UserReq {
         (other.runtimeType == runtimeType &&
             other is _$UserReqImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.uploadProfileImgName, uploadProfileImgName) ||
-                other.uploadProfileImgName == uploadProfileImgName) &&
+            (identical(other.profileImgName, profileImgName) ||
+                other.profileImgName == profileImgName) &&
             (identical(other.signInMethod, signInMethod) ||
                 other.signInMethod == signInMethod) &&
             (identical(other.nickName, nickName) ||
@@ -530,7 +530,7 @@ class _$UserReqImpl implements _UserReq {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, uploadProfileImgName,
+  int get hashCode => Object.hash(runtimeType, uid, profileImgName,
       signInMethod, nickName, description, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
@@ -550,7 +550,7 @@ class _$UserReqImpl implements _UserReq {
 abstract class _UserReq implements UserReq {
   const factory _UserReq(
       {required final String uid,
-      final String? uploadProfileImgName,
+      final String? profileImgName,
       required final String signInMethod,
       final String? nickName,
       final String? description,
@@ -562,7 +562,7 @@ abstract class _UserReq implements UserReq {
   @override
   String get uid;
   @override
-  String? get uploadProfileImgName;
+  String? get profileImgName;
   @override
   String get signInMethod;
   @override

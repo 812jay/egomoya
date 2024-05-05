@@ -25,7 +25,7 @@ class UserRes with _$UserRes {
 class UserReq with _$UserReq {
   const factory UserReq({
     required String uid,
-    String? uploadProfileImgName,
+    String? profileImgName,
     required String signInMethod,
     String? nickName,
     String? description,
