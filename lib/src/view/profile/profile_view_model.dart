@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/enum/profile_type.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
@@ -48,7 +49,10 @@ class ProfileViewModel extends BaseViewModel {
     Navigator.pushNamed(
       context,
       RoutePath.editProfile,
-      arguments: EditProfileViewArgument(user: user),
+      arguments: EditProfileViewArgument(
+        user: user,
+        viewType: EditProfileViewType.edit,
+      ),
     );
   }
 

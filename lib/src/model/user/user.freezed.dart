@@ -23,7 +23,7 @@ mixin _$UserRes {
   String get uid => throw _privateConstructorUsedError;
   String? get profileImgName => throw _privateConstructorUsedError;
   String? get profileImgPath => throw _privateConstructorUsedError;
-  String get signInMethod => throw _privateConstructorUsedError;
+  AuthMethodType get authMethod => throw _privateConstructorUsedError;
   String? get nickName => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -45,7 +45,7 @@ abstract class $UserResCopyWith<$Res> {
       {String uid,
       String? profileImgName,
       String? profileImgPath,
-      String signInMethod,
+      AuthMethodType authMethod,
       String? nickName,
       String? description,
       @TimestampConverter() DateTime createdAt,
@@ -68,7 +68,7 @@ class _$UserResCopyWithImpl<$Res, $Val extends UserRes>
     Object? uid = null,
     Object? profileImgName = freezed,
     Object? profileImgPath = freezed,
-    Object? signInMethod = null,
+    Object? authMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
     Object? createdAt = null,
@@ -87,10 +87,10 @@ class _$UserResCopyWithImpl<$Res, $Val extends UserRes>
           ? _value.profileImgPath
           : profileImgPath // ignore: cast_nullable_to_non_nullable
               as String?,
-      signInMethod: null == signInMethod
-          ? _value.signInMethod
-          : signInMethod // ignore: cast_nullable_to_non_nullable
-              as String,
+      authMethod: null == authMethod
+          ? _value.authMethod
+          : authMethod // ignore: cast_nullable_to_non_nullable
+              as AuthMethodType,
       nickName: freezed == nickName
           ? _value.nickName
           : nickName // ignore: cast_nullable_to_non_nullable
@@ -122,7 +122,7 @@ abstract class _$$UserResImplCopyWith<$Res> implements $UserResCopyWith<$Res> {
       {String uid,
       String? profileImgName,
       String? profileImgPath,
-      String signInMethod,
+      AuthMethodType authMethod,
       String? nickName,
       String? description,
       @TimestampConverter() DateTime createdAt,
@@ -143,7 +143,7 @@ class __$$UserResImplCopyWithImpl<$Res>
     Object? uid = null,
     Object? profileImgName = freezed,
     Object? profileImgPath = freezed,
-    Object? signInMethod = null,
+    Object? authMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
     Object? createdAt = null,
@@ -162,10 +162,10 @@ class __$$UserResImplCopyWithImpl<$Res>
           ? _value.profileImgPath
           : profileImgPath // ignore: cast_nullable_to_non_nullable
               as String?,
-      signInMethod: null == signInMethod
-          ? _value.signInMethod
-          : signInMethod // ignore: cast_nullable_to_non_nullable
-              as String,
+      authMethod: null == authMethod
+          ? _value.authMethod
+          : authMethod // ignore: cast_nullable_to_non_nullable
+              as AuthMethodType,
       nickName: freezed == nickName
           ? _value.nickName
           : nickName // ignore: cast_nullable_to_non_nullable
@@ -193,7 +193,7 @@ class _$UserResImpl implements _UserRes {
       {required this.uid,
       this.profileImgName,
       this.profileImgPath,
-      required this.signInMethod,
+      required this.authMethod,
       this.nickName,
       this.description,
       @TimestampConverter() required this.createdAt,
@@ -209,7 +209,7 @@ class _$UserResImpl implements _UserRes {
   @override
   final String? profileImgPath;
   @override
-  final String signInMethod;
+  final AuthMethodType authMethod;
   @override
   final String? nickName;
   @override
@@ -223,7 +223,7 @@ class _$UserResImpl implements _UserRes {
 
   @override
   String toString() {
-    return 'UserRes(uid: $uid, profileImgName: $profileImgName, profileImgPath: $profileImgPath, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserRes(uid: $uid, profileImgName: $profileImgName, profileImgPath: $profileImgPath, authMethod: $authMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -236,8 +236,8 @@ class _$UserResImpl implements _UserRes {
                 other.profileImgName == profileImgName) &&
             (identical(other.profileImgPath, profileImgPath) ||
                 other.profileImgPath == profileImgPath) &&
-            (identical(other.signInMethod, signInMethod) ||
-                other.signInMethod == signInMethod) &&
+            (identical(other.authMethod, authMethod) ||
+                other.authMethod == authMethod) &&
             (identical(other.nickName, nickName) ||
                 other.nickName == nickName) &&
             (identical(other.description, description) ||
@@ -250,16 +250,8 @@ class _$UserResImpl implements _UserRes {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      uid,
-      profileImgName,
-      profileImgPath,
-      signInMethod,
-      nickName,
-      description,
-      createdAt,
-      updatedAt);
+  int get hashCode => Object.hash(runtimeType, uid, profileImgName,
+      profileImgPath, authMethod, nickName, description, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -280,7 +272,7 @@ abstract class _UserRes implements UserRes {
       {required final String uid,
       final String? profileImgName,
       final String? profileImgPath,
-      required final String signInMethod,
+      required final AuthMethodType authMethod,
       final String? nickName,
       final String? description,
       @TimestampConverter() required final DateTime createdAt,
@@ -295,7 +287,7 @@ abstract class _UserRes implements UserRes {
   @override
   String? get profileImgPath;
   @override
-  String get signInMethod;
+  AuthMethodType get authMethod;
   @override
   String? get nickName;
   @override
@@ -320,7 +312,7 @@ UserReq _$UserReqFromJson(Map<String, dynamic> json) {
 mixin _$UserReq {
   String get uid => throw _privateConstructorUsedError;
   String? get profileImgName => throw _privateConstructorUsedError;
-  String get signInMethod => throw _privateConstructorUsedError;
+  String get authMethod => throw _privateConstructorUsedError;
   String? get nickName => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   @DateTimeConverter()
@@ -341,7 +333,7 @@ abstract class $UserReqCopyWith<$Res> {
   $Res call(
       {String uid,
       String? profileImgName,
-      String signInMethod,
+      String authMethod,
       String? nickName,
       String? description,
       @DateTimeConverter() Timestamp createdAt,
@@ -363,7 +355,7 @@ class _$UserReqCopyWithImpl<$Res, $Val extends UserReq>
   $Res call({
     Object? uid = null,
     Object? profileImgName = freezed,
-    Object? signInMethod = null,
+    Object? authMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
     Object? createdAt = null,
@@ -378,9 +370,9 @@ class _$UserReqCopyWithImpl<$Res, $Val extends UserReq>
           ? _value.profileImgName
           : profileImgName // ignore: cast_nullable_to_non_nullable
               as String?,
-      signInMethod: null == signInMethod
-          ? _value.signInMethod
-          : signInMethod // ignore: cast_nullable_to_non_nullable
+      authMethod: null == authMethod
+          ? _value.authMethod
+          : authMethod // ignore: cast_nullable_to_non_nullable
               as String,
       nickName: freezed == nickName
           ? _value.nickName
@@ -412,7 +404,7 @@ abstract class _$$UserReqImplCopyWith<$Res> implements $UserReqCopyWith<$Res> {
   $Res call(
       {String uid,
       String? profileImgName,
-      String signInMethod,
+      String authMethod,
       String? nickName,
       String? description,
       @DateTimeConverter() Timestamp createdAt,
@@ -432,7 +424,7 @@ class __$$UserReqImplCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
     Object? profileImgName = freezed,
-    Object? signInMethod = null,
+    Object? authMethod = null,
     Object? nickName = freezed,
     Object? description = freezed,
     Object? createdAt = null,
@@ -447,9 +439,9 @@ class __$$UserReqImplCopyWithImpl<$Res>
           ? _value.profileImgName
           : profileImgName // ignore: cast_nullable_to_non_nullable
               as String?,
-      signInMethod: null == signInMethod
-          ? _value.signInMethod
-          : signInMethod // ignore: cast_nullable_to_non_nullable
+      authMethod: null == authMethod
+          ? _value.authMethod
+          : authMethod // ignore: cast_nullable_to_non_nullable
               as String,
       nickName: freezed == nickName
           ? _value.nickName
@@ -477,7 +469,7 @@ class _$UserReqImpl implements _UserReq {
   const _$UserReqImpl(
       {required this.uid,
       this.profileImgName,
-      required this.signInMethod,
+      required this.authMethod,
       this.nickName,
       this.description,
       @DateTimeConverter() required this.createdAt,
@@ -491,7 +483,7 @@ class _$UserReqImpl implements _UserReq {
   @override
   final String? profileImgName;
   @override
-  final String signInMethod;
+  final String authMethod;
   @override
   final String? nickName;
   @override
@@ -505,7 +497,7 @@ class _$UserReqImpl implements _UserReq {
 
   @override
   String toString() {
-    return 'UserReq(uid: $uid, profileImgName: $profileImgName, signInMethod: $signInMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserReq(uid: $uid, profileImgName: $profileImgName, authMethod: $authMethod, nickName: $nickName, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -516,8 +508,8 @@ class _$UserReqImpl implements _UserReq {
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.profileImgName, profileImgName) ||
                 other.profileImgName == profileImgName) &&
-            (identical(other.signInMethod, signInMethod) ||
-                other.signInMethod == signInMethod) &&
+            (identical(other.authMethod, authMethod) ||
+                other.authMethod == authMethod) &&
             (identical(other.nickName, nickName) ||
                 other.nickName == nickName) &&
             (identical(other.description, description) ||
@@ -530,8 +522,8 @@ class _$UserReqImpl implements _UserReq {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, profileImgName,
-      signInMethod, nickName, description, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, uid, profileImgName, authMethod,
+      nickName, description, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -551,7 +543,7 @@ abstract class _UserReq implements UserReq {
   const factory _UserReq(
       {required final String uid,
       final String? profileImgName,
-      required final String signInMethod,
+      required final String authMethod,
       final String? nickName,
       final String? description,
       @DateTimeConverter() required final Timestamp createdAt,
@@ -564,7 +556,7 @@ abstract class _UserReq implements UserReq {
   @override
   String? get profileImgName;
   @override
-  String get signInMethod;
+  String get authMethod;
   @override
   String? get nickName;
   @override

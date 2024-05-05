@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egomoya/src/data/enum/auth_type.dart';
+import 'package:egomoya/src/data/enum/profile_type.dart';
 import 'package:egomoya/src/data/enum/validator_type.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
@@ -14,8 +16,10 @@ import 'package:flutter/material.dart';
 class EditProfileViewArgument {
   EditProfileViewArgument({
     this.user,
+    required this.viewType,
   });
   final UserRes? user;
+  final EditProfileViewType viewType;
 }
 
 class EditProfileViewModel extends BaseViewModel {
@@ -46,8 +50,7 @@ class EditProfileViewModel extends BaseViewModel {
   UserRes? user;
   File? profileImg;
 
-  String get appbarTitle => user != null ? '프로필 수정' : '프로필 등록';
-  String get submitButtonTitle => user != null ? '수정하기' : '등록하기';
+  late EditProfileViewType viewType;
 
   @override
   void dispose() {
@@ -58,6 +61,7 @@ class EditProfileViewModel extends BaseViewModel {
   void setInit() async {
     isBusy = true;
     user = args.user;
+    viewType = args.viewType;
     if (user != null) {
       if (user!.profileImgPath != null && user!.profileImgName != null) {
         profileImg = await ImageHelper.urlToFile(
@@ -97,7 +101,7 @@ class EditProfileViewModel extends BaseViewModel {
         nickName: nickname,
         profileImgName: imgName,
         description: description,
-        signInMethod: user!.signInMethod,
+        authMethod: user!.authMethod.eng,
         createdAt: Timestamp.fromDate(DateTime.now()),
         updatedAt: Timestamp.fromDate(DateTime.now()),
       );

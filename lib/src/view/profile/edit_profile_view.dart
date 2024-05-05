@@ -1,3 +1,4 @@
+import 'package:egomoya/src/data/enum/profile_type.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
@@ -35,7 +36,7 @@ class EditProfileView extends StatelessWidget {
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
             appBar: BaseAppBar(
-              title: viewModel.appbarTitle,
+              title: viewModel.viewType.appbarTitle,
             ),
             body: SafeArea(
               child: Padding(
@@ -100,7 +101,7 @@ class EditProfileView extends StatelessWidget {
                             ? () => viewModel.onSubmit(context)
                             : null,
                         title: Text(
-                          viewModel.submitButtonTitle,
+                          viewModel.viewType.submitTitle,
                           style: context.typo.subTitle3.bold.whiteColor,
                           textAlign: TextAlign.center,
                         ),

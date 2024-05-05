@@ -42,10 +42,14 @@ class MainViewModel extends BaseViewModel {
   Future<void> fetchUser() async {
     isBusy = true;
     final result = await userRepo.fetchUser(userService.userId);
-    if (result != null) {
-      final String? imgUrl = await getProfileImg(result.profileImgName);
-      userService.setUser(result, imgUrl);
-    }
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((newUser) async {
+        if (newUser != null) {
+          final String? imgUrl = await getProfileImg(newUser.profileImgName);
+          userService.setUser(newUser, imgUrl);
+        }
+      });
     isBusy = false;
   }
 

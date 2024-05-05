@@ -1,10 +1,13 @@
+import 'package:egomoya/src/data/enum/auth_type.dart';
+import 'package:egomoya/src/data/enum/profile_type.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
+import 'package:egomoya/util/request_result.dart';
 import 'package:egomoya/util/route_path.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewModel extends BaseViewModel {
@@ -17,74 +20,92 @@ class SignInViewModel extends BaseViewModel {
 
   Future<void> signInWithGoogle(BuildContext context) async {
     isBusy = true;
-    await userRepo.signInWithGoogle().then((credential) async {
-      if (credential?.user != null) {
-        await userRepo.fetchUserValidate(credential!.user!.uid).then(
-          (hasUserId) async {
-            if (hasUserId) {
-              await userService.setUserId(credential.user!.uid).then(
-                    (value) => navigateToMainView(context),
-                  );
-              return;
-            }
-            navigateToEditProfileView(
-              context,
-              credential: credential,
-              signInMethod: 'google',
-            );
-          },
-        );
-      }
-    });
+    final result = await userRepo.signInWithGoogle();
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((credential) async {
+        if (credential != null) {
+          await fetchUserValidate(
+            context: context,
+            credential: credential,
+            authMethod: AuthMethodType.google,
+          );
+        }
+      });
 
     isBusy = false;
   }
 
-  Future<void> signInWithApple(BuildContext context) async {
-    await userRepo.signInWithApple().then((credential) async {
-      if (credential?.user != null) {
-        await userRepo.fetchUserValidate(credential!.user!.uid).then(
-          (hasUserId) async {
-            if (hasUserId) {
-              await userService.setUserId(credential.user!.uid).then(
-                    (value) => navigateToMainView(context),
-                  );
-              return;
+  Future<void> signInWithApple(BuildContext context) => handleRequest(() async {
+        isBusy = true;
+        final result = await userRepo.signInWithApple();
+        result
+          ..onFailure((e) => null)
+          ..onSuccess((credential) async {
+            if (credential != null) {
+              await fetchUserValidate(
+                context: context,
+                credential: credential,
+                authMethod: AuthMethodType.apple,
+              );
             }
-            navigateToEditProfileView(
-              context,
-              credential: credential,
-              signInMethod: 'apple',
-            );
-          },
+          });
+        isBusy = false;
+      });
+
+  Future<void> fetchUserValidate({
+    required BuildContext context,
+    required UserCredential credential,
+    required AuthMethodType authMethod,
+  }) async {
+    if (credential.user == null) return;
+    final String uid = credential.user!.uid;
+    final result = await userRepo.fetchUser(uid);
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((newUser) async {
+        if (newUser != null) {
+          await userService.setUserId(uid).then(
+                (value) => navigateToMainView(context),
+              );
+          return;
+        }
+        navigateToEditProfileView(
+          context,
+          user: UserRes(
+            uid: credential.user!.uid,
+            description: '',
+            nickName: credential.user!.displayName,
+            authMethod: authMethod,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+          authMethod: authMethod,
         );
-      }
-    });
+      });
   }
 
   void navigateToEditProfileView(
     BuildContext context, {
-    required auth.UserCredential credential,
-    required String signInMethod,
+    required UserRes user,
+    required AuthMethodType authMethod,
   }) {
-    if (credential.user != null) {
-      final user = credential.user;
-      Navigator.pushNamed(
-        context,
-        RoutePath.editProfile,
-        arguments: EditProfileViewArgument(
-          user: UserRes(
-            uid: user!.uid,
-            profileImgName: user.photoURL,
-            signInMethod: signInMethod,
-            nickName: user.displayName,
-            description: '',
-            createdAt: user.metadata.creationTime ?? DateTime.now(),
-            updatedAt: user.metadata.creationTime ?? DateTime.now(),
-          ),
+    Navigator.pushNamed(
+      context,
+      RoutePath.editProfile,
+      arguments: EditProfileViewArgument(
+        user: UserRes(
+          uid: user.uid,
+          profileImgName: user.profileImgName,
+          authMethod: authMethod,
+          nickName: user.nickName,
+          description: user.description,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
         ),
-      );
-    }
+        viewType: EditProfileViewType.add,
+      ),
+    );
   }
 
   void navigateToMainView(BuildContext context) {

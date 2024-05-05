@@ -11,7 +11,7 @@ _$UserResImpl _$$UserResImplFromJson(Map<String, dynamic> json) =>
       uid: json['uid'] as String,
       profileImgName: json['profileImgName'] as String?,
       profileImgPath: json['profileImgPath'] as String?,
-      signInMethod: json['signInMethod'] as String,
+      authMethod: $enumDecode(_$AuthMethodTypeEnumMap, json['authMethod']),
       nickName: json['nickName'] as String?,
       description: json['description'] as String?,
       createdAt:
@@ -25,18 +25,23 @@ Map<String, dynamic> _$$UserResImplToJson(_$UserResImpl instance) =>
       'uid': instance.uid,
       'profileImgName': instance.profileImgName,
       'profileImgPath': instance.profileImgPath,
-      'signInMethod': instance.signInMethod,
+      'authMethod': _$AuthMethodTypeEnumMap[instance.authMethod]!,
       'nickName': instance.nickName,
       'description': instance.description,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
     };
 
+const _$AuthMethodTypeEnumMap = {
+  AuthMethodType.google: 'google',
+  AuthMethodType.apple: 'apple',
+};
+
 _$UserReqImpl _$$UserReqImplFromJson(Map<String, dynamic> json) =>
     _$UserReqImpl(
       uid: json['uid'] as String,
       profileImgName: json['profileImgName'] as String?,
-      signInMethod: json['signInMethod'] as String,
+      authMethod: json['authMethod'] as String,
       nickName: json['nickName'] as String?,
       description: json['description'] as String?,
       createdAt:
@@ -49,7 +54,7 @@ Map<String, dynamic> _$$UserReqImplToJson(_$UserReqImpl instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'profileImgName': instance.profileImgName,
-      'signInMethod': instance.signInMethod,
+      'authMethod': instance.authMethod,
       'nickName': instance.nickName,
       'description': instance.description,
       'createdAt': const DateTimeConverter().toJson(instance.createdAt),
