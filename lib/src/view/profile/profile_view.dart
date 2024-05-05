@@ -82,7 +82,7 @@ class ProfileView extends StatelessWidget {
                         border:
                             Border.all(width: 1, color: context.color.primary),
                         title: Text(
-                          '프로필수정',
+                          '프로필 수정',
                           style: context.typo.body2.bold.whiteColor,
                           textAlign: TextAlign.center,
                         ),

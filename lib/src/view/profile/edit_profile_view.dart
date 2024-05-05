@@ -34,8 +34,8 @@ class EditProfileView extends StatelessWidget {
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
-            appBar: const BaseAppBar(
-              title: '프로필 등록',
+            appBar: BaseAppBar(
+              title: viewModel.appbarTitle,
             ),
             body: SafeArea(
               child: Padding(
@@ -100,7 +100,7 @@ class EditProfileView extends StatelessWidget {
                             ? () => viewModel.onSubmit(context)
                             : null,
                         title: Text(
-                          '프로필 등록',
+                          viewModel.submitButtonTitle,
                           style: context.typo.subTitle3.bold.whiteColor,
                           textAlign: TextAlign.center,
                         ),

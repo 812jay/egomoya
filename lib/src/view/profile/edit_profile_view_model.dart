@@ -46,6 +46,9 @@ class EditProfileViewModel extends BaseViewModel {
   UserRes? user;
   File? profileImg;
 
+  String get appbarTitle => user != null ? '프로필 수정' : '프로필 등록';
+  String get submitButtonTitle => user != null ? '수정하기' : '등록하기';
+
   @override
   void dispose() {
     userService.removeListener(notifyListeners);
