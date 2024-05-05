@@ -40,6 +40,7 @@ class MainViewModel extends BaseViewModel {
   }
 
   Future<void> fetchUser() async {
+    if (userService.userId.isEmpty) return;
     isBusy = true;
     final result = await userRepo.fetchUser(userService.userId);
     result

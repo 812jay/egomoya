@@ -25,17 +25,12 @@ class UserRepo extends BaseRepo {
         return result;
       });
 
-  Future<String?> registUser(UserReq req) async {
-    try {
-      log('req: $req');
-      final ref = firestore.collection('user').doc(req.uid);
-      ref.set(req.toJson());
-      return req.uid;
-    } catch (e, s) {
-      log('error: $e, stackTrace: $s');
-    }
-    return null;
-  }
+  Future<RequestResult<String?>> registUser(UserReq req) =>
+      handleRequest(() async {
+        final ref = firestore.collection('user').doc(req.uid);
+        ref.set(req.toJson());
+        return req.uid;
+      });
 
   Future<RequestResult<UserCredential?>> signInWithGoogle() =>
       handleRequest(() async {

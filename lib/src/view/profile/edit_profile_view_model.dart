@@ -92,34 +92,40 @@ class EditProfileViewModel extends BaseViewModel {
 
   Future<void> onSubmit(BuildContext context) async {
     isBusy = true;
-    if (user != null) {
-      String? imgName =
-          profileImg != null ? '${user!.uid}_${profileImg.hashCode}' : null;
-      final imgRef = 'images/profile/$imgName';
-      final req = UserReq(
-        uid: user!.uid,
-        nickName: nickname,
-        profileImgName: imgName,
-        description: description,
-        authMethod: user!.authMethod.eng,
-        createdAt: Timestamp.fromDate(DateTime.now()),
-        updatedAt: Timestamp.fromDate(DateTime.now()),
-      );
-      if (profileImg != null) {
-        await imageRepo.registImage(
-          imgRef: imgRef,
-          image: profileImg!,
-        );
-      }
-      await userRepo.registUser(req).then(
-        (uid) async {
-          if (uid != null) {
-            await setUserId(uid).then((value) => navigateToMainView(context));
-          }
-        },
-      );
-    }
+    await registUser(context);
     isBusy = false;
+  }
+
+  Future<void> registUser(BuildContext context) async {
+    String? imgName =
+        profileImg != null ? '${user!.uid}_${profileImg.hashCode}' : null;
+    final req = UserReq(
+      uid: user!.uid,
+      nickName: nickname,
+      profileImgName: imgName,
+      description: description,
+      authMethod: user!.authMethod.eng,
+      createdAt: Timestamp.fromDate(DateTime.now()),
+      updatedAt: Timestamp.fromDate(DateTime.now()),
+    );
+    final result = await userRepo.registUser(req);
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((value) async {
+        if (user != null) {
+          final imgRef = 'images/profile/$imgName';
+          if (profileImg != null) {
+            await imageRepo.registImage(
+              imgRef: imgRef,
+              image: profileImg!,
+            );
+          }
+          if (user?.uid != null) {
+            await setUserId(user!.uid)
+                .then((value) => navigateToMainView(context));
+          }
+        }
+      });
   }
 
   Future<void> setUserId(String uid) async {
