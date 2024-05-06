@@ -3,6 +3,7 @@ import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
+import 'package:egomoya/src/service/celeb_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
@@ -22,6 +23,7 @@ class MainView extends StatelessWidget {
         imageRepo: context.read<ImageRepo>(),
         userRepo: context.read<UserRepo>(),
         userService: context.read<UserService>(),
+        celebService: context.read<CelebService>(),
       ),
       builder: (context, viewModel) {
         return Scaffold(

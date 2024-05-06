@@ -3,6 +3,7 @@ import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
+import 'package:egomoya/src/service/celeb_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/helper/immutable_helper.dart';
@@ -14,6 +15,7 @@ class MainViewModel extends BaseViewModel {
     required this.imageRepo,
     required this.userRepo,
     required this.userService,
+    required this.celebService,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await setUser();
@@ -25,8 +27,9 @@ class MainViewModel extends BaseViewModel {
   final ImageRepo imageRepo;
   final UserRepo userRepo;
   final UserService userService;
+  final CelebService celebService;
 
-  List<Celeb> celebList = [];
+  List<Celeb> get celebList => celebService.celebList;
 
   String get userId => userService.userId;
   UserRes? get user => userService.user;
@@ -74,7 +77,7 @@ class MainViewModel extends BaseViewModel {
         for (var celeb in newCelebList) {
           result = [...result, await getCelebWithImg(celeb)].toImmutable();
         }
-        celebList = result;
+        celebService.setCelebList(result);
         isBusy = false;
       });
   }

@@ -1,6 +1,7 @@
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
+import 'package:egomoya/src/service/celeb_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/home/main_view.dart';
@@ -37,6 +38,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => UserService(prefHelper: prefHelper),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => CelebService(),
       ),
     ], child: const MyApp()),
   );
