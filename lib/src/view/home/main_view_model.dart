@@ -39,6 +39,7 @@ class MainViewModel extends BaseViewModel {
   }
 
   Future<void> setUser() async {
+    if (userService.userId.isEmpty) return;
     isBusy = true;
     final UserRes? newUser = await getUser();
     if (newUser != null) {
