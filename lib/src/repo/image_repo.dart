@@ -2,21 +2,18 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:egomoya/src/repo/base_repo.dart';
+import 'package:egomoya/util/request_result.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class ImageRepo extends BaseRepo {
   final fireStorage = FirebaseStorage.instance;
-  Future<String?> fetchImage({
+  Future<RequestResult<String?>> fetchImage({
     required String imgRef,
-  }) async {
-    try {
-      String url = await fireStorage.ref(imgRef).getDownloadURL();
-      return url;
-    } catch (e, s) {
-      log('e: $e, s: $s');
-    }
-    return null;
-  }
+  }) =>
+      handleRequest(() async {
+        String url = await fireStorage.ref(imgRef).getDownloadURL();
+        return url;
+      });
 
   Future<void> registImage({
     required String imgRef,

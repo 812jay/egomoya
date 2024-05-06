@@ -7,7 +7,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class CelebRepo extends BaseRepo {
   final CollectionReference celebCollection = firestore.collection('celeb');
-  Future<RequestResult<List<Celeb>?>> fetchCelebList() =>
+  Future<RequestResult<List<Celeb>>> fetchCelebList() =>
       handleRequest(() async {
         List<Celeb> result = [];
         QuerySnapshot snapshot = await celebCollection.get();

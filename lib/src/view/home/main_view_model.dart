@@ -5,6 +5,7 @@ import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/util/helper/immutable_helper.dart';
 import 'package:flutter/material.dart';
 
 class MainViewModel extends BaseViewModel {
@@ -15,7 +16,7 @@ class MainViewModel extends BaseViewModel {
     required this.userService,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await fetchUser();
+      await setUser();
       await fetchCelebList();
       userService.addListener(notifyListeners);
     });
@@ -37,53 +38,54 @@ class MainViewModel extends BaseViewModel {
     userService.removeListener(notifyListeners);
   }
 
-  Future<void> fetchUser() async {
-    if (userService.userId.isEmpty) return;
+  Future<void> setUser() async {
     isBusy = true;
-    final result = await userRepo.fetchUser(userService.userId);
-    result
-      ..onFailure((e) => null)
-      ..onSuccess((newUser) async {
-        if (newUser != null) {
-          final String? imgUrl = await getProfileImg(newUser.profileImgName);
-          userService.setUser(newUser, imgUrl);
-        }
-      });
-    isBusy = false;
-  }
-
-  Future<void> fetchCelebList() async {
-    final result = await celebRepo.fetchCelebList();
-    result
-      ..onFailure((e) => null)
-      ..onSuccess((newCelebList) async {
-        if (newCelebList != null) {
-          await setCelebWithImage(newCelebList);
-        }
-      });
-  }
-
-  Future<void> setCelebWithImage(List<Celeb> newCelebList) async {
-    isBusy = true;
-    for (var celeb in newCelebList) {
-      celebList = [
-        ...celebList,
-        await getCelebWithImage(celeb: celeb),
-      ];
+    final UserRes? newUser = await getUser();
+    if (newUser != null) {
+      String? imgUrl;
+      if (newUser.profileImgName != null) {
+        String imgRef = 'images/profile/${newUser.profileImgName!}';
+        imgUrl = await getImagePath(imgRef);
+      }
+      userService.setUser(newUser, imgUrl);
     }
     isBusy = false;
   }
 
-  Future<Celeb> getCelebWithImage({
-    required Celeb celeb,
-  }) async {
+  Future<UserRes?> getUser() async {
+    UserRes? result;
+    final response = await userRepo.fetchUser(userService.userId);
+    response
+      ..onFailure((e) => showToast('유저 정보를 불러오는데 실패했어요'))
+      ..onSuccess((newUser) async {
+        result = newUser;
+      });
+    return result;
+  }
+
+  Future<void> fetchCelebList() async {
+    final response = await celebRepo.fetchCelebList();
+    response
+      ..onFailure((e) => showToast('셀럽 데이터를 불러오는데 실패했어요'))
+      ..onSuccess((newCelebList) async {
+        isBusy = true;
+        List<Celeb> result = [];
+        for (var celeb in newCelebList) {
+          result = [...result, await getCelebWithImg(celeb)].toImmutable();
+        }
+        celebList = result;
+        isBusy = false;
+      });
+  }
+
+  Future<Celeb> getCelebWithImg(Celeb celeb) async {
     final String imgRef = 'images/celeb/thumbnails/${celeb.imgName}';
-    String? imgPath = await getCelebImagePath(imgRef);
+    String? imgPath = await getImagePath(imgRef);
     List<CelebItem> celebItemList = [];
     if (celeb.itemList != null) {
       for (var item in celeb.itemList!) {
         final String itemImgRef = 'images/celeb/items/${item.imgName}';
-        String? itemImgPath = await getCelebImagePath(itemImgRef);
+        String? itemImgPath = await getImagePath(itemImgRef);
         celebItemList = [
           ...celebItemList,
           item.copyWith(imgPath: itemImgPath),
@@ -93,15 +95,14 @@ class MainViewModel extends BaseViewModel {
     return celeb.copyWith(imgPath: imgPath, itemList: celebItemList);
   }
 
-  Future<String?> getCelebImagePath(String imgRef) async {
-    final result = await imageRepo.fetchImage(imgRef: imgRef);
+  Future<String?> getImagePath(String imgRef) async {
+    String? result;
+    final response = await imageRepo.fetchImage(imgRef: imgRef);
+    response
+      ..onFailure((e) => null)
+      ..onSuccess((imgPath) {
+        result = imgPath;
+      });
     return result;
-  }
-
-  Future<String?> getProfileImg(String? fileName) async {
-    if (fileName == null) return null;
-    final String? url =
-        await imageRepo.fetchImage(imgRef: 'images/profile/$fileName');
-    return url;
   }
 }
