@@ -30,10 +30,4 @@ class UserService with ChangeNotifier {
     );
     notifyListeners();
   }
-
-  Future<void> setProfileUrl(String newProfileUrl) async {
-    profileImgUrl = newProfileUrl;
-    user = user?.copyWith(profileImgName: profileImgUrl);
-    notifyListeners();
-  }
 }

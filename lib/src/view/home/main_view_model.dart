@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
@@ -55,21 +53,25 @@ class MainViewModel extends BaseViewModel {
   }
 
   Future<void> fetchCelebList() async {
-    isBusy = true;
-    List<Celeb>? newCelebList = await celebRepo.fetchCelebList();
-    if (newCelebList != null) {
-      await setCelebWithImage(newCelebList);
-    }
-    isBusy = false;
+    final result = await celebRepo.fetchCelebList();
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((newCelebList) async {
+        if (newCelebList != null) {
+          await setCelebWithImage(newCelebList);
+        }
+      });
   }
 
   Future<void> setCelebWithImage(List<Celeb> newCelebList) async {
+    isBusy = true;
     for (var celeb in newCelebList) {
       celebList = [
         ...celebList,
         await getCelebWithImage(celeb: celeb),
       ];
     }
+    isBusy = false;
   }
 
   Future<Celeb> getCelebWithImage({
@@ -100,7 +102,6 @@ class MainViewModel extends BaseViewModel {
     if (fileName == null) return null;
     final String? url =
         await imageRepo.fetchImage(imgRef: 'images/profile/$fileName');
-    log('url: $url');
     return url;
   }
 }
