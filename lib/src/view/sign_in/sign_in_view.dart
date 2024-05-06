@@ -6,7 +6,7 @@ import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
-import 'package:egomoya/theme/component/button/base_button.dart';
+import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
@@ -197,7 +197,7 @@ class _SubmitButton extends StatelessWidget {
     //   isInactive: !isValid,
     //   width: double.infinity,
     // );
-    return BaseButton(
+    return Button(
       title: Text(
         '이메일 로그인',
         textAlign: TextAlign.center,
@@ -217,7 +217,7 @@ class _GoogleSignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseButton(
+    return Button(
       onTap: onTap,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -253,7 +253,7 @@ class _AppleSignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseButton(
+    return Button(
       onTap: onTap,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -5,7 +5,7 @@ import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
-import 'package:egomoya/theme/component/button/base_button.dart';
+import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
@@ -76,7 +76,7 @@ class ProfileView extends StatelessWidget {
                     const SizedBox(height: 20),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: BaseButton(
+                      child: Button(
                         onTap: () => viewModel.navigateToEditProfile(context),
                         width: double.infinity,
                         border:
@@ -91,7 +91,7 @@ class ProfileView extends StatelessWidget {
                     const SizedBox(height: 20),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: BaseButton(
+                      child: Button(
                         onTap: () => viewModel.signOut(context),
                         width: double.infinity,
                         color: context.color.white,

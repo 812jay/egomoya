@@ -10,7 +10,8 @@ import 'package:egomoya/src/view/home/main_view_model.dart';
 import 'package:egomoya/src/view/home/page/celeb_view.dart';
 import 'package:egomoya/src/view/home/page/home_view.dart';
 import 'package:egomoya/src/view/home/page/question_view.dart';
-import 'package:egomoya/theme/component/button/category_button.dart';
+import 'package:egomoya/theme/component/button/button.dart';
+import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/component/main_sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,34 +37,42 @@ class MainView extends StatelessWidget {
         ];
         return Scaffold(
           body: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return <Widget>[
-                  MainSliverAppBar(
-                    user: viewModel.user,
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return <Widget>[
+                MainSliverAppBar(
+                  user: viewModel.user,
+                ),
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
                   ),
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      context,
-                    ),
-                    sliver: SliverPersistentHeader(
-                      delegate: MainHeaderDelegate(
-                        itemCnt: viewModel.categoryList.length,
-                        categoryList: viewModel.categoryList,
-                        onTapCategory: (index) =>
-                            viewModel.onTapCategory(index),
-                      ),
+                  sliver: SliverPersistentHeader(
+                    delegate: MainHeaderDelegate(
+                      itemCnt: viewModel.categoryList.length,
+                      categoryList: viewModel.categoryList,
+                      onTapCategory: (index) => viewModel.onTapCategory(index),
                     ),
                   ),
-                ];
+                ),
+              ];
+            },
+            floatHeaderSlivers: true,
+            body: PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: pageList.length,
+              itemBuilder: (context, index) {
+                return pageList[viewModel.selectedCategoryIndex];
               },
-              floatHeaderSlivers: true,
-              body: PageView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: pageList.length,
-                itemBuilder: (context, index) {
-                  return pageList[viewModel.selectedCategoryIndex];
-                },
-              )),
+            ),
+          ),
+          floatingActionButton: viewModel.selectedCategoryIndex == 2
+              ? Button.iconText(
+                  context,
+                  iconPath: AssetIconType.pencel.path,
+                  onTap: () {},
+                  text: '글쓰기',
+                )
+              : const SizedBox.shrink(),
         );
       },
     );
@@ -96,12 +105,11 @@ class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
         separatorBuilder: (context, index) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
           final category = categoryList[index];
-          return CategoryButton(
+          return Button.category(
+            context,
             text: category.title,
             isActive: category.isActive,
-            onTap: () {
-              onTapCategory(index);
-            },
+            onTap: () => onTapCategory(index),
           );
         },
       ),

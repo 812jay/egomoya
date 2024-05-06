@@ -24,6 +24,7 @@ enum AssetIconType {
   apple,
   insta,
   profile,
+  pencel,
 }
 
 extension AssetIconTypeExt on AssetIconType {
@@ -43,6 +44,8 @@ extension AssetIconTypeExt on AssetIconType {
         return 'insta';
       case AssetIconType.profile:
         return 'group';
+      case AssetIconType.pencel:
+        return 'pencel';
     }
   }
 

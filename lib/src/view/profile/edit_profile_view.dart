@@ -7,7 +7,7 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/base_text_field.dart';
-import 'package:egomoya/theme/component/button/base_button.dart';
+import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
@@ -97,7 +97,7 @@ class EditProfileView extends StatelessWidget {
                         hintText: '한줄설명을 입력해 주세요',
                       ),
                       spaceBig,
-                      BaseButton(
+                      Button(
                         onTap: viewModel.isValidateSubmit
                             ? () => viewModel.onSubmit(context)
                             : null,

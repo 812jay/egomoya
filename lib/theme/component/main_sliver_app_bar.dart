@@ -32,11 +32,11 @@ class MainSliverAppBar extends StatelessWidget {
         ),
       ),
       actions: [
-        AssetIcon(
-          AssetIconType.alarm.path,
-          size: 22,
-        ),
-        const SizedBox(width: 20),
+        // AssetIcon(
+        //   AssetIconType.alarm.path,
+        //   size: 22,
+        // ),
+        // const SizedBox(width: 20),
         if (user != null)
           GestureDetector(
             onTap: () => Navigator.pushNamed(
