@@ -1,4 +1,5 @@
 import 'package:egomoya/src/model/celeb/celeb.dart';
+import 'package:egomoya/src/model/main/main_category.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
@@ -34,6 +35,14 @@ class MainViewModel extends BaseViewModel {
   String get userId => userService.userId;
   UserRes? get user => userService.user;
   String? get profileImgUrl => userService.profileImgUrl;
+
+  //category
+  List<MainCategory> categoryList = [
+    MainCategory(index: 0, title: '홈', isActive: true),
+    MainCategory(index: 1, title: '셀럽템', isActive: false),
+    MainCategory(index: 2, title: '요고 궁금', isActive: false),
+  ];
+  int selectedCategoryIndex = 0;
 
   @override
   void dispose() {
@@ -108,5 +117,25 @@ class MainViewModel extends BaseViewModel {
         result = imgPath;
       });
     return result;
+  }
+
+  void onTapCategory(int index) {
+    if (selectedCategoryIndex == index) return;
+    final category = categoryList[index];
+    onChangeCategory(index, category.copyWith(isActive: !category.isActive));
+    selectedCategoryIndex = index;
+    notifyListeners();
+  }
+
+  void onChangeCategory(int index, MainCategory newCategory) {
+    //clear
+    categoryList =
+        categoryList.map((e) => e.copyWith(isActive: false)).toImmutable();
+    //set
+    categoryList = categoryList
+        .asMap()
+        .entries
+        .map((e) => e.key == index ? newCategory : e.value)
+        .toImmutable();
   }
 }

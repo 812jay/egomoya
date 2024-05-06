@@ -1,13 +1,16 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:egomoya/src/model/celeb/celeb.dart';
+import 'package:egomoya/src/model/main/main_category.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/celeb_service.dart';
+import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
-import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
 import 'package:egomoya/src/view/home/main_view_model.dart';
+import 'package:egomoya/src/view/home/page/celeb_view.dart';
+import 'package:egomoya/src/view/home/page/home_view.dart';
+import 'package:egomoya/src/view/home/page/question_view.dart';
+import 'package:egomoya/theme/component/button/category_button.dart';
 import 'package:egomoya/theme/component/main_sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,58 +29,93 @@ class MainView extends StatelessWidget {
         celebService: context.read<CelebService>(),
       ),
       builder: (context, viewModel) {
+        List<Widget> pageList = [
+          HomeView(celebList: viewModel.celebList),
+          const CelebView(),
+          const QuestionView(),
+        ];
         return Scaffold(
           body: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return <Widget>[
-                MainSliverAppBar(
-                  user: viewModel.user,
-                ),
-              ];
-            },
-            body: Column(
-              children: [
-                _CelebCarousel(
-                  celebList: viewModel.celebList,
-                ),
-              ],
-            ),
-          ),
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return <Widget>[
+                  MainSliverAppBar(
+                    user: viewModel.user,
+                  ),
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                      context,
+                    ),
+                    sliver: SliverPersistentHeader(
+                      delegate: MainHeaderDelegate(
+                        itemCnt: viewModel.categoryList.length,
+                        categoryList: viewModel.categoryList,
+                        onTapCategory: (index) =>
+                            viewModel.onTapCategory(index),
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              floatHeaderSlivers: true,
+              body: PageView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: pageList.length,
+                itemBuilder: (context, index) {
+                  return pageList[viewModel.selectedCategoryIndex];
+                },
+              )),
         );
       },
     );
   }
 }
 
-class _CelebCarousel extends StatelessWidget {
-  const _CelebCarousel({
-    super.key,
-    required this.celebList,
+class MainHeaderDelegate extends SliverPersistentHeaderDelegate {
+  MainHeaderDelegate({
+    required this.itemCnt,
+    required this.categoryList,
+    required this.onTapCategory,
   });
-  final List<Celeb> celebList;
+  final int itemCnt;
+  final List<MainCategory> categoryList;
+  final void Function(int) onTapCategory;
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(color: context.color.white),
+      padding: const EdgeInsets.only(left: 20),
+      child: ListView.separated(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: itemCnt,
+        separatorBuilder: (context, index) => const SizedBox(width: 8),
+        itemBuilder: (context, index) {
+          final category = categoryList[index];
+          return CategoryButton(
+            text: category.title,
+            isActive: category.isActive,
+            onTap: () {
+              onTapCategory(index);
+            },
+          );
+        },
+      ),
+    );
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return CarouselSlider.builder(
-      itemCount: celebList.length,
-      options: CarouselOptions(
-        scrollDirection: Axis.horizontal,
-        initialPage: 0,
-        enableInfiniteScroll: false,
-        height: 400,
-        viewportFraction: 0.85,
-        enlargeFactor: 0.2,
-        enlargeCenterPage: true,
-        autoPlayCurve: Curves.easeInOut,
-        autoPlayInterval: const Duration(seconds: 3),
-        autoPlayAnimationDuration: const Duration(seconds: 1),
-        pauseAutoPlayInFiniteScroll: true,
-        autoPlay: true,
-      ),
-      itemBuilder: (context, index, realIndex) {
-        final celeb = celebList[index];
-        return CelebCard(celeb: celeb);
-      },
-    );
+  double get maxExtent => 40;
+
+  @override
+  double get minExtent => 40;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }
