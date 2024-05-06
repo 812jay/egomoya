@@ -99,7 +99,6 @@ class EditProfileViewModel extends BaseViewModel {
   }
 
   Future<void> registUser(BuildContext context) async {
-    isBusy = true;
     String? imgName =
         profileImg != null ? '${user!.uid}_${profileImg.hashCode}' : null;
     final req = UserReq(
@@ -113,8 +112,9 @@ class EditProfileViewModel extends BaseViewModel {
     );
     final result = await userRepo.registUser(req);
     result
-      ..onFailure((e) => null)
+      ..onFailure((e) => showToast('${viewType.appbarTitle}에 실패했어요'))
       ..onSuccess((value) async {
+        isBusy = true;
         if (user != null) {
           final imgRef = 'images/profile/$imgName';
           if (profileImg != null) {
@@ -126,8 +126,8 @@ class EditProfileViewModel extends BaseViewModel {
             );
           }
         }
+        isBusy = false;
       });
-    isBusy = false;
   }
 
   Future<void> registImage(String imgRef) async {
