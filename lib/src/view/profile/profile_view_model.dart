@@ -41,7 +41,7 @@ class ProfileViewModel extends BaseViewModel {
   Future<void> signOut(BuildContext context) async {
     final result = await userRepo.signOut();
     result
-      ..onFailure((e) => null)
+      ..onFailure((e) => showToast('로그아웃에 실패했어요'))
       ..onSuccess((value) {
         userService.signOut();
         navigateToSignIn(context);

@@ -118,10 +118,7 @@ class EditProfileViewModel extends BaseViewModel {
         if (user != null) {
           final imgRef = 'images/profile/$imgName';
           if (profileImg != null) {
-            await imageRepo.registImage(
-              imgRef: imgRef,
-              image: profileImg!,
-            );
+            await registImage(imgRef);
           }
           if (user?.uid != null) {
             await setUserId(user!.uid).then(
@@ -131,6 +128,16 @@ class EditProfileViewModel extends BaseViewModel {
         }
       });
     isBusy = false;
+  }
+
+  Future<void> registImage(String imgRef) async {
+    final result = await imageRepo.registImage(
+      imgRef: imgRef,
+      image: profileImg!,
+    );
+    result
+      ..onFailure((e) => showToast('프로필 이미지를 등록하는데 실패했어요'))
+      ..onSuccess((value) => null);
   }
 
   Future<void> setUserId(String uid) async {
