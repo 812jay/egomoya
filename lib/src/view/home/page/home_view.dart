@@ -1,21 +1,48 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/view/celeb/widget/celeb_card.dart';
+import 'package:egomoya/src/view/home/widget/main_title.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({
     super.key,
     required this.celebList,
+    required this.onTapCategory,
   });
   final List<Celeb> celebList;
+  final Function(int) onTapCategory;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _CelebCarousel(celebList: celebList),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ),
+            child: MainTitle(
+              onTap: () => onTapCategory(1),
+              title: '요즘 셀럽들의 PICK! 🛍️',
+            ),
+          ),
+          _CelebCarousel(celebList: celebList),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ),
+            child: MainTitle(
+              onTap: () => onTapCategory(2),
+              title: '요고 궁금해요 TOP 3 🙋‍♀️',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
