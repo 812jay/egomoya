@@ -9,6 +9,7 @@ import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/theme/component/dialog/bottom_dialog/base_bottom_dialog.dart';
 import 'package:egomoya/util/helper/image_helper.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,34 @@ class EditProfileViewModel extends BaseViewModel {
 
   void onChangeNickname(String newNickname) => notifyListeners();
 
-  Future<void> onTapProfileImg() async {
+  Future<void> onTapProfileImg(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return BaseBottomDialog(
+          contentList: [
+            BaseBottomDialogContent(
+              title: '이미지 수정',
+              onTap: () {
+                Navigator.pop(context);
+                selectImg();
+              },
+            ),
+            BaseBottomDialogContent(
+              title: '기본 이미지 적용',
+              onTap: () {
+                Navigator.pop(context);
+                deleteProfileImg();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> selectImg() async {
     isBusy = true;
     await ImageHelper.selectImage()
         .onError((error, stackTrace) => showToast('해당 이미지를 가져올 수 없어요'))
@@ -90,7 +118,12 @@ class EditProfileViewModel extends BaseViewModel {
         profileImg = newImg;
       }
     });
+    isBusy = false;
+  }
 
+  void deleteProfileImg() {
+    isBusy = true;
+    profileImg = null;
     isBusy = false;
   }
 

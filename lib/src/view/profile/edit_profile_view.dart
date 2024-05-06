@@ -46,7 +46,7 @@ class EditProfileView extends StatelessWidget {
                     children: [
                       Center(
                         child: GestureDetector(
-                          onTap: viewModel.onTapProfileImg,
+                          onTap: () => viewModel.onTapProfileImg(context),
                           child: Stack(
                             children: [
                               CircleAvatar(
