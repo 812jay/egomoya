@@ -12,9 +12,10 @@ _$QuestionResImpl _$$QuestionResImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       content: json['content'] as String,
       uid: json['uid'] as String,
-      imgNameList: (json['imgNameList'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      imgNameList: (json['imgNameList'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       imgPathList: (json['imgPathList'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -45,9 +46,6 @@ _$QuestionReqImpl _$$QuestionReqImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       content: json['content'] as String,
       uid: json['uid'] as String,
-      imgNameList: (json['imgNameList'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
       createdAt:
           const DateTimeConverter().fromJson(json['createdAt'] as DateTime),
       updatedAt:
@@ -60,7 +58,6 @@ Map<String, dynamic> _$$QuestionReqImplToJson(_$QuestionReqImpl instance) =>
       'title': instance.title,
       'content': instance.content,
       'uid': instance.uid,
-      'imgNameList': instance.imgNameList,
       'createdAt': const DateTimeConverter().toJson(instance.createdAt),
       'updatedAt': const DateTimeConverter().toJson(instance.updatedAt),
     };

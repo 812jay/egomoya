@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egomoya/src/model/question/question.dart';
 import 'package:egomoya/src/repo/base_repo.dart';
@@ -9,7 +11,8 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final fireStorage = FirebaseStorage.instance;
 
 class QuestionRepo extends BaseRepo {
-  final CollectionReference celebCollection = firestore.collection('question');
+  final CollectionReference questionCollection =
+      firestore.collection('question');
 
   Future<RequestResult<List<QuestionRes>>> fetchQuestionList({
     required int limit,
@@ -17,7 +20,7 @@ class QuestionRepo extends BaseRepo {
   }) =>
       handleRequest(() async {
         List<QuestionRes> result = [];
-        final snapshot = await celebCollection
+        final snapshot = await questionCollection
             .orderBy('questionId')
             .startAfter([1])
             .limit(limit)
@@ -40,5 +43,19 @@ class QuestionRepo extends BaseRepo {
           ];
         }
         return result;
+      });
+
+  Future<RequestResult<void>> registQuestion({
+    required QuestionReq req,
+    required List<File> imgList,
+  }) =>
+      handleRequest(() async {
+        final ref = questionCollection.doc();
+        ref.set(req.toJson());
+        for (var img in imgList) {
+          String imgRef =
+              '/images/question/${req.questionId}/${req.uid}_${img.hashCode}';
+          await fireStorage.ref(imgRef).putFile(img);
+        }
       });
 }

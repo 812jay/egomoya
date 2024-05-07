@@ -12,7 +12,7 @@ class QuestionRes with _$QuestionRes {
     required String title,
     required String content,
     required String uid,
-    @Default([]) required List<String> imgNameList,
+    @Default([]) List<String> imgNameList,
     @Default([]) List<String> imgPathList,
     int? commentCnt,
     @TimestampConverter() required DateTime createdAt,
@@ -29,7 +29,6 @@ class QuestionReq with _$QuestionReq {
     required String title,
     required String content,
     required String uid,
-    @Default([]) required List<String> imgNameList,
     @DateTimeConverter() required Timestamp createdAt,
     @DateTimeConverter() required Timestamp updatedAt,
   }) = _QuestionReq;

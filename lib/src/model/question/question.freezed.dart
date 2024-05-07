@@ -210,7 +210,7 @@ class _$QuestionResImpl implements _QuestionRes {
       required this.title,
       required this.content,
       required this.uid,
-      required final List<String> imgNameList,
+      final List<String> imgNameList = const [],
       final List<String> imgPathList = const [],
       this.commentCnt,
       @TimestampConverter() required this.createdAt,
@@ -231,6 +231,7 @@ class _$QuestionResImpl implements _QuestionRes {
   final String uid;
   final List<String> _imgNameList;
   @override
+  @JsonKey()
   List<String> get imgNameList {
     if (_imgNameList is EqualUnmodifiableListView) return _imgNameList;
     // ignore: implicit_dynamic_type
@@ -316,7 +317,7 @@ abstract class _QuestionRes implements QuestionRes {
           required final String title,
           required final String content,
           required final String uid,
-          required final List<String> imgNameList,
+          final List<String> imgNameList,
           final List<String> imgPathList,
           final int? commentCnt,
           @TimestampConverter() required final DateTime createdAt,
@@ -362,7 +363,6 @@ mixin _$QuestionReq {
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
-  List<String> get imgNameList => throw _privateConstructorUsedError;
   @DateTimeConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
   @DateTimeConverter()
@@ -385,7 +385,6 @@ abstract class $QuestionReqCopyWith<$Res> {
       String title,
       String content,
       String uid,
-      List<String> imgNameList,
       @DateTimeConverter() Timestamp createdAt,
       @DateTimeConverter() Timestamp updatedAt});
 }
@@ -407,7 +406,6 @@ class _$QuestionReqCopyWithImpl<$Res, $Val extends QuestionReq>
     Object? title = null,
     Object? content = null,
     Object? uid = null,
-    Object? imgNameList = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -428,10 +426,6 @@ class _$QuestionReqCopyWithImpl<$Res, $Val extends QuestionReq>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      imgNameList: null == imgNameList
-          ? _value.imgNameList
-          : imgNameList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -457,7 +451,6 @@ abstract class _$$QuestionReqImplCopyWith<$Res>
       String title,
       String content,
       String uid,
-      List<String> imgNameList,
       @DateTimeConverter() Timestamp createdAt,
       @DateTimeConverter() Timestamp updatedAt});
 }
@@ -477,7 +470,6 @@ class __$$QuestionReqImplCopyWithImpl<$Res>
     Object? title = null,
     Object? content = null,
     Object? uid = null,
-    Object? imgNameList = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -498,10 +490,6 @@ class __$$QuestionReqImplCopyWithImpl<$Res>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      imgNameList: null == imgNameList
-          ? _value._imgNameList
-          : imgNameList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -522,10 +510,8 @@ class _$QuestionReqImpl implements _QuestionReq {
       required this.title,
       required this.content,
       required this.uid,
-      required final List<String> imgNameList,
       @DateTimeConverter() required this.createdAt,
-      @DateTimeConverter() required this.updatedAt})
-      : _imgNameList = imgNameList;
+      @DateTimeConverter() required this.updatedAt});
 
   factory _$QuestionReqImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionReqImplFromJson(json);
@@ -538,14 +524,6 @@ class _$QuestionReqImpl implements _QuestionReq {
   final String content;
   @override
   final String uid;
-  final List<String> _imgNameList;
-  @override
-  List<String> get imgNameList {
-    if (_imgNameList is EqualUnmodifiableListView) return _imgNameList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_imgNameList);
-  }
-
   @override
   @DateTimeConverter()
   final Timestamp createdAt;
@@ -555,7 +533,7 @@ class _$QuestionReqImpl implements _QuestionReq {
 
   @override
   String toString() {
-    return 'QuestionReq(questionId: $questionId, title: $title, content: $content, uid: $uid, imgNameList: $imgNameList, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'QuestionReq(questionId: $questionId, title: $title, content: $content, uid: $uid, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -568,8 +546,6 @@ class _$QuestionReqImpl implements _QuestionReq {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            const DeepCollectionEquality()
-                .equals(other._imgNameList, _imgNameList) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -578,8 +554,8 @@ class _$QuestionReqImpl implements _QuestionReq {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, questionId, title, content, uid,
-      const DeepCollectionEquality().hash(_imgNameList), createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, questionId, title, content, uid, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -601,7 +577,6 @@ abstract class _QuestionReq implements QuestionReq {
           required final String title,
           required final String content,
           required final String uid,
-          required final List<String> imgNameList,
           @DateTimeConverter() required final Timestamp createdAt,
           @DateTimeConverter() required final Timestamp updatedAt}) =
       _$QuestionReqImpl;
@@ -617,8 +592,6 @@ abstract class _QuestionReq implements QuestionReq {
   String get content;
   @override
   String get uid;
-  @override
-  List<String> get imgNameList;
   @override
   @DateTimeConverter()
   Timestamp get createdAt;
