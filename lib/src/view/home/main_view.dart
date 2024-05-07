@@ -1,6 +1,7 @@
 import 'package:egomoya/src/model/main/main_category.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
+import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/celeb_service.dart';
 import 'package:egomoya/src/service/theme_service.dart';
@@ -26,6 +27,7 @@ class MainView extends StatelessWidget {
         celebRepo: context.read<CelebRepo>(),
         imageRepo: context.read<ImageRepo>(),
         userRepo: context.read<UserRepo>(),
+        questionRepo: context.read<QuestionRepo>(),
         userService: context.read<UserService>(),
         celebService: context.read<CelebService>(),
       ),

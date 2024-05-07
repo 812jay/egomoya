@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/model/main/main_category.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
+import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/celeb_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
@@ -14,6 +17,7 @@ class MainViewModel extends BaseViewModel {
   MainViewModel({
     required this.celebRepo,
     required this.imageRepo,
+    required this.questionRepo,
     required this.userRepo,
     required this.userService,
     required this.celebService,
@@ -21,11 +25,13 @@ class MainViewModel extends BaseViewModel {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await setUser();
       await fetchCelebList();
+      await fetchQuestionList();
       userService.addListener(notifyListeners);
     });
   }
   final CelebRepo celebRepo;
   final ImageRepo imageRepo;
+  final QuestionRepo questionRepo;
   final UserRepo userRepo;
   final UserService userService;
   final CelebService celebService;
@@ -44,10 +50,21 @@ class MainViewModel extends BaseViewModel {
   ];
   int selectedCategoryIndex = 0;
 
+  //question
+
   @override
   void dispose() {
     super.dispose();
     userService.removeListener(notifyListeners);
+  }
+
+  Future<void> fetchQuestionList() async {
+    final response = await questionRepo.fetchQuestionList(limit: 10, offset: 0);
+    response
+      ..onFailure((e) => null)
+      ..onSuccess((newQuestionList) {
+        log('newQuestionList: $newQuestionList');
+      });
   }
 
   Future<void> setUser() async {
