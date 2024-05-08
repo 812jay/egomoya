@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/model/main/main_category.dart';
+import 'package:egomoya/src/model/question/question.dart';
 import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/celeb_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
@@ -53,6 +52,7 @@ class MainViewModel extends BaseViewModel {
   int selectedCategoryIndex = 0;
 
   //question
+  List<QuestionRes> questionList = [];
 
   @override
   void dispose() {
@@ -65,7 +65,9 @@ class MainViewModel extends BaseViewModel {
     response
       ..onFailure((e) => null)
       ..onSuccess((newQuestionList) {
-        log('newQuestionList: $newQuestionList');
+        isBusy = true;
+        questionList = newQuestionList;
+        isBusy = false;
       });
   }
 

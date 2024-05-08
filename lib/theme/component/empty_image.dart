@@ -16,8 +16,8 @@ class EmptyImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
-      width: width,
+      height: height ?? 90,
+      width: width ?? 90,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),

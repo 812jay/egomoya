@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,18 +21,17 @@ class QuestionRepo extends BaseRepo {
       handleRequest(() async {
         List<QuestionRes> result = [];
         final snapshot = await questionCollection
-            .orderBy('updatedAt')
-            .startAfter([1])
+            .orderBy('questionId')
+            .startAfter([offset])
             .limit(limit)
             .get();
-        log('snapshot: ${snapshot.docs}');
         for (var doc in snapshot.docs) {
           final data = doc.data() as Map<String, dynamic>;
           final QuestionRes question = QuestionRes.fromJson(data);
           List<String> imgPathList = [];
           for (var imgName in question.imgNameList) {
             String imgPath = await fireStorage
-                .ref('images/celeb/thumbnails/wendy.png')
+                .ref('images/question/${question.questionId}/$imgName')
                 .getDownloadURL();
             imgPathList = [...imgPathList, imgPath];
           }

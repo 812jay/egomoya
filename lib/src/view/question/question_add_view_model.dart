@@ -8,6 +8,7 @@ import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/util/helper/image_helper.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -27,6 +28,7 @@ class QuestionAddViewModel extends BaseViewModel {
     required this.userService,
   }) {
     setInit();
+    userService.addListener(notifyListeners);
   }
   final QuestionAddViewArgument args;
   final QuestionRepo questionRepo;
@@ -44,24 +46,16 @@ class QuestionAddViewModel extends BaseViewModel {
   bool get isActive =>
       titleController.text.isNotEmpty && contentController.text.isNotEmpty;
 
+  @override
+  void dispose() {
+    super.dispose();
+    userService.removeListener(notifyListeners);
+  }
+
   setInit() {
     user = args.user;
     titleController = TextEditingController(text: '');
     contentController = TextEditingController(text: '');
-  }
-
-  Future<void> registQuestion() async {
-    final result = await questionRepo.registQuestion(
-      req: QuestionReq(
-        questionId: questionId,
-        title: '',
-        content: '',
-        uid: user.uid,
-        createdAt: Timestamp.fromDate(DateTime.now()),
-        updatedAt: Timestamp.fromDate(DateTime.now()),
-      ),
-      imgList: [],
-    );
   }
 
   void onSelectImage() async {
@@ -106,9 +100,19 @@ class QuestionAddViewModel extends BaseViewModel {
       createdAt: Timestamp.fromDate(DateTime.now()),
       updatedAt: Timestamp.fromDate(DateTime.now()),
     );
-    questionRepo.registQuestion(
+    final result = await questionRepo.registQuestion(
       req: req,
       imgList: imageList,
     );
+    result
+      ..onFailure((e) => showToast('질문 등록에 실패했어요'))
+      ..onSuccess((value) {
+        showToast('질문을 등록했어요');
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutePath.main,
+          (route) => false,
+        );
+      });
   }
 }

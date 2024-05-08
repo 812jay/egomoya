@@ -35,6 +35,7 @@ class MainView extends StatelessWidget {
         List<Widget> pageList = [
           HomeView(
             celebList: viewModel.celebList,
+            questionList: viewModel.questionList,
             onTapCategory: (index) => viewModel.onTapCategory(index),
           ),
           const CelebView(),

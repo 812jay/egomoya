@@ -26,6 +26,7 @@ enum AssetIconType {
   profile,
   pencel,
   close,
+  comment,
 }
 
 extension AssetIconTypeExt on AssetIconType {
@@ -49,6 +50,8 @@ extension AssetIconTypeExt on AssetIconType {
         return 'pencel';
       case AssetIconType.close:
         return 'close';
+      case AssetIconType.comment:
+        return 'comment';
     }
   }
 
