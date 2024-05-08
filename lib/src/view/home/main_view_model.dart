@@ -10,6 +10,7 @@ import 'package:egomoya/src/service/celeb_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/src/view/question/question_add_view_model.dart';
+import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/util/helper/immutable_helper.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +146,19 @@ class MainViewModel extends BaseViewModel {
       context,
       RoutePath.questionAdd,
       arguments: QuestionAddViewArgument(user: user!),
+    );
+  }
+
+  navigateToQuestionDetail(
+    BuildContext context, {
+    required String questionId,
+  }) {
+    Navigator.pushNamed(
+      context,
+      RoutePath.questionDetail,
+      arguments: QuestionDetailViewArgument(
+        questionId: questionId,
+      ),
     );
   }
 }

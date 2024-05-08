@@ -45,6 +45,20 @@ class QuestionRepo extends BaseRepo {
         return result;
       });
 
+  Future<RequestResult<QuestionRes?>> fetchQuestionDetail(String questionId) =>
+      handleRequest(() async {
+        final docSnapshot = await questionCollection
+            .doc(questionId)
+            .withConverter(
+              fromFirestore: (snapshot, _) =>
+                  QuestionRes.fromJson(snapshot.data()!),
+              toFirestore: (model, _) => model.toJson(),
+            )
+            .get();
+        final result = docSnapshot.data();
+        return result;
+      });
+
   Future<RequestResult<void>> registQuestion({
     required QuestionReq req,
     required List<File> imgList,
@@ -52,12 +66,12 @@ class QuestionRepo extends BaseRepo {
       handleRequest(() async {
         List<String> imgNameList = [];
         for (var img in imgList) {
-          String imgName = '${req.uid}_${img.hashCode}';
+          String imgName = '${req.questionId}_${img.hashCode}';
           String imgRef = '/images/question/${req.questionId}/$imgName';
           imgNameList = [...imgNameList, imgName];
           await fireStorage.ref(imgRef).putFile(img);
         }
-        final ref = questionCollection.doc();
+        final ref = questionCollection.doc(req.questionId);
         ref.set(req.copyWith(imgNameList: imgNameList).toJson());
       });
 }

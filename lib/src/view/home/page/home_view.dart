@@ -16,10 +16,12 @@ class HomeView extends StatelessWidget {
     required this.celebList,
     required this.questionList,
     required this.onTapCategory,
+    required this.onTapQuestion,
   });
   final List<Celeb> celebList;
   final List<QuestionRes> questionList;
   final Function(int) onTapCategory;
+  final Function(String) onTapQuestion;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +51,9 @@ class HomeView extends StatelessWidget {
               title: '요고 궁금해요 TOP 3 🙋‍♀️',
             ),
           ),
-          _MainQuestion(
-            dataList: questionList,
+          _HomeQuestion(
+            questionList: questionList,
+            onTap: onTapQuestion,
           ),
           const SizedBox(height: 100),
         ],
@@ -92,61 +95,39 @@ class _CelebCarousel extends StatelessWidget {
   }
 }
 
-class _MainQuestion extends StatelessWidget {
-  const _MainQuestion({
-    super.key,
-    this.dataList,
-  });
-  final List<QuestionRes>? dataList;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: _QuestionList(
-        questionList: dataList,
-      ),
-    );
-  }
-}
-
-class _QuestionList extends StatelessWidget {
-  const _QuestionList({
+class _HomeQuestion extends StatelessWidget {
+  const _HomeQuestion({
     super.key,
     required this.questionList,
-    this.limit,
+    required this.onTap,
   });
-  final List<QuestionRes>? questionList;
-  final int? limit;
+  final List<QuestionRes> questionList;
+  final Function(String) onTap;
 
   @override
   Widget build(BuildContext context) {
-    if (questionList == null || questionList!.isEmpty) {
-      return const _EmptyQuestionBox();
-    }
-    int postCnt = questionList!.length;
-    if (limit != null) {
-      if (limit! < questionList!.length) {
-        postCnt = limit!;
-      }
-    }
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: postCnt,
-      physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (context, index) => const SizedBox(height: 20),
-      padding: EdgeInsets.zero,
-      itemBuilder: (context, index) {
-        final content = questionList![index];
-        return QuestionBox(
-          onTap: () {},
-          title: content.title,
-          content: content.content,
-          writedAt: content.createdAt,
-          imgList: content.imgPathList,
-          commentCnt: content.commentCnt ?? 0,
-        );
-      },
+    if (questionList.isEmpty) return const _EmptyQuestionBox();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: questionList.length,
+        physics: const NeverScrollableScrollPhysics(),
+        separatorBuilder: (context, index) => const SizedBox(height: 20),
+        padding: EdgeInsets.zero,
+        itemBuilder: (context, index) {
+          final question = questionList[index];
+          return QuestionBox(
+            onTap: (questionId) => onTap(questionId),
+            title: question.title,
+            content: question.content,
+            writedAt: question.createdAt,
+            imgList: question.imgPathList,
+            commentCnt: question.commentCnt ?? 0,
+            questionId: question.questionId,
+          );
+        },
+      ),
     );
   }
 }
@@ -161,7 +142,7 @@ class _EmptyQuestionBox extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         AssetIcon(
-          AssetIconType.logoIcon.path,
+          AssetImageType.logoIcon.path,
           size: 100,
         ),
         Text(

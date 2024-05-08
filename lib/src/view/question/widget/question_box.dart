@@ -11,14 +11,16 @@ class QuestionBox extends StatelessWidget {
   const QuestionBox({
     super.key,
     required this.imgList,
-    this.onTap,
+    required this.onTap,
+    required this.questionId,
     required this.title,
     required this.content,
     required this.writedAt,
     required this.commentCnt,
   });
-  final GestureTapCallback? onTap;
+  final Function(String) onTap;
   final List<String> imgList;
+  final String questionId;
   final String title;
   final String content;
   final DateTime writedAt;
@@ -27,7 +29,7 @@ class QuestionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap(questionId),
       child: Container(
         height: 140,
         padding: const EdgeInsets.all(13),

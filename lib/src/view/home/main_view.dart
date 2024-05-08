@@ -37,6 +37,10 @@ class MainView extends StatelessWidget {
             celebList: viewModel.celebList,
             questionList: viewModel.questionList,
             onTapCategory: (index) => viewModel.onTapCategory(index),
+            onTapQuestion: (questionId) => viewModel.navigateToQuestionDetail(
+              context,
+              questionId: questionId,
+            ),
           ),
           const CelebView(),
           const QuestionView(),
