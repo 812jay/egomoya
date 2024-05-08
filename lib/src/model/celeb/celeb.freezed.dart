@@ -24,7 +24,7 @@ mixin _$Celeb {
   String get imgName => throw _privateConstructorUsedError;
   String? get instaLink => throw _privateConstructorUsedError;
   String get celebName => throw _privateConstructorUsedError;
-  List<CelebItem>? get itemList => throw _privateConstructorUsedError;
+  List<CelebItem> get itemList => throw _privateConstructorUsedError;
   int get likeCnt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $CelebCopyWith<$Res> {
       String imgName,
       String? instaLink,
       String celebName,
-      List<CelebItem>? itemList,
+      List<CelebItem> itemList,
       int likeCnt,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt,
@@ -71,7 +71,7 @@ class _$CelebCopyWithImpl<$Res, $Val extends Celeb>
     Object? imgName = null,
     Object? instaLink = freezed,
     Object? celebName = null,
-    Object? itemList = freezed,
+    Object? itemList = null,
     Object? likeCnt = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -94,10 +94,10 @@ class _$CelebCopyWithImpl<$Res, $Val extends Celeb>
           ? _value.celebName
           : celebName // ignore: cast_nullable_to_non_nullable
               as String,
-      itemList: freezed == itemList
+      itemList: null == itemList
           ? _value.itemList
           : itemList // ignore: cast_nullable_to_non_nullable
-              as List<CelebItem>?,
+              as List<CelebItem>,
       likeCnt: null == likeCnt
           ? _value.likeCnt
           : likeCnt // ignore: cast_nullable_to_non_nullable
@@ -130,7 +130,7 @@ abstract class _$$CelebImplCopyWith<$Res> implements $CelebCopyWith<$Res> {
       String imgName,
       String? instaLink,
       String celebName,
-      List<CelebItem>? itemList,
+      List<CelebItem> itemList,
       int likeCnt,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt,
@@ -152,7 +152,7 @@ class __$$CelebImplCopyWithImpl<$Res>
     Object? imgName = null,
     Object? instaLink = freezed,
     Object? celebName = null,
-    Object? itemList = freezed,
+    Object? itemList = null,
     Object? likeCnt = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -175,10 +175,10 @@ class __$$CelebImplCopyWithImpl<$Res>
           ? _value.celebName
           : celebName // ignore: cast_nullable_to_non_nullable
               as String,
-      itemList: freezed == itemList
+      itemList: null == itemList
           ? _value._itemList
           : itemList // ignore: cast_nullable_to_non_nullable
-              as List<CelebItem>?,
+              as List<CelebItem>,
       likeCnt: null == likeCnt
           ? _value.likeCnt
           : likeCnt // ignore: cast_nullable_to_non_nullable
@@ -207,7 +207,7 @@ class _$CelebImpl implements _Celeb {
       required this.imgName,
       this.instaLink,
       required this.celebName,
-      final List<CelebItem>? itemList,
+      final List<CelebItem> itemList = const [],
       required this.likeCnt,
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
@@ -225,14 +225,13 @@ class _$CelebImpl implements _Celeb {
   final String? instaLink;
   @override
   final String celebName;
-  final List<CelebItem>? _itemList;
+  final List<CelebItem> _itemList;
   @override
-  List<CelebItem>? get itemList {
-    final value = _itemList;
-    if (value == null) return null;
+  @JsonKey()
+  List<CelebItem> get itemList {
     if (_itemList is EqualUnmodifiableListView) return _itemList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_itemList);
   }
 
   @override
@@ -306,7 +305,7 @@ abstract class _Celeb implements Celeb {
       required final String imgName,
       final String? instaLink,
       required final String celebName,
-      final List<CelebItem>? itemList,
+      final List<CelebItem> itemList,
       required final int likeCnt,
       @TimestampConverter() required final DateTime createdAt,
       @TimestampConverter() required final DateTime updatedAt,
@@ -323,7 +322,7 @@ abstract class _Celeb implements Celeb {
   @override
   String get celebName;
   @override
-  List<CelebItem>? get itemList;
+  List<CelebItem> get itemList;
   @override
   int get likeCnt;
   @override

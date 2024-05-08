@@ -12,8 +12,9 @@ _$CelebImpl _$$CelebImplFromJson(Map<String, dynamic> json) => _$CelebImpl(
       instaLink: json['instaLink'] as String?,
       celebName: json['celebName'] as String,
       itemList: (json['itemList'] as List<dynamic>?)
-          ?.map((e) => CelebItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => CelebItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       likeCnt: json['likeCnt'] as int,
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),

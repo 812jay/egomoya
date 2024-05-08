@@ -13,7 +13,7 @@ class Celeb with _$Celeb {
     required String imgName,
     String? instaLink,
     required String celebName,
-    List<CelebItem>? itemList,
+    @Default([]) List<CelebItem> itemList,
     required int likeCnt,
     @TimestampConverter() required DateTime createdAt,
     @TimestampConverter() required DateTime updatedAt,

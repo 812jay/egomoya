@@ -60,6 +60,17 @@ class MainViewModel extends BaseViewModel {
     userService.removeListener(notifyListeners);
   }
 
+  Future<void> fetchCelebList() async {
+    final response = await celebRepo.fetchCelebList();
+    response
+      ..onFailure((e) => showToast('셀럽 데이터를 불러오는데 실패했어요'))
+      ..onSuccess((newCelebList) {
+        isBusy = true;
+        celebService.setCelebList(newCelebList);
+        isBusy = false;
+      });
+  }
+
   Future<void> fetchQuestionList() async {
     final response = await questionRepo.fetchQuestionList(limit: 10, offset: 0);
     response
@@ -95,38 +106,6 @@ class MainViewModel extends BaseViewModel {
         result = newUser;
       });
     return result;
-  }
-
-  Future<void> fetchCelebList() async {
-    final response = await celebRepo.fetchCelebList();
-    response
-      ..onFailure((e) => showToast('셀럽 데이터를 불러오는데 실패했어요'))
-      ..onSuccess((newCelebList) async {
-        isBusy = true;
-        List<Celeb> result = [];
-        for (var celeb in newCelebList) {
-          result = [...result, await getCelebWithImg(celeb)].toImmutable();
-        }
-        celebService.setCelebList(result);
-        isBusy = false;
-      });
-  }
-
-  Future<Celeb> getCelebWithImg(Celeb celeb) async {
-    final String imgRef = 'images/celeb/thumbnails/${celeb.imgName}';
-    String? imgPath = await getImagePath(imgRef);
-    List<CelebItem> celebItemList = [];
-    if (celeb.itemList != null) {
-      for (var item in celeb.itemList!) {
-        final String itemImgRef = 'images/celeb/items/${item.imgName}';
-        String? itemImgPath = await getImagePath(itemImgRef);
-        celebItemList = [
-          ...celebItemList,
-          item.copyWith(imgPath: itemImgPath),
-        ];
-      }
-    }
-    return celeb.copyWith(imgPath: imgPath, itemList: celebItemList);
   }
 
   Future<String?> getImagePath(String imgRef) async {

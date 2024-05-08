@@ -62,7 +62,7 @@ class CelebCard extends StatelessWidget {
               color: context.color.black,
             ),
           ),
-          if (celeb.itemList != null && celeb.itemList!.isNotEmpty)
+          if (celeb.itemList.isNotEmpty)
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
@@ -73,10 +73,10 @@ class CelebCard extends StatelessWidget {
                     children: [
                       const SizedBox(width: 10),
                       ...List.generate(
-                        celeb.itemList!.length,
+                        celeb.itemList.length,
                         (index) {
                           return CelebItemCard(
-                            celebItem: celeb.itemList![index],
+                            celebItem: celeb.itemList[index],
                           );
                         },
                       ).toList()

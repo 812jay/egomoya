@@ -143,7 +143,7 @@ class _QuestionList extends StatelessWidget {
           title: content.title,
           content: content.content,
           writedAt: content.createdAt,
-          imgList: content.imgPathList ?? [],
+          imgList: content.imgPathList,
           commentCnt: content.commentCnt ?? 0,
         );
       },
