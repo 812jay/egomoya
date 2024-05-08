@@ -20,7 +20,7 @@ QuestionRes _$QuestionResFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QuestionRes {
-  int get questionId => throw _privateConstructorUsedError;
+  String get questionId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $QuestionResCopyWith<$Res> {
       _$QuestionResCopyWithImpl<$Res, QuestionRes>;
   @useResult
   $Res call(
-      {int questionId,
+      {String questionId,
       String title,
       String content,
       String uid,
@@ -83,7 +83,7 @@ class _$QuestionResCopyWithImpl<$Res, $Val extends QuestionRes>
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$$QuestionResImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int questionId,
+      {String questionId,
       String title,
       String content,
       String uid,
@@ -165,7 +165,7 @@ class __$$QuestionResImplCopyWithImpl<$Res>
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -222,7 +222,7 @@ class _$QuestionResImpl implements _QuestionRes {
       _$$QuestionResImplFromJson(json);
 
   @override
-  final int questionId;
+  final String questionId;
   @override
   final String title;
   @override
@@ -313,7 +313,7 @@ class _$QuestionResImpl implements _QuestionRes {
 
 abstract class _QuestionRes implements QuestionRes {
   const factory _QuestionRes(
-          {required final int questionId,
+          {required final String questionId,
           required final String title,
           required final String content,
           required final String uid,
@@ -328,7 +328,7 @@ abstract class _QuestionRes implements QuestionRes {
       _$QuestionResImpl.fromJson;
 
   @override
-  int get questionId;
+  String get questionId;
   @override
   String get title;
   @override
@@ -359,10 +359,11 @@ QuestionReq _$QuestionReqFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QuestionReq {
-  int get questionId => throw _privateConstructorUsedError;
+  String get questionId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
+  List<String> get imgNameList => throw _privateConstructorUsedError;
   @DateTimeConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
   @DateTimeConverter()
@@ -381,10 +382,11 @@ abstract class $QuestionReqCopyWith<$Res> {
       _$QuestionReqCopyWithImpl<$Res, QuestionReq>;
   @useResult
   $Res call(
-      {int questionId,
+      {String questionId,
       String title,
       String content,
       String uid,
+      List<String> imgNameList,
       @DateTimeConverter() Timestamp createdAt,
       @DateTimeConverter() Timestamp updatedAt});
 }
@@ -406,6 +408,7 @@ class _$QuestionReqCopyWithImpl<$Res, $Val extends QuestionReq>
     Object? title = null,
     Object? content = null,
     Object? uid = null,
+    Object? imgNameList = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -413,7 +416,7 @@ class _$QuestionReqCopyWithImpl<$Res, $Val extends QuestionReq>
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -426,6 +429,10 @@ class _$QuestionReqCopyWithImpl<$Res, $Val extends QuestionReq>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
+      imgNameList: null == imgNameList
+          ? _value.imgNameList
+          : imgNameList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -447,10 +454,11 @@ abstract class _$$QuestionReqImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int questionId,
+      {String questionId,
       String title,
       String content,
       String uid,
+      List<String> imgNameList,
       @DateTimeConverter() Timestamp createdAt,
       @DateTimeConverter() Timestamp updatedAt});
 }
@@ -470,6 +478,7 @@ class __$$QuestionReqImplCopyWithImpl<$Res>
     Object? title = null,
     Object? content = null,
     Object? uid = null,
+    Object? imgNameList = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -477,7 +486,7 @@ class __$$QuestionReqImplCopyWithImpl<$Res>
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -490,6 +499,10 @@ class __$$QuestionReqImplCopyWithImpl<$Res>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
+      imgNameList: null == imgNameList
+          ? _value._imgNameList
+          : imgNameList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -510,20 +523,31 @@ class _$QuestionReqImpl implements _QuestionReq {
       required this.title,
       required this.content,
       required this.uid,
+      final List<String> imgNameList = const [],
       @DateTimeConverter() required this.createdAt,
-      @DateTimeConverter() required this.updatedAt});
+      @DateTimeConverter() required this.updatedAt})
+      : _imgNameList = imgNameList;
 
   factory _$QuestionReqImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionReqImplFromJson(json);
 
   @override
-  final int questionId;
+  final String questionId;
   @override
   final String title;
   @override
   final String content;
   @override
   final String uid;
+  final List<String> _imgNameList;
+  @override
+  @JsonKey()
+  List<String> get imgNameList {
+    if (_imgNameList is EqualUnmodifiableListView) return _imgNameList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_imgNameList);
+  }
+
   @override
   @DateTimeConverter()
   final Timestamp createdAt;
@@ -533,7 +557,7 @@ class _$QuestionReqImpl implements _QuestionReq {
 
   @override
   String toString() {
-    return 'QuestionReq(questionId: $questionId, title: $title, content: $content, uid: $uid, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'QuestionReq(questionId: $questionId, title: $title, content: $content, uid: $uid, imgNameList: $imgNameList, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -546,6 +570,8 @@ class _$QuestionReqImpl implements _QuestionReq {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.uid, uid) || other.uid == uid) &&
+            const DeepCollectionEquality()
+                .equals(other._imgNameList, _imgNameList) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -554,8 +580,8 @@ class _$QuestionReqImpl implements _QuestionReq {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, questionId, title, content, uid, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, questionId, title, content, uid,
+      const DeepCollectionEquality().hash(_imgNameList), createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -573,10 +599,11 @@ class _$QuestionReqImpl implements _QuestionReq {
 
 abstract class _QuestionReq implements QuestionReq {
   const factory _QuestionReq(
-          {required final int questionId,
+          {required final String questionId,
           required final String title,
           required final String content,
           required final String uid,
+          final List<String> imgNameList,
           @DateTimeConverter() required final Timestamp createdAt,
           @DateTimeConverter() required final Timestamp updatedAt}) =
       _$QuestionReqImpl;
@@ -585,13 +612,15 @@ abstract class _QuestionReq implements QuestionReq {
       _$QuestionReqImpl.fromJson;
 
   @override
-  int get questionId;
+  String get questionId;
   @override
   String get title;
   @override
   String get content;
   @override
   String get uid;
+  @override
+  List<String> get imgNameList;
   @override
   @DateTimeConverter()
   Timestamp get createdAt;

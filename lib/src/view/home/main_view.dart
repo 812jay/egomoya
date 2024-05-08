@@ -74,7 +74,7 @@ class MainView extends StatelessWidget {
               ? Button.iconText(
                   context,
                   iconPath: AssetIconType.pencel.path,
-                  onTap: () {},
+                  onTap: () => viewModel.navigateToQuestionAdd(context),
                   text: '글쓰기',
                 )
               : const SizedBox.shrink(),

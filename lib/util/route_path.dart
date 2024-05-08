@@ -3,6 +3,8 @@ import 'package:egomoya/src/view/profile/edit_profile_view.dart';
 import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
 import 'package:egomoya/src/view/profile/profile_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
+import 'package:egomoya/src/view/question/question_add_view.dart';
+import 'package:egomoya/src/view/question/question_add_view_model.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view.dart';
 import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
@@ -17,6 +19,7 @@ abstract class RoutePath {
   static const String signUp = 'signUp';
   static const String profile = 'profile';
   static const String editProfile = 'editProfile';
+  static const String questionAdd = 'questionAdd';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late final Widget page;
@@ -41,6 +44,10 @@ abstract class RoutePath {
       case RoutePath.editProfile:
         final args = settings.arguments as EditProfileViewArgument;
         page = EditProfileView(args: args);
+        break;
+      case RoutePath.questionAdd:
+        final args = settings.arguments as QuestionAddViewArgument;
+        page = QuestionAddView(args: args);
         break;
     }
     return MaterialPageRoute(

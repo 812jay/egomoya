@@ -8,7 +8,7 @@ part 'question.g.dart';
 @freezed
 class QuestionRes with _$QuestionRes {
   const factory QuestionRes({
-    required int questionId,
+    required String questionId,
     required String title,
     required String content,
     required String uid,
@@ -25,10 +25,11 @@ class QuestionRes with _$QuestionRes {
 @freezed
 class QuestionReq with _$QuestionReq {
   const factory QuestionReq({
-    required int questionId,
+    required String questionId,
     required String title,
     required String content,
     required String uid,
+    @Default([]) List<String> imgNameList,
     @DateTimeConverter() required Timestamp createdAt,
     @DateTimeConverter() required Timestamp updatedAt,
   }) = _QuestionReq;

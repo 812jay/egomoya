@@ -10,7 +10,9 @@ import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/celeb_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/src/view/question/question_add_view_model.dart';
 import 'package:egomoya/util/helper/immutable_helper.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class MainViewModel extends BaseViewModel {
@@ -154,5 +156,14 @@ class MainViewModel extends BaseViewModel {
         .entries
         .map((e) => e.key == index ? newCategory : e.value)
         .toImmutable();
+  }
+
+  navigateToQuestionAdd(BuildContext context) {
+    if (user == null) return;
+    Navigator.pushNamed(
+      context,
+      RoutePath.questionAdd,
+      arguments: QuestionAddViewArgument(user: user!),
+    );
   }
 }

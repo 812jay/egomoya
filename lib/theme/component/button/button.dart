@@ -44,6 +44,28 @@ class Button extends StatelessWidget {
       ),
     );
   }
+  factory Button.text(
+    BuildContext context, {
+    required String text,
+    GestureTapCallback? onTap,
+    required bool isActive,
+    TextAlign? textAlign,
+  }) {
+    return Button(
+      title: Text(
+        text,
+        style: context.typo.body2.bold.whiteColor,
+        textAlign: textAlign ?? TextAlign.center,
+      ),
+      width: double.infinity,
+      onTap: onTap,
+      color:
+          isActive ? context.color.primary : context.color.inactiveBackground,
+      border: Border.all(
+        color: context.color.lightGrayBackground,
+      ),
+    );
+  }
 
   factory Button.iconText(
     BuildContext context, {
@@ -81,9 +103,7 @@ class Button extends StatelessWidget {
         width: width,
         height: height,
         padding: padding ?? const EdgeInsets.all(12),
-        duration: const Duration(
-          microseconds: 100,
-        ),
+        duration: const Duration(microseconds: 100),
         decoration: BoxDecoration(
           color: color ?? context.color.primary,
           borderRadius: borderRadius ?? BorderRadius.circular(16),
@@ -94,3 +114,26 @@ class Button extends StatelessWidget {
     );
   }
 }
+
+// class CloseButton extends StatelessWidget {
+//   const CloseButton({
+//     super.key,
+//     this.onTap,
+//   });
+//   final GestureTapCallback? onTap;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: onTap,
+//       child: AnimatedContainer(
+//         padding: const EdgeInsets.all(12),
+//         duration: const Duration(microseconds: 100),
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(16),
+//         ),
+//         child: AssetIcon(AssetIconType.close.path),
+//       ),
+//     );
+//   }
+// }
