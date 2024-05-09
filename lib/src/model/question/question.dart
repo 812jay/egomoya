@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,6 +13,7 @@ class QuestionRes with _$QuestionRes {
     required String title,
     required String content,
     required String uid,
+    UserRes? user,
     @Default([]) List<String> imgNameList,
     @Default([]) List<String> imgPathList,
     int? commentCnt,

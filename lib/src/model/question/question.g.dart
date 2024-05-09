@@ -12,6 +12,9 @@ _$QuestionResImpl _$$QuestionResImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       content: json['content'] as String,
       uid: json['uid'] as String,
+      user: json['user'] == null
+          ? null
+          : UserRes.fromJson(json['user'] as Map<String, dynamic>),
       imgNameList: (json['imgNameList'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -33,6 +36,7 @@ Map<String, dynamic> _$$QuestionResImplToJson(_$QuestionResImpl instance) =>
       'title': instance.title,
       'content': instance.content,
       'uid': instance.uid,
+      'user': instance.user,
       'imgNameList': instance.imgNameList,
       'imgPathList': instance.imgPathList,
       'commentCnt': instance.commentCnt,

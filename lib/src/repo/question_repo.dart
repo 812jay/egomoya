@@ -47,7 +47,7 @@ class QuestionRepo extends BaseRepo {
 
   Future<RequestResult<QuestionRes?>> fetchQuestionDetail(String questionId) =>
       handleRequest(() async {
-        final docSnapshot = await questionCollection
+        DocumentSnapshot<QuestionRes> docSnapshot = await questionCollection
             .doc(questionId)
             .withConverter(
               fromFirestore: (snapshot, _) =>
@@ -55,8 +55,21 @@ class QuestionRepo extends BaseRepo {
               toFirestore: (model, _) => model.toJson(),
             )
             .get();
-        final result = docSnapshot.data();
-        return result;
+
+        QuestionRes? result = docSnapshot.data();
+        List<String> imgPathList = [];
+        if (result?.imgNameList != null) {
+          for (var imgName in result!.imgNameList) {
+            String imgPath = await fireStorage
+                .ref('images/question/${result.questionId}/$imgName')
+                .getDownloadURL();
+            imgPathList = [...imgPathList, imgPath];
+          }
+        }
+
+        return result?.copyWith(
+          imgPathList: imgPathList,
+        );
       });
 
   Future<RequestResult<void>> registQuestion({

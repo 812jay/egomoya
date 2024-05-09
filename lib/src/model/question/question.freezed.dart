@@ -24,6 +24,7 @@ mixin _$QuestionRes {
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
+  UserRes? get user => throw _privateConstructorUsedError;
   List<String> get imgNameList => throw _privateConstructorUsedError;
   List<String> get imgPathList => throw _privateConstructorUsedError;
   int? get commentCnt => throw _privateConstructorUsedError;
@@ -49,11 +50,14 @@ abstract class $QuestionResCopyWith<$Res> {
       String title,
       String content,
       String uid,
+      UserRes? user,
       List<String> imgNameList,
       List<String> imgPathList,
       int? commentCnt,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt});
+
+  $UserResCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -73,6 +77,7 @@ class _$QuestionResCopyWithImpl<$Res, $Val extends QuestionRes>
     Object? title = null,
     Object? content = null,
     Object? uid = null,
+    Object? user = freezed,
     Object? imgNameList = null,
     Object? imgPathList = null,
     Object? commentCnt = freezed,
@@ -96,6 +101,10 @@ class _$QuestionResCopyWithImpl<$Res, $Val extends QuestionRes>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserRes?,
       imgNameList: null == imgNameList
           ? _value.imgNameList
           : imgNameList // ignore: cast_nullable_to_non_nullable
@@ -118,6 +127,18 @@ class _$QuestionResCopyWithImpl<$Res, $Val extends QuestionRes>
               as DateTime,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserResCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserResCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -133,11 +154,15 @@ abstract class _$$QuestionResImplCopyWith<$Res>
       String title,
       String content,
       String uid,
+      UserRes? user,
       List<String> imgNameList,
       List<String> imgPathList,
       int? commentCnt,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt});
+
+  @override
+  $UserResCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -155,6 +180,7 @@ class __$$QuestionResImplCopyWithImpl<$Res>
     Object? title = null,
     Object? content = null,
     Object? uid = null,
+    Object? user = freezed,
     Object? imgNameList = null,
     Object? imgPathList = null,
     Object? commentCnt = freezed,
@@ -178,6 +204,10 @@ class __$$QuestionResImplCopyWithImpl<$Res>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserRes?,
       imgNameList: null == imgNameList
           ? _value._imgNameList
           : imgNameList // ignore: cast_nullable_to_non_nullable
@@ -210,6 +240,7 @@ class _$QuestionResImpl implements _QuestionRes {
       required this.title,
       required this.content,
       required this.uid,
+      this.user,
       final List<String> imgNameList = const [],
       final List<String> imgPathList = const [],
       this.commentCnt,
@@ -229,6 +260,8 @@ class _$QuestionResImpl implements _QuestionRes {
   final String content;
   @override
   final String uid;
+  @override
+  final UserRes? user;
   final List<String> _imgNameList;
   @override
   @JsonKey()
@@ -258,7 +291,7 @@ class _$QuestionResImpl implements _QuestionRes {
 
   @override
   String toString() {
-    return 'QuestionRes(questionId: $questionId, title: $title, content: $content, uid: $uid, imgNameList: $imgNameList, imgPathList: $imgPathList, commentCnt: $commentCnt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'QuestionRes(questionId: $questionId, title: $title, content: $content, uid: $uid, user: $user, imgNameList: $imgNameList, imgPathList: $imgPathList, commentCnt: $commentCnt, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -271,6 +304,7 @@ class _$QuestionResImpl implements _QuestionRes {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality()
                 .equals(other._imgNameList, _imgNameList) &&
             const DeepCollectionEquality()
@@ -291,6 +325,7 @@ class _$QuestionResImpl implements _QuestionRes {
       title,
       content,
       uid,
+      user,
       const DeepCollectionEquality().hash(_imgNameList),
       const DeepCollectionEquality().hash(_imgPathList),
       commentCnt,
@@ -317,6 +352,7 @@ abstract class _QuestionRes implements QuestionRes {
           required final String title,
           required final String content,
           required final String uid,
+          final UserRes? user,
           final List<String> imgNameList,
           final List<String> imgPathList,
           final int? commentCnt,
@@ -335,6 +371,8 @@ abstract class _QuestionRes implements QuestionRes {
   String get content;
   @override
   String get uid;
+  @override
+  UserRes? get user;
   @override
   List<String> get imgNameList;
   @override
