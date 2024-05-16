@@ -1,4 +1,5 @@
 import 'package:egomoya/src/repo/celeb_repo.dart';
+import 'package:egomoya/src/repo/comment_repo.dart';
 import 'package:egomoya/src/repo/image_repo.dart';
 import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
@@ -24,29 +25,35 @@ void main() async {
   final PrefHelper prefHelper = PrefHelper(prefs);
 
   runApp(
-    MultiProvider(providers: [
-      Provider(
-        create: (context) => CelebRepo(),
-      ),
-      Provider(
-        create: (context) => ImageRepo(),
-      ),
-      Provider(
-        create: (context) => UserRepo(),
-      ),
-      Provider(
-        create: (context) => QuestionRepo(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => ThemeService(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => UserService(prefHelper: prefHelper),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => CelebService(),
-      ),
-    ], child: const MyApp()),
+    MultiProvider(
+      providers: [
+        Provider(
+          create: (context) => CelebRepo(),
+        ),
+        Provider(
+          create: (context) => ImageRepo(),
+        ),
+        Provider(
+          create: (context) => UserRepo(),
+        ),
+        Provider(
+          create: (context) => QuestionRepo(),
+        ),
+        Provider(
+          create: (context) => CommentRepo(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeService(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserService(prefHelper: prefHelper),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CelebService(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 

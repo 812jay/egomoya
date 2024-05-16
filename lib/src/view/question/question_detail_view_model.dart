@@ -1,9 +1,10 @@
-import 'dart:developer';
-
 import 'package:egomoya/src/model/question/question.dart';
+import 'package:egomoya/src/repo/comment_repo.dart';
 import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:flutter/material.dart';
 
 class QuestionDetailViewArgument {
   QuestionDetailViewArgument({
@@ -16,18 +17,24 @@ class QuestionDetailViewModel extends BaseViewModel {
   QuestionDetailViewModel({
     required this.args,
     required this.questionRepo,
+    required this.commentRepo,
     required this.userRepo,
+    required this.userService,
   }) {
     setInit();
   }
   final QuestionDetailViewArgument args;
   final QuestionRepo questionRepo;
+  final CommentRepo commentRepo;
   final UserRepo userRepo;
+  final UserService userService;
   late String questionId;
   QuestionRes? question;
 
+  final TextEditingController commentAddController = TextEditingController();
+  String? commentParentId;
+
   Future<void> setInit() async {
-    log('setInit');
     questionId = args.questionId;
     await fetchQuestionDetail(questionId);
   }
@@ -47,6 +54,25 @@ class QuestionDetailViewModel extends BaseViewModel {
             });
         }
         isBusy = false;
+      });
+  }
+
+  void onTapAddComment() {
+    registComment();
+  }
+
+  Future<void> registComment() async {
+    final String commentText = commentAddController.text;
+    final result = await commentRepo.registComment(
+      questionId: questionId,
+      parentId: commentParentId,
+      content: commentText,
+      uid: userService.userId,
+    );
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((value) {
+        showToast('댓글을 등록했어요');
       });
   }
 }
