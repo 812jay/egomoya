@@ -8,10 +8,12 @@ part of 'comment.dart';
 
 _$CommentResImpl _$$CommentResImplFromJson(Map<String, dynamic> json) =>
     _$CommentResImpl(
+      parentId: json['parentId'] as String?,
+      questionId: json['questionId'] as String,
       commentId: json['commentId'] as String,
-      writter: json['writter'] == null
+      user: json['user'] == null
           ? null
-          : UserRes.fromJson(json['writter'] as Map<String, dynamic>),
+          : UserRes.fromJson(json['user'] as Map<String, dynamic>),
       content: json['content'] as String? ?? '',
       children: (json['children'] as List<dynamic>?)
           ?.map((e) => CommentRes.fromJson(e as Map<String, dynamic>))
@@ -24,8 +26,10 @@ _$CommentResImpl _$$CommentResImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$CommentResImplToJson(_$CommentResImpl instance) =>
     <String, dynamic>{
+      'parentId': instance.parentId,
+      'questionId': instance.questionId,
       'commentId': instance.commentId,
-      'writter': instance.writter,
+      'user': instance.user,
       'content': instance.content,
       'children': instance.children,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
@@ -34,6 +38,7 @@ Map<String, dynamic> _$$CommentResImplToJson(_$CommentResImpl instance) =>
 
 _$CommentReqImpl _$$CommentReqImplFromJson(Map<String, dynamic> json) =>
     _$CommentReqImpl(
+      questionId: json['questionId'] as String,
       parentId: json['parentId'] as String?,
       commentId: json['commentId'] as String,
       uid: json['uid'] as String,
@@ -46,6 +51,7 @@ _$CommentReqImpl _$$CommentReqImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$CommentReqImplToJson(_$CommentReqImpl instance) =>
     <String, dynamic>{
+      'questionId': instance.questionId,
       'parentId': instance.parentId,
       'commentId': instance.commentId,
       'uid': instance.uid,

@@ -1,3 +1,4 @@
+import 'package:egomoya/src/model/comment/comment.dart';
 import 'package:egomoya/src/model/question/question.dart';
 import 'package:egomoya/src/repo/comment_repo.dart';
 import 'package:egomoya/src/repo/question_repo.dart';
@@ -22,6 +23,7 @@ class QuestionDetailViewModel extends BaseViewModel {
     required this.userService,
   }) {
     setInit();
+    fetchCommentList();
   }
   final QuestionDetailViewArgument args;
   final QuestionRepo questionRepo;
@@ -33,6 +35,8 @@ class QuestionDetailViewModel extends BaseViewModel {
 
   final TextEditingController commentAddController = TextEditingController();
   String? commentParentId;
+  List<CommentRes> commentList = [];
+  String? get uid => userService.user?.uid;
 
   Future<void> setInit() async {
     questionId = args.questionId;
@@ -57,8 +61,21 @@ class QuestionDetailViewModel extends BaseViewModel {
       });
   }
 
-  void onTapAddComment() {
-    registComment();
+  Future<void> onTapAddComment() async {
+    isBusy = true;
+    await registComment();
+    await fetchCommentList();
+    clearCommentText();
+    isBusy = false;
+  }
+
+  Future<void> fetchCommentList() async {
+    final result = await commentRepo.fetchCommentList(questionId);
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((newCommentList) {
+        commentList = newCommentList;
+      });
   }
 
   Future<void> registComment() async {
@@ -74,5 +91,9 @@ class QuestionDetailViewModel extends BaseViewModel {
       ..onSuccess((value) {
         showToast('댓글을 등록했어요');
       });
+  }
+
+  void clearCommentText() {
+    commentAddController.clear();
   }
 }

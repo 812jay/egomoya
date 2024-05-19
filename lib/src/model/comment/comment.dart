@@ -9,8 +9,10 @@ part 'comment.g.dart';
 @freezed
 class CommentRes with _$CommentRes {
   const factory CommentRes({
+    String? parentId,
+    required String questionId,
     required String commentId,
-    UserRes? writter,
+    UserRes? user,
     @Default('') String content,
     List<CommentRes>? children,
     @TimestampConverter() required DateTime createdAt,
@@ -23,6 +25,7 @@ class CommentRes with _$CommentRes {
 @freezed
 class CommentReq with _$CommentReq {
   const factory CommentReq({
+    required String questionId,
     String? parentId,
     required String commentId,
     required String uid,

@@ -7,6 +7,7 @@ import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
+import 'package:egomoya/src/view/question/widget/comment_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
@@ -53,7 +54,8 @@ class QuestionDetailView extends StatelessWidget {
                           imageUrlList: viewModel.question?.imgPathList ?? [],
                         ),
                         _QuestDetailCommentList(
-                          curUserId: viewModel.question?.uid ?? '',
+                          commentList: viewModel.commentList,
+                          curUserId: viewModel.uid,
                           onTapReply: ({parentId, nickname, content}) {},
                           onTapMore: (val) {},
                         ),
@@ -175,13 +177,13 @@ class _QuestionImageBox extends StatelessWidget {
 class _QuestDetailCommentList extends StatelessWidget {
   const _QuestDetailCommentList({
     super.key,
-    this.commentList,
-    required this.curUserId,
+    required this.commentList,
+    this.curUserId,
     required this.onTapReply,
     required this.onTapMore,
   });
-  final List<CommentRes>? commentList;
-  final String curUserId;
+  final List<CommentRes> commentList;
+  final String? curUserId;
   final Function({
     int? parentId,
     String? nickname,
@@ -191,7 +193,7 @@ class _QuestDetailCommentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (commentList == null || commentList!.isEmpty) {
+    if (commentList.isEmpty) {
       return SizedBox(
         height: 100,
         child: Center(
@@ -208,19 +210,29 @@ class _QuestDetailCommentList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '댓글 ${commentList!.length}',
+          '댓글 ${commentList.length}',
           style: context.typo.body1.bold,
         ),
         const SizedBox(height: 25),
         ListView.separated(
           shrinkWrap: true,
-          itemCount: commentList!.length,
+          itemCount: commentList.length,
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (context, index) => const Divider(thickness: 0.5),
           itemBuilder: (context, index) {
-            final comment = commentList![index];
-            return const Column(
-              children: [],
+            final comment = commentList[index];
+            return Column(
+              children: [
+                CommentBox(
+                  commentId: comment.commentId,
+                  nickname: comment.user?.nickName ?? '',
+                  updatedAt: comment.updatedAt,
+                  content: comment.content,
+                  isCurUser: curUserId == comment.user?.uid,
+                  onTapReply: ({content, nickname, parentId}) {},
+                  onTapMore: (commentId) {},
+                )
+              ],
             );
           },
         ),
