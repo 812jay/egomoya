@@ -64,7 +64,15 @@ class QuestionDetailViewModel extends BaseViewModel {
       });
   }
 
-  Future<void> onTapAddComment() async {
+  Future<void> onTapAddComment(BuildContext context) async {
+    if (!isSignedIn) {
+      showSignInDialog(context);
+      return;
+    }
+    if (commentAddController.text.isEmpty) {
+      showToast('댓글 내용을 입력해주세요');
+      return;
+    }
     isBusy = true;
     await registComment();
     await fetchCommentList();

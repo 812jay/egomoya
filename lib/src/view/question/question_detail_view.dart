@@ -73,7 +73,7 @@ class QuestionDetailView extends StatelessWidget {
                 child: _QuestionDetailAddComment(
                   controller: viewModel.commentAddController,
                   isSignedIn: viewModel.isSignedIn,
-                  onSubmit: viewModel.onTapAddComment,
+                  onSubmit: () => viewModel.onTapAddComment(context),
                   onTapTextField: () => viewModel.onTapCommentField(context),
                 ),
               ),
