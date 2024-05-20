@@ -105,6 +105,19 @@ class QuestionDetailViewModel extends BaseViewModel {
       });
   }
 
+  Future<void> deleteComment(context, {required String commentId}) async {
+    final result = await commentRepo.deleteComment(commentId);
+    result
+      ..onFailure((e) => showToast('댓글 삭제에 실패했어요'))
+      ..onSuccess((value) async {
+        showToast('댓글을 삭제했어요');
+        await fetchCommentList();
+        notifyListeners();
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
+  }
+
   void clearCommentText() {
     commentAddController.clear();
   }
@@ -135,7 +148,10 @@ class QuestionDetailViewModel extends BaseViewModel {
     );
   }
 
-  void onTapCommentMore(BuildContext context, {required String commentId}) {
+  void onTapCommentMore(
+    BuildContext context, {
+    required String commentId,
+  }) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -144,7 +160,7 @@ class QuestionDetailViewModel extends BaseViewModel {
           contentList: [
             BaseBottomDialogContent(
               title: '댓글 삭제',
-              onTap: () {},
+              onTap: () => onTapDeleteComment(context, commentId: commentId),
             ),
             BaseBottomDialogContent(
               title: '댓글 수정',
@@ -155,4 +171,27 @@ class QuestionDetailViewModel extends BaseViewModel {
       },
     );
   }
+
+  void onTapDeleteComment(
+    BuildContext context, {
+    required String commentId,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BaseDialog.check(
+          context,
+          content: '해당 댓글을 삭제하시겠어요?',
+          cancelText: '취소',
+          confirmText: '확인',
+          onTapCancel: () => Navigator.pop(context),
+          onTapConfirm: () {
+            deleteComment(context, commentId: commentId);
+          },
+        );
+      },
+    );
+  }
+
+  void onTapUpdateComment(String commentId) {}
 }
