@@ -41,6 +41,9 @@ class QuestionRepo extends BaseRepo {
               imgPathList: imgPathList,
             )
           ];
+          result.sort(
+            (a, b) => b.createdAt.compareTo(a.createdAt),
+          );
         }
         return result;
       });
