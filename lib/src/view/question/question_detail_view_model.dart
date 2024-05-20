@@ -5,6 +5,8 @@ import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/theme/component/dialog/base_dialog.dart';
+import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
 class QuestionDetailViewArgument {
@@ -37,6 +39,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   String? commentParentId;
   List<CommentRes> commentList = [];
   String? get uid => userService.user?.uid;
+  bool get isSignedIn => uid?.isNotEmpty == true;
 
   Future<void> setInit() async {
     questionId = args.questionId;
@@ -95,5 +98,31 @@ class QuestionDetailViewModel extends BaseViewModel {
 
   void clearCommentText() {
     commentAddController.clear();
+  }
+
+  void onTapCommentField(BuildContext context) {
+    if (!isSignedIn) {
+      showSignInDialog(context);
+      return;
+    }
+  }
+
+  void showSignInDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BaseDialog.check(
+          context,
+          content: '로그인 해야 댓글을 작성할 수 있어요. 로그인 하시겠어요?',
+          cancelText: '취소',
+          confirmText: '로그인',
+          onTapCancel: () => Navigator.pop(context),
+          onTapConfirm: () => Navigator.restorablePopAndPushNamed(
+            context,
+            RoutePath.signIn,
+          ),
+        );
+      },
+    );
   }
 }
