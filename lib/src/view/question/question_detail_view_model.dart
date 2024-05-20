@@ -6,6 +6,7 @@ import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
+import 'package:egomoya/theme/component/dialog/bottom_dialog/base_bottom_dialog.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
@@ -129,6 +130,27 @@ class QuestionDetailViewModel extends BaseViewModel {
             context,
             RoutePath.signIn,
           ),
+        );
+      },
+    );
+  }
+
+  void onTapCommentMore(BuildContext context, {required String commentId}) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return BaseBottomDialog(
+          contentList: [
+            BaseBottomDialogContent(
+              title: '댓글 삭제',
+              onTap: () {},
+            ),
+            BaseBottomDialogContent(
+              title: '댓글 수정',
+              onTap: () {},
+            ),
+          ],
         );
       },
     );

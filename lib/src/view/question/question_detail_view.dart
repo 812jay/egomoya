@@ -57,7 +57,10 @@ class QuestionDetailView extends StatelessWidget {
                           commentList: viewModel.commentList,
                           curUserId: viewModel.uid,
                           onTapReply: ({parentId, nickname, content}) {},
-                          onTapMore: (val) {},
+                          onTapMore: (commentId) => viewModel.onTapCommentMore(
+                            context,
+                            commentId: commentId,
+                          ),
                         ),
                       ],
                     ),
@@ -190,7 +193,7 @@ class _QuestDetailCommentList extends StatelessWidget {
     String? nickname,
     String? content,
   }) onTapReply;
-  final Function(int commentId) onTapMore;
+  final Function(String commentId) onTapMore;
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +234,7 @@ class _QuestDetailCommentList extends StatelessWidget {
                   content: comment.content,
                   isCurUser: curUserId == comment.user?.uid,
                   onTapReply: ({content, nickname, parentId}) {},
-                  onTapMore: (commentId) {},
+                  onTapMore: onTapMore,
                 )
               ],
             );
