@@ -55,6 +55,17 @@ class CommentRepo extends BaseRepo {
         await firestore.collection('comment').doc(commentId).set(req.toJson());
       });
 
+  Future<RequestResult<void>> updateComment({
+    required String commentId,
+    required String content,
+  }) =>
+      handleRequest(() async {
+        await firestore.collection('comment').doc(commentId).update({
+          'content': content,
+          'updatedAt': Timestamp.now(),
+        });
+      });
+
   Future<RequestResult<void>> deleteComment(String commentId) =>
       handleRequest(() async {
         await firestore.collection('comment').doc(commentId).delete();

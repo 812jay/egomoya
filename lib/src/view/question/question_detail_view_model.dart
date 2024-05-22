@@ -7,6 +7,7 @@ import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
 import 'package:egomoya/theme/component/dialog/bottom_dialog/base_bottom_dialog.dart';
+import 'package:egomoya/theme/component/dialog/bottom_dialog/comment_bottom_dialog.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
@@ -105,6 +106,25 @@ class QuestionDetailViewModel extends BaseViewModel {
       });
   }
 
+  Future<void> updateComment(
+    context, {
+    required String commentId,
+    required String newComment,
+  }) async {
+    final result = await commentRepo.updateComment(
+      commentId: commentId,
+      content: newComment,
+    );
+    result
+      ..onFailure((e) => null)
+      ..onSuccess((value) async {
+        showToast('댓글을 수정했어요');
+        await fetchCommentList();
+        notifyListeners();
+        Navigator.pop(context);
+      });
+  }
+
   Future<void> deleteComment(context, {required String commentId}) async {
     final result = await commentRepo.deleteComment(commentId);
     result
@@ -151,6 +171,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   void onTapCommentMore(
     BuildContext context, {
     required String commentId,
+    String? prevComment,
   }) {
     showModalBottomSheet(
       context: context,
@@ -164,7 +185,11 @@ class QuestionDetailViewModel extends BaseViewModel {
             ),
             BaseBottomDialogContent(
               title: '댓글 수정',
-              onTap: () {},
+              onTap: () => onTapUpdateComment(
+                context,
+                commentId: commentId,
+                prevComment: prevComment,
+              ),
             ),
           ],
         );
@@ -185,13 +210,32 @@ class QuestionDetailViewModel extends BaseViewModel {
           cancelText: '취소',
           confirmText: '확인',
           onTapCancel: () => Navigator.pop(context),
-          onTapConfirm: () {
-            deleteComment(context, commentId: commentId);
-          },
+          onTapConfirm: () => deleteComment(context, commentId: commentId),
         );
       },
     );
   }
 
-  void onTapUpdateComment(String commentId) {}
+  void onTapUpdateComment(
+    context, {
+    required String commentId,
+    String? prevComment,
+  }) {
+    Navigator.pop(context);
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      useSafeArea: true,
+      builder: (context) {
+        return CommentBottomDialog(
+          prevComment: prevComment,
+          onTapUpdate: (newComment) => updateComment(
+            context,
+            commentId: commentId,
+            newComment: newComment,
+          ),
+        );
+      },
+    );
+  }
 }

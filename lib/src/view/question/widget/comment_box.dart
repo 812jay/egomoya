@@ -26,7 +26,10 @@ class CommentBox extends StatelessWidget {
     String? content,
   }) onTapReply;
   final DateTime updatedAt;
-  final Function(String commentId) onTapMore;
+  final Function(
+    String commentId,
+    String? prevComment,
+  ) onTapMore;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,10 @@ class CommentBox extends StatelessWidget {
             ),
             if (isCurUser == true)
               GestureDetector(
-                onTap: () => onTapMore(commentId),
+                onTap: () => onTapMore(
+                  commentId,
+                  content,
+                ),
                 child: AssetIcon(
                   AssetIconType.more.path,
                   size: 24,
