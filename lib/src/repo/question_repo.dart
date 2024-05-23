@@ -13,6 +13,7 @@ final fireStorage = FirebaseStorage.instance;
 class QuestionRepo extends BaseRepo {
   final CollectionReference questionCollection =
       firestore.collection('question');
+  final CollectionReference commentCollection = firestore.collection('comment');
 
   Future<RequestResult<List<QuestionRes>>> fetchQuestionList({
     required int limit,
@@ -35,10 +36,16 @@ class QuestionRepo extends BaseRepo {
                 .getDownloadURL();
             imgPathList = [...imgPathList, imgPath];
           }
+          final int? commentCnt = await commentCollection
+              .where('questionId', isEqualTo: question.questionId)
+              .count()
+              .get()
+              .then((value) => value.count);
           result = [
             ...result,
             question.copyWith(
               imgPathList: imgPathList,
+              commentCnt: commentCnt,
             )
           ];
           result.sort(
