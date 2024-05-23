@@ -1,4 +1,5 @@
 import 'package:egomoya/src/model/celeb/celeb.dart';
+import 'package:egomoya/src/model/celeb/celeb_type.dart';
 import 'package:egomoya/src/model/main/main_category.dart';
 import 'package:egomoya/src/model/question/question.dart';
 import 'package:egomoya/src/model/user/user.dart';
@@ -54,6 +55,14 @@ class MainViewModel extends BaseViewModel {
 
   //question
   List<QuestionRes> questionList = [];
+
+  //celeb
+  CelebCategory selectedCelebCategory = CelebCategory.beauty;
+
+  List<Celeb> get selectedCelebList => selectedCelebCategory ==
+          CelebCategory.beauty
+      ? celebList.where((e) => e.category == CelebCategory.beauty).toList()
+      : celebList.where((e) => e.category == CelebCategory.fashion).toList();
 
   @override
   void dispose() {
@@ -160,5 +169,10 @@ class MainViewModel extends BaseViewModel {
         questionId: questionId,
       ),
     );
+  }
+
+  void onTapCelebCategory(CelebCategory newCategory) {
+    selectedCelebCategory = newCategory;
+    notifyListeners();
   }
 }

@@ -42,7 +42,11 @@ class MainView extends StatelessWidget {
               questionId: questionId,
             ),
           ),
-          const CelebView(),
+          CelebView(
+            celebList: viewModel.selectedCelebList,
+            selectedCelebCategory: viewModel.selectedCelebCategory,
+            onTapCelebCategory: viewModel.onTapCelebCategory,
+          ),
           const QuestionView(),
         ];
         return Scaffold(
