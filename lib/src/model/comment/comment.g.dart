@@ -8,7 +8,7 @@ part of 'comment.dart';
 
 _$CommentResImpl _$$CommentResImplFromJson(Map<String, dynamic> json) =>
     _$CommentResImpl(
-      parentId: json['parentId'] as String?,
+      hashTag: json['hashTag'] as String?,
       questionId: json['questionId'] as String,
       commentId: json['commentId'] as String,
       user: json['user'] == null
@@ -26,7 +26,7 @@ _$CommentResImpl _$$CommentResImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$CommentResImplToJson(_$CommentResImpl instance) =>
     <String, dynamic>{
-      'parentId': instance.parentId,
+      'hashTag': instance.hashTag,
       'questionId': instance.questionId,
       'commentId': instance.commentId,
       'user': instance.user,
@@ -39,7 +39,7 @@ Map<String, dynamic> _$$CommentResImplToJson(_$CommentResImpl instance) =>
 _$CommentReqImpl _$$CommentReqImplFromJson(Map<String, dynamic> json) =>
     _$CommentReqImpl(
       questionId: json['questionId'] as String,
-      parentId: json['parentId'] as String?,
+      hashTag: json['hashTag'] as String?,
       commentId: json['commentId'] as String,
       uid: json['uid'] as String,
       content: json['content'] as String? ?? '',
@@ -52,7 +52,7 @@ _$CommentReqImpl _$$CommentReqImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$CommentReqImplToJson(_$CommentReqImpl instance) =>
     <String, dynamic>{
       'questionId': instance.questionId,
-      'parentId': instance.parentId,
+      'hashTag': instance.hashTag,
       'commentId': instance.commentId,
       'uid': instance.uid,
       'content': instance.content,

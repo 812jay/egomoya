@@ -43,6 +43,8 @@ class QuestionDetailViewModel extends BaseViewModel {
   String? get uid => userService.user?.uid;
   bool get isSignedIn => uid?.isNotEmpty == true;
 
+  String? replyNickname;
+
   Future<void> setInit() async {
     questionId = args.questionId;
     await fetchQuestionDetail(questionId);
@@ -226,6 +228,7 @@ class QuestionDetailViewModel extends BaseViewModel {
       context: context,
       backgroundColor: Colors.white,
       useSafeArea: true,
+      isDismissible: false,
       builder: (context) {
         return CommentBottomDialog(
           prevComment: prevComment,
@@ -237,5 +240,18 @@ class QuestionDetailViewModel extends BaseViewModel {
         );
       },
     );
+  }
+
+  void onTapReply(
+    String? nickname,
+    String? parentId,
+  ) async {
+    replyNickname = nickname;
+    notifyListeners();
+  }
+
+  void onClearReplyNickname() {
+    replyNickname = null;
+    notifyListeners();
   }
 }

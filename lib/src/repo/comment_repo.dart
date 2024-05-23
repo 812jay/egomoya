@@ -45,10 +45,9 @@ class CommentRepo extends BaseRepo {
       handleRequest(() async {
         final req = CommentReq(
           questionId: questionId,
-          commentId: commentId ??= const Uuid().v4(),
+          commentId: const Uuid().v4(),
           uid: uid,
           content: content,
-          parentId: parentId,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );

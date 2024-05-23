@@ -23,7 +23,6 @@ class CommentBox extends StatelessWidget {
   final Function({
     String? parentId,
     String? nickname,
-    String? content,
   }) onTapReply;
   final DateTime updatedAt;
   final Function(
@@ -76,7 +75,6 @@ class CommentBox extends StatelessWidget {
               onTap: () => onTapReply(
                 parentId: commentId,
                 nickname: nickname,
-                content: content,
               ),
               child: Text(
                 '답글',

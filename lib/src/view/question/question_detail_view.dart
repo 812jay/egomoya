@@ -33,56 +33,66 @@ class QuestionDetailView extends StatelessWidget {
         userService: context.read<UserService>(),
       ),
       builder: (context, viewModel) {
-        return Scaffold(
-          appBar: BaseAppBar(title: viewModel.question?.title ?? ''),
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _QuestionDetailHead(
-                          title: viewModel.question?.title ?? '',
-                          nickname: viewModel.question?.user?.nickName ?? '',
-                          updatedAt:
-                              viewModel.question?.updatedAt ?? DateTime.now(),
-                        ),
-                        _QuestDetailContent(
-                          imageUrlList: viewModel.question?.imgPathList ?? [],
-                        ),
-                        _QuestDetailCommentList(
-                          commentList: viewModel.commentList,
-                          curUserId: viewModel.uid,
-                          onTapReply: ({parentId, nickname, content}) {},
-                          onTapMore: (commentId, prevComment) =>
-                              viewModel.onTapCommentMore(
-                            context,
-                            commentId: commentId,
-                            prevComment: prevComment,
+        return GestureDetector(
+          onTap: viewModel.onClearReplyNickname,
+          child: Scaffold(
+            appBar: BaseAppBar(title: viewModel.question?.title ?? ''),
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _QuestionDetailHead(
+                            title: viewModel.question?.title ?? '',
+                            nickname: viewModel.question?.user?.nickName ?? '',
+                            updatedAt:
+                                viewModel.question?.updatedAt ?? DateTime.now(),
                           ),
-                        ),
-                      ],
+                          _QuestDetailContent(
+                            imageUrlList: viewModel.question?.imgPathList ?? [],
+                          ),
+                          _QuestDetailCommentList(
+                            commentList: viewModel.commentList,
+                            curUserId: viewModel.uid,
+                            onTapReply: ({
+                              parentId,
+                              nickname,
+                            }) =>
+                                viewModel.onTapReply(nickname, parentId),
+                            onTapMore: (commentId, prevComment) =>
+                                viewModel.onTapCommentMore(
+                              context,
+                              commentId: commentId,
+                              prevComment: prevComment,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              //댓글 등록
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 0,
-                  vertical: 10,
+                //댓글 등록
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 10,
+                  ),
+                  child: _QuestionDetailAddComment(
+                    controller: viewModel.commentAddController,
+                    isSignedIn: viewModel.isSignedIn,
+                    onSubmit: () => viewModel.onTapAddComment(context),
+                    onTapTextField: () => viewModel.onTapCommentField(context),
+                    replyText: viewModel.replyNickname != null
+                        ? '@${viewModel.replyNickname}'
+                        : null,
+                  ),
                 ),
-                child: _QuestionDetailAddComment(
-                  controller: viewModel.commentAddController,
-                  isSignedIn: viewModel.isSignedIn,
-                  onSubmit: () => viewModel.onTapAddComment(context),
-                  onTapTextField: () => viewModel.onTapCommentField(context),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -191,9 +201,8 @@ class _QuestDetailCommentList extends StatelessWidget {
   final List<CommentRes> commentList;
   final String? curUserId;
   final Function({
-    int? parentId,
+    String? parentId,
     String? nickname,
-    String? content,
   }) onTapReply;
   final Function(
     String commentId,
@@ -238,7 +247,7 @@ class _QuestDetailCommentList extends StatelessWidget {
                   updatedAt: comment.updatedAt,
                   content: comment.content,
                   isCurUser: curUserId == comment.user?.uid,
-                  onTapReply: ({content, nickname, parentId}) {},
+                  onTapReply: onTapReply,
                   onTapMore: onTapMore,
                 )
               ],
