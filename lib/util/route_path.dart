@@ -1,4 +1,5 @@
 import 'package:egomoya/src/view/home/main_view.dart';
+import 'package:egomoya/src/view/home/main_view_model.dart';
 import 'package:egomoya/src/view/profile/edit_profile_view.dart';
 import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
 import 'package:egomoya/src/view/profile/profile_view.dart';
@@ -31,7 +32,8 @@ abstract class RoutePath {
         page = const SplashView();
         break;
       case RoutePath.main:
-        page = const MainView();
+        final args = settings.arguments as MainViewViewArgument?;
+        page = MainView(args: args);
         break;
       case RoutePath.signIn:
         page = const SignInView();

@@ -18,12 +18,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainView extends StatelessWidget {
-  const MainView({super.key});
+  const MainView({
+    super.key,
+    this.args,
+  });
+  final MainViewViewArgument? args;
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: MainViewModel(
+        args: args,
         celebRepo: context.read<CelebRepo>(),
         imageRepo: context.read<ImageRepo>(),
         userRepo: context.read<UserRepo>(),

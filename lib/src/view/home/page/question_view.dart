@@ -14,7 +14,7 @@ class QuestionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: questionList.length,

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +6,7 @@ import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/src/view/home/main_view_model.dart';
 import 'package:egomoya/util/helper/image_helper.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +78,6 @@ class QuestionAddViewModel extends BaseViewModel {
   }
 
   void onChangeTitle(String newTitle) {
-    log('$isActive');
     notifyListeners();
   }
 
@@ -112,6 +111,7 @@ class QuestionAddViewModel extends BaseViewModel {
           context,
           RoutePath.main,
           (route) => false,
+          arguments: MainViewViewArgument(selectedCategoryIndex: 2),
         );
       });
   }

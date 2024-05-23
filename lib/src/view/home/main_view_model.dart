@@ -16,8 +16,16 @@ import 'package:egomoya/util/helper/immutable_helper.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
+class MainViewViewArgument {
+  MainViewViewArgument({
+    required this.selectedCategoryIndex,
+  });
+  final int selectedCategoryIndex;
+}
+
 class MainViewModel extends BaseViewModel {
   MainViewModel({
+    this.args,
     required this.celebRepo,
     required this.imageRepo,
     required this.questionRepo,
@@ -26,12 +34,14 @@ class MainViewModel extends BaseViewModel {
     required this.celebService,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      setArgs();
       await setUser();
       await fetchCelebList();
       await fetchQuestionList();
       userService.addListener(notifyListeners);
     });
   }
+  final MainViewViewArgument? args;
   final CelebRepo celebRepo;
   final ImageRepo imageRepo;
   final QuestionRepo questionRepo;
@@ -68,6 +78,14 @@ class MainViewModel extends BaseViewModel {
   void dispose() {
     super.dispose();
     userService.removeListener(notifyListeners);
+  }
+
+  setArgs() {
+    if (args != null) {
+      final index = args!.selectedCategoryIndex;
+      onTapCategory(index);
+      notifyListeners();
+    }
   }
 
   Future<void> fetchCelebList() async {
