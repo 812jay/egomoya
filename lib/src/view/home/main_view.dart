@@ -47,7 +47,13 @@ class MainView extends StatelessWidget {
             selectedCelebCategory: viewModel.selectedCelebCategory,
             onTapCelebCategory: viewModel.onTapCelebCategory,
           ),
-          const QuestionView(),
+          QuestionView(
+            questionList: viewModel.questionList,
+            onTap: (questionId) => viewModel.navigateToQuestionDetail(
+              context,
+              questionId: questionId,
+            ),
+          ),
         ];
         return Scaffold(
           body: NestedScrollView(
