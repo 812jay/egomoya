@@ -247,7 +247,6 @@ class _QuestDetailCommentList extends StatelessWidget {
                   updatedAt: comment.updatedAt,
                   content: comment.content,
                   isCurUser: curUserId == comment.user?.uid,
-                  onTapReply: onTapReply,
                   onTapMore: onTapMore,
                 )
               ],

@@ -12,7 +12,6 @@ class CommentBox extends StatelessWidget {
     this.isCurUser,
     required this.nickname,
     required this.updatedAt,
-    required this.onTapReply,
     this.content,
     required this.onTapMore,
   });
@@ -20,10 +19,6 @@ class CommentBox extends StatelessWidget {
   final bool? isCurUser;
   final String nickname;
   final String? content;
-  final Function({
-    String? parentId,
-    String? nickname,
-  }) onTapReply;
   final DateTime updatedAt;
   final Function(
     String commentId,
@@ -32,58 +27,42 @@ class CommentBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                nickname,
-                style: context.typo.body2.bold.subText,
-              ),
-            ),
-            if (isCurUser == true)
-              GestureDetector(
-                onTap: () => onTapMore(
-                  commentId,
-                  content,
-                ),
-                child: AssetIcon(
-                  AssetIconType.more.path,
-                  size: 24,
-                  color: context.color.subText,
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '$nickname ・ ${DateTimeHelper.formatRelativeDateTime(updatedAt)}',
+                  style: context.typo.body2.bold.subText,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Text(
-          content ?? '',
-          style: context.typo.body2,
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                DateTimeHelper.formatRelativeDateTime(updatedAt),
-                style: context.typo.body2.subText,
-              ),
-            ),
-            GestureDetector(
-              onTap: () => onTapReply(
-                parentId: commentId,
-                nickname: nickname,
-              ),
-              child: Text(
-                '답글',
-                style: context.typo.body2.subColor,
-              ),
-            ),
-          ],
-        ),
-      ],
+              if (isCurUser == true)
+                InkWell(
+                  onTap: () => onTapMore(
+                    commentId,
+                    content,
+                  ),
+                  child: AssetIcon(
+                    AssetIconType.more.path,
+                    size: 24,
+                    color: context.color.subText,
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            content ?? '',
+            style: context.typo.body2,
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
     );
   }
 }

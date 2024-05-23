@@ -9,12 +9,10 @@ part 'comment.g.dart';
 @freezed
 class CommentRes with _$CommentRes {
   const factory CommentRes({
-    String? hashTag,
     required String questionId,
     required String commentId,
     UserRes? user,
     @Default('') String content,
-    List<CommentRes>? children,
     @TimestampConverter() required DateTime createdAt,
     @TimestampConverter() required DateTime updatedAt,
   }) = _CommentRes;
@@ -26,7 +24,6 @@ class CommentRes with _$CommentRes {
 class CommentReq with _$CommentReq {
   const factory CommentReq({
     required String questionId,
-    String? hashTag,
     required String commentId,
     required String uid,
     @Default('') String content,

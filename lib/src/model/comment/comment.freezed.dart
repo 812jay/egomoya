@@ -20,12 +20,10 @@ CommentRes _$CommentResFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CommentRes {
-  String? get hashTag => throw _privateConstructorUsedError;
   String get questionId => throw _privateConstructorUsedError;
   String get commentId => throw _privateConstructorUsedError;
   UserRes? get user => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  List<CommentRes>? get children => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -44,12 +42,10 @@ abstract class $CommentResCopyWith<$Res> {
       _$CommentResCopyWithImpl<$Res, CommentRes>;
   @useResult
   $Res call(
-      {String? hashTag,
-      String questionId,
+      {String questionId,
       String commentId,
       UserRes? user,
       String content,
-      List<CommentRes>? children,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt});
 
@@ -69,20 +65,14 @@ class _$CommentResCopyWithImpl<$Res, $Val extends CommentRes>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hashTag = freezed,
     Object? questionId = null,
     Object? commentId = null,
     Object? user = freezed,
     Object? content = null,
-    Object? children = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
-      hashTag: freezed == hashTag
-          ? _value.hashTag
-          : hashTag // ignore: cast_nullable_to_non_nullable
-              as String?,
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
@@ -99,10 +89,6 @@ class _$CommentResCopyWithImpl<$Res, $Val extends CommentRes>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      children: freezed == children
-          ? _value.children
-          : children // ignore: cast_nullable_to_non_nullable
-              as List<CommentRes>?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -136,12 +122,10 @@ abstract class _$$CommentResImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? hashTag,
-      String questionId,
+      {String questionId,
       String commentId,
       UserRes? user,
       String content,
-      List<CommentRes>? children,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt});
 
@@ -160,20 +144,14 @@ class __$$CommentResImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hashTag = freezed,
     Object? questionId = null,
     Object? commentId = null,
     Object? user = freezed,
     Object? content = null,
-    Object? children = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
     return _then(_$CommentResImpl(
-      hashTag: freezed == hashTag
-          ? _value.hashTag
-          : hashTag // ignore: cast_nullable_to_non_nullable
-              as String?,
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
@@ -190,10 +168,6 @@ class __$$CommentResImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      children: freezed == children
-          ? _value._children
-          : children // ignore: cast_nullable_to_non_nullable
-              as List<CommentRes>?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -210,21 +184,16 @@ class __$$CommentResImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CommentResImpl implements _CommentRes {
   const _$CommentResImpl(
-      {this.hashTag,
-      required this.questionId,
+      {required this.questionId,
       required this.commentId,
       this.user,
       this.content = '',
-      final List<CommentRes>? children,
       @TimestampConverter() required this.createdAt,
-      @TimestampConverter() required this.updatedAt})
-      : _children = children;
+      @TimestampConverter() required this.updatedAt});
 
   factory _$CommentResImpl.fromJson(Map<String, dynamic> json) =>
       _$$CommentResImplFromJson(json);
 
-  @override
-  final String? hashTag;
   @override
   final String questionId;
   @override
@@ -234,16 +203,6 @@ class _$CommentResImpl implements _CommentRes {
   @override
   @JsonKey()
   final String content;
-  final List<CommentRes>? _children;
-  @override
-  List<CommentRes>? get children {
-    final value = _children;
-    if (value == null) return null;
-    if (_children is EqualUnmodifiableListView) return _children;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   @override
   @TimestampConverter()
   final DateTime createdAt;
@@ -253,7 +212,7 @@ class _$CommentResImpl implements _CommentRes {
 
   @override
   String toString() {
-    return 'CommentRes(hashTag: $hashTag, questionId: $questionId, commentId: $commentId, user: $user, content: $content, children: $children, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CommentRes(questionId: $questionId, commentId: $commentId, user: $user, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -261,14 +220,12 @@ class _$CommentResImpl implements _CommentRes {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CommentResImpl &&
-            (identical(other.hashTag, hashTag) || other.hashTag == hashTag) &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
             (identical(other.commentId, commentId) ||
                 other.commentId == commentId) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other._children, _children) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -278,15 +235,7 @@ class _$CommentResImpl implements _CommentRes {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      hashTag,
-      questionId,
-      commentId,
-      user,
-      content,
-      const DeepCollectionEquality().hash(_children),
-      createdAt,
-      updatedAt);
+      runtimeType, questionId, commentId, user, content, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -304,12 +253,10 @@ class _$CommentResImpl implements _CommentRes {
 
 abstract class _CommentRes implements CommentRes {
   const factory _CommentRes(
-          {final String? hashTag,
-          required final String questionId,
+          {required final String questionId,
           required final String commentId,
           final UserRes? user,
           final String content,
-          final List<CommentRes>? children,
           @TimestampConverter() required final DateTime createdAt,
           @TimestampConverter() required final DateTime updatedAt}) =
       _$CommentResImpl;
@@ -318,8 +265,6 @@ abstract class _CommentRes implements CommentRes {
       _$CommentResImpl.fromJson;
 
   @override
-  String? get hashTag;
-  @override
   String get questionId;
   @override
   String get commentId;
@@ -327,8 +272,6 @@ abstract class _CommentRes implements CommentRes {
   UserRes? get user;
   @override
   String get content;
-  @override
-  List<CommentRes>? get children;
   @override
   @TimestampConverter()
   DateTime get createdAt;
@@ -348,7 +291,6 @@ CommentReq _$CommentReqFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CommentReq {
   String get questionId => throw _privateConstructorUsedError;
-  String? get hashTag => throw _privateConstructorUsedError;
   String get commentId => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
@@ -371,7 +313,6 @@ abstract class $CommentReqCopyWith<$Res> {
   @useResult
   $Res call(
       {String questionId,
-      String? hashTag,
       String commentId,
       String uid,
       String content,
@@ -393,7 +334,6 @@ class _$CommentReqCopyWithImpl<$Res, $Val extends CommentReq>
   @override
   $Res call({
     Object? questionId = null,
-    Object? hashTag = freezed,
     Object? commentId = null,
     Object? uid = null,
     Object? content = null,
@@ -405,10 +345,6 @@ class _$CommentReqCopyWithImpl<$Res, $Val extends CommentReq>
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String,
-      hashTag: freezed == hashTag
-          ? _value.hashTag
-          : hashTag // ignore: cast_nullable_to_non_nullable
-              as String?,
       commentId: null == commentId
           ? _value.commentId
           : commentId // ignore: cast_nullable_to_non_nullable
@@ -443,7 +379,6 @@ abstract class _$$CommentReqImplCopyWith<$Res>
   @useResult
   $Res call(
       {String questionId,
-      String? hashTag,
       String commentId,
       String uid,
       String content,
@@ -463,7 +398,6 @@ class __$$CommentReqImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? questionId = null,
-    Object? hashTag = freezed,
     Object? commentId = null,
     Object? uid = null,
     Object? content = null,
@@ -475,10 +409,6 @@ class __$$CommentReqImplCopyWithImpl<$Res>
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String,
-      hashTag: freezed == hashTag
-          ? _value.hashTag
-          : hashTag // ignore: cast_nullable_to_non_nullable
-              as String?,
       commentId: null == commentId
           ? _value.commentId
           : commentId // ignore: cast_nullable_to_non_nullable
@@ -508,7 +438,6 @@ class __$$CommentReqImplCopyWithImpl<$Res>
 class _$CommentReqImpl implements _CommentReq {
   const _$CommentReqImpl(
       {required this.questionId,
-      this.hashTag,
       required this.commentId,
       required this.uid,
       this.content = '',
@@ -520,8 +449,6 @@ class _$CommentReqImpl implements _CommentReq {
 
   @override
   final String questionId;
-  @override
-  final String? hashTag;
   @override
   final String commentId;
   @override
@@ -538,7 +465,7 @@ class _$CommentReqImpl implements _CommentReq {
 
   @override
   String toString() {
-    return 'CommentReq(questionId: $questionId, hashTag: $hashTag, commentId: $commentId, uid: $uid, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CommentReq(questionId: $questionId, commentId: $commentId, uid: $uid, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -548,7 +475,6 @@ class _$CommentReqImpl implements _CommentReq {
             other is _$CommentReqImpl &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
-            (identical(other.hashTag, hashTag) || other.hashTag == hashTag) &&
             (identical(other.commentId, commentId) ||
                 other.commentId == commentId) &&
             (identical(other.uid, uid) || other.uid == uid) &&
@@ -561,8 +487,8 @@ class _$CommentReqImpl implements _CommentReq {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, questionId, hashTag, commentId,
-      uid, content, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, questionId, commentId, uid, content, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -581,7 +507,6 @@ class _$CommentReqImpl implements _CommentReq {
 abstract class _CommentReq implements CommentReq {
   const factory _CommentReq(
           {required final String questionId,
-          final String? hashTag,
           required final String commentId,
           required final String uid,
           final String content,
@@ -594,8 +519,6 @@ abstract class _CommentReq implements CommentReq {
 
   @override
   String get questionId;
-  @override
-  String? get hashTag;
   @override
   String get commentId;
   @override
