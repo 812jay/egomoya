@@ -52,8 +52,10 @@ class QuestionDetailView extends StatelessWidget {
                             updatedAt:
                                 viewModel.question?.updatedAt ?? DateTime.now(),
                           ),
+                          const SizedBox(height: 10),
                           _QuestDetailContent(
                             imageUrlList: viewModel.question?.imgPathList ?? [],
+                            content: viewModel.question?.content,
                           ),
                           _QuestDetailCommentList(
                             commentList: viewModel.commentList,
