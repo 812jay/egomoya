@@ -9,6 +9,8 @@ import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/src/view/question/widget/comment_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,24 @@ class QuestionDetailView extends StatelessWidget {
         return GestureDetector(
           onTap: viewModel.onClearReplyNickname,
           child: Scaffold(
-            appBar: BaseAppBar(title: viewModel.question?.title ?? ''),
+            appBar: BaseAppBar(
+              title: viewModel.question?.title ?? '',
+              actions: viewModel.isCurUserQuestion
+                  ? [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: InkWell(
+                          onTap: () => viewModel.onTapQuestionMore(context),
+                          child: AssetIcon(
+                            AssetIconType.more.path,
+                            size: 24,
+                            color: context.color.subText,
+                          ),
+                        ),
+                      ),
+                    ]
+                  : null,
+            ),
             body: Column(
               children: [
                 Expanded(

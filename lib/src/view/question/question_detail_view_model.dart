@@ -42,6 +42,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   List<CommentRes> commentList = [];
   String? get uid => userService.user?.uid;
   bool get isSignedIn => uid?.isNotEmpty == true;
+  bool get isCurUserQuestion => uid == question?.uid;
 
   String? replyNickname;
 
@@ -165,6 +166,27 @@ class QuestionDetailViewModel extends BaseViewModel {
             context,
             RoutePath.signIn,
           ),
+        );
+      },
+    );
+  }
+
+  void onTapQuestionMore(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return BaseBottomDialog(
+          contentList: [
+            BaseBottomDialogContent(
+              title: '질문 삭제',
+              onTap: () {},
+            ),
+            BaseBottomDialogContent(
+              title: '질문 수정',
+              onTap: () {},
+            ),
+          ],
         );
       },
     );
