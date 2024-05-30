@@ -97,4 +97,9 @@ class QuestionRepo extends BaseRepo {
         final ref = questionCollection.doc(req.questionId);
         ref.set(req.copyWith(imgNameList: imgNameList).toJson());
       });
+
+  Future<RequestResult<void>> deleteQuestion(String questionId) =>
+      handleRequest(() async {
+        await firestore.collection('question').doc(questionId).delete();
+      });
 }

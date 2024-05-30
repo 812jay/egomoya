@@ -5,6 +5,7 @@ import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/src/view/home/main_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
 import 'package:egomoya/theme/component/dialog/bottom_dialog/base_bottom_dialog.dart';
 import 'package:egomoya/theme/component/dialog/bottom_dialog/comment_bottom_dialog.dart';
@@ -83,6 +84,24 @@ class QuestionDetailViewModel extends BaseViewModel {
     await fetchCommentList();
     clearCommentText();
     isBusy = false;
+  }
+
+  Future<void> deleteQuestion(BuildContext context,
+      {required String questionId}) async {
+    final result = await questionRepo.deleteQuestion(questionId);
+    result
+      ..onFailure((e) => showToast('질문 삭제에 실패했어요'))
+      ..onSuccess((value) {
+        showToast('질문을 삭제했어요');
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutePath.main,
+          (route) => false,
+          arguments: MainViewViewArgument(
+            selectedCategoryIndex: 2,
+          ),
+        );
+      });
   }
 
   Future<void> fetchCommentList() async {
@@ -180,7 +199,7 @@ class QuestionDetailViewModel extends BaseViewModel {
           contentList: [
             BaseBottomDialogContent(
               title: '질문 삭제',
-              onTap: () {},
+              onTap: () => onTapDeleteQuestion(context, questionId: questionId),
             ),
             BaseBottomDialogContent(
               title: '질문 수정',
@@ -216,6 +235,25 @@ class QuestionDetailViewModel extends BaseViewModel {
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void onTapDeleteQuestion(
+    BuildContext context, {
+    required String questionId,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BaseDialog.check(
+          context,
+          content: '해당 게시글을 삭제하시겠어요?',
+          cancelText: '취소',
+          confirmText: '확인',
+          onTapCancel: () => Navigator.pop(context),
+          onTapConfirm: () => deleteQuestion(context, questionId: questionId),
         );
       },
     );
