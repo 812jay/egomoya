@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -96,6 +97,30 @@ class QuestionRepo extends BaseRepo {
         }
         final ref = questionCollection.doc(req.questionId);
         ref.set(req.copyWith(imgNameList: imgNameList).toJson());
+      });
+
+  Future<RequestResult<void>> updateQuestion({
+    required String questionId,
+    String? title,
+    String? content,
+    required List<File> imgList,
+  }) =>
+      handleRequest(() async {
+        log('questionId: $questionId / imgList: $imgList');
+        List<String> imgNameList = [];
+        for (var img in imgList) {
+          String imgName = '${questionId}_${img.hashCode}';
+          String imgRef = '/images/question/$questionId/$imgName';
+          imgNameList = [...imgNameList, imgName];
+          await fireStorage.ref(imgRef).putFile(img);
+        }
+        final ref = questionCollection.doc(questionId);
+        ref.update({
+          'title': title ?? '',
+          'content': content ?? '',
+          'imgNameList': imgNameList,
+          'updatedAt': Timestamp.now(),
+        });
       });
 
   Future<RequestResult<void>> deleteQuestion(String questionId) =>

@@ -27,7 +27,7 @@ class QuestionView extends StatelessWidget {
             onTap: (questionId) => onTap(questionId),
             title: question.title,
             content: question.content,
-            writedAt: question.createdAt,
+            writedAt: question.updatedAt,
             imgList: question.imgPathList,
             commentCnt: question.commentCnt ?? 0,
             questionId: question.questionId,

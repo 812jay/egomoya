@@ -106,6 +106,36 @@ class QuestionAddViewModel extends BaseViewModel {
   }
 
   Future<void> onSubmit(BuildContext context) async {
+    isBusy = true;
+    if (question != null) {
+      await updateQuestion(context);
+    } else {
+      await registQuestion(context);
+    }
+    isBusy = false;
+  }
+
+  Future<void> updateQuestion(BuildContext context) async {
+    final result = await questionRepo.updateQuestion(
+      questionId: question!.questionId,
+      title: titleController.text,
+      content: contentController.text,
+      imgList: imageList,
+    );
+    result
+      ..onFailure((e) => showToast('질문 수정에 실패했어요'))
+      ..onSuccess((value) {
+        showToast('질문을 수정했어요');
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutePath.main,
+          (route) => false,
+          arguments: MainViewViewArgument(selectedCategoryIndex: 2),
+        );
+      });
+  }
+
+  Future<void> registQuestion(BuildContext context) async {
     final req = QuestionReq(
       questionId: questionId,
       title: titleController.text,
