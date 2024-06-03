@@ -15,8 +15,10 @@ import 'package:uuid/uuid.dart';
 class QuestionAddViewArgument {
   QuestionAddViewArgument({
     required this.user,
+    this.question,
   });
   final UserRes user;
+  final QuestionRes? question;
 }
 
 const uuid = Uuid();
@@ -40,6 +42,7 @@ class QuestionAddViewModel extends BaseViewModel {
   late TextEditingController contentController;
 
   late UserRes user;
+  QuestionRes? question;
 
   List<File> imageList = [];
 
@@ -52,20 +55,30 @@ class QuestionAddViewModel extends BaseViewModel {
     userService.removeListener(notifyListeners);
   }
 
-  setInit() {
+  Future<void> setInit() async {
     user = args.user;
-    titleController = TextEditingController(text: '');
-    contentController = TextEditingController(text: '');
+    question = args.question;
+    titleController = TextEditingController(text: question?.title);
+    contentController = TextEditingController(text: question?.content);
+    if (args.question?.imgPathList != null) {
+      await setInitImage(args.question!.imgPathList);
+    }
+  }
+
+  Future<void> setInitImage(List<String> urlList) async {
+    isBusy = true;
+    List<File> newImageList =
+        await ImageHelper.urlListToFileList(urlList: urlList);
+    imageList = [...imageList, ...newImageList];
+    isBusy = false;
   }
 
   void onSelectImage() async {
-    isBusy = true;
     imageList = await ImageHelper.selectImageList(
       imageFileList: imageList,
       limit: 5,
     );
     await Future.delayed(const Duration(seconds: 1));
-    isBusy = false;
   }
 
   void onDeleteImage(int index) {

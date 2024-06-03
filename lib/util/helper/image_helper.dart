@@ -79,6 +79,18 @@ class ImageHelper {
     return file;
   }
 
+  static Future<List<File>> urlListToFileList({
+    required List<String> urlList,
+  }) async {
+    List<File> fileList = [];
+    for (var url in urlList) {
+      String fileName = url.split('%2F').last.split('?').first;
+      final File file = await urlToFile(url: url, fileName: fileName);
+      fileList = [...fileList, file];
+    }
+    return fileList;
+  }
+
   static Future<String> _getTemporaryDirectoryPath() async {
     Directory tempDir = await getTemporaryDirectory();
     return tempDir.path;

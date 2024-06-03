@@ -1,11 +1,13 @@
 import 'package:egomoya/src/model/comment/comment.dart';
 import 'package:egomoya/src/model/question/question.dart';
+import 'package:egomoya/src/model/user/user.dart';
 import 'package:egomoya/src/repo/comment_repo.dart';
 import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
 import 'package:egomoya/src/view/home/main_view_model.dart';
+import 'package:egomoya/src/view/question/question_add_view_model.dart';
 import 'package:egomoya/theme/component/dialog/base_dialog.dart';
 import 'package:egomoya/theme/component/dialog/bottom_dialog/base_bottom_dialog.dart';
 import 'package:egomoya/theme/component/dialog/bottom_dialog/comment_bottom_dialog.dart';
@@ -41,6 +43,7 @@ class QuestionDetailViewModel extends BaseViewModel {
   final TextEditingController commentAddController = TextEditingController();
   String? commentParentId;
   List<CommentRes> commentList = [];
+  UserRes? get user => userService.user;
   String? get uid => userService.user?.uid;
   bool get isSignedIn => uid?.isNotEmpty == true;
   bool get isCurUserQuestion => uid == question?.uid;
@@ -203,7 +206,7 @@ class QuestionDetailViewModel extends BaseViewModel {
             ),
             BaseBottomDialogContent(
               title: '질문 수정',
-              onTap: () {},
+              onTap: () => onTapUpdateQuestion(context, questionId: questionId),
             ),
           ],
         );
@@ -257,6 +260,23 @@ class QuestionDetailViewModel extends BaseViewModel {
         );
       },
     );
+  }
+
+  void onTapUpdateQuestion(
+    context, {
+    required String questionId,
+  }) {
+    Navigator.pop(context);
+    if (user != null) {
+      Navigator.pushNamed(
+        context,
+        RoutePath.questionAdd,
+        arguments: QuestionAddViewArgument(
+          user: user!,
+          question: question,
+        ),
+      );
+    }
   }
 
   void onTapDeleteComment(
