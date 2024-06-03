@@ -74,11 +74,13 @@ class QuestionAddViewModel extends BaseViewModel {
   }
 
   void onSelectImage() async {
+    isBusy = true;
     imageList = await ImageHelper.selectImageList(
       imageFileList: imageList,
       limit: 5,
     );
     await Future.delayed(const Duration(seconds: 1));
+    isBusy = false;
   }
 
   void onDeleteImage(int index) {
