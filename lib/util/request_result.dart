@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:egomoya/legacy/util/exeptions.dart';
+import 'package:egomoya/util/exeptions.dart';
 
 class RequestResult<T> {
   RequestResult._();

@@ -1,4 +1,4 @@
-import 'package:egomoya/legacy/theme/res/layout.dart';
+import 'package:egomoya/theme/res/layout.dart';
 import 'package:flutter/material.dart';
 
 class ConstrainedView extends StatelessWidget {

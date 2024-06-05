@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:egomoya/legacy/theme/component/icon/asset_icon.dart';
-import 'package:egomoya/legacy/util/helper/datetime_helper.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/empty_image.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
 import 'package:egomoya/theme/foundation/app_theme.dart';
+import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 
 class QuestionBox extends StatelessWidget {
