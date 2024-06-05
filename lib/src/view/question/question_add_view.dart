@@ -1,16 +1,14 @@
 import 'dart:io';
 
-import 'package:egomoya/src/data/dto/post/post.dart';
-import 'package:egomoya/src/model/post_model.dart';
-import 'package:egomoya/src/service/post_service.dart';
+import 'package:egomoya/src/repo/question_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_add_view_model.dart';
-import 'package:egomoya/src/view/question/widget/image_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
+import 'package:egomoya/theme/component/box/image_box.dart';
 import 'package:egomoya/theme/component/button/button.dart';
-import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
-import 'package:egomoya/util/app_theme.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -18,27 +16,23 @@ import 'package:provider/provider.dart';
 class QuestionAddView extends StatelessWidget {
   const QuestionAddView({
     super.key,
-    this.postData,
+    required this.args,
   });
-  final PostData? postData;
+  final QuestionAddViewArgument args;
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: QuestionAddViewModel(
-        context.read<PostService>(),
-        context.read<PostModel>(),
-        postData,
+        args: args,
+        questionRepo: context.read<QuestionRepo>(),
+        userService: context.read<UserService>(),
       ),
       builder: (context, viewModel) {
-        const SizedBox space = SizedBox(height: 36);
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
           child: Scaffold(
-            appBar: BaseAppBar(
-              title: viewModel.appbarTitle,
-              onTapLeading: () => viewModel.onTapLeading(context),
-            ),
+            appBar: const BaseAppBar(title: '질문 등록'),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -46,28 +40,26 @@ class QuestionAddView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _InputPicture(
-                      imageList: viewModel.localImageFileList,
+                      imageList: viewModel.imageList,
                       onSelectImage: viewModel.onSelectImage,
                       onDeleteImage: viewModel.onDeleteImage,
                     ),
-                    space,
+                    const SizedBox(height: 20),
                     _InputTitle(
                       controller: viewModel.titleController,
                       onChangeTitle: viewModel.onChangeTitle,
-                      titleErrMsg: viewModel.titleErrMsg,
                       onClearTitle: viewModel.onClearTitle,
                     ),
-                    space,
+                    const SizedBox(height: 20),
                     _InputContent(
                       controller: viewModel.contentController,
                       onChangeContent: viewModel.onChangeContent,
                     ),
-                    const SizedBox(height: 23),
+                    const SizedBox(height: 20),
                     _SubmitButton(
-                      isActive: viewModel.isActiveSubmitButton,
                       onSubmit: viewModel.onSubmit,
+                      isActive: viewModel.isActive,
                     ),
-                    const SizedBox(height: 33),
                   ],
                 ),
               ),
@@ -110,7 +102,7 @@ class _InputPicture extends StatelessWidget {
               return Row(
                 children: [
                   index == 0
-                      ? ImageAddContainer(
+                      ? ImageAddBox(
                           onTap: onSelectImage,
                           padding: const EdgeInsets.only(right: 10),
                           height: 120,
@@ -186,10 +178,7 @@ class _InputTitle extends StatelessWidget {
             ),
             suffixIcon: controller.text.isEmpty
                 ? null
-                : Button(
-                    iconPath: AssetIconType.close.path,
-                    color: Colors.black,
-                    type: ButtonType.flat,
+                : CloseButton(
                     onPressed: onClearTitle,
                   ),
           ),
@@ -253,12 +242,11 @@ class _SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Button(
-      onPressed: () => isActive ? onSubmit(context) : null,
-      isInactive: !isActive,
-      width: double.infinity,
-      text: '질문 등록',
-      size: ButtonSize.large,
+    return Button.text(
+      context,
+      onTap: () => isActive ? onSubmit(context) : null,
+      isActive: isActive,
+      text: '등록하기',
     );
   }
 }

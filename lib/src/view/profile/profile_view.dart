@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:egomoya/src/model/user_model.dart';
+import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/profile/profile_view_model.dart';
-import 'package:egomoya/src/view/sign_up/sign_up_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
-import 'package:egomoya/util/route_path.dart';
+import 'package:egomoya/theme/component/icon/asset_icon.dart';
+import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +23,8 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: ProfileViewModel(
-        userModel: context.read<UserModel>(),
+        userRepo: context.read<UserRepo>(),
+        userService: context.read<UserService>(),
         args: args,
       ),
       builder: (context, viewModel) {
@@ -32,54 +35,73 @@ class ProfileView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: CachedNetworkImageProvider(
-                            viewModel.userInfo.profileImg!.imageUrl,
-                          ),
-                          backgroundColor: context.color.lightGrayBackground,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      '${viewModel.userInfo.nickname}님',
-                                      style: context.typo.body2,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () => Navigator.pushNamed(
-                                        context, RoutePath.signUp,
-                                        arguments: SignUpViewArgument(
-                                          user: viewModel.userInfo,
-                                        )),
-                                    child: Text(
-                                      '프로필 수정',
-                                      style: context.typo.body2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(100),
+                    //   child: viewModel.user.profileImgPath != null
+                    //       ? CachedNetworkImage(
+                    //           imageUrl: viewModel.user.profileImgPath!,
+                    //           width: 100,
+                    //           height: 100,
+                    //           fit: BoxFit.cover,
+                    //         )
+                    //       : Container(),
+                    // ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: context.color.lightGrayBackground,
+                      backgroundImage: viewModel.user.profileImgPath != null
+                          ? CachedNetworkImageProvider(
+                              viewModel.user.profileImgPath!,
+                            )
+                          : null,
+                      child: viewModel.user.profileImgPath != null
+                          ? null
+                          : AssetIcon(
+                              AssetImageType.logoIcon.path,
+                              size: 60,
+                            ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      '${viewModel.user.nickName}님',
+                      style: context.typo.subTitle1,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      '${viewModel.user.description}',
+                      style: context.typo.body1,
                     ),
                     const SizedBox(height: 20),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Button(
-                        onPressed: () => viewModel.signOut(context),
-                        text: '로그아웃',
+                        onTap: () => viewModel.navigateToEditProfile(context),
+                        width: double.infinity,
+                        border:
+                            Border.all(width: 1, color: context.color.primary),
+                        title: Text(
+                          '프로필 수정',
+                          style: context.typo.body2.bold.whiteColor,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Button(
+                        onTap: () => viewModel.signOut(context),
+                        width: double.infinity,
+                        color: context.color.white,
+                        border:
+                            Border.all(width: 1, color: context.color.primary),
+                        title: Text(
+                          '로그아웃',
+                          style: context.typo.body2.bold.pointColor,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ],

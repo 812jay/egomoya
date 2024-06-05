@@ -6,16 +6,46 @@ class BaseDialog extends StatelessWidget {
   const BaseDialog({
     super.key,
     this.content,
-    this.onTapCancel,
-    this.onTapConfirm,
-    this.cancelText,
-    this.confirmText,
+    required this.actions,
   });
   final String? content;
-  final GestureTapCallback? onTapCancel;
-  final GestureTapCallback? onTapConfirm;
-  final String? cancelText;
-  final String? confirmText;
+  final List<Widget> actions;
+
+  factory BaseDialog.check(
+    context, {
+    String? content,
+    String? cancelText,
+    String? confirmText,
+    GestureTapCallback? onTapCancel,
+    GestureTapCallback? onTapConfirm,
+  }) {
+    return BaseDialog(
+      content: content,
+      actions: [
+        Row(
+          children: [
+            Expanded(
+              child: Button.text(
+                context,
+                text: cancelText ?? '취소',
+                isActive: false,
+                onTap: onTapCancel,
+              ),
+            ),
+            const SizedBox(width: 5),
+            Expanded(
+              child: Button.text(
+                context,
+                text: confirmText ?? '확인',
+                isActive: true,
+                onTap: onTapConfirm,
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,32 +55,7 @@ class BaseDialog extends StatelessWidget {
         content ?? '',
         style: context.typo.body1,
       ),
-      actions: [
-        Row(
-          children: [
-            Expanded(
-              child: Button(
-                backgroundColor: context.color.subBackground,
-                onPressed: onTapCancel ??
-                    () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
-                text: cancelText ?? '취소',
-                color: context.color.white,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Button(
-                onPressed: onTapConfirm ?? () => Navigator.pop(context),
-                text: confirmText ?? '확인',
-                color: context.color.white,
-              ),
-            ),
-          ],
-        )
-      ],
+      actions: actions,
     );
   }
 }

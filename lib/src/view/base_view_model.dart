@@ -1,4 +1,3 @@
-import 'package:egomoya/util/exeptions.dart';
 import 'package:egomoya/util/helper/toast_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -11,19 +10,6 @@ class BaseViewModel with ChangeNotifier {
     if (_isBusy == isBusy) return;
     _isBusy = isBusy;
     notifyListeners();
-  }
-
-  handleApiError(
-    CustomException e, {
-    String? toastMsg,
-  }) async {
-    if (!e.type.isHandled &&
-        toastMsg != null &&
-        CustomExceptionUtil.isShowToastFromDioError(e)) {
-      showToast(toastMsg);
-    }
-
-    CustomExceptionUtil.logging(e);
   }
 
   showToast(String msg, {double? fontSize, int seconds = 3}) {

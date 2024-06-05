@@ -1,4 +1,3 @@
-import 'package:egomoya/src/service/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -25,7 +24,8 @@ class AssetIcon extends StatelessWidget {
         width: size,
         height: size,
         colorFilter: ColorFilter.mode(
-          color ?? context.color.black,
+          // color ?? context.color.black,
+          color ?? Colors.black,
           BlendMode.srcIn,
         ),
         fit: fit ?? BoxFit.contain,

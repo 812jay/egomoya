@@ -1,12 +1,15 @@
 import 'dart:developer';
 
+import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/sign_in/sign_in_view_model.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/button/button.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
 import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +20,8 @@ class SignInView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: SignInViewModel(
-        context.read(),
+        userRepo: context.read<UserRepo>(),
+        userService: context.read<UserService>(),
       ),
       builder: (context, viewModel) {
         const spaceBig = SizedBox(height: 20);
@@ -33,41 +37,54 @@ class SignInView extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Center(
-                            child: AssetIcon(
-                              'assets/images/logo_text.png',
-                              size: 100,
-                            ),
-                          ),
-                          _InputEmail(
-                            controller: viewModel.emailController,
-                            onChange: viewModel.onChangeEmail,
-                            onClear: viewModel.onClearEmail,
-                            errMsg: viewModel.emailErrMsg,
-                          ),
-                          spaceBig,
-                          _InputPassword(
-                            controller: viewModel.passwordController,
-                            onChange: viewModel.onChangePassword,
-                            errMsg: viewModel.passwordErrMsg,
-                            onClear: viewModel.onClearPassword,
-                          ),
-                          spaceBig,
-                          _SubmitButton(
-                            onTap: viewModel.signIn,
-                            isValid: viewModel.isValidateSignIn,
-                          ),
-                        ],
+                      // Column(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [
+                      //     Center(
+                      //       child: AssetIcon(
+                      //         AssetImageType.logoText.path,
+                      //         size: 100,
+                      //       ),
+                      //     ),
+                      //     _InputEmail(
+                      //       controller: viewModel.emailController,
+                      //       onChange: viewModel.onChangeEmail,
+                      //       onClear: viewModel.onClearEmail,
+                      //       errMsg: viewModel.emailErrMsg,
+                      //     ),
+                      //     spaceBig,
+                      //     _InputPassword(
+                      //       controller: viewModel.passwordController,
+                      //       onChange: viewModel.onChangePassword,
+                      //       errMsg: viewModel.passwordErrMsg,
+                      //       onClear: viewModel.onClearPassword,
+                      //     ),
+                      //     spaceBig,
+                      //     _SubmitButton(
+                      //       onTap: viewModel.signIn,
+                      //       isValid: viewModel.isValidateSignIn,
+                      //     ),
+                      //   ],
+                      // ),
+                      Center(
+                        child: AssetIcon(
+                          AssetImageType.logoText.path,
+                          size: 100,
+                        ),
                       ),
                       spaceBig,
-                      const _FindEmailPassword(),
-                      spaceBig,
-                      _SignInEmail(
-                        onTap: () => viewModel.navigateSignUpEmail(context),
+                      _GoogleSignInButton(
+                        onTap: () => viewModel.signInWithGoogle(context),
                       ),
+                      spaceBig,
+                      _AppleSignInButton(
+                        onTap: () => viewModel.signInWithApple(context),
+                      ),
+                      // const _FindEmailPassword(),
+                      // spaceBig,
+                      // _SignInEmail(
+                      //   onTap: () => viewModel.navigateSignUpEmail(context),
+                      // ),
                     ],
                   ),
                 ),
@@ -109,12 +126,12 @@ class _InputEmail extends StatelessWidget {
             width: 1,
           ),
         ),
-        suffixIcon: Button(
-          iconPath: AssetIconType.close.path,
-          color: Colors.black,
-          type: ButtonType.flat,
-          onPressed: onClear,
-        ),
+        // suffixIcon: Button(
+        //   iconPath: AssetIconType.close.path,
+        //   color: Colors.black,
+        //   type: ButtonType.flat,
+        //   onPressed: onClear,
+        // ),
       ),
     );
   }
@@ -150,14 +167,14 @@ class _InputPassword extends StatelessWidget {
             width: 1,
           ),
         ),
-        suffixIcon: controller.text.isEmpty
-            ? null
-            : Button(
-                iconPath: AssetIconType.close.path,
-                color: Colors.black,
-                type: ButtonType.flat,
-                onPressed: onClear,
-              ),
+        // suffixIcon: controller.text.isEmpty
+        //     ? null
+        //     : Button(
+        //         iconPath: AssetIconType.close.path,
+        //         color: Colors.black,
+        //         type: ButtonType.flat,
+        //         onPressed: onClear,
+        //       ),
       ),
     );
   }
@@ -174,10 +191,91 @@ class _SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return Button(
+    //   onPressed: () => onTap(context),
+    //   text: '로그인',
+    //   isInactive: !isValid,
+    //   width: double.infinity,
+    // );
     return Button(
-      onPressed: () => onTap(context),
-      text: '로그인',
-      isInactive: !isValid,
+      title: Text(
+        '이메일 로그인',
+        textAlign: TextAlign.center,
+        style: context.typo.body2.bold.whiteColor,
+      ),
+      width: double.infinity,
+    );
+  }
+}
+
+class _GoogleSignInButton extends StatelessWidget {
+  const _GoogleSignInButton({
+    super.key,
+    this.onTap,
+  });
+  final GestureTapCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      onTap: onTap,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AssetIcon(
+            AssetIconType.google.path,
+            size: 20,
+          ),
+          const SizedBox(width: 5),
+          Text(
+            '구글 로그인',
+            textAlign: TextAlign.center,
+            style: context.typo.body2.bold,
+          ),
+        ],
+      ),
+      border: Border.all(
+        width: 1,
+        color: context.color.inactiveBackground,
+      ),
+      color: context.color.white,
+      width: double.infinity,
+    );
+  }
+}
+
+class _AppleSignInButton extends StatelessWidget {
+  const _AppleSignInButton({
+    super.key,
+    this.onTap,
+  });
+  final GestureTapCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      onTap: onTap,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AssetIcon(
+            AssetIconType.apple.path,
+            color: context.color.white,
+            size: 20,
+          ),
+          const SizedBox(width: 5),
+          Text(
+            '애플 로그인',
+            textAlign: TextAlign.center,
+            style: context.typo.body2.bold.whiteColor,
+          ),
+        ],
+      ),
+      border: Border.all(
+        width: 1,
+        color: context.color.inactiveBackground,
+      ),
+      color: context.color.black,
       width: double.infinity,
     );
   }

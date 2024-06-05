@@ -1,18 +1,17 @@
-import 'package:egomoya/src/data/dto/comment/comment.dart';
-import 'package:egomoya/src/model/comment_model.dart';
-import 'package:egomoya/src/model/post_model.dart';
-import 'package:egomoya/src/model/user_model.dart';
-import 'package:egomoya/src/service/dialog_service.dart';
-import 'package:egomoya/src/service/post_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:egomoya/src/model/comment/comment.dart';
+import 'package:egomoya/src/repo/comment_repo.dart';
+import 'package:egomoya/src/repo/question_repo.dart';
+import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view.dart';
 import 'package:egomoya/src/view/question/question_detail_view_model.dart';
 import 'package:egomoya/src/view/question/widget/comment_box.dart';
-import 'package:egomoya/src/view/question/widget/content_image.dart';
-import 'package:egomoya/src/view/question/widget/reply_box.dart';
 import 'package:egomoya/theme/component/app_bar/base_app_bar.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
-import 'package:egomoya/util/app_theme.dart';
+import 'package:egomoya/theme/component/icon/asset_icon_type.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:egomoya/util/helper/datetime_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,111 +20,99 @@ import 'package:provider/provider.dart';
 class QuestionDetailView extends StatelessWidget {
   const QuestionDetailView({
     super.key,
-    required this.postId,
+    required this.args,
   });
-  final int postId;
+  final QuestionDetailViewArgument args;
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: QuestionDetailViewModel(
-        postId: postId,
-        userModel: context.read<UserModel>(),
-        postModel: context.read<PostModel>(),
-        postService: context.read<PostService>(),
-        commentModel: context.read<CommentModel>(),
-        dialogService: context.read<DialogService>(),
+        args: args,
+        questionRepo: context.read<QuestionRepo>(),
+        userRepo: context.read<UserRepo>(),
+        commentRepo: context.read<CommentRepo>(),
+        userService: context.read<UserService>(),
       ),
       builder: (context, viewModel) {
-        final data = viewModel.postData;
         return GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus;
-            viewModel.onClearReplyText();
-          },
+          onTap: viewModel.onClearReplyNickname,
           child: Scaffold(
             appBar: BaseAppBar(
-              title: '질문 상세',
-              actions: [
-                GestureDetector(
-                  onTap: () => viewModel.onTapMorePost(context),
-                  child: const AssetIcon(
-                    'assets/icons/more.svg',
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 9),
-              ],
+              title: viewModel.question?.title ?? '',
+              actions: viewModel.isCurUserQuestion
+                  ? [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: InkWell(
+                          onTap: () => viewModel.onTapQuestionMore(context),
+                          child: AssetIcon(
+                            AssetIconType.more.path,
+                            size: 24,
+                            color: context.color.subText,
+                          ),
+                        ),
+                      ),
+                    ]
+                  : null,
             ),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _QuestionDetailHead(
-                                  title: data?.title ?? '',
-                                  userId: data?.user.nickname ?? '익명',
-                                  updatedAt: data?.updatedAt ?? DateTime.now(),
-                                ),
-                                const SizedBox(height: 10),
-                                _QuestDetailContent(
-                                  content: data?.content ?? '',
-                                  imageUrlList: data?.imageList
-                                          ?.map((e) => e.imageUrl)
-                                          .toList() ??
-                                      [],
-                                ),
-                              ],
+                          _QuestionDetailHead(
+                            title: viewModel.question?.title ?? '',
+                            nickname: viewModel.question?.user?.nickName ?? '',
+                            updatedAt:
+                                viewModel.question?.updatedAt ?? DateTime.now(),
+                          ),
+                          const SizedBox(height: 10),
+                          _QuestDetailContent(
+                            imageUrlList: viewModel.question?.imgPathList ?? [],
+                            content: viewModel.question?.content,
+                          ),
+                          _QuestDetailCommentList(
+                            commentList: viewModel.commentList,
+                            curUserId: viewModel.uid,
+                            onTapReply: ({
+                              parentId,
+                              nickname,
+                            }) =>
+                                viewModel.onTapReply(nickname, parentId),
+                            onTapMore: (commentId, prevComment) =>
+                                viewModel.onTapCommentMore(
+                              context,
+                              commentId: commentId,
+                              prevComment: prevComment,
                             ),
                           ),
-                          Divider(
-                            thickness: 8,
-                            color: context.color.lightGrayBackground,
-                          ),
-                          const SizedBox(height: 25),
-                          //댓글 목록
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: _QuestDetailCommentList(
-                              commentList: viewModel.comment?.dataList,
-                              curUserId: viewModel.userId,
-                              onTapMore: (commentId) =>
-                                  viewModel.onTapMoreComment(context,
-                                      commentId: commentId),
-                              onTapReply: ({content, nickname, parentId}) =>
-                                  viewModel.onTapReply(
-                                content: content,
-                                nickname: nickname,
-                                parentId: parentId,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 25),
                         ],
                       ),
                     ),
                   ),
-                  //댓글 등록
-                  _QuestionDetailAddComment(
+                ),
+                //댓글 등록
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 10,
+                  ),
+                  child: _QuestionDetailAddComment(
                     controller: viewModel.commentAddController,
-                    onSubmit: () => viewModel.addComment(),
-                    onTapTextField: () => viewModel.onTapCommentField(context),
                     isSignedIn: viewModel.isSignedIn,
-                    replyText: viewModel.replyText != null &&
-                            viewModel.curCommentParentId != null
-                        ? viewModel.replyText
+                    onSubmit: () => viewModel.onTapAddComment(context),
+                    onTapTextField: () => viewModel.onTapCommentField(context),
+                    replyText: viewModel.replyNickname != null
+                        ? '@${viewModel.replyNickname}'
                         : null,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
@@ -139,11 +126,11 @@ class _QuestionDetailHead extends StatelessWidget {
     super.key,
     required this.title,
     required this.updatedAt,
-    required this.userId,
+    required this.nickname,
   });
   final String title;
   final DateTime updatedAt;
-  final String userId;
+  final String nickname;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +143,7 @@ class _QuestionDetailHead extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          '$userId • ${DateTimeHelper.formatRelativeDateTime(updatedAt)}',
+          '$nickname • ${DateTimeHelper.formatRelativeDateTime(updatedAt)}',
           style: context.typo.body3.subText,
         ),
       ],
@@ -190,7 +177,7 @@ class _QuestDetailContent extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (context, index) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
-            return ContentImageBox(imageUrl: imageUrlList[index]);
+            return _QuestionImageBox(imageUrl: imageUrlList[index]);
           },
         ),
       ],
@@ -198,26 +185,54 @@ class _QuestDetailContent extends StatelessWidget {
   }
 }
 
-class _QuestDetailCommentList extends StatelessWidget {
-  const _QuestDetailCommentList({
+class _QuestionImageBox extends StatelessWidget {
+  const _QuestionImageBox({
     super.key,
-    this.commentList,
-    required this.curUserId,
-    required this.onTapReply,
-    required this.onTapMore,
+    required this.imageUrl,
   });
-  final List<CommentData>? commentList;
-  final String curUserId;
-  final Function({
-    int? parentId,
-    String? nickname,
-    String? content,
-  }) onTapReply;
-  final Function(int commentId) onTapMore;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
-    if (commentList == null || commentList!.isEmpty) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        fit: BoxFit.contain,
+        placeholder: (context, url) {
+          return Container(
+            decoration: BoxDecoration(
+              color: context.color.lightGrayBackground,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _QuestDetailCommentList extends StatelessWidget {
+  const _QuestDetailCommentList({
+    super.key,
+    required this.commentList,
+    this.curUserId,
+    required this.onTapReply,
+    required this.onTapMore,
+  });
+  final List<CommentRes> commentList;
+  final String? curUserId;
+  final Function({
+    String? parentId,
+    String? nickname,
+  }) onTapReply;
+  final Function(
+    String commentId,
+    String? prevComment,
+  ) onTapMore;
+
+  @override
+  Widget build(BuildContext context) {
+    if (commentList.isEmpty) {
       return SizedBox(
         height: 100,
         child: Center(
@@ -234,47 +249,27 @@ class _QuestDetailCommentList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '댓글 ${commentList!.length}',
+          '댓글 ${commentList.length}',
           style: context.typo.body1.bold,
         ),
         const SizedBox(height: 25),
         ListView.separated(
           shrinkWrap: true,
-          itemCount: commentList!.length,
+          itemCount: commentList.length,
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (context, index) => const Divider(thickness: 0.5),
           itemBuilder: (context, index) {
-            final comment = commentList![index];
+            final comment = commentList[index];
             return Column(
               children: [
                 CommentBox(
-                  commentId: comment.id,
-                  isCurUser: comment.user?.userId == curUserId,
-                  content: comment.content,
-                  onTapReply: onTapReply,
-                  nickname: comment.user?.nickname ?? '',
+                  commentId: comment.commentId,
+                  nickname: comment.user?.nickName ?? '',
                   updatedAt: comment.updatedAt,
-                  onTapMore: (commentId) => onTapMore(commentId),
-                ),
-                if (comment.children != null) const SizedBox(height: 8),
-                if (comment.children != null)
-                  ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: comment.children!.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final reply = comment.children![index];
-                      return ReplyBox(
-                        commentId: reply.id,
-                        nickname: reply.user?.nickname ?? '',
-                        content: reply.content,
-                        updatedAt: reply.updatedAt,
-                        onTapMore: (commentId) => onTapMore(commentId),
-                      );
-                    },
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 8),
-                  )
+                  content: comment.content,
+                  isCurUser: curUserId == comment.user?.uid,
+                  onTapMore: onTapMore,
+                )
               ],
             );
           },
@@ -352,10 +347,12 @@ class _QuestionDetailAddComment extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: onSubmit,
+                  borderRadius: BorderRadius.circular(10),
                   child: Container(
                     width: 60,
+                    height: 60,
                     alignment: Alignment.center,
                     child: Text(
                       '등록',

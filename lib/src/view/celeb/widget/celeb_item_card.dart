@@ -1,7 +1,7 @@
-import 'package:egomoya/src/data/dto/celeb/celeb_item.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/service/theme_service.dart';
-import 'package:egomoya/theme/component/icon/asset_icon.dart';
-import 'package:egomoya/util/app_theme.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:egomoya/util/helper/intl_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -36,10 +36,15 @@ class CelebItemCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: AssetIcon(
-                  celebItem.imgPath,
-                  size: 60,
-                ),
+                child: celebItem.imgPath != null
+                    ? CachedNetworkImage(
+                        imageUrl: celebItem.imgPath!,
+                        width: 60,
+                      )
+                    : const SizedBox(
+                        width: 60,
+                        height: 60,
+                      ),
               ),
             ),
             const SizedBox(width: 10),
@@ -60,7 +65,7 @@ class CelebItemCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     IntlHelper.priceFormat(
-                      price: celebItem.price,
+                      price: celebItem.price.toDouble(),
                       symbol: celebItem.currency,
                     ),
                     style: context.typo.body3,

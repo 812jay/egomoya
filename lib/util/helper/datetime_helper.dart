@@ -1,4 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 class DateTimeHelper {
+  static DateTime timestampToDateTime(Timestamp timestamp) {
+    return DateTime.parse(timestamp.toDate().toString());
+  }
+
   static String formatRelativeDateTime(DateTime dateTime) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
@@ -38,8 +45,28 @@ class DateTimeHelper {
     final years = now.year - dateTime.year;
     return '$years년 전';
   }
+}
 
-  static DateTime formatUtcStringToLocal(String utcString) {
-    return DateTime.parse('${utcString}Z').toLocal();
+class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
+  const TimestampConverter();
+
+  @override
+  DateTime fromJson(Timestamp timestamp) {
+    return timestamp.toDate();
   }
+
+  @override
+  Timestamp toJson(DateTime date) => Timestamp.fromDate(date);
+}
+
+class DateTimeConverter implements JsonConverter<Timestamp, DateTime> {
+  const DateTimeConverter();
+
+  @override
+  Timestamp fromJson(DateTime dateTime) {
+    return Timestamp.fromDate(dateTime);
+  }
+
+  @override
+  DateTime toJson(Timestamp timestamp) => timestamp.toDate();
 }

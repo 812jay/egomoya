@@ -1,3 +1,4 @@
+import 'package:egomoya/theme/res/palette.dart';
 import 'package:egomoya/theme/res/typo.dart';
 import 'package:flutter/material.dart';
 

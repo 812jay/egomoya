@@ -1,6 +1,9 @@
-import 'package:egomoya/src/data/dto/user/user.dart';
-import 'package:egomoya/src/model/user_model.dart';
+import 'package:egomoya/src/data/enum/profile_type.dart';
+import 'package:egomoya/src/model/user/user.dart';
+import 'package:egomoya/src/repo/user_repo.dart';
+import 'package:egomoya/src/service/user_service.dart';
 import 'package:egomoya/src/view/base_view_model.dart';
+import 'package:egomoya/src/view/profile/edit_profile_view_model.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
 
@@ -8,32 +11,52 @@ class ProfileViewArgument {
   ProfileViewArgument({
     required this.user,
   });
-  final User user;
+  final UserRes user;
 }
 
 class ProfileViewModel extends BaseViewModel {
   ProfileViewModel({
-    required this.userModel,
+    required this.userRepo,
+    required this.userService,
     required this.args,
   }) {
     setInitUser();
+    userService.addListener(notifyListeners);
   }
-  final UserModel userModel;
+  final UserRepo userRepo;
+  final UserService userService;
   final ProfileViewArgument args;
-  late User userInfo;
+  late UserRes user;
+
+  @override
+  void dispose() {
+    super.dispose();
+    userService.removeListener(notifyListeners);
+  }
 
   void setInitUser() {
-    userInfo = args.user;
+    user = args.user;
   }
 
   Future<void> signOut(BuildContext context) async {
-    final result = await userModel.signOut();
+    final result = await userRepo.signOut();
     result
-      ..onFailure((e) => showToast('로그아웃에 실패했습니다.'))
+      ..onFailure((e) => showToast('로그아웃에 실패했어요'))
       ..onSuccess((value) {
-        showToast('로그아웃에 성공했습니다.');
+        userService.signOut();
         navigateToSignIn(context);
       });
+  }
+
+  void navigateToEditProfile(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      RoutePath.editProfile,
+      arguments: EditProfileViewArgument(
+        user: user,
+        viewType: EditProfileViewType.edit,
+      ),
+    );
   }
 
   void navigateToSignIn(BuildContext context) {

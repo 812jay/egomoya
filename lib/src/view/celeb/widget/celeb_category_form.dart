@@ -1,6 +1,6 @@
-import 'package:egomoya/src/data/enum/celeb_type.dart';
+import 'package:egomoya/src/model/celeb/celeb_type.dart';
 import 'package:egomoya/src/service/theme_service.dart';
-import 'package:egomoya/util/app_theme.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CelebCategoryForm extends StatelessWidget {
@@ -10,9 +10,9 @@ class CelebCategoryForm extends StatelessWidget {
     required this.selectedCategory,
     required this.onTap,
   });
-  final List<CelebPostCategory> categoryList;
-  final CelebPostCategory selectedCategory;
-  final void Function(CelebPostCategory category) onTap;
+  final List<CelebCategory> categoryList;
+  final CelebCategory selectedCategory;
+  final void Function(CelebCategory category) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +59,9 @@ class _CategoryButton extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
   });
-  final CelebPostCategory category;
+  final CelebCategory category;
   final bool isSelected;
-  final void Function(CelebPostCategory category) onTap;
+  final void Function(CelebCategory category) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _CategoryButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          category.name,
+          category.ko,
           style: isSelected
               ? context.typo.subTitle3.bold
               : context.typo.body1.subText,

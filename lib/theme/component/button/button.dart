@@ -1,132 +1,139 @@
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/theme/component/icon/asset_icon.dart';
-import 'package:egomoya/util/app_theme.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 
-part 'button_size.dart';
-part 'button_type.dart';
-
-class Button extends StatefulWidget {
+class Button extends StatelessWidget {
   const Button({
     super.key,
-    required this.onPressed,
-    this.text,
-    this.iconPath,
+    this.title,
+    this.onTap,
     this.width,
+    this.height,
+    this.padding,
     this.color,
-    this.backgroundColor,
-    this.borderColor,
-    ButtonType? type,
-    ButtonSize? size,
-    isInactive,
-  })  : type = type ?? ButtonType.fill,
-        size = size ?? ButtonSize.medium,
-        isInactive = isInactive ?? false;
-
-  ///클릭 이벤트
-  final void Function() onPressed;
-
-  ///버튼 타입&크기
-  final ButtonType type;
-  final ButtonSize size;
-
-  ///비활성화 여부
-  final bool isInactive;
-
-  ///텍스트&아이콘
-  final String? text;
-  final String? iconPath;
-
-  ///폭
+    this.border,
+    this.borderRadius,
+  });
+  final Widget? title;
+  final GestureTapCallback? onTap;
   final double? width;
-
-  ///커스텀 색상
+  final double? height;
+  final EdgeInsets? padding;
   final Color? color;
-  final Color? backgroundColor;
-  final Color? borderColor;
+  final Border? border;
+  final BorderRadius? borderRadius;
 
-  @override
-  State<Button> createState() => _ButtonState();
-}
+  factory Button.category(
+    BuildContext context, {
+    required String text,
+    GestureTapCallback? onTap,
+    required bool isActive,
+  }) {
+    return Button(
+      title: Text(
+        text,
+        style: isActive
+            ? context.typo.body2.bold.whiteColor
+            : context.typo.body2.bold,
+      ),
+      onTap: onTap,
+      color: isActive ? context.color.black : context.color.white,
+      border: Border.all(
+        color: context.color.lightGrayBackground,
+      ),
+    );
+  }
+  factory Button.text(
+    BuildContext context, {
+    required String text,
+    GestureTapCallback? onTap,
+    required bool isActive,
+    TextAlign? textAlign,
+  }) {
+    return Button(
+      title: Text(
+        text,
+        style: context.typo.body2.bold.whiteColor,
+        textAlign: textAlign ?? TextAlign.center,
+      ),
+      width: double.infinity,
+      onTap: onTap,
+      color:
+          isActive ? context.color.primary : context.color.inactiveBackground,
+      border: Border.all(
+        color: context.color.lightGrayBackground,
+      ),
+    );
+  }
 
-class _ButtonState extends State<Button> {
-  ///버튼이 눌려있는지 여부
-  bool isPressed = false;
-
-  ///비활성화 여부
-  bool get isInactive => isPressed || widget.isInactive;
-
-  ///Text && Icon Color
-  Color get color => widget.type.getColor(
-        context,
-        isInactive,
-        widget.color,
-      );
-  Color get backgroundColor => widget.type.getBackgroundColor(
-        context,
-        isInactive,
-        widget.backgroundColor,
-      );
-
-  ///Border
-  Border? get border => widget.type.getBorder(
-        context,
-        isInactive,
-        widget.borderColor,
-      );
-
-  ///버튼 클릭 이벤트
-  void onPressed(bool isNewPressed) {
-    if (isPressed == isNewPressed) return;
-    setState(() {
-      isPressed = isNewPressed;
-    });
+  factory Button.iconText(
+    BuildContext context, {
+    required String text,
+    required String iconPath,
+    GestureTapCallback? onTap,
+  }) {
+    return Button(
+      title: Wrap(
+        children: [
+          AssetIcon(
+            iconPath,
+            color: context.color.white,
+          ),
+          const SizedBox(width: 5),
+          Text(
+            text,
+            style: context.typo.body2.bold.whiteColor,
+          ),
+        ],
+      ),
+      onTap: onTap,
+      color: context.color.primary,
+      border: Border.all(
+        color: context.color.lightGrayBackground,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapUp: (details) {
-        onPressed(false);
-        if (!widget.isInactive) {
-          widget.onPressed();
-        }
-      },
-      onTapDown: (details) => onPressed(true),
-      onTapCancel: () => onPressed(false),
+    return InkWell(
+      onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
-        width: widget.width,
+        width: width,
+        height: height,
+        padding: padding ?? const EdgeInsets.all(12),
+        duration: const Duration(microseconds: 100),
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(16),
+          color: color ?? context.color.primary,
+          borderRadius: borderRadius ?? BorderRadius.circular(16),
           border: border,
         ),
-        padding: EdgeInsets.all(widget.size.padding),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            /// Icon
-            if (widget.iconPath != null)
-              AssetIcon(
-                widget.iconPath!,
-                color: color,
-              ),
-
-            /// Gap
-            if (widget.iconPath != null && widget.text != null)
-              const SizedBox(width: 8),
-
-            /// Text
-            if (widget.text != null)
-              Text(
-                widget.text!,
-                style: context.typo.body1.bold.whiteColor,
-              ),
-          ],
-        ),
+        child: title,
       ),
     );
   }
 }
+
+// class CloseButton extends StatelessWidget {
+//   const CloseButton({
+//     super.key,
+//     this.onTap,
+//   });
+//   final GestureTapCallback? onTap;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: onTap,
+//       child: AnimatedContainer(
+//         padding: const EdgeInsets.all(12),
+//         duration: const Duration(microseconds: 100),
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(16),
+//         ),
+//         child: AssetIcon(AssetIconType.close.path),
+//       ),
+//     );
+//   }
+// }

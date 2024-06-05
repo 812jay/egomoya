@@ -1,5 +1,5 @@
 import 'package:egomoya/src/service/theme_service.dart';
-import 'package:egomoya/util/app_theme.dart';
+import 'package:egomoya/theme/foundation/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BaseBottomDialogContent {

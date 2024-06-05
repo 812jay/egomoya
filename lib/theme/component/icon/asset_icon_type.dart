@@ -1,54 +1,60 @@
+enum AssetImageType {
+  logoIcon,
+  logoText,
+}
+
+extension AssetImageTypeExt on AssetImageType {
+  String get _title {
+    switch (this) {
+      case AssetImageType.logoIcon:
+        return 'logo_icon';
+      case AssetImageType.logoText:
+        return 'logo_text';
+    }
+  }
+
+  String get path => 'assets/images/$_title.png';
+}
+
 enum AssetIconType {
-  arrowLeft,
-  basket,
-  check,
-  chevronRight,
+  logoText,
+  logoIcon,
+  alarm,
+  google,
+  apple,
+  insta,
+  profile,
+  pencel,
   close,
-  language,
-  minus,
-  moon,
-  option,
-  plus,
-  search,
-  star,
-  sunny,
-  uncheck,
   comment,
+  more,
 }
 
 extension AssetIconTypeExt on AssetIconType {
   String get _title {
     switch (this) {
-      case AssetIconType.arrowLeft:
-        return 'arrow-left';
-      case AssetIconType.basket:
-        return 'basket';
-      case AssetIconType.check:
-        return 'check';
-      case AssetIconType.chevronRight:
-        return 'chevron-right';
+      case AssetIconType.logoText:
+        return 'logo_text';
+      case AssetIconType.logoIcon:
+        return 'logo_icon';
+      case AssetIconType.alarm:
+        return 'alarm';
+      case AssetIconType.google:
+        return 'google';
+      case AssetIconType.apple:
+        return 'apple_fill';
+      case AssetIconType.insta:
+        return 'insta';
+      case AssetIconType.profile:
+        return 'group';
+      case AssetIconType.pencel:
+        return 'pencel';
       case AssetIconType.close:
         return 'close';
-      case AssetIconType.language:
-        return 'language';
-      case AssetIconType.minus:
-        return 'minus';
-      case AssetIconType.moon:
-        return 'moon';
-      case AssetIconType.option:
-        return 'option';
-      case AssetIconType.plus:
-        return 'plus';
-      case AssetIconType.search:
-        return 'search';
-      case AssetIconType.star:
-        return 'star';
-      case AssetIconType.sunny:
-        return 'sunny';
-      case AssetIconType.uncheck:
-        return 'uncheck';
       case AssetIconType.comment:
         return 'comment';
+      case AssetIconType.more:
+        return 'more';
     }
   }
 
