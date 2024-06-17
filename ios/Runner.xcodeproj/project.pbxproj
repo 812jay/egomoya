@@ -11,7 +11,6 @@
 		247F7740F41F698245241D84 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC46AE0E4357CA4C7C846E0 /* Pods_RunnerTests.framework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		69BB26C12C20339D006197E3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69BB26C02C203366006197E3 /* GoogleService-Info.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -50,6 +49,14 @@
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		69BB26C02C203366006197E3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		69BB26E72C206DCE006197E3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Dropbox/Mac/Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		69BB26EF2C20702D006197E3 /* RunnerDebugApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerDebugApp.swift; sourceTree = "<group>"; };
+		69BB26F12C20702D006197E3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		69BB26F32C20702E006197E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		69BB26F62C20702E006197E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		69BB27002C20702E006197E3 /* RunnerDebugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerDebugTests.swift; sourceTree = "<group>"; };
+		69BB270A2C20702E006197E3 /* RunnerDebugUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerDebugUITests.swift; sourceTree = "<group>"; };
+		69BB270C2C20702E006197E3 /* RunnerDebugUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerDebugUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		69E8A4F42BE021DD001CBB28 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,9 +116,54 @@
 		69BB26C22C2041B2006197E3 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				69BB26E62C206DBC006197E3 /* Release */,
 				69BB26BF2C20335F006197E3 /* Debug */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		69BB26E62C206DBC006197E3 /* Release */ = {
+			isa = PBXGroup;
+			children = (
+				69BB26E72C206DCE006197E3 /* GoogleService-Info.plist */,
+			);
+			path = Release;
+			sourceTree = "<group>";
+		};
+		69BB26EE2C20702D006197E3 /* RunnerDebug */ = {
+			isa = PBXGroup;
+			children = (
+				69BB26EF2C20702D006197E3 /* RunnerDebugApp.swift */,
+				69BB26F12C20702D006197E3 /* ContentView.swift */,
+				69BB26F32C20702E006197E3 /* Assets.xcassets */,
+				69BB26F52C20702E006197E3 /* Preview Content */,
+			);
+			path = RunnerDebug;
+			sourceTree = "<group>";
+		};
+		69BB26F52C20702E006197E3 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				69BB26F62C20702E006197E3 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		69BB26FF2C20702E006197E3 /* RunnerDebugTests */ = {
+			isa = PBXGroup;
+			children = (
+				69BB27002C20702E006197E3 /* RunnerDebugTests.swift */,
+			);
+			path = RunnerDebugTests;
+			sourceTree = "<group>";
+		};
+		69BB27092C20702E006197E3 /* RunnerDebugUITests */ = {
+			isa = PBXGroup;
+			children = (
+				69BB270A2C20702E006197E3 /* RunnerDebugUITests.swift */,
+				69BB270C2C20702E006197E3 /* RunnerDebugUITestsLaunchTests.swift */,
+			);
+			path = RunnerDebugUITests;
 			sourceTree = "<group>";
 		};
 		7F67D22352DCA4B0F551FEDC /* Pods */ = {
@@ -143,6 +195,9 @@
 			children = (
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
+				69BB26EE2C20702D006197E3 /* RunnerDebug */,
+				69BB26FF2C20702E006197E3 /* RunnerDebugTests */,
+				69BB27092C20702E006197E3 /* RunnerDebugUITests */,
 				97C146EF1CF9000F007C117D /* Products */,
 				331C8082294A63A400263BE5 /* RunnerTests */,
 				7F67D22352DCA4B0F551FEDC /* Pods */,
@@ -220,6 +275,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				82E51B24F90EEC1C5A1B9619 /* [CP] Embed Pods Frameworks */,
 				144BD2663F4F57D124E3D327 /* [CP] Copy Pods Resources */,
+				69BB271E2C207214006197E3 /* Setup Firebase plist files */,
 			);
 			buildRules = (
 			);
@@ -237,6 +293,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
@@ -281,7 +338,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69BB26C12C20339D006197E3 /* GoogleService-Info.plist in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
@@ -369,6 +425,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		69BB271E2C207214006197E3 /* Setup Firebase plist files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Firebase plist files";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource to copy\nINFO_PLIST_FILE=GoogleService-Info.plist\n\n# Get references to debug and release versions of the plist file\nDEBUG_INFO_PLIST_FILE=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Debug/${INFO_PLIST_FILE}\nRELEASE_INFO_PLIST_FILE=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Release/${INFO_PLIST_FILE}\n\n# Make sure the debug version exists\necho \"Looking for ${INFO_PLIST_FILE} in ${DEBUG_INFO_PLIST_FILE}\"\nif [ ! -f $DEBUG_INFO_PLIST_FILE ] ; then\n    echo \"File GoogleService-Info.plist (debug) not found.\"\n    exit 1\nfi\n\n# Make sure the release version exists\necho \"Looking for ${INFO_PLIST_FILE} in ${RELEASE_INFO_PLIST_FILE}\"\nif [ ! -f $RELEASE_INFO_PLIST_FILE ] ; then\n    echo \"File GoogleService-Info.plist (release) not found.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the plist file\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Copying ${INFO_PLIST_FILE} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy the appropiate file to app bundle\nif [ \"${CONFIGURATION}\" == \"Debug\" ] ; then\n    echo \"File ${DEBUG_INFO_PLIST_FILE} copied\"\n    cp \"${DEBUG_INFO_PLIST_FILE}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"File ${RELEASE_INFO_PLIST_FILE} copied\"\n    cp \"${RELEASE_INFO_PLIST_FILE}\" \"${PLIST_DESTINATION}\"\nfi\n";
+		};
 		82E51B24F90EEC1C5A1B9619 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -399,7 +473,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
