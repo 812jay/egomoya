@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/base_repo.dart';
@@ -15,8 +17,8 @@ class CelebRepo extends BaseRepo {
       handleRequest(() async {
         List<Celeb> result = [];
         QuerySnapshot snapshot = await celebCollection.get();
-        List<CelebItem> itemList = [];
         for (var docSnapshot in snapshot.docs) {
+          List<CelebItem> itemList = [];
           final data = docSnapshot.data() as Map<String, dynamic>;
           final Celeb celeb = Celeb.fromJson(data);
           String imgPath = await fireStorage
@@ -29,6 +31,7 @@ class CelebRepo extends BaseRepo {
             itemList = [...itemList, item.copyWith(imgPath: itemImgPath)]
                 .toImmutable();
           }
+          log('itemList: $itemList');
           result = [
             ...result,
             celeb.copyWith(

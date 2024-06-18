@@ -40,7 +40,7 @@ class CelebCard extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 if (celeb.instaLink != null || celeb.instaLink!.isNotEmpty) {
-                  launchUrl(Uri.parse(celeb.instaLink!));
+                  launchUrl(Uri.parse(celeb.instaLink!.trim()));
                 }
               },
               child: AssetIcon(
