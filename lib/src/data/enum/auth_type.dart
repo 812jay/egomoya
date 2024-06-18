@@ -21,3 +21,12 @@ extension AuthMethodTypeExt on AuthMethodType {
   }
 }
 
+enum PlatformType {
+  android,
+  ios,
+}
+
+extension PlatformTypeExt on PlatformType {
+  bool get isIos => this == PlatformType.ios;
+  bool get isAndroid => this == PlatformType.android;
+}

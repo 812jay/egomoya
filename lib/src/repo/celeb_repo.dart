@@ -15,8 +15,8 @@ class CelebRepo extends BaseRepo {
       handleRequest(() async {
         List<Celeb> result = [];
         QuerySnapshot snapshot = await celebCollection.get();
-        List<CelebItem> itemList = [];
         for (var docSnapshot in snapshot.docs) {
+          List<CelebItem> itemList = [];
           final data = docSnapshot.data() as Map<String, dynamic>;
           final Celeb celeb = Celeb.fromJson(data);
           String imgPath = await fireStorage

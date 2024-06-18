@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:egomoya/src/data/enum/auth_type.dart';
 import 'package:egomoya/src/data/enum/profile_type.dart';
 import 'package:egomoya/src/model/user/user.dart';
@@ -14,9 +16,21 @@ class SignInViewModel extends BaseViewModel {
   SignInViewModel({
     required this.userRepo,
     required this.userService,
-  });
+  }) {
+    checkPlatform();
+  }
   final UserRepo userRepo;
   final UserService userService;
+
+  PlatformType currentPlatform = PlatformType.ios;
+
+  void checkPlatform() {
+    if (Platform.isAndroid) {
+      currentPlatform = PlatformType.android;
+    } else {
+      currentPlatform = PlatformType.ios;
+    }
+  }
 
   Future<void> signInWithGoogle(BuildContext context) async {
     isBusy = true;

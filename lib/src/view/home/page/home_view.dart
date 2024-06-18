@@ -71,6 +71,7 @@ class _CelebCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (celebList.isEmpty) return const _EmptyCelebBox();
     return CarouselSlider.builder(
       itemCount: celebList.length,
       options: CarouselOptions(
@@ -128,6 +129,29 @@ class _HomeQuestion extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _EmptyCelebBox extends StatelessWidget {
+  const _EmptyCelebBox({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        AssetIcon(
+          AssetImageType.logoIcon.path,
+          size: 100,
+        ),
+        Text(
+          textAlign: TextAlign.center,
+          '셀럽 게시글이 없어요.',
+          style: context.typo.subTitle3.subText,
+        ),
+      ],
     );
   }
 }
