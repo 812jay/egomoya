@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egomoya/src/model/celeb/celeb.dart';
 import 'package:egomoya/src/repo/base_repo.dart';
@@ -31,7 +29,6 @@ class CelebRepo extends BaseRepo {
             itemList = [...itemList, item.copyWith(imgPath: itemImgPath)]
                 .toImmutable();
           }
-          log('itemList: $itemList');
           result = [
             ...result,
             celeb.copyWith(
