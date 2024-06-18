@@ -17,7 +17,6 @@ class SignUpView extends StatelessWidget {
         args: args,
       ),
       builder: (context, viewModel) {
-        const spaceBig = SizedBox(height: 20);
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
           child: const Scaffold(

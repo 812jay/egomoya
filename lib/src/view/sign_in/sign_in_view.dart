@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:egomoya/src/data/enum/auth_type.dart';
 import 'package:egomoya/src/repo/user_repo.dart';
 import 'package:egomoya/src/service/theme_service.dart';
 import 'package:egomoya/src/service/user_service.dart';
@@ -77,9 +78,10 @@ class SignInView extends StatelessWidget {
                         onTap: () => viewModel.signInWithGoogle(context),
                       ),
                       spaceBig,
-                      _AppleSignInButton(
-                        onTap: () => viewModel.signInWithApple(context),
-                      ),
+                      if (viewModel.currentPlatform.isIos)
+                        _AppleSignInButton(
+                          onTap: () => viewModel.signInWithApple(context),
+                        ),
                       // const _FindEmailPassword(),
                       // spaceBig,
                       // _SignInEmail(
