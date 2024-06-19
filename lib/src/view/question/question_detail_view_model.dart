@@ -13,6 +13,7 @@ import 'package:egomoya/theme/component/dialog/bottom_dialog/base_bottom_dialog.
 import 'package:egomoya/theme/component/dialog/bottom_dialog/comment_bottom_dialog.dart';
 import 'package:egomoya/util/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class QuestionDetailViewArgument {
   QuestionDetailViewArgument({
@@ -117,9 +118,11 @@ class QuestionDetailViewModel extends BaseViewModel {
   }
 
   Future<void> registComment() async {
+    String commentId = const Uuid().v4();
     final String commentText = commentAddController.text;
     final result = await commentRepo.registComment(
       questionId: questionId,
+      commentId: commentId,
       parentId: commentParentId,
       content: commentText,
       uid: userService.userId,
