@@ -31,6 +31,7 @@
 			<string>google</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>com.googleusercontent.apps.87170282057-nub4bkm6i2pmbr4j83vhojb99uladd5g</string>
 				<string>com.googleusercontent.apps.741798797945-c0gsk8hm151ar2fv0n1v5kq6rmhqbvnf</string>
 			</array>
 		</dict>

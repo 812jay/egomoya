@@ -33,13 +33,14 @@ class CelebView extends StatelessWidget {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 26),
             separatorBuilder: (context, index) => const SizedBox(height: 20),
             itemBuilder: (context, index) {
               final celeb = celebList[index];
               return CelebCard(celeb: celeb);
             },
           ),
+          const SizedBox(height: 26)
         ],
       ),
     );
