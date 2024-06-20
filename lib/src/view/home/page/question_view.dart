@@ -31,6 +31,7 @@ class QuestionView extends StatelessWidget {
             imgList: question.imgPathList,
             commentCnt: question.commentCnt ?? 0,
             questionId: question.questionId,
+            viewCnt: question.viewCnt,
           );
         },
       ),

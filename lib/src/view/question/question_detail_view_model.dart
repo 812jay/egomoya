@@ -53,7 +53,15 @@ class QuestionDetailViewModel extends BaseViewModel {
 
   Future<void> setInit() async {
     questionId = args.questionId;
+    await updateQuestionViewCnt();
     await fetchQuestionDetail(questionId);
+  }
+
+  Future<void> updateQuestionViewCnt() async {
+    await questionRepo.updateQuestionViewCnt(
+      questionId: questionId,
+    );
+    notifyListeners();
   }
 
   Future<void> fetchQuestionDetail(String questionId) async {

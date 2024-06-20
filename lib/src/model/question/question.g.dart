@@ -28,6 +28,7 @@ _$QuestionResImpl _$$QuestionResImplFromJson(Map<String, dynamic> json) =>
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
       updatedAt:
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
+      viewCnt: json['viewCnt'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$QuestionResImplToJson(_$QuestionResImpl instance) =>
@@ -42,6 +43,7 @@ Map<String, dynamic> _$$QuestionResImplToJson(_$QuestionResImpl instance) =>
       'commentCnt': instance.commentCnt,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
+      'viewCnt': instance.viewCnt,
     };
 
 _$QuestionReqImpl _$$QuestionReqImplFromJson(Map<String, dynamic> json) =>

@@ -70,6 +70,7 @@ class QuestionDetailView extends StatelessWidget {
                             nickname: viewModel.question?.user?.nickName ?? '',
                             updatedAt:
                                 viewModel.question?.updatedAt ?? DateTime.now(),
+                            viewCnt: viewModel.question?.viewCnt ?? 0,
                           ),
                           const SizedBox(height: 10),
                           _QuestDetailContent(
@@ -127,10 +128,12 @@ class _QuestionDetailHead extends StatelessWidget {
     required this.title,
     required this.updatedAt,
     required this.nickname,
+    required this.viewCnt,
   });
   final String title;
   final DateTime updatedAt;
   final String nickname;
+  final int viewCnt;
 
   @override
   Widget build(BuildContext context) {
@@ -142,9 +145,18 @@ class _QuestionDetailHead extends StatelessWidget {
           style: context.typo.subTitle3,
         ),
         const SizedBox(height: 8),
-        Text(
-          '$nickname • ${DateTimeHelper.formatRelativeDateTime(updatedAt)}',
-          style: context.typo.body3.subText,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '$nickname • ${DateTimeHelper.formatRelativeDateTime(updatedAt)}',
+              style: context.typo.body3.subText,
+            ),
+            Text(
+              '조회 $viewCnt',
+              style: context.typo.body3.subText,
+            ),
+          ],
         ),
       ],
     );

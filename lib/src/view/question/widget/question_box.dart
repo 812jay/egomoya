@@ -17,6 +17,7 @@ class QuestionBox extends StatelessWidget {
     required this.content,
     required this.writedAt,
     required this.commentCnt,
+    required this.viewCnt,
   });
   final Function(String) onTap;
   final List<String> imgList;
@@ -25,6 +26,7 @@ class QuestionBox extends StatelessWidget {
   final String content;
   final DateTime writedAt;
   final int commentCnt;
+  final int viewCnt;
 
   @override
   Widget build(BuildContext context) {
@@ -102,29 +104,39 @@ class QuestionBox extends StatelessWidget {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  DateTimeHelper.formatRelativeDateTime(writedAt),
+                  ' 조회 $viewCnt',
                   style: context.typo.body3.copyWith(
                     color: context.color.subText,
                   ),
                 ),
-                Text(
-                  ' • ',
-                  style: context.typo.body3.copyWith(
-                    color: context.color.subText,
-                  ),
-                ),
-                AssetIcon(
-                  AssetIconType.comment.path,
-                  color: context.color.subText,
-                ),
-                Text(
-                  ' $commentCnt',
-                  style: context.typo.body3.copyWith(
-                    color: context.color.subText,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      DateTimeHelper.formatRelativeDateTime(writedAt),
+                      style: context.typo.body3.copyWith(
+                        color: context.color.subText,
+                      ),
+                    ),
+                    Text(
+                      ' • ',
+                      style: context.typo.body3.copyWith(
+                        color: context.color.subText,
+                      ),
+                    ),
+                    AssetIcon(
+                      AssetIconType.comment.path,
+                      color: context.color.subText,
+                    ),
+                    Text(
+                      ' $commentCnt',
+                      style: context.typo.body3.copyWith(
+                        color: context.color.subText,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             )

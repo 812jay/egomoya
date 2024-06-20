@@ -19,6 +19,7 @@ class QuestionRes with _$QuestionRes {
     int? commentCnt,
     @TimestampConverter() required DateTime createdAt,
     @TimestampConverter() required DateTime updatedAt,
+    @Default(0) int viewCnt,
   }) = _QuestionRes;
   factory QuestionRes.fromJson(Map<String, dynamic> json) =>
       _$QuestionResFromJson(json);
