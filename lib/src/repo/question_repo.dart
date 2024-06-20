@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -106,7 +105,6 @@ class QuestionRepo extends BaseRepo {
     required List<File> imgList,
   }) =>
       handleRequest(() async {
-        log('questionId: $questionId / imgList: $imgList');
         List<String> imgNameList = [];
         for (var img in imgList) {
           String imgName = '${questionId}_${img.hashCode}';
@@ -126,5 +124,18 @@ class QuestionRepo extends BaseRepo {
   Future<RequestResult<void>> deleteQuestion(String questionId) =>
       handleRequest(() async {
         await firestore.collection('question').doc(questionId).delete();
+      });
+
+  Future<RequestResult<void>> updateQuestionViewCnt({
+    required String questionId,
+  }) =>
+      handleRequest(() async {
+        var docSnapshot =
+            await firestore.collection('question').doc(questionId).get();
+        var viewCnt = docSnapshot.data()?['viewCnt'] ?? 0;
+        await firestore
+            .collection('question')
+            .doc(questionId)
+            .update({'viewCnt': viewCnt + 1});
       });
 }

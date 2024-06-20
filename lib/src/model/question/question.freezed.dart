@@ -32,6 +32,7 @@ mixin _$QuestionRes {
   DateTime get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  int get viewCnt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +56,8 @@ abstract class $QuestionResCopyWith<$Res> {
       List<String> imgPathList,
       int? commentCnt,
       @TimestampConverter() DateTime createdAt,
-      @TimestampConverter() DateTime updatedAt});
+      @TimestampConverter() DateTime updatedAt,
+      int viewCnt});
 
   $UserResCopyWith<$Res>? get user;
 }
@@ -83,6 +85,7 @@ class _$QuestionResCopyWithImpl<$Res, $Val extends QuestionRes>
     Object? commentCnt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? viewCnt = null,
   }) {
     return _then(_value.copyWith(
       questionId: null == questionId
@@ -125,6 +128,10 @@ class _$QuestionResCopyWithImpl<$Res, $Val extends QuestionRes>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      viewCnt: null == viewCnt
+          ? _value.viewCnt
+          : viewCnt // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -159,7 +166,8 @@ abstract class _$$QuestionResImplCopyWith<$Res>
       List<String> imgPathList,
       int? commentCnt,
       @TimestampConverter() DateTime createdAt,
-      @TimestampConverter() DateTime updatedAt});
+      @TimestampConverter() DateTime updatedAt,
+      int viewCnt});
 
   @override
   $UserResCopyWith<$Res>? get user;
@@ -186,6 +194,7 @@ class __$$QuestionResImplCopyWithImpl<$Res>
     Object? commentCnt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? viewCnt = null,
   }) {
     return _then(_$QuestionResImpl(
       questionId: null == questionId
@@ -228,6 +237,10 @@ class __$$QuestionResImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      viewCnt: null == viewCnt
+          ? _value.viewCnt
+          : viewCnt // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -245,7 +258,8 @@ class _$QuestionResImpl implements _QuestionRes {
       final List<String> imgPathList = const [],
       this.commentCnt,
       @TimestampConverter() required this.createdAt,
-      @TimestampConverter() required this.updatedAt})
+      @TimestampConverter() required this.updatedAt,
+      this.viewCnt = 0})
       : _imgNameList = imgNameList,
         _imgPathList = imgPathList;
 
@@ -288,10 +302,13 @@ class _$QuestionResImpl implements _QuestionRes {
   @override
   @TimestampConverter()
   final DateTime updatedAt;
+  @override
+  @JsonKey()
+  final int viewCnt;
 
   @override
   String toString() {
-    return 'QuestionRes(questionId: $questionId, title: $title, content: $content, uid: $uid, user: $user, imgNameList: $imgNameList, imgPathList: $imgPathList, commentCnt: $commentCnt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'QuestionRes(questionId: $questionId, title: $title, content: $content, uid: $uid, user: $user, imgNameList: $imgNameList, imgPathList: $imgPathList, commentCnt: $commentCnt, createdAt: $createdAt, updatedAt: $updatedAt, viewCnt: $viewCnt)';
   }
 
   @override
@@ -314,7 +331,8 @@ class _$QuestionResImpl implements _QuestionRes {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.viewCnt, viewCnt) || other.viewCnt == viewCnt));
   }
 
   @JsonKey(ignore: true)
@@ -330,7 +348,8 @@ class _$QuestionResImpl implements _QuestionRes {
       const DeepCollectionEquality().hash(_imgPathList),
       commentCnt,
       createdAt,
-      updatedAt);
+      updatedAt,
+      viewCnt);
 
   @JsonKey(ignore: true)
   @override
@@ -348,17 +367,17 @@ class _$QuestionResImpl implements _QuestionRes {
 
 abstract class _QuestionRes implements QuestionRes {
   const factory _QuestionRes(
-          {required final String questionId,
-          required final String title,
-          required final String content,
-          required final String uid,
-          final UserRes? user,
-          final List<String> imgNameList,
-          final List<String> imgPathList,
-          final int? commentCnt,
-          @TimestampConverter() required final DateTime createdAt,
-          @TimestampConverter() required final DateTime updatedAt}) =
-      _$QuestionResImpl;
+      {required final String questionId,
+      required final String title,
+      required final String content,
+      required final String uid,
+      final UserRes? user,
+      final List<String> imgNameList,
+      final List<String> imgPathList,
+      final int? commentCnt,
+      @TimestampConverter() required final DateTime createdAt,
+      @TimestampConverter() required final DateTime updatedAt,
+      final int viewCnt}) = _$QuestionResImpl;
 
   factory _QuestionRes.fromJson(Map<String, dynamic> json) =
       _$QuestionResImpl.fromJson;
@@ -385,6 +404,8 @@ abstract class _QuestionRes implements QuestionRes {
   @override
   @TimestampConverter()
   DateTime get updatedAt;
+  @override
+  int get viewCnt;
   @override
   @JsonKey(ignore: true)
   _$$QuestionResImplCopyWith<_$QuestionResImpl> get copyWith =>
